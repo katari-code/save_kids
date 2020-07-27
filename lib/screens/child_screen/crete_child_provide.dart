@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:save_kids/app_localizations.dart';
 import 'package:save_kids/util/style.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -41,8 +42,9 @@ class ChildScreen extends StatelessWidget {
                 Column(
                   children: <Widget>[
                     Text(
-                      "Age",
-                      style: kBubblegum_sans3,
+                      AppLocalizations.of(context).translate('first_string'),
+                      style: GoogleFonts.bubblegumSans(
+                          textStyle: kBubblegum_sans1),
                     ),
                     SizedBox(
                       height: 20,
@@ -52,15 +54,18 @@ class ChildScreen extends StatelessWidget {
                       children: <Widget>[
                         AgeChip(
                           highet: 57.00,
-                          width: 86.00,
+                          width: 110.00,
+                          text: "4 or less",
                         ),
                         AgeChip(
                           highet: 57.00,
-                          width: 86.00,
+                          width: 110.00,
+                          text: "1 - 5",
                         ),
                         AgeChip(
                           highet: 57.00,
-                          width: 86.00,
+                          width: 100.00,
+                          text: "1 - 5",
                         ),
                       ],
                     )
@@ -77,7 +82,7 @@ class ChildScreen extends StatelessWidget {
                     child: Text(
                       "NEXT",
                       style: GoogleFonts.bubblegumSans(
-                        textStyle: kBubblegum_sans2.copyWith(fontSize: 30),
+                        textStyle: kBubblegum_sans2.copyWith(),
                       ),
                     ),
                   ),
@@ -95,10 +100,12 @@ class AgeChip extends StatelessWidget {
   const AgeChip({
     this.width,
     this.highet,
+    this.text,
   });
 
   final highet;
   final width;
+  final text;
 
   @override
   Widget build(BuildContext context) {
@@ -108,6 +115,14 @@ class AgeChip extends StatelessWidget {
       decoration: BoxDecoration(
         color: Color(0xff035AA6),
         borderRadius: BorderRadius.circular(20.00),
+      ),
+      child: Center(
+        child: Text(
+          text,
+          style: GoogleFonts.bubblegumSans(
+            textStyle: kBubblegum_sans1.copyWith(color: Colors.white),
+          ),
+        ),
       ),
     );
   }
