@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:save_kids/screens/child_screen/crete_child_provide.dart';
+
 
 void main() {
   runApp(MyApp());
 }
-
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -15,11 +16,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: App(),
+      home: ChildScreen(),
     );
   }
 }
-
 
 class App extends StatelessWidget {
   @override
