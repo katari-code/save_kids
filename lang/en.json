@@ -1,6 +1,7 @@
 {
-  "add_child_screen_title_1": "Create a profile for your kids",
-  "add_child_screen_title_2": "Age",
-  "add_child_screen_title_3": "4 or less",
-  "yellow_button": "NEXT"
+  "Create_a_profile_for_your_kids": "Create a profile for your kids",
+  "Age": "Age",
+  "4_or_less": "4 or less",
+  "NEXT": "NEXT",
+  "Finish": "Finish"
 }
