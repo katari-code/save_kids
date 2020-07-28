@@ -4,10 +4,22 @@ import 'package:save_kids/app_localizations.dart';
 import 'package:save_kids/util/style.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class ChildScreen extends StatelessWidget {
+class ChildScreen extends StatefulWidget {
+  @override
+  _ChildScreenState createState() => _ChildScreenState();
+}
+
+class _ChildScreenState extends State<ChildScreen> {
   @override
   Widget build(BuildContext context) {
+    final text = AppLocalizations.of(context);
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: null,
+      ),
       backgroundColor: kBlueColor,
       body: Container(
         width: MediaQuery.of(context).size.width,
@@ -25,7 +37,7 @@ class ChildScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 Text(
-                  "Create a profile for your kids",
+                  text.translate('add_child_screen_title_1'),
                   style: GoogleFonts.bubblegumSans(textStyle: kBubblegum_sans1),
                 ),
                 CircleAvatar(
@@ -36,13 +48,30 @@ class ChildScreen extends StatelessWidget {
                   child: Container(
                     margin: EdgeInsets.symmetric(
                         horizontal: MediaQuery.of(context).size.width * 0.12),
-                    child: TextFormField(),
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        labelText: "Child Name",
+                        labelStyle: GoogleFonts.bubblegumSans(
+                                textStyle: kBubblegum_sans2)
+                            .copyWith(
+                          fontSize: 20,
+                          color: Colors.black,
+                        ),
+                        focusColor: Colors.black,
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 3,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
                 Column(
                   children: <Widget>[
                     Text(
-                      AppLocalizations.of(context).translate('first_string'),
+                      text.translate('add_child_screen_title_2'),
                       style: GoogleFonts.bubblegumSans(
                           textStyle: kBubblegum_sans1),
                     ),
@@ -55,17 +84,17 @@ class ChildScreen extends StatelessWidget {
                         AgeChip(
                           highet: 57.00,
                           width: 110.00,
-                          text: "4 or less",
+                          text: text.translate('add_child_screen_title_3'),
                         ),
                         AgeChip(
                           highet: 57.00,
                           width: 110.00,
-                          text: "1 - 5",
+                          text: "5-7",
                         ),
                         AgeChip(
                           highet: 57.00,
                           width: 100.00,
-                          text: "1 - 5",
+                          text: "8-12",
                         ),
                       ],
                     )
@@ -80,7 +109,7 @@ class ChildScreen extends StatelessWidget {
                   ),
                   child: Center(
                     child: Text(
-                      "NEXT",
+                      text.translate('yellow_button'),
                       style: GoogleFonts.bubblegumSans(
                         textStyle: kBubblegum_sans2.copyWith(),
                       ),
@@ -120,7 +149,7 @@ class AgeChip extends StatelessWidget {
         child: Text(
           text,
           style: GoogleFonts.bubblegumSans(
-            textStyle: kBubblegum_sans1.copyWith(color: Colors.white),
+            textStyle: kBubblegum_sans2.copyWith(color: Colors.white),
           ),
         ),
       ),
