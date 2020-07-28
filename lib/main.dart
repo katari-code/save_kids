@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:save_kids/app_localizations.dart';
-import 'package:save_kids/screens/child_screen/crete_child_provide.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'package:save_kids/screens/parent_screens/parent_dashboard.dart';
 
 void main() {
   runApp(MyApp());
@@ -43,7 +44,7 @@ class MyApp extends StatelessWidget {
         // from the list (English, in this case).
         return supportedLocales.first;
       },
-      home: ChildScreen(),
+      home: ParentDashBoard(),
     );
   }
 }
