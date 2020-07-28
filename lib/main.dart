@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:save_kids/screens/child_screen/crete_child_provide.dart';
 
+import 'package:save_kids/screens/parent_screens/parent_dashboard.dart';
 
 void main() {
   runApp(MyApp());
@@ -16,16 +16,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: ChildScreen(),
-    );
-  }
-}
-
-class App extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Text("Hi"),
+      home: ParentDashBoard(),
     );
   }
 }
