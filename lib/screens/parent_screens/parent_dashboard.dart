@@ -31,9 +31,13 @@ class _ParentDashBoardState extends State<ParentDashBoard> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       GestureDetector(
-                          onTap: () {}, child: Icon(Icons.arrow_back)),
+                        onTap: () {},
+                        child: Icon(Icons.arrow_back),
+                      ),
                       GestureDetector(
-                          onTap: () {}, child: Icon(Icons.settings)),
+                        onTap: () {},
+                        child: Icon(Icons.settings),
+                      ),
                     ],
                   ),
                   SizedBox(

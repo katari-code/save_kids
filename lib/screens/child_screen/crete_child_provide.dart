@@ -10,6 +10,8 @@ class ChildScreen extends StatefulWidget {
 }
 
 class _ChildScreenState extends State<ChildScreen> {
+  var childname = " ";
+  var selectedIndex = "";
   @override
   Widget build(BuildContext context) {
     final text = AppLocalizations.of(context);
@@ -21,6 +23,7 @@ class _ChildScreenState extends State<ChildScreen> {
         leading: null,
       ),
       backgroundColor: kBlueColor,
+      extendBodyBehindAppBar: true,
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
@@ -28,9 +31,9 @@ class _ChildScreenState extends State<ChildScreen> {
           children: <Widget>[
             Opacity(
               opacity: 0.15,
-              child: Transform.scale(
-                scale: 5,
-                child: SvgPicture.asset("images/svgs/background.svg"),
+              child: SvgPicture.asset(
+                "images/svgs/Asset1.svg",
+                fit: BoxFit.cover,
               ),
             ),
             Column(
@@ -65,6 +68,9 @@ class _ChildScreenState extends State<ChildScreen> {
                           ),
                         ),
                       ),
+                      onChanged: (val) {
+                        childname = val;
+                      },
                     ),
                   ),
                 ),
@@ -82,16 +88,20 @@ class _ChildScreenState extends State<ChildScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         AgeChip(
+                          index: 0,
                           highet: 57.00,
                           width: 110.00,
                           text: text.translate('add_child_screen_title_3'),
+                          // text: " ",
                         ),
                         AgeChip(
+                          index: 1,
                           highet: 57.00,
                           width: 110.00,
                           text: "5-7",
                         ),
                         AgeChip(
+                          index: 1,
                           highet: 57.00,
                           width: 100.00,
                           text: "8-12",
@@ -127,6 +137,7 @@ class _ChildScreenState extends State<ChildScreen> {
 
 class AgeChip extends StatelessWidget {
   const AgeChip({
+    this.index,
     this.width,
     this.highet,
     this.text,
@@ -135,6 +146,7 @@ class AgeChip extends StatelessWidget {
   final highet;
   final width;
   final text;
+  final index;
 
   @override
   Widget build(BuildContext context) {
