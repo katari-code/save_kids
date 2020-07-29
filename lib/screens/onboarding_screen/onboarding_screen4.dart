@@ -1,0 +1,91 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:save_kids/components/canvas/onborading_canvas.dart';
+import 'package:save_kids/util/style.dart';
+
+import '../../app_localizations.dart';
+
+class OnboardingScreen4 extends StatefulWidget {
+  @override
+  _OnboardingScreen4State createState() => _OnboardingScreen4State();
+}
+
+class _OnboardingScreen4State extends State<OnboardingScreen4> {
+  @override
+  Widget build(BuildContext context) {
+    final text = AppLocalizations.of(context);
+
+    return Scaffold(
+      body: Column(
+        children: <Widget>[
+          ClipPath(
+            clipper: CanvaView(),
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.6,
+              color: kBlueColor,
+              child: Stack(
+                children: <Widget>[
+                  Opacity(
+                    opacity: 0.10,
+                    child: SvgPicture.asset(
+                      "images/svgs/Asset1.svg",
+                      color: Colors.black,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        SvgPicture.asset(
+                          "images/svgs/onboading_screen5.svg",
+                        ),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Text(
+                          "Set Time Limit",
+                          style: GoogleFonts.bubblegumSans(
+                            textStyle: kBubblegum_sans1.copyWith(fontSize: 40),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Column(
+            children: <Widget>[
+              SizedBox(
+                height: 50,
+              ),
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Center(
+                      child: Text(
+                        "Set watch time limits and monitor your child's watch history .",
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.capriola(
+                            textStyle:
+                                kBubblegum_sans2.copyWith(color: Colors.black)),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 50,
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+}

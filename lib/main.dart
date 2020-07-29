@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:save_kids/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:save_kids/models/child_avatar.dart';
-import 'package:save_kids/screens/child_dashborad/onboarding_screen1.dart';
-import 'package:save_kids/screens/child_screen/crete_child_provide.dart';
 
 import 'package:provider/provider.dart';
+import 'package:save_kids/screens/onboarding_screen/onboarding_builder.dart';
 
 void main() {
   runApp(MyApp());
@@ -53,7 +52,7 @@ class MyApp extends StatelessWidget {
           // from the list (English, in this case).
           return supportedLocales.first;
         },
-        home: OnboardingScreen1(),
+        home: WelcomingView(),
       ),
     );
   }
