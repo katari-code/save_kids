@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'package:save_kids/screens/parent_screens/parent_dashboard.dart';
+import 'package:save_kids/screens/parent_screens/add_schedule.dart';
 
 void main() {
   runApp(MyApp());
@@ -16,7 +15,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: ParentDashBoard(),
+      home: AddSchedule(),
     );
   }
 }
