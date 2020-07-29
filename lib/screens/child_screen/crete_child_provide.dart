@@ -117,7 +117,7 @@ class _ChildScreenState extends State<ChildScreen> {
                                 GestureDetector(
                                   onTap: () => Navigator.pop(context),
                                   child: AgeChip(
-                                    color: kBluesColor,
+                                    color: kBlueDarkColor,
                                     text: "Done",
                                     highet: 60.0,
                                     width: 120.0,
@@ -191,7 +191,7 @@ class _ChildScreenState extends State<ChildScreen> {
                             child: AgeChip(
                               color: selectedIndex == 0
                                   ? kPurpleColor
-                                  : kBluesColor,
+                                  : kBlueDarkColor,
                               highet: 57.00,
                               width: 110.00,
                               text: text.translate('4_or_less'),
@@ -208,7 +208,7 @@ class _ChildScreenState extends State<ChildScreen> {
                             child: AgeChip(
                               color: selectedIndex == 1
                                   ? kPurpleColor
-                                  : kBluesColor,
+                                  : kBlueDarkColor,
                               highet: 57.00,
                               width: 110.00,
                               text: "5-7",
@@ -224,7 +224,7 @@ class _ChildScreenState extends State<ChildScreen> {
                             child: AgeChip(
                               color: selectedIndex == 2
                                   ? kPurpleColor
-                                  : kBluesColor,
+                                  : kBlueDarkColor,
                               highet: 57.00,
                               width: 100.00,
                               text: "8-12",
@@ -252,7 +252,6 @@ class _ChildScreenState extends State<ChildScreen> {
                       ),
                     ),
                   )
-               
                 ],
               ),
             ],

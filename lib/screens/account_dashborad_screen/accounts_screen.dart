@@ -97,7 +97,7 @@ class AccountsDashborasScreen extends StatelessWidget {
                                       kidsData.kids[index].name,
                                       style: GoogleFonts.bubblegumSans(
                                         textStyle: kBubblegum_sans2.copyWith(
-                                            color: kBluesColor),
+                                            color: kBlueDarkColor),
                                       ),
                                     ),
                                   ]),
@@ -150,8 +150,9 @@ class AccountsDashborasScreen extends StatelessWidget {
                                         Text(
                                           kidsData.kids[index].name,
                                           style: GoogleFonts.bubblegumSans(
-                                            textStyle: kBubblegum_sans2
-                                                .copyWith(color: kBluesColor),
+                                            textStyle:
+                                                kBubblegum_sans2.copyWith(
+                                                    color: kBlueDarkColor),
                                           ),
                                         ),
                                       ]),
@@ -161,7 +162,6 @@ class AccountsDashborasScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-              
               ],
             ),
           )

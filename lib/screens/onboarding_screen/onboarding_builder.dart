@@ -151,7 +151,7 @@ class _WelcomingViewState extends State<WelcomingView> {
           height: 10,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: kBluesColor,
+            color: kBlueDarkColor,
           ),
         ),
       ),
@@ -165,7 +165,7 @@ class _WelcomingViewState extends State<WelcomingView> {
           height: 10,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(15.0)),
-            color: kBluesColor,
+            color: kBlueDarkColor,
           ),
         ),
       ),
