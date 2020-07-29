@@ -40,7 +40,7 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         SvgPicture.asset(
-                          "images/svgs/onboading_screen2.svg",
+                          "images/svgs/onboading_screen2_.svg",
                           fit: BoxFit.cover,
                         ),
                         SizedBox(

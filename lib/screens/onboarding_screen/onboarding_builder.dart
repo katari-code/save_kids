@@ -37,6 +37,7 @@ class _WelcomingViewState extends State<WelcomingView> {
               onPageChanged: (index) {
                 tracker = index;
                 pageIndexNotifier.value = tracker;
+                print(tracker);
               },
               itemCount: welcomeScreens.length,
               scrollDirection: Axis.horizontal,
@@ -49,6 +50,29 @@ class _WelcomingViewState extends State<WelcomingView> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      pageIndexNotifier.value;
+                    });
+                  },
+                  child: Row(
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          Icon(Icons.arrow_left),
+                          Text("Back"),
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Icon(Icons.arrow_right),
+                          Text("Sign In"),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
                 _buildExample1(),
                 SizedBox(
                   height: 10,

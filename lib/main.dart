@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:save_kids/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:save_kids/models/child.dart';
 import 'package:save_kids/models/child_avatar.dart';
 
 import 'package:provider/provider.dart';
+import 'package:save_kids/screens/account_dashborad_screen/accounts_screen.dart';
 import 'package:save_kids/screens/onboarding_screen/onboarding_builder.dart';
+import 'package:save_kids/screens/sign_in/sign_in.dart';
+import 'package:save_kids/screens/sign_up/sign_up.dart';
 
 void main() {
   runApp(MyApp());
@@ -18,6 +22,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (_) => AvatarData(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => KidsData(),
         ),
       ],
       child: MaterialApp(
@@ -52,7 +59,7 @@ class MyApp extends StatelessWidget {
           // from the list (English, in this case).
           return supportedLocales.first;
         },
-        home: WelcomingView(),
+        home: SignIn(),
       ),
     );
   }

@@ -27,20 +27,13 @@ class _OnboardingScreen3State extends State<OnboardingScreen3> {
               color: kBlueColor,
               child: Stack(
                 children: <Widget>[
-                  Opacity(
-                    opacity: 0.10,
-                    child: SvgPicture.asset(
-                      "images/svgs/Asset1.svg",
-                      color: Colors.black,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+ 
                   Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         SvgPicture.asset(
-                          "images/svgs/onboading_screen4.svg",
+                          "images/svgs/onboading_screen1_.svg",
                         ),
                         SizedBox(
                           height: 30,

@@ -18,72 +18,84 @@ class _OnboardingScreen4State extends State<OnboardingScreen4> {
     final text = AppLocalizations.of(context);
 
     return Scaffold(
-      body: Column(
+      backgroundColor: kPurpleColor,
+      body: Stack(
         children: <Widget>[
-          ClipPath(
-            clipper: CanvaView(),
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.6,
-              color: kBlueColor,
-              child: Stack(
-                children: <Widget>[
-                  Opacity(
-                    opacity: 0.10,
-                    child: SvgPicture.asset(
-                      "images/svgs/Asset1.svg",
-                      color: Colors.black,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        SvgPicture.asset(
-                          "images/svgs/onboading_screen5.svg",
-                        ),
-                        SizedBox(
-                          height: 30,
-                        ),
-                        Text(
-                          "Set Time Limit",
-                          style: GoogleFonts.bubblegumSans(
-                            textStyle: kBubblegum_sans1.copyWith(fontSize: 40),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+          Opacity(
+            opacity: 0.10,
+            child: SvgPicture.asset(
+              "images/svgs/Asset1.svg",
+              color: Colors.black,
+              fit: BoxFit.cover,
             ),
           ),
-          Column(
-            children: <Widget>[
-              SizedBox(
-                height: 50,
-              ),
-              Center(
-                child: Column(
+          Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                SvgPicture.asset(
+                  "images/svgs/onboading_screen4_.svg",
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Text(
+                  "Finally let your children",
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.bubblegumSans(
+                    textStyle: kBubblegum_sans1.copyWith(
+                      fontSize: 40,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Center(
-                      child: Text(
-                        "Set watch time limits and monitor your child's watch history .",
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.capriola(
-                            textStyle:
-                                kBubblegum_sans2.copyWith(color: Colors.black)),
+                    Text(
+                      "Have",
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.bubblegumSans(
+                        textStyle: kBubblegum_sans1.copyWith(
+                          fontSize: 40,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    Text(
+                      "F",
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.bubblegumSans(
+                        textStyle: kBubblegum_sans1.copyWith(
+                          fontSize: 40,
+                          color: Color(0xff90C747),
+                        ),
+                      ),
+                    ),
+                    Text(
+                      "U",
+                      style: GoogleFonts.bubblegumSans(
+                        textStyle: kBubblegum_sans1.copyWith(
+                          fontSize: 40,
+                          color: Color(0xff40BAD5),
+                        ),
+                      ),
+                    ),
+                    Text(
+                      "N",
+                      style: GoogleFonts.bubblegumSans(
+                        textStyle: kBubblegum_sans1.copyWith(
+                          fontSize: 40,
+                          color: Color(0xffFF2A7F),
+                        ),
                       ),
                     ),
                   ],
-                ),
-              ),
-              SizedBox(
-                height: 50,
-              ),
-            ],
-          )
+                )
+              ],
+            ),
+          ),
         ],
       ),
     );
