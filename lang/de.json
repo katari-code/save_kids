@@ -1,6 +1,7 @@
 {
-  "add_child_screen_title_1": "Maak een profiel voor uw kinderen",
-  "add_child_screen_title_2": "Leeftijd",
-  "add_child_screen_title_3": "4 of minder",
-  "yellow_button": "DE VOLGENDE"
+  "Create_a_profile_for_your_kids": "Maak een profiel voor uw kinderen",
+  "Age": "Leeftijd",
+  "4_or_less": "4 of minder",
+  "NEXT": "DE VOLGENDE",
+  "FINISH": "Af hebben"
 }
