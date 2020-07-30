@@ -68,7 +68,10 @@ class _SignInState extends State<SignIn> {
                                 child: Text(
                                   "Sign Up",
                                   style: GoogleFonts.bubblegumSans(
-                                      textStyle: kBubblegum_sans20),
+                                    textStyle: kBubblegum_sans20.copyWith(
+                                      color: Colors.white,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
@@ -85,7 +88,10 @@ class _SignInState extends State<SignIn> {
                                     child: Text(
                                       "Login",
                                       style: GoogleFonts.bubblegumSans(
-                                          textStyle: kBubblegum_sans24),
+                                        textStyle: kBubblegum_sans24.copyWith(
+                                          color: Colors.white,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -219,7 +225,10 @@ class _SignInState extends State<SignIn> {
                                 Text(
                                   "Continue with Google",
                                   style: GoogleFonts.bubblegumSans(
-                                      textStyle: kBubblegum_sans28),
+                                    textStyle: kBubblegum_sans16.copyWith(
+                                      color: Colors.white,
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
