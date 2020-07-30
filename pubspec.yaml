@@ -38,6 +38,9 @@ dependencies:
   cloud_firestore: ^0.13.7
   firebase_storage: ^3.1.6
   firebase_auth: ^0.16.1
+
+  googleapis: ^0.55.0
+  googleapis_auth: any
 dev_dependencies:
   flutter_test:
     sdk: flutter
