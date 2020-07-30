@@ -7,6 +7,7 @@ import 'package:save_kids/models/child_avatar.dart';
 import 'package:provider/provider.dart';
 import 'package:save_kids/screens/account_dashborad_screen/accounts_screen.dart';
 import 'package:save_kids/screens/onboarding_screen/onboarding_builder.dart';
+import 'package:save_kids/screens/parent_screens/parent_dashboard.dart';
 import 'package:save_kids/screens/sign_in/sign_in.dart';
 import 'package:save_kids/screens/sign_up/sign_up.dart';
 
@@ -59,7 +60,7 @@ class MyApp extends StatelessWidget {
           // from the list (English, in this case).
           return supportedLocales.first;
         },
-        home: SignIn(),
+        home: ParentDashBoard(),
       ),
     );
   }

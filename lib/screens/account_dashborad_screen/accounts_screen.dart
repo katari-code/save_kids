@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:save_kids/models/child.dart';
+import 'package:save_kids/screens/child_screen/create_child_profile.dart';
 import 'package:save_kids/util/style.dart';
 
 class AccountsDashborasScreen extends StatelessWidget {
@@ -37,7 +38,7 @@ class AccountsDashborasScreen extends StatelessWidget {
                 Text(
                   "Hi, John",
                   style: GoogleFonts.bubblegumSans(
-                    textStyle: kBubblegum_sans1.copyWith(
+                    textStyle: kBubblegum_sans32.copyWith(
                       fontSize: 30,
                       color: Color(0xff000000),
                     ),
@@ -47,7 +48,7 @@ class AccountsDashborasScreen extends StatelessWidget {
                 Text(
                   "Who is using the app now ?",
                   style: GoogleFonts.capriola(
-                    textStyle: kBubblegum_sans1.copyWith(
+                    textStyle: kBubblegum_sans32.copyWith(
                       fontSize: 16,
                       color: Color(0xff000000),
                     ),
@@ -96,15 +97,20 @@ class AccountsDashborasScreen extends StatelessWidget {
                                     Text(
                                       kidsData.kids[index].name,
                                       style: GoogleFonts.bubblegumSans(
-                                        textStyle: kBubblegum_sans2.copyWith(
-                                            color: kBluesColor),
+                                        textStyle: kBubblegum_sans28.copyWith(
+                                            color: kBlueDarkColor),
                                       ),
                                     ),
                                   ]),
                                 )
                               : index == kidsData.kids.length
                                   ? GestureDetector(
-                                      onTap: () {},
+                                      onTap: () => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => ChildScreen(),
+                                        ),
+                                      ),
                                       child: Column(
                                         children: <Widget>[
                                           Stack(
@@ -150,8 +156,9 @@ class AccountsDashborasScreen extends StatelessWidget {
                                         Text(
                                           kidsData.kids[index].name,
                                           style: GoogleFonts.bubblegumSans(
-                                            textStyle: kBubblegum_sans2
-                                                .copyWith(color: kBluesColor),
+                                            textStyle:
+                                                kBubblegum_sans28.copyWith(
+                                                    color: kBlueDarkColor),
                                           ),
                                         ),
                                       ]),
@@ -161,7 +168,6 @@ class AccountsDashborasScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-              
               ],
             ),
           )

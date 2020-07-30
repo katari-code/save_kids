@@ -50,29 +50,6 @@ class _WelcomingViewState extends State<WelcomingView> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      pageIndexNotifier.value;
-                    });
-                  },
-                  child: Row(
-                    children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          Icon(Icons.arrow_left),
-                          Text("Back"),
-                        ],
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Icon(Icons.arrow_right),
-                          Text("Sign In"),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
                 _buildExample1(),
                 SizedBox(
                   height: 10,
@@ -101,7 +78,7 @@ class _WelcomingViewState extends State<WelcomingView> {
                       child: Text(
                         text.translate('NEXT'),
                         style: GoogleFonts.bubblegumSans(
-                          textStyle: kBubblegum_sans1.copyWith(
+                          textStyle: kBubblegum_sans32.copyWith(
                             color: Colors.white,
                           ),
                         ),
@@ -151,7 +128,7 @@ class _WelcomingViewState extends State<WelcomingView> {
           height: 10,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: kBluesColor,
+            color: kBlueDarkColor,
           ),
         ),
       ),
@@ -165,7 +142,7 @@ class _WelcomingViewState extends State<WelcomingView> {
           height: 10,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(15.0)),
-            color: kBluesColor,
+            color: kBlueDarkColor,
           ),
         ),
       ),

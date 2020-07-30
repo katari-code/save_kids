@@ -45,11 +45,11 @@ class _ParentDashBoardState extends State<ParentDashBoard> {
                   ),
                   Text(
                     'Hello, john',
-                    style: kBubblegum_sans1.copyWith(color: Colors.black),
+                    style: kBubblegum_sans32.copyWith(color: Colors.black),
                   ),
                   Text(
                     'Monitor your children account',
-                    style: kBubblegum_sans3.copyWith(
+                    style: kBubblegum_sans24.copyWith(
                         color: Colors.black, fontWeight: FontWeight.normal),
                   ),
                 ],
@@ -82,7 +82,7 @@ class _ParentDashBoardState extends State<ParentDashBoard> {
             onTap: () {},
             child: Text(
               'Switch To Kids',
-              style: kGoogle_style.copyWith(fontSize: 30),
+              style: kBubblegum_sans20.copyWith(fontSize: 30),
             ),
           ),
         ),
@@ -112,7 +112,7 @@ class _ParentDashBoardState extends State<ParentDashBoard> {
                 ),
                 Text(
                   'Schedule',
-                  style: kBubblegum_sans3,
+                  style: kBubblegum_sans24,
                 )
               ],
             ),
@@ -139,7 +139,7 @@ class _ParentDashBoardState extends State<ParentDashBoard> {
                 ),
                 Text(
                   'History',
-                  style: kBubblegum_sans3,
+                  style: kBubblegum_sans24,
                 )
               ],
             ),

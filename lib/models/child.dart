@@ -18,9 +18,9 @@ class KidsData with ChangeNotifier {
     Child(
         "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/g-02.png?alt=media&token=d80f18e6-6310-487c-8fe7-53fc08a9a1eb",
         "Isabella"),
-    Child(
-        "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/g-02.png?alt=media&token=d80f18e6-6310-487c-8fe7-53fc08a9a1eb",
-        "Isabella"),
+    // Child(
+    //     "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/g-02.png?alt=media&token=d80f18e6-6310-487c-8fe7-53fc08a9a1eb",
+    //     "Isabella"),
   ];
   void addKid(Child child) {
     kids.add(child);

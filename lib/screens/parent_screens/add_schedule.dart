@@ -77,7 +77,7 @@ class _AddScheduleState extends State<AddSchedule> {
                         Center(
                           child: Text(
                             'Monday',
-                            style: kBubblegum_sans2.copyWith(color: kRedColor),
+                            style: kBubblegum_sans28.copyWith(color: kRedColor),
                           ),
                         ),
                         SizedBox(
@@ -94,7 +94,7 @@ class _AddScheduleState extends State<AddSchedule> {
                         Center(
                           child: Text(
                             'Select Category',
-                            style: kBubblegum_sans2.copyWith(
+                            style: kBubblegum_sans28.copyWith(
                                 color: kBlueDarkColor, fontSize: 21),
                           ),
                         ),
@@ -114,7 +114,7 @@ class _AddScheduleState extends State<AddSchedule> {
                           children: <Widget>[
                             Text(
                               'Repeat for all days',
-                              style: kGoogle_style.copyWith(
+                              style: kBubblegum_sans28.copyWith(
                                   color: Colors.grey, fontSize: 20),
                             ),
                           ],
@@ -141,7 +141,7 @@ class _AddScheduleState extends State<AddSchedule> {
       children: <Widget>[
         Text(
           'Add Schedule',
-          style: kBubblegum_sans1.copyWith(color: kBlueDarkColor),
+          style: kBubblegum_sans32.copyWith(color: kBlueDarkColor),
         ),
         SizedBox(
           width: 18,
@@ -162,10 +162,10 @@ class _AddScheduleState extends State<AddSchedule> {
           Text(
             'Duration',
             style:
-                kBubblegum_sans2.copyWith(color: kBlueDarkColor, fontSize: 21),
+                kBubblegum_sans28.copyWith(color: kBlueDarkColor, fontSize: 21),
           ),
           Text(updateDuration().toString(),
-              style: kBubblegum_sans2.copyWith(
+              style: kBubblegum_sans28.copyWith(
                   color: kBlueDarkColor, fontSize: 21))
         ],
       ),
@@ -194,7 +194,7 @@ class _AddScheduleState extends State<AddSchedule> {
           children: <Widget>[
             Text(
               'Start Time',
-              style: kBubblegum_sans2.copyWith(
+              style: kBubblegum_sans28.copyWith(
                   color: kBlueDarkColor, fontSize: 21),
             ),
             SizedBox(
@@ -207,7 +207,7 @@ class _AddScheduleState extends State<AddSchedule> {
           children: <Widget>[
             Text(
               'End Time',
-              style: kBubblegum_sans2.copyWith(
+              style: kBubblegum_sans28.copyWith(
                   color: kBlueDarkColor, fontSize: 21),
             ),
             SizedBox(
@@ -234,7 +234,7 @@ class _AddScheduleState extends State<AddSchedule> {
           ),
           child: Text(
             'Specify channels',
-            style: kBubblegum_sans3,
+            style: kBubblegum_sans24,
           ),
         ),
         Container(
@@ -247,7 +247,7 @@ class _AddScheduleState extends State<AddSchedule> {
           ),
           child: Text(
             'Specify Videos',
-            style: kBubblegum_sans3,
+            style: kBubblegum_sans24,
           ),
         ),
       ],
@@ -269,7 +269,7 @@ class _AddScheduleState extends State<AddSchedule> {
         ),
         child: Text(
           'ADD',
-          style: kGoogle_style.copyWith(fontSize: 21),
+          style: kBubblegum_sans24.copyWith(fontSize: 21),
         ),
       ),
     );

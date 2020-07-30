@@ -27,7 +27,7 @@ class ChipTimePicker extends StatelessWidget {
           alignment: Alignment.center,
           child: Text(
             time.format(context),
-            style: kBubblegum_sans2.copyWith(
+            style: kBubblegum_sans28.copyWith(
                 color: kBlueDarkColor, fontWeight: FontWeight.w700),
           ),
         ),
