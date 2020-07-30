@@ -60,7 +60,7 @@ class MyApp extends StatelessWidget {
           // from the list (English, in this case).
           return supportedLocales.first;
         },
-        home: SignIn(),
+        home: AccountsDashborasScreen(),
       ),
     );
   }

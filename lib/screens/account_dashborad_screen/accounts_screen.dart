@@ -5,9 +5,19 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:save_kids/models/child.dart';
 import 'package:save_kids/screens/child_screen/create_child_profile.dart';
-import 'package:save_kids/util/style.dart';
+import 'package:simple_animations/simple_animations.dart';
+import 'package:sa_v1_migration/sa_v1_migration.dart';
 
-class AccountsDashborasScreen extends StatelessWidget {
+import 'package:save_kids/util/style.dart';
+import 'package:animated_widgets/animated_widgets.dart';
+
+class AccountsDashborasScreen extends StatefulWidget {
+  @override
+  _AccountsDashborasScreenState createState() =>
+      _AccountsDashborasScreenState();
+}
+
+class _AccountsDashborasScreenState extends State<AccountsDashborasScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,93 +85,133 @@ class AccountsDashborasScreen extends StatelessWidget {
                               ? kidsData.kids.length
                               : kidsData.kids.length + 1,
                           (index) => kidsData.kids.length == 4
-                              ? GestureDetector(
-                                  onTap: () {},
-                                  child: Column(children: <Widget>[
-                                    Stack(
-                                      alignment: Alignment.center,
-                                      children: <Widget>[
-                                        CircleAvatar(
-                                          radius: 50,
-                                          backgroundColor: kYellowColor,
-                                        ),
-                                        CircleAvatar(
-                                          backgroundColor: Colors.white,
-                                          radius: 45,
-                                          backgroundImage: NetworkImage(
-                                            kidsData.kids[index].imagePath,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Text(
-                                      kidsData.kids[index].name,
-                                      style: GoogleFonts.bubblegumSans(
-                                        textStyle: kBubblegum_sans28.copyWith(
-                                            color: kBlueDarkColor),
-                                      ),
-                                    ),
-                                  ]),
-                                )
-                              : index == kidsData.kids.length
-                                  ? GestureDetector(
-                                      onTap: () => Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => ChildScreen(),
-                                        ),
-                                      ),
-                                      child: Column(
+                              ? CustomAnimation(
+                                  duration: Duration(milliseconds: 800),
+                                  delay: Duration(
+                                    milliseconds: (800 * 2).round(),
+                                  ),
+                                  curve: Curves.elasticOut,
+                                  tween: Tween<double>(
+                                    begin: 0,
+                                    end: 1,
+                                  ),
+                                  builder: (context, child, value) =>
+                                      GestureDetector(
+                                    onTap: () {},
+                                    child: Column(children: <Widget>[
+                                      Stack(
+                                        alignment: Alignment.center,
                                         children: <Widget>[
-                                          Stack(
-                                            alignment: Alignment.center,
-                                            children: <Widget>[
-                                              CircleAvatar(
-                                                radius: 45,
-                                                backgroundColor: kYellowColor,
-                                              ),
-                                              Icon(
-                                                Icons.add,
-                                                color: Colors.white,
-                                                size: 70,
-                                              )
-                                            ],
+                                          CircleAvatar(
+                                            radius: 50,
+                                            backgroundColor: kYellowColor,
                                           ),
-                                          Text(
-                                            "Create profile",
-                                            style: GoogleFonts.capriola(),
-                                          )
+                                          CircleAvatar(
+                                            backgroundColor: Colors.white,
+                                            radius: 45,
+                                            backgroundImage: NetworkImage(
+                                              kidsData.kids[index].imagePath,
+                                            ),
+                                          ),
                                         ],
                                       ),
-                                    )
-                                  : GestureDetector(
-                                      onTap: () {},
-                                      child: Column(children: <Widget>[
-                                        Stack(
-                                          alignment: Alignment.center,
-                                          children: <Widget>[
-                                            CircleAvatar(
-                                              radius: 50,
-                                              backgroundColor: kYellowColor,
-                                            ),
-                                            CircleAvatar(
-                                              backgroundColor: Colors.white,
-                                              radius: 45,
-                                              backgroundImage: NetworkImage(
-                                                kidsData.kids[index].imagePath,
-                                              ),
-                                            ),
-                                          ],
+                                      Text(
+                                        kidsData.kids[index].name,
+                                        style: GoogleFonts.bubblegumSans(
+                                          textStyle: kBubblegum_sans28.copyWith(
+                                              color: kBlueDarkColor),
                                         ),
-                                        Text(
-                                          kidsData.kids[index].name,
-                                          style: GoogleFonts.bubblegumSans(
-                                            textStyle:
-                                                kBubblegum_sans28.copyWith(
-                                                    color: kBlueDarkColor),
+                                      ),
+                                    ]),
+                                  ),
+                                )
+                              : index == kidsData.kids.length
+                                  ? CustomAnimation(
+                                      duration: Duration(milliseconds: 800),
+                                      delay: Duration(
+                                        milliseconds: (800 * 2).round(),
+                                      ),
+                                      curve: Curves.elasticOut,
+                                      tween: Tween<double>(
+                                        begin: 0,
+                                        end: 1,
+                                      ),
+                                      builder: (context, child, value) =>
+                                          GestureDetector(
+                                        onTap: () => Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => ChildScreen(),
                                           ),
                                         ),
-                                      ]),
+                                        child: Column(
+                                          children: <Widget>[
+                                            Stack(
+                                              alignment: Alignment.center,
+                                              children: <Widget>[
+                                                CircleAvatar(
+                                                  radius: 45,
+                                                  backgroundColor: kYellowColor,
+                                                ),
+                                                Icon(
+                                                  Icons.add,
+                                                  color: Colors.white,
+                                                  size: 70,
+                                                )
+                                              ],
+                                            ),
+                                            Text(
+                                              "Create profile",
+                                              style: GoogleFonts.capriola(),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    )
+                                  : CustomAnimation(
+                                      duration: Duration(milliseconds: 800),
+                                      delay: Duration(
+                                        milliseconds: (800 * 2).round(),
+                                      ),
+                                      curve: Curves.elasticOut,
+                                      tween: Tween<double>(
+                                        begin: 0,
+                                        end: 1,
+                                      ),
+                                      builder: (context, child, value) =>
+                                          Transform.scale(
+                                        scale: value,
+                                        child: GestureDetector(
+                                          onTap: () {},
+                                          child: Column(children: <Widget>[
+                                            Stack(
+                                              alignment: Alignment.center,
+                                              children: <Widget>[
+                                                CircleAvatar(
+                                                  radius: 50,
+                                                  backgroundColor: kYellowColor,
+                                                ),
+                                                CircleAvatar(
+                                                  backgroundColor: Colors.white,
+                                                  radius: 45,
+                                                  backgroundImage: NetworkImage(
+                                                    kidsData
+                                                        .kids[index].imagePath,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Text(
+                                              kidsData.kids[index].name,
+                                              style: GoogleFonts.bubblegumSans(
+                                                textStyle:
+                                                    kBubblegum_sans28.copyWith(
+                                                        color: kBlueDarkColor),
+                                              ),
+                                            ),
+                                          ]),
+                                        ),
+                                      ),
                                     ),
                         ),
                       ),

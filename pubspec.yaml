@@ -35,6 +35,9 @@ dependencies:
   flutter_swiper: ^1.1.6
   provider: ^4.0.4
   page_view_indicator: ^2.0.4
+  animated_widgets: ^1.0.6
+  simple_animations: ^2.2.1
+  sa_v1_migration: ^1.1.2
 
 dev_dependencies:
   flutter_test:
