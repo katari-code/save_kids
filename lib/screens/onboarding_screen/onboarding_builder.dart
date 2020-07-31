@@ -87,6 +87,7 @@ class _WelcomingViewState extends State<WelcomingView> {
                   ],
                   overflow: Overflow.clip,
                 ),
+             
               ],
             ),
           ),

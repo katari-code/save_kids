@@ -6,10 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:save_kids/models/child.dart';
 import 'package:save_kids/screens/child_screen/create_child_profile.dart';
 import 'package:simple_animations/simple_animations.dart';
-import 'package:sa_v1_migration/sa_v1_migration.dart';
-
 import 'package:save_kids/util/style.dart';
-import 'package:animated_widgets/animated_widgets.dart';
 
 class AccountsDashborasScreen extends StatefulWidget {
   @override
