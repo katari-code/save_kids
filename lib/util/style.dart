@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 // Constant Colors
 const kPurpleColor = Color(0xffC52FF0);
 const kBlueColor = Color(0xff33E1FF);
+const kBlackColor = Color(0xff000000);
 const kBlueDarkColor = Color(0xFF035AA6);
 const kYellowColor = Color(0xFFF6B039);
 const kRedColor = Color(0xFFFF7474);

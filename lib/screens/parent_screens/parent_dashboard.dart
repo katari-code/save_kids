@@ -12,6 +12,17 @@ class _ParentDashBoardState extends State<ParentDashBoard> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kBlueColor,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        actions: <Widget>[
+          FlatButton(
+            onPressed: () {},
+            child: Icon(Icons.settings),
+          ),
+        ],
+      ),
+      extendBodyBehindAppBar: true,
       body: SafeArea(
         child: Stack(
           children: <Widget>[
@@ -27,19 +38,6 @@ class _ParentDashBoardState extends State<ParentDashBoard> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      GestureDetector(
-                        onTap: () {},
-                        child: Icon(Icons.arrow_back),
-                      ),
-                      GestureDetector(
-                        onTap: () {},
-                        child: Icon(Icons.settings),
-                      ),
-                    ],
-                  ),
                   SizedBox(
                     height: 21,
                   ),

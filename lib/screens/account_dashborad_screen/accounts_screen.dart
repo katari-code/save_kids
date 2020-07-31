@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:save_kids/models/child.dart';
 import 'package:save_kids/screens/child_screen/create_child_profile.dart';
+import 'package:save_kids/screens/parent_screens/parent_dashboard.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:save_kids/util/style.dart';
 
@@ -15,6 +16,8 @@ class AccountsDashborasScreen extends StatefulWidget {
 }
 
 class _AccountsDashborasScreenState extends State<AccountsDashborasScreen> {
+  var editMode = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,8 +40,27 @@ class _AccountsDashborasScreenState extends State<AccountsDashborasScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      SvgPicture.asset("images/svgs/parent.svg"),
-                      SvgPicture.asset("images/svgs/edit.svg"),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ParentDashBoard(),
+                            ),
+                          );
+                        },
+                        child: SvgPicture.asset("images/svgs/parent.svg"),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          setState(
+                            () {
+                              editMode = !editMode;
+                            },
+                          );
+                        },
+                        child: SvgPicture.asset("images/svgs/edit.svg"),
+                      ),
                     ],
                   ),
                 ),
@@ -98,19 +120,13 @@ class _AccountsDashborasScreenState extends State<AccountsDashborasScreen> {
                                     child: Column(children: <Widget>[
                                       Stack(
                                         alignment: Alignment.center,
-                                        children: <Widget>[
-                                          CircleAvatar(
-                                            radius: 50,
-                                            backgroundColor: kYellowColor,
-                                          ),
-                                          CircleAvatar(
-                                            backgroundColor: Colors.white,
-                                            radius: 45,
-                                            backgroundImage: NetworkImage(
-                                              kidsData.kids[index].imagePath,
-                                            ),
-                                          ),
-                                        ],
+                                        overflow: Overflow.visible,
+                                        children: editMode
+                                            ? _displayMode(
+                                                kidsData.kids[index].imagePath,
+                                              )
+                                            : _editMode(
+                                                kidsData.kids[index].imagePath),
                                       ),
                                       Text(
                                         kidsData.kids[index].name,
@@ -183,24 +199,15 @@ class _AccountsDashborasScreenState extends State<AccountsDashborasScreen> {
                                           child: Column(
                                             children: <Widget>[
                                               Stack(
+                                                overflow: Overflow.visible,
                                                 alignment: Alignment.center,
-                                                children: <Widget>[
-                                                  CircleAvatar(
-                                                    radius: 50,
-                                                    backgroundColor:
-                                                        kYellowColor,
-                                                  ),
-                                                  CircleAvatar(
-                                                    backgroundColor:
-                                                        Colors.white,
-                                                    radius: 45,
-                                                    backgroundImage:
-                                                        NetworkImage(
-                                                      kidsData.kids[index]
-                                                          .imagePath,
-                                                    ),
-                                                  ),
-                                                ],
+                                                children: editMode
+                                                    ? _displayMode(
+                                                        kidsData.kids[index]
+                                                            .imagePath,
+                                                      )
+                                                    : _editMode(kidsData
+                                                        .kids[index].imagePath),
                                               ),
                                               Text(
                                                 kidsData.kids[index].name,
@@ -208,8 +215,8 @@ class _AccountsDashborasScreenState extends State<AccountsDashborasScreen> {
                                                     GoogleFonts.bubblegumSans(
                                                   textStyle: kBubblegum_sans28
                                                       .copyWith(
-                                                          color:
-                                                              kBlueDarkColor),
+                                                    color: kBlueDarkColor,
+                                                  ),
                                                 ),
                                               ),
                                             ],
@@ -229,4 +236,57 @@ class _AccountsDashborasScreenState extends State<AccountsDashborasScreen> {
       ),
     );
   }
+}
+
+_displayMode(String imgUrl) {
+  List<Widget> _displayMode = [
+    CircleAvatar(
+      radius: 50,
+      backgroundColor: kYellowColor,
+    ),
+    CircleAvatar(
+      backgroundColor: Colors.white,
+      radius: 45,
+      backgroundImage: NetworkImage(
+        imgUrl,
+      ),
+    ),
+  ];
+
+  return _displayMode;
+}
+
+_editMode(String imgUrl) {
+  List<Widget> _editMode = [
+    CircleAvatar(
+      backgroundColor: Colors.white,
+      radius: 45,
+      backgroundImage: NetworkImage(
+        imgUrl,
+      ),
+    ),
+    CircleAvatar(
+      radius: 45,
+      backgroundColor: kBlackColor.withOpacity(0.4),
+    ),
+    Icon(
+      Icons.edit,
+      color: Colors.white,
+      size: 40,
+    ),
+    Positioned(
+      top: -8,
+      left: 50,
+      child: GestureDetector(
+        onTap: () {},
+        child: Icon(
+          Icons.cancel,
+          color: kRedColor,
+          size: 35,
+        ),
+      ),
+    )
+  ];
+
+  return _editMode;
 }

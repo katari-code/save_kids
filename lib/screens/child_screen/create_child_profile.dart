@@ -345,10 +345,11 @@ class _ChildScreenState extends State<ChildScreen> {
                       );
 
                       Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(
-                            builder: (context) => AccountsDashborasScreen(),
-                          ),
-                          (route) => false);
+                        MaterialPageRoute(
+                          builder: (context) => AccountsDashborasScreen(),
+                        ),
+                        (route) => false,
+                      );
                     },
                     child: Container(
                       height: 58.00,
