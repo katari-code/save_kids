@@ -19,6 +19,13 @@ final kBubblegum_sans40 = GoogleFonts.bubblegumSans(
     color: kRedDarkColor,
   ),
 );
+final kBubblegum_sans44 = GoogleFonts.bubblegumSans(
+  textStyle: TextStyle(
+    fontSize: 44,
+    fontWeight: FontWeight.w500,
+    color: kRedDarkColor,
+  ),
+);
 final kBubblegum_sans32 = GoogleFonts.bubblegumSans(
   textStyle: TextStyle(
     fontSize: 32,

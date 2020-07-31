@@ -180,33 +180,40 @@ class _AccountsDashborasScreenState extends State<AccountsDashborasScreen> {
                                         scale: value,
                                         child: GestureDetector(
                                           onTap: () {},
-                                          child: Column(children: <Widget>[
-                                            Stack(
-                                              alignment: Alignment.center,
-                                              children: <Widget>[
-                                                CircleAvatar(
-                                                  radius: 50,
-                                                  backgroundColor: kYellowColor,
-                                                ),
-                                                CircleAvatar(
-                                                  backgroundColor: Colors.white,
-                                                  radius: 45,
-                                                  backgroundImage: NetworkImage(
-                                                    kidsData
-                                                        .kids[index].imagePath,
+                                          child: Column(
+                                            children: <Widget>[
+                                              Stack(
+                                                alignment: Alignment.center,
+                                                children: <Widget>[
+                                                  CircleAvatar(
+                                                    radius: 50,
+                                                    backgroundColor:
+                                                        kYellowColor,
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                            Text(
-                                              kidsData.kids[index].name,
-                                              style: GoogleFonts.bubblegumSans(
-                                                textStyle:
-                                                    kBubblegum_sans28.copyWith(
-                                                        color: kBlueDarkColor),
+                                                  CircleAvatar(
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    radius: 45,
+                                                    backgroundImage:
+                                                        NetworkImage(
+                                                      kidsData.kids[index]
+                                                          .imagePath,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                            ),
-                                          ]),
+                                              Text(
+                                                kidsData.kids[index].name,
+                                                style:
+                                                    GoogleFonts.bubblegumSans(
+                                                  textStyle: kBubblegum_sans28
+                                                      .copyWith(
+                                                          color:
+                                                              kBlueDarkColor),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
