@@ -39,8 +39,8 @@ dependencies:
   firebase_storage: ^3.1.6
   firebase_auth: ^0.16.1
 
-  googleapis: ^0.55.0
-  googleapis_auth: any
+  http: ^0.12.2
+  youtube_player_flutter: ^7.0.0+7
 dev_dependencies:
   flutter_test:
     sdk: flutter
