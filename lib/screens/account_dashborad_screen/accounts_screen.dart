@@ -4,9 +4,20 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:save_kids/models/child.dart';
+import 'package:save_kids/screens/child_screen/create_child_profile.dart';
+import 'package:save_kids/screens/parent_screens/parent_dashboard.dart';
+import 'package:simple_animations/simple_animations.dart';
 import 'package:save_kids/util/style.dart';
 
-class AccountsDashborasScreen extends StatelessWidget {
+class AccountsDashborasScreen extends StatefulWidget {
+  @override
+  _AccountsDashborasScreenState createState() =>
+      _AccountsDashborasScreenState();
+}
+
+class _AccountsDashborasScreenState extends State<AccountsDashborasScreen> {
+  var editMode = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,15 +40,34 @@ class AccountsDashborasScreen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      SvgPicture.asset("images/svgs/parent.svg"),
-                      SvgPicture.asset("images/svgs/edit.svg"),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ParentDashBoard(),
+                            ),
+                          );
+                        },
+                        child: SvgPicture.asset("images/svgs/parent.svg"),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          setState(
+                            () {
+                              editMode = !editMode;
+                            },
+                          );
+                        },
+                        child: SvgPicture.asset("images/svgs/edit.svg"),
+                      ),
                     ],
                   ),
                 ),
                 Text(
                   "Hi, John",
                   style: GoogleFonts.bubblegumSans(
-                    textStyle: kBubblegum_sans1.copyWith(
+                    textStyle: kBubblegum_sans32.copyWith(
                       fontSize: 30,
                       color: Color(0xff000000),
                     ),
@@ -47,7 +77,7 @@ class AccountsDashborasScreen extends StatelessWidget {
                 Text(
                   "Who is using the app now ?",
                   style: GoogleFonts.capriola(
-                    textStyle: kBubblegum_sans1.copyWith(
+                    textStyle: kBubblegum_sans32.copyWith(
                       fontSize: 16,
                       color: Color(0xff000000),
                     ),
@@ -74,88 +104,125 @@ class AccountsDashborasScreen extends StatelessWidget {
                               ? kidsData.kids.length
                               : kidsData.kids.length + 1,
                           (index) => kidsData.kids.length == 4
-                              ? GestureDetector(
-                                  onTap: () {},
-                                  child: Column(children: <Widget>[
-                                    Stack(
-                                      alignment: Alignment.center,
-                                      children: <Widget>[
-                                        CircleAvatar(
-                                          radius: 50,
-                                          backgroundColor: kYellowColor,
-                                        ),
-                                        CircleAvatar(
-                                          backgroundColor: Colors.white,
-                                          radius: 45,
-                                          backgroundImage: NetworkImage(
-                                            kidsData.kids[index].imagePath,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Text(
-                                      kidsData.kids[index].name,
-                                      style: GoogleFonts.bubblegumSans(
-                                        textStyle: kBubblegum_sans2.copyWith(
-                                            color: kBlueDarkColor),
+                              ? CustomAnimation(
+                                  duration: Duration(milliseconds: 800),
+                                  delay: Duration(
+                                    milliseconds: (800 * 2).round(),
+                                  ),
+                                  curve: Curves.elasticOut,
+                                  tween: Tween<double>(
+                                    begin: 0,
+                                    end: 1,
+                                  ),
+                                  builder: (context, child, value) =>
+                                      GestureDetector(
+                                    onTap: () {},
+                                    child: Column(children: <Widget>[
+                                      Stack(
+                                        alignment: Alignment.center,
+                                        overflow: Overflow.visible,
+                                        children: editMode
+                                            ? _displayMode(
+                                                kidsData.kids[index].imagePath,
+                                              )
+                                            : _editMode(
+                                                kidsData.kids[index].imagePath),
                                       ),
-                                    ),
-                                  ]),
+                                      Text(
+                                        kidsData.kids[index].name,
+                                        style: GoogleFonts.bubblegumSans(
+                                          textStyle: kBubblegum_sans28.copyWith(
+                                              color: kBlueDarkColor),
+                                        ),
+                                      ),
+                                    ]),
+                                  ),
                                 )
                               : index == kidsData.kids.length
-                                  ? GestureDetector(
-                                      onTap: () {},
-                                      child: Column(
-                                        children: <Widget>[
-                                          Stack(
-                                            alignment: Alignment.center,
-                                            children: <Widget>[
-                                              CircleAvatar(
-                                                radius: 45,
-                                                backgroundColor: kYellowColor,
-                                              ),
-                                              Icon(
-                                                Icons.add,
-                                                color: Colors.white,
-                                                size: 70,
-                                              )
-                                            ],
-                                          ),
-                                          Text(
-                                            "Create profile",
-                                            style: GoogleFonts.capriola(),
-                                          )
-                                        ],
+                                  ? CustomAnimation(
+                                      duration: Duration(milliseconds: 800),
+                                      delay: Duration(
+                                        milliseconds: (800 * 2).round(),
                                       ),
-                                    )
-                                  : GestureDetector(
-                                      onTap: () {},
-                                      child: Column(children: <Widget>[
-                                        Stack(
-                                          alignment: Alignment.center,
+                                      curve: Curves.elasticOut,
+                                      tween: Tween<double>(
+                                        begin: 0,
+                                        end: 1,
+                                      ),
+                                      builder: (context, child, value) =>
+                                          GestureDetector(
+                                        onTap: () => Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => ChildScreen(),
+                                          ),
+                                        ),
+                                        child: Column(
                                           children: <Widget>[
-                                            CircleAvatar(
-                                              radius: 50,
-                                              backgroundColor: kYellowColor,
+                                            Stack(
+                                              alignment: Alignment.center,
+                                              children: <Widget>[
+                                                CircleAvatar(
+                                                  radius: 45,
+                                                  backgroundColor: kYellowColor,
+                                                ),
+                                                Icon(
+                                                  Icons.add,
+                                                  color: Colors.white,
+                                                  size: 70,
+                                                )
+                                              ],
                                             ),
-                                            CircleAvatar(
-                                              backgroundColor: Colors.white,
-                                              radius: 45,
-                                              backgroundImage: NetworkImage(
-                                                kidsData.kids[index].imagePath,
-                                              ),
-                                            ),
+                                            Text(
+                                              "Create profile",
+                                              style: GoogleFonts.capriola(),
+                                            )
                                           ],
                                         ),
-                                        Text(
-                                          kidsData.kids[index].name,
-                                          style: GoogleFonts.bubblegumSans(
-                                            textStyle:
-                                                kBubblegum_sans2.copyWith(
-                                                    color: kBlueDarkColor),
+                                      ),
+                                    )
+                                  : CustomAnimation(
+                                      duration: Duration(milliseconds: 800),
+                                      delay: Duration(
+                                        milliseconds: (800 * 2).round(),
+                                      ),
+                                      curve: Curves.elasticOut,
+                                      tween: Tween<double>(
+                                        begin: 0,
+                                        end: 1,
+                                      ),
+                                      builder: (context, child, value) =>
+                                          Transform.scale(
+                                        scale: value,
+                                        child: GestureDetector(
+                                          onTap: () {},
+                                          child: Column(
+                                            children: <Widget>[
+                                              Stack(
+                                                overflow: Overflow.visible,
+                                                alignment: Alignment.center,
+                                                children: editMode
+                                                    ? _displayMode(
+                                                        kidsData.kids[index]
+                                                            .imagePath,
+                                                      )
+                                                    : _editMode(kidsData
+                                                        .kids[index].imagePath),
+                                              ),
+                                              Text(
+                                                kidsData.kids[index].name,
+                                                style:
+                                                    GoogleFonts.bubblegumSans(
+                                                  textStyle: kBubblegum_sans28
+                                                      .copyWith(
+                                                    color: kBlueDarkColor,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                      ]),
+                                      ),
                                     ),
                         ),
                       ),
@@ -169,4 +236,57 @@ class AccountsDashborasScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+_displayMode(String imgUrl) {
+  List<Widget> _displayMode = [
+    CircleAvatar(
+      radius: 50,
+      backgroundColor: kYellowColor,
+    ),
+    CircleAvatar(
+      backgroundColor: Colors.white,
+      radius: 45,
+      backgroundImage: NetworkImage(
+        imgUrl,
+      ),
+    ),
+  ];
+
+  return _displayMode;
+}
+
+_editMode(String imgUrl) {
+  List<Widget> _editMode = [
+    CircleAvatar(
+      backgroundColor: Colors.white,
+      radius: 45,
+      backgroundImage: NetworkImage(
+        imgUrl,
+      ),
+    ),
+    CircleAvatar(
+      radius: 45,
+      backgroundColor: kBlackColor.withOpacity(0.4),
+    ),
+    Icon(
+      Icons.edit,
+      color: Colors.white,
+      size: 40,
+    ),
+    Positioned(
+      top: -8,
+      left: 50,
+      child: GestureDetector(
+        onTap: () {},
+        child: Icon(
+          Icons.cancel,
+          color: kRedColor,
+          size: 35,
+        ),
+      ),
+    )
+  ];
+
+  return _editMode;
 }

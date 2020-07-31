@@ -27,7 +27,14 @@ class _OnboardingScreen3State extends State<OnboardingScreen3> {
               color: kBlueColor,
               child: Stack(
                 children: <Widget>[
- 
+                  Opacity(
+                    opacity: 0.10,
+                    child: SvgPicture.asset(
+                      "images/svgs/Asset1.svg",
+                      color: Colors.black,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                   Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -41,7 +48,7 @@ class _OnboardingScreen3State extends State<OnboardingScreen3> {
                         Text(
                           "Set Time Limit",
                           style: GoogleFonts.bubblegumSans(
-                            textStyle: kBubblegum_sans1.copyWith(fontSize: 40),
+                            textStyle: kBubblegum_sans32.copyWith(fontSize: 40),
                           ),
                         ),
                       ],
@@ -65,8 +72,8 @@ class _OnboardingScreen3State extends State<OnboardingScreen3> {
                         "Set watch time limits and monitor your child's watch history .",
                         textAlign: TextAlign.center,
                         style: GoogleFonts.capriola(
-                            textStyle:
-                                kBubblegum_sans2.copyWith(color: Colors.black)),
+                            textStyle: kBubblegum_sans28.copyWith(
+                                color: Colors.black)),
                       ),
                     ),
                   ],

@@ -27,12 +27,12 @@ class ScheduleSummaryCard extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     'Today',
-                    style: kBubblegum_sans3.copyWith(
+                    style: kBubblegum_sans24.copyWith(
                         fontWeight: FontWeight.normal),
                   ),
                   Text(
                     'From 9 to 10pm',
-                    style: kBubblegum_sans2.copyWith(
+                    style: kBubblegum_sans24.copyWith(
                         fontWeight: FontWeight.normal),
                   ),
                   Row(

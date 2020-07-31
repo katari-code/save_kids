@@ -43,7 +43,7 @@ class _OnboardingScreen4State extends State<OnboardingScreen4> {
                   "Finally let your children",
                   textAlign: TextAlign.center,
                   style: GoogleFonts.bubblegumSans(
-                    textStyle: kBubblegum_sans1.copyWith(
+                    textStyle: kBubblegum_sans32.copyWith(
                       fontSize: 40,
                       color: Colors.white,
                     ),
@@ -56,7 +56,7 @@ class _OnboardingScreen4State extends State<OnboardingScreen4> {
                       "Have",
                       textAlign: TextAlign.center,
                       style: GoogleFonts.bubblegumSans(
-                        textStyle: kBubblegum_sans1.copyWith(
+                        textStyle: kBubblegum_sans32.copyWith(
                           fontSize: 40,
                           color: Colors.white,
                         ),
@@ -67,7 +67,7 @@ class _OnboardingScreen4State extends State<OnboardingScreen4> {
                       "F",
                       textAlign: TextAlign.center,
                       style: GoogleFonts.bubblegumSans(
-                        textStyle: kBubblegum_sans1.copyWith(
+                        textStyle: kBubblegum_sans32.copyWith(
                           fontSize: 40,
                           color: Color(0xff90C747),
                         ),
@@ -76,7 +76,7 @@ class _OnboardingScreen4State extends State<OnboardingScreen4> {
                     Text(
                       "U",
                       style: GoogleFonts.bubblegumSans(
-                        textStyle: kBubblegum_sans1.copyWith(
+                        textStyle: kBubblegum_sans32.copyWith(
                           fontSize: 40,
                           color: Color(0xff40BAD5),
                         ),
@@ -85,7 +85,7 @@ class _OnboardingScreen4State extends State<OnboardingScreen4> {
                     Text(
                       "N",
                       style: GoogleFonts.bubblegumSans(
-                        textStyle: kBubblegum_sans1.copyWith(
+                        textStyle: kBubblegum_sans32.copyWith(
                           fontSize: 40,
                           color: Color(0xffFF2A7F),
                         ),

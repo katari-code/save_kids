@@ -49,7 +49,7 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
                         Text(
                           "Choose categories",
                           style: GoogleFonts.bubblegumSans(
-                            textStyle: kBubblegum_sans1.copyWith(fontSize: 40),
+                            textStyle: kBubblegum_sans32.copyWith(fontSize: 40),
                           ),
                         ),
                       ],
@@ -72,13 +72,13 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
                       "Choose from many categories of fun ",
                       style: GoogleFonts.capriola(
                           textStyle:
-                              kBubblegum_sans2.copyWith(color: Colors.black)),
+                              kBubblegum_sans28.copyWith(color: Colors.black)),
                     ),
                     Text(
                       "and family friendly content ",
                       style: GoogleFonts.capriola(
                         textStyle:
-                            kBubblegum_sans2.copyWith(color: Colors.black),
+                            kBubblegum_sans28.copyWith(color: Colors.black),
                       ),
                     ),
                   ],

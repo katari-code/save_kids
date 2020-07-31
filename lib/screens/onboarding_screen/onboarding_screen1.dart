@@ -49,7 +49,7 @@ class _OnboardingScreen1State extends State<OnboardingScreen1> {
                         Text(
                           "Protect your child",
                           style: GoogleFonts.bubblegumSans(
-                            textStyle: kBubblegum_sans1.copyWith(fontSize: 40),
+                            textStyle: kBubblegum_sans32.copyWith(fontSize: 40),
                           ),
                         ),
                       ],
@@ -71,7 +71,7 @@ class _OnboardingScreen1State extends State<OnboardingScreen1> {
                       "We know you love your kids 👪",
                       style: GoogleFonts.capriola(
                           textStyle:
-                              kBubblegum_sans2.copyWith(color: Colors.black)),
+                              kBubblegum_sans28.copyWith(color: Colors.black)),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -80,13 +80,13 @@ class _OnboardingScreen1State extends State<OnboardingScreen1> {
                           "keeping them ",
                           style: GoogleFonts.capriola(
                             textStyle:
-                                kBubblegum_sans2.copyWith(color: Colors.black),
+                                kBubblegum_sans28.copyWith(color: Colors.black),
                           ),
                         ),
                         Text(
                           " safe ",
                           style: GoogleFonts.bubblegumSans(
-                            textStyle: kBubblegum_sans1.copyWith(
+                            textStyle: kBubblegum_sans32.copyWith(
                               color: Colors.black,
                             ),
                           ),
@@ -95,7 +95,7 @@ class _OnboardingScreen1State extends State<OnboardingScreen1> {
                           "is our priority",
                           style: GoogleFonts.capriola(
                             textStyle:
-                                kBubblegum_sans2.copyWith(color: Colors.black),
+                                kBubblegum_sans28.copyWith(color: Colors.black),
                           ),
                         )
                       ],

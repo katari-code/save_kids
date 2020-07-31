@@ -21,7 +21,7 @@ class CategoryChip extends StatelessWidget {
               : Border.all(width: 0)),
       child: Text(
         category,
-        style: kBubblegum_sans3,
+        style: kBubblegum_sans24,
       ),
     );
   }
