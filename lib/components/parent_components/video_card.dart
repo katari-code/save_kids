@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:save_kids/util/style.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class VideoCard extends StatelessWidget {
   final String image;
@@ -14,33 +13,31 @@ class VideoCard extends StatelessWidget {
       padding: EdgeInsets.only(bottom: 10),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(8),
-            bottomRight: Radius.circular(8),
+            bottomLeft: Radius.circular(5),
+            bottomRight: Radius.circular(5),
             topLeft: Radius.circular(30),
             topRight: Radius.circular(30),
           ),
-          color: kPurpleColor),
+          // image: DecorationImage(image: Netw),
+          color: Color(0xFF502F5F)),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          SvgPicture.asset(
+          Image.network(
             image,
-            height: 50,
-            fit: BoxFit.cover,
+            fit: BoxFit.fitWidth,
+            width: double.infinity,
           ),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 10),
-            child: Wrap(
-              direction: Axis.horizontal,
-              crossAxisAlignment: WrapCrossAlignment.start,
-              runSpacing: 4,
-              spacing: 64,
-              alignment: WrapAlignment.start,
-              runAlignment: WrapAlignment.start,
-              children: <Widget>[
-                Text(videoTitle),
-                Text(description),
-              ],
+            padding: EdgeInsets.all(8),
+            alignment: Alignment.center,
+            child: Text(
+              videoTitle,
+              style: GoogleFonts.capriola(
+                  color: Colors.white,
+                  fontSize: 21,
+                  fontWeight: FontWeight.w600),
             ),
           ),
         ],

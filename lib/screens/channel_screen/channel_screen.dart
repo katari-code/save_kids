@@ -1,8 +1,11 @@
+import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
+import 'package:save_kids/bloc/channel_bloc.dart';
+// import 'package:provider/provider.dart';
 import 'package:save_kids/models/channel.dart';
 import 'package:save_kids/util/style.dart';
 
@@ -32,112 +35,124 @@ class _ChannelScreenState extends State<ChannelScreen> {
                 fit: BoxFit.cover,
               ),
             ),
-            Column(
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      "Channels",
-                      style: kBubblegum_sans40.copyWith(color: Colors.white),
+            Consumer<ChannelBloc>(builder: (context, channelBloc) {
+              return Column(
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        "Channels",
+                        style: kBubblegum_sans40.copyWith(color: Colors.white),
+                      ),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      SvgPicture.asset("images/svgs/channel.svg"),
+                    ],
+                  ),
+                  SizedBox(
+                    width: 40,
+                  ),
+                  SizedBox(
+                    height: 35,
+                  ),
+                  Container(
+                    height: 51.00,
+                    width: 336.00,
+                    decoration: BoxDecoration(
+                      color: Color(0xffffffff),
+                      boxShadow: [
+                        BoxShadow(
+                          offset: Offset(0.00, 2.00),
+                          color: Color(0xff000000).withOpacity(0.10),
+                          blurRadius: 6,
+                        ),
+                      ],
+                      borderRadius: BorderRadius.circular(8.00),
                     ),
-                    SizedBox(
-                      width: 15,
-                    ),
-                    SvgPicture.asset("images/svgs/channel.svg"),
-                  ],
-                ),
-                SizedBox(
-                  width: 40,
-                ),
-                SizedBox(
-                  height: 35,
-                ),
-                Container(
-                  height: 51.00,
-                  width: 336.00,
-                  decoration: BoxDecoration(
-                    color: Color(0xffffffff),
-                    boxShadow: [
-                      BoxShadow(
-                        offset: Offset(0.00, 2.00),
-                        color: Color(0xff000000).withOpacity(0.10),
-                        blurRadius: 6,
+                    child: StreamBuilder<Object>(
+                        stream: channelBloc.searchResult,
+                        builder: (context, snapshot) {
+                          return TextField(
+                            onChanged: channelBloc.changeSearchResult,
+                            // onSubmitted: ,
+                            decoration: InputDecoration(
+                              errorText: snapshot.error,
+                              prefixIcon: GestureDetector(
+                                onTap: () => channelBloc.getChannelBySearch(),
+                                child: Icon(Icons.search),
+                              ),
+                              hintText: "Try Necolidation ",
+                              border: InputBorder.none,
+                            ),
+                          );
+                        }),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Padding(
+                      padding: EdgeInsets.only(left: 10),
+                      child: StreamBuilder<Object>(
+                          stream: channelBloc.channels,
+                          builder: (context, snapshot) {
+                            List<Channel> channels = snapshot.data ?? [];
+                            return SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.5,
+                              child: ListView.builder(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 35, vertical: 0),
+                                itemCount: channels.length,
+                                itemBuilder: (context, index) => ChannelCard(
+                                    channelAvatar:
+                                        channels[index].profilePictureUrl,
+                                    channelDes: channels[index].description,
+                                    channelName: channels[index].title,
+                                    isChosen: false),
+                              ),
+                            );
+                          })),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Stack(
+                    children: <Widget>[
+                      Container(
+                        height: 58.00,
+                        width: 226.00,
+                        decoration: BoxDecoration(
+                          color: Color(0xfff6b039),
+                          borderRadius: BorderRadius.circular(8.00),
+                        ),
+                      ),
+                      Positioned(
+                        top: -15,
+                        left: 0,
+                        child: Transform.scale(
+                          scale: 1.25,
+                          child:
+                              SvgPicture.asset("images/svgs/mask_button.svg"),
+                        ),
+                      ),
+                      Positioned(
+                        left: 226 * 0.35,
+                        top: 58 * 0.23,
+                        child: Text(
+                          text.translate('Done'),
+                          style: GoogleFonts.bubblegumSans(
+                            textStyle: kBubblegum_sans32.copyWith(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
                       ),
                     ],
-                    borderRadius: BorderRadius.circular(8.00),
+                    overflow: Overflow.clip,
                   ),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.search),
-                      hintText: "Try Necolidation ",
-                      border: InputBorder.none,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 10),
-                  child: Consumer<ChannelData>(
-                    builder: (context, channelData, child) {
-                      List<Channel> channels = channelData.channels;
-                      return SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.5,
-                        child: ListView.builder(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 35, vertical: 0),
-                          itemCount: channels.length,
-                          itemBuilder: (context, index) => ChannelCard(
-                            channelAvatar: channels[index].channelAvatar,
-                            channelDes: channels[index].channelDesc,
-                            channelName: channels[index].channelName,
-                            isChosen: channels[index].isChose,
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Stack(
-                  children: <Widget>[
-                    Container(
-                      height: 58.00,
-                      width: 226.00,
-                      decoration: BoxDecoration(
-                        color: Color(0xfff6b039),
-                        borderRadius: BorderRadius.circular(8.00),
-                      ),
-                    ),
-                    Positioned(
-                      top: -15,
-                      left: 0,
-                      child: Transform.scale(
-                        scale: 1.25,
-                        child: SvgPicture.asset("images/svgs/mask_button.svg"),
-                      ),
-                    ),
-                    Positioned(
-                      left: 226 * 0.35,
-                      top: 58 * 0.23,
-                      child: Text(
-                        text.translate('Done'),
-                        style: GoogleFonts.bubblegumSans(
-                          textStyle: kBubblegum_sans32.copyWith(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                  overflow: Overflow.clip,
-                ),
-              ],
-            ),
+                ],
+              );
+            }),
           ],
         ),
       ),

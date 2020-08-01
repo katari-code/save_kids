@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "530075745471",
+    "firebase_url": "https://save-video-kids.firebaseio.com",
+    "project_id": "save-video-kids",
+    "storage_bucket": "save-video-kids.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:530075745471:android:a10d75a1d01f02a1059a0a",
+        "android_client_info": {
+          "package_name": "com.example.save_kids"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "530075745471-pvnh7063n730cl847avdeees818r8hd5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLIDhfEqkmg23Q1QjCYp-JoxcnsikEEGY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "530075745471-pvnh7063n730cl847avdeees818r8hd5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
