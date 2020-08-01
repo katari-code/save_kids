@@ -33,34 +33,135 @@ class _ParentDashBoardState extends State<ParentDashBoard> {
                 child: SvgPicture.asset("images/svgs/background.svg"),
               ),
             ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 21, vertical: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  SizedBox(
-                    height: 21,
+
+            Column(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 21, vertical: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      SizedBox(
+                        height: 21,
+                      ),
+                      Text(
+                        'Hello, john',
+                        style: kBubblegum_sans32.copyWith(color: Colors.black),
+                      ),
+                      Text(
+                        'Monitor your children account',
+                        style: kBubblegum_sans24.copyWith(
+                            color: Colors.black, fontWeight: FontWeight.normal),
+                      ),
+                    ],
                   ),
-                  Text(
-                    'Hello, john',
-                    style: kBubblegum_sans32.copyWith(color: Colors.black),
+                ),
+                Container(
+                  child: Row(
+                    children: <Widget>[
+                      Column(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(18.0),
+                            child: Container(
+                              width: 350,
+                              decoration: BoxDecoration(
+                                color: kPurpleColor,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Row(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      children: <Widget>[
+                                        SvgPicture.asset(
+                                            "images/svgs/schedule.svg"),
+                                        SizedBox(
+                                          width: 15,
+                                        ),
+                                        Text(
+                                          "Watch Schedule",
+                                          style: kBubblegum_sans24.copyWith(
+                                              color: Colors.white),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "sssssssssssssssssssssssssssssssssss",
+                                      style: kCapriola24.copyWith(
+                                          color: Colors.white),
+                                    ),
+                                  ),
+                                  Icon(
+                                    Icons.arrow_forward,
+                                    color: Colors.white,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Container(
+                              width: 350,
+                              decoration: BoxDecoration(
+                                color: kPurpleColor,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Row(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      children: <Widget>[
+                                        SvgPicture.asset(
+                                            "images/svgs/schedule.svg"),
+                                        SizedBox(
+                                          width: 15,
+                                        ),
+                                        Text(
+                                          "Watch History",
+                                          style: kBubblegum_sans24.copyWith(
+                                              color: Colors.white),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "sssssssssssssssssssssssssssssssssss",
+                                      style: kCapriola24.copyWith(
+                                          color: Colors.white),
+                                    ),
+                                  ),
+                                  Icon(
+                                    Icons.arrow_forward,
+                                    color: Colors.white,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
                   ),
-                  Text(
-                    'Monitor your children account',
-                    style: kBubblegum_sans24.copyWith(
-                        color: Colors.black, fontWeight: FontWeight.normal),
-                  ),
-                ],
-              ),
-            ),
-            Center(
-              child: Container(
-                alignment: Alignment.center,
-                height: 150,
-                // width: 300,
-                child: buildParentFeatures(),
-              ),
+                )
+              ],
             )
+
+            // Center(
+            //   child: Container(
+            //     alignment: Alignment.center,
+            //     height: 150,
+            //     // width: 300,
+            //   ),
+            // )
           ],
         ),
       ),
@@ -80,7 +181,9 @@ class _ParentDashBoardState extends State<ParentDashBoard> {
             onTap: () {},
             child: Text(
               'Switch To Kids',
-              style: kBubblegum_sans20.copyWith(fontSize: 30),
+              style: kBubblegum_sans32.copyWith(
+                fontSize: 30,
+              ),
             ),
           ),
         ),
@@ -88,62 +191,67 @@ class _ParentDashBoardState extends State<ParentDashBoard> {
     );
   }
 
-  Widget buildParentFeatures() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        InkWell(
-          child: Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            color: kYellowColor,
-            child: Column(
-              children: <Widget>[
-                Container(
-                  child: SvgPicture.asset(
-                    "images/svgs/schedule.svg",
-                  ),
-                  padding: EdgeInsets.only(top: 0, left: 20, right: 20),
-                  height: 100,
-                  width: 115,
-                ),
-                Text(
-                  'Schedule',
-                  style: kBubblegum_sans24,
-                )
-              ],
-            ),
-          ),
-        ),
-        SizedBox(
-          width: 32,
-        ),
-        InkWell(
-          child: Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            color: kPurpleColor,
-            child: Column(
-              children: <Widget>[
-                Container(
-                  child: SvgPicture.asset(
-                    "images/svgs/schedule.svg",
-                  ),
-                  padding: EdgeInsets.only(top: 0, left: 20, right: 20),
-                  height: 100,
-                  width: 115,
-                ),
-                Text(
-                  'History',
-                  style: kBubblegum_sans24,
-                )
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
+  // Widget buildParentFeatures() {
+  //   return Column(
+  //     mainAxisAlignment: MainAxisAlignment.center,
+  //     children: <Widget>[
+  //       InkWell(
+  //         child: Card(
+  //           shape: RoundedRectangleBorder(
+  //             borderRadius: BorderRadius.circular(10),
+  //           ),
+  //           color: kYellowColor,
+  //           child: Column(
+  //             children: <Widget>[
+  //               Container(
+  //                 child: SvgPicture.asset(
+  //                   "images/svgs/schedule.svg",
+  //                 ),
+  //                 padding: EdgeInsets.only(
+  //                   top: 0,
+  //                   left: 20,
+  //                   right: 20,
+  //                 ),
+  //                 height: 100,
+  //                 width: 115,
+  //               ),
+  //               Text(
+  //                 'Schedule',
+  //                 style: kBubblegum_sans24,
+  //               )
+  //             ],
+  //           ),
+  //         ),
+  //       ),
+  //       SizedBox(
+  //         width: 32,
+  //       ),
+  //       InkWell(
+  //         child: Card(
+  //           shape: RoundedRectangleBorder(
+  //             borderRadius: BorderRadius.circular(10),
+  //           ),
+  //           color: kPurpleColor,
+  //           child: Column(
+  //             children: <Widget>[
+  //               Container(
+  //                 child: SvgPicture.asset(
+  //                   "images/svgs/schedule.svg",
+  //                 ),
+  //                 padding: EdgeInsets.only(top: 0, left: 20, right: 20),
+  //                 height: 100,
+  //                 width: 115,
+  //               ),
+  //               Text(
+  //                 'History',
+  //                 style: kBubblegum_sans24,
+  //               )
+  //             ],
+  //           ),
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
+
 }

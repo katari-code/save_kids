@@ -66,7 +66,7 @@ class MyApp extends StatelessWidget {
           // from the list (English, in this case).
           return supportedLocales.first;
         },
-        home: AccountsDashborasScreen(),
+        home: ParentDashBoard(),
       ),
     );
   }
