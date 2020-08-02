@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:save_kids/models/channel.dart';
-import 'package:save_kids/models/mapper.dart';
+import 'package:save_kids/models/i_mapper.dart';
 import 'package:save_kids/models/video.dart';
 import 'package:save_kids/util/keys.dart';
 

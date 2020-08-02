@@ -242,12 +242,13 @@ class _ChildScreenState extends State<ChildScreen> {
                     onTap: () async {
                       Provider.of<KidsData>(context, listen: false).addKid(
                         Child(
-                            Provider.of<AvatarData>(context, listen: false)
-                                .avatars[Provider.of<AvatarData>(context,
-                                        listen: false)
-                                    .currentAvatar]
-                                .childAvatar,
-                            childname),
+                            imagePath:
+                                Provider.of<AvatarData>(context, listen: false)
+                                    .avatars[Provider.of<AvatarData>(context,
+                                            listen: false)
+                                        .currentAvatar]
+                                    .childAvatar,
+                            name: childname),
                       );
 
                       await showDialog(

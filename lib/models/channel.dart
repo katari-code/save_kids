@@ -1,4 +1,4 @@
-import 'package:save_kids/models/mapper.dart';
+import 'package:save_kids/models/i_mapper.dart';
 import 'package:save_kids/models/video.dart';
 
 class Channel implements Mapper {

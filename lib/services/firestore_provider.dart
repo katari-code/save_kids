@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:save_kids/models/firestore_converter.dart';
+import 'package:save_kids/models/i_firestore_converter.dart';
 
 class FireStoreProvider<T extends FireStoreConverter> {
   final CollectionReference dataCollection;
