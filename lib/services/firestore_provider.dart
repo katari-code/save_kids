@@ -3,12 +3,10 @@ import 'package:save_kids/models/i_firestore_converter.dart';
 
 class FireStoreProvider<T extends FireStoreConverter> {
   final CollectionReference dataCollection;
-  FireStoreConverter converter;
-  // ignore: avoid_init_to_null
-  String id = null;
-  String whereId;
-  FireStoreProvider(this.converter, this.dataCollection,
-      {this.id, this.whereId});
+  final FireStoreConverter converter;
+  final String id;
+
+  FireStoreProvider(this.converter, this.dataCollection, {this.id});
 
   Stream<T> get document {
     return dataCollection.document(id).snapshots().map(_dataFromSnap);
@@ -18,9 +16,9 @@ class FireStoreProvider<T extends FireStoreConverter> {
     return dataCollection.where(query, isEqualTo: '$id').snapshots().map(list);
   }
 
-  Stream<List<T>> get documentListArrayContains {
+  Stream<List<T>> documentListArrayContains(String query, String queryId) {
     return dataCollection
-        .where(whereId, arrayContains: id)
+        .where(query, arrayContains: queryId)
         .snapshots()
         .map(list);
   }
