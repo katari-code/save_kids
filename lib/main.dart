@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:save_kids/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:save_kids/bloc/channel_bloc.dart';
+import 'package:save_kids/bloc/sign_in_bloc.dart';
+import 'package:save_kids/bloc/sign_up_bloc.dart';
 import 'package:save_kids/models/channel.dart';
 import 'package:save_kids/models/child.dart';
 import 'package:save_kids/models/child_avatar.dart';
@@ -40,6 +42,8 @@ class MyApp extends StatelessWidget {
       child: BlocProvider(
         blocs: [
           Bloc((i) => ChannelBloc()),
+          Bloc((i) => SignUpBloc()),
+          Bloc((i) => SignInBloc()),
         ],
         child: MaterialApp(
           title: 'Flutter Demo',
@@ -73,7 +77,7 @@ class MyApp extends StatelessWidget {
             // from the list (English, in this case).
             return supportedLocales.first;
           },
-          home: ChannelScreen(),
+          home: SignIn(),
         ),
       ),
     );

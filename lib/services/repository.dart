@@ -22,7 +22,11 @@ class Repository<T extends FireStoreConverter> {
   //sign in
   Future<Parent> signIn(String email, String password) async {
     try {
-      return _authServiceProvider.signIn(email, password);
+      final result = await _authServiceProvider.signIn(email, password);
+      _fireStoreProvider = FireStoreProvider<T>(
+          Parent(), Firestore.instance.collection(collection),
+          id: result.id);
+      return await _fireStoreProvider.document.first;
     } catch (e) {
       logger.e(e);
       return null;
@@ -30,7 +34,7 @@ class Repository<T extends FireStoreConverter> {
   }
 
   //sign up
-  Future<Parent> signUp(Parent parent) async {
+  Future<Parent> signUp(parent) async {
     try {
       final Parent result =
           await _authServiceProvider.signUp(parent.email, parent.password);

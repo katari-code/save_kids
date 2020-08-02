@@ -6,7 +6,7 @@ import 'package:save_kids/models/parent.dart';
 import 'package:save_kids/services/repository.dart';
 
 class SignUpBloc extends BlocBase {
-  Repository _repository = new Repository<Parent>(collection: 'User_List');
+  Repository _repository = new Repository<Parent>(collection: 'parent');
   final _fullName = BehaviorSubject<String>();
   final _email = BehaviorSubject<String>();
   final _password = BehaviorSubject<String>();
@@ -54,7 +54,11 @@ class SignUpBloc extends BlocBase {
   });
 
   Future<Parent> signUp() {
-    Parent parent = Parent(email: _email.value, password: _password.value);
+    Parent parent = Parent(
+      email: _email.value,
+      password: _password.value,
+      name: _fullName.value,
+    );
     return _repository.signUp(parent);
   }
 

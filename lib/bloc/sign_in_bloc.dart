@@ -6,7 +6,7 @@ import 'package:save_kids/models/parent.dart';
 import 'package:save_kids/services/repository.dart';
 
 class SignInBloc extends BlocBase {
-  Repository _repository = new Repository();
+  Repository _repository = new Repository<Parent>(collection: 'parent');
   //input sink stream objects
   final _email = BehaviorSubject<String>();
   final _password = BehaviorSubject<String>();
