@@ -25,7 +25,7 @@ class Category implements FireStoreConverter {
   toFireStore() {
     return {
       'name': this.name,
-      'chnnels': [...this.channelIds]
+      'channels': [...this.channelIds]
     };
   }
 }

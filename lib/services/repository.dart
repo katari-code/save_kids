@@ -18,6 +18,47 @@ class Repository<T extends FireStoreConverter> {
   YoutubeApiProvider _youtubeApi;
   FireStoreProvider _fireStoreProvider;
 
+  Future<T> addDocument(T type) async {
+    try {
+      _fireStoreProvider = FireStoreProvider<T>(
+        type,
+        Firestore.instance.collection(collection),
+      );
+      final result = await _fireStoreProvider.addDocument;
+      logger.i("Parent ${result.documentID} has been added");
+      return type;
+    } catch (e) {
+      logger.e(e);
+      return null;
+    }
+  }
+
+  Stream<List<T>> getDocumentByQuery(T type, String query, String queryId) {
+    try {
+      _fireStoreProvider = FireStoreProvider<T>(
+        type,
+        Firestore.instance.collection(collection),
+      );
+      return _fireStoreProvider.documentList(query, queryId);
+    } catch (e) {
+      logger.e(e);
+      return null;
+    }
+  }
+
+  Future<T> setDocument(T type, String documentId) async {
+    try {
+      _fireStoreProvider = FireStoreProvider<T>(
+          type, Firestore.instance.collection(collection),
+          id: documentId);
+      await _fireStoreProvider.setData();
+      return type;
+    } catch (e) {
+      logger.e(e);
+      return null;
+    }
+  }
+
   //session
   //sign in
   Future<Parent> signIn(String email, String password) async {
