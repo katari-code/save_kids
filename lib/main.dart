@@ -3,19 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:save_kids/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:save_kids/bloc/channel_bloc.dart';
-import 'package:save_kids/models/channel.dart';
 import 'package:save_kids/models/child.dart';
 import 'package:save_kids/models/child_avatar.dart';
 
 import 'package:provider/provider.dart';
-import 'package:save_kids/screens/account_dashborad_screen/accounts_screen.dart';
-import 'package:save_kids/screens/channel_screen/channel_screen.dart';
-import 'package:save_kids/screens/child_screen/create_child_profile.dart';
-import 'package:save_kids/screens/onboarding_screen/onboarding_builder.dart';
-import 'package:save_kids/screens/parent_screens/parent_dashboard.dart';
-import 'package:save_kids/screens/sign_in/sign_in.dart';
-import 'package:save_kids/screens/sign_up/sign_up.dart';
-import 'package:save_kids/screens/test_video/video_list.dart';
+import 'package:save_kids/screens/parent_screens/watch_schedule/watch_schedule.dart';
 
 void main() {
   runApp(MyApp());
@@ -73,7 +65,7 @@ class MyApp extends StatelessWidget {
             // from the list (English, in this case).
             return supportedLocales.first;
           },
-          home: ChannelScreen(),
+          home: WatchSchedule(),
         ),
       ),
     );

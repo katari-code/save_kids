@@ -33,7 +33,6 @@ class _ParentDashBoardState extends State<ParentDashBoard> {
                 child: SvgPicture.asset("images/svgs/background.svg"),
               ),
             ),
-
             Column(
               children: <Widget>[
                 Container(
@@ -56,101 +55,103 @@ class _ParentDashBoardState extends State<ParentDashBoard> {
                     ],
                   ),
                 ),
+                SizedBox(
+                  height: 15,
+                ),
                 Container(
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  padding: EdgeInsets.all(15),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: kPurpleColor,
+                  ),
                   child: Row(
                     children: <Widget>[
+                      SvgPicture.asset('images/svgs/schedule.svg'),
+                      SizedBox(
+                        width: 15,
+                      ),
                       Column(
                         children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(18.0),
-                            child: Container(
-                              width: 350,
-                              decoration: BoxDecoration(
-                                color: kPurpleColor,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Row(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      children: <Widget>[
-                                        SvgPicture.asset(
-                                            "images/svgs/schedule.svg"),
-                                        SizedBox(
-                                          width: 15,
-                                        ),
-                                        Text(
-                                          "Watch Schedule",
-                                          style: kBubblegum_sans24.copyWith(
-                                              color: Colors.white),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      "sssssssssssssssssssssssssssssssssss",
-                                      style: kCapriola24.copyWith(
-                                          color: Colors.white),
-                                    ),
-                                  ),
-                                  Icon(
-                                    Icons.arrow_forward,
-                                    color: Colors.white,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(20.0),
-                            child: Container(
-                              width: 350,
-                              decoration: BoxDecoration(
-                                color: kPurpleColor,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Row(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      children: <Widget>[
-                                        SvgPicture.asset(
-                                            "images/svgs/schedule.svg"),
-                                        SizedBox(
-                                          width: 15,
-                                        ),
-                                        Text(
-                                          "Watch History",
-                                          style: kBubblegum_sans24.copyWith(
-                                              color: Colors.white),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      "sssssssssssssssssssssssssssssssssss",
-                                      style: kCapriola24.copyWith(
-                                          color: Colors.white),
-                                    ),
-                                  ),
-                                  Icon(
-                                    Icons.arrow_forward,
-                                    color: Colors.white,
-                                  ),
-                                ],
-                              ),
+                          Text(
+                            "Watch Schedule",
+                            style: kBubblegum_sans32.copyWith(
+                              color: Colors.white,
                             ),
                           ),
                         ],
                       )
                     ],
                   ),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  padding: EdgeInsets.all(15),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: Color(0xffFFA846),
+                  ),
+                  child: Row(
+                    children: <Widget>[
+                      SvgPicture.asset('images/svgs/schedule.svg'),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      Text(
+                        "Watch History",
+                        style: kBubblegum_sans32.copyWith(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Container(
+                      width: 150,
+                      height: 150,
+                      decoration: BoxDecoration(
+                        color: Color(0xffFF7E71),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          SvgPicture.asset(
+                            'images/svgs/timer.svg',
+                            height: 100,
+                          ),
+                          Text("Set Timer")
+                        ],
+                      ),
+                    ),
+                    Container(
+                      width: 150,
+                      height: 150,
+                      decoration: BoxDecoration(
+                        color: Color(0xffFFDE5B),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          SvgPicture.asset(
+                            'images/svgs/timer.svg',
+                            height: 100,
+                          ),
+                          Text("Set Timer")
+                        ],
+                      ),
+                    ),
+                  ],
                 )
               ],
             )
@@ -171,7 +172,7 @@ class _ParentDashBoardState extends State<ParentDashBoard> {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.vertical(
-              top: Radius.circular(12),
+              top: Radius.circular(28),
             ),
             color: kYellowColor,
           ),
@@ -181,8 +182,8 @@ class _ParentDashBoardState extends State<ParentDashBoard> {
             onTap: () {},
             child: Text(
               'Switch To Kids',
-              style: kBubblegum_sans32.copyWith(
-                fontSize: 30,
+              style: kBubblegum_sans40.copyWith(
+                color: Colors.white,
               ),
             ),
           ),
