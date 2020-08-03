@@ -234,7 +234,7 @@ class _AddScheduleState extends State<AddSchedule> {
           ),
           child: Text(
             'Specify channels',
-            style: kBubblegum_sans24,
+            style: kBubblegum_sans20,
           ),
         ),
         Container(
@@ -247,7 +247,7 @@ class _AddScheduleState extends State<AddSchedule> {
           ),
           child: Text(
             'Specify Videos',
-            style: kBubblegum_sans24,
+            style: kBubblegum_sans20,
           ),
         ),
       ],
