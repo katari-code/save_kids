@@ -2,12 +2,14 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:save_kids/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:save_kids/bloc/account_dashboard_bloc.dart';
 import 'package:save_kids/bloc/channel_bloc.dart';
 import 'package:save_kids/bloc/create_child_profile_bloc.dart';
 import 'package:save_kids/models/child.dart';
 import 'package:save_kids/models/child_avatar.dart';
 
 import 'package:provider/provider.dart';
+import 'package:save_kids/screens/account_dashborad_screen/accounts_screen.dart';
 import 'package:save_kids/screens/child_screen/create_child_profile.dart';
 import 'package:save_kids/screens/parent_screens/watch_schedule/watch_schedule.dart';
 
@@ -42,6 +44,7 @@ class MyApp extends StatelessWidget {
           Bloc((i) => CreateChildProfileBloc()),
           Bloc((i) => SignUpBloc()),
           Bloc((i) => SignInBloc()),
+          Bloc((i) => AccountDashboardBloc()),
         ],
         child: MaterialApp(
           title: 'Flutter Demo',
@@ -75,7 +78,7 @@ class MyApp extends StatelessWidget {
             // from the list (English, in this case).
             return supportedLocales.first;
           },
-          home: ChildScreen(),
+          home: AccountsDashborasScreen(),
         ),
       ),
     );

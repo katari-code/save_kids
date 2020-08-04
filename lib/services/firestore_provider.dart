@@ -27,6 +27,10 @@ class FireStoreProvider<T extends FireStoreConverter> {
     return await dataCollection.document(id).setData(converter.toFireStore());
   }
 
+  Future deleteDocument() async {
+    return await dataCollection.document(id).delete();
+  }
+
   Future<DocumentReference> get addDocument async {
     return await dataCollection.add(converter.toFireStore());
   }

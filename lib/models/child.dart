@@ -20,13 +20,14 @@ class Child implements FireStoreConverter {
       this.age});
   Child.fromFirestore(DocumentSnapshot snapshot)
       : this(
-          name: snapshot.data['name'],
-          age: snapshot.data['age'],
-          imagePath: snapshot.data['imagePath'],
-          type: snapshot.data['type'],
-          parentId: snapshot.data['parentId'],
-          schedules: [...List.from(snapshot.data['schedules']).toList()] ?? [],
-        );
+            name: snapshot.data['name'],
+            age: snapshot.data['age'],
+            imagePath: snapshot.data['imagePath'],
+            type: snapshot.data['type'],
+            parentId: snapshot.data['parentId'],
+            schedules:
+                [...List.from(snapshot.data['schedules']).toList()] ?? [],
+            id: snapshot.documentID);
 
   @override
   fromFireStore(DocumentSnapshot snapshot) {
