@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:save_kids/components/parent_components/category_chip.dart';
 import 'package:save_kids/components/parent_components/chip_time_picker.dart';
+import 'package:save_kids/models/schedule_data.dart';
+import 'package:save_kids/models/show_time.dart';
 import 'package:save_kids/util/style.dart';
 
 class AddSchedule extends StatefulWidget {
@@ -45,85 +48,84 @@ class _AddScheduleState extends State<AddSchedule> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kBlueColor,
+      backgroundColor: kPurpleColor,
       body: SafeArea(
         child: Stack(
           children: <Widget>[
             Opacity(
               opacity: 0.15,
               child: Transform.scale(
-                scale: 5,
-                child: SvgPicture.asset("images/svgs/background.svg"),
+                scale: 1,
+                child: SvgPicture.asset(
+                  "images/svgs/background.svg",
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             Center(
-              child: Container(
-                alignment: Alignment.center,
-                height: MediaQuery.of(context).size.height * 0.8,
-                width: MediaQuery.of(context).size.width,
-                padding: EdgeInsets.symmetric(horizontal: 4),
-                child: Card(
-                  elevation: 6,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(45),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        buildTitleForm(),
-                        Center(
-                          child: Text(
-                            'Monday',
-                            style: kBubblegum_sans28.copyWith(color: kRedColor),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 18,
-                        ),
-                        buildTimePicker(),
-                        SizedBox(
-                          height: 18,
-                        ),
-                        buildDuration(),
-                        SizedBox(
-                          height: 18,
-                        ),
-                        Center(
-                          child: Text(
-                            'Select Category',
-                            style: kBubblegum_sans28.copyWith(
-                                color: kBlueDarkColor, fontSize: 21),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 18,
-                        ),
-                        buildCategoryChips(),
-                        SizedBox(
-                          height: 18,
-                        ),
-                        buildSpecifyChips(),
-                        SizedBox(
-                          height: 18,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+              child: Consumer<ScheduleData>(
+                builder: (context, scheduleData, child) => Container(
+                  alignment: Alignment.center,
+                  height: MediaQuery.of(context).size.height * 0.95,
+                  width: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.symmetric(horizontal: 4),
+                  child: Card(
+                    elevation: 6,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(45),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                            Text(
-                              'Repeat for all days',
-                              style: kBubblegum_sans28.copyWith(
-                                  color: Colors.grey, fontSize: 20),
+                            buildTitleForm(),
+                            Center(
+                              child: Text(
+                                ScheduleData.daysOfWeek[
+                                    scheduleData.currentDate.weekday - 1],
+                                style: kBubblegum_sans28.copyWith(
+                                    color: kRedColor),
+                              ),
                             ),
+                            SizedBox(
+                              height: 18,
+                            ),
+                            buildTimePicker(),
+                            SizedBox(
+                              height: 18,
+                            ),
+                            buildDuration(),
+                            SizedBox(
+                              height: 18,
+                            ),
+                            Center(
+                              child: Text(
+                                'Select Category',
+                                style: kBubblegum_sans28.copyWith(
+                                    color: kBlueDarkColor, fontSize: 21),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 18,
+                            ),
+                            buildCategoryChips(),
+                            SizedBox(
+                              height: 18,
+                            ),
+                            buildSpecifyChips(),
+                            SizedBox(
+                              height: 18,
+                            ),
+                            SizedBox(
+                              height: 25,
+                            ),
+                            buildButton()
                           ],
                         ),
-                        SizedBox(
-                          height: 25,
-                        ),
-                        buildButton()
-                      ],
+                      ),
                     ),
                   ),
                 ),
@@ -247,7 +249,9 @@ class _AddScheduleState extends State<AddSchedule> {
           ),
           child: Text(
             'Specify Videos',
-            style: kBubblegum_sans20,
+            style: kBubblegum_sans20.copyWith(
+              color: Colors.white,
+            ),
           ),
         ),
       ],
@@ -255,6 +259,23 @@ class _AddScheduleState extends State<AddSchedule> {
   }
 
   Container buildButton() {
+    var dateStart = DateTime(
+        Provider.of<ScheduleData>(context, listen: false).currentDate.year,
+        Provider.of<ScheduleData>(context, listen: false).currentDate.month,
+        Provider.of<ScheduleData>(context, listen: false).currentDate.day,
+        startTime.hour,
+        startTime.minute);
+
+    print(dateStart);
+    var dateEnd = DateTime(
+        Provider.of<ScheduleData>(context, listen: false).currentDate.year,
+        Provider.of<ScheduleData>(context, listen: false).currentDate.month,
+        Provider.of<ScheduleData>(context, listen: false).currentDate.day,
+        endTime.hour,
+        endTime.minute);
+
+    print(dateEnd);
+
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: 100,
@@ -263,13 +284,26 @@ class _AddScheduleState extends State<AddSchedule> {
         textColor: Colors.white,
         padding: EdgeInsets.symmetric(vertical: 18),
         color: kBlueDarkColor,
-        onPressed: () {},
+        onPressed: () {
+          Provider.of<ScheduleData>(context, listen: false).addToSchedule(
+            new ShowTimeCard(
+              childId: Provider.of<ScheduleData>(context, listen: false)
+                  .currentChild,
+              timeStart: dateStart,
+              timeEnd: dateEnd,
+            ),
+          );
+          Navigator.pop(context);
+        },
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.00),
         ),
         child: Text(
           'ADD',
-          style: kBubblegum_sans24.copyWith(fontSize: 21),
+          style: kBubblegum_sans24.copyWith(
+            fontSize: 21,
+            color: Colors.white,
+          ),
         ),
       ),
     );

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:save_kids/models/schedule_data.dart';
 import 'package:save_kids/util/style.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -32,11 +34,8 @@ class _TopCalendarState extends State<TopCalendar>
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(
-        top: 0,
-        bottom: 10,
-        right: 10,
-        left: 10,
+      padding: const EdgeInsets.symmetric(
+        horizontal: 15,
       ),
       child: Column(
         children: <Widget>[
@@ -108,10 +107,6 @@ class _TopCalendarState extends State<TopCalendar>
                   SizedBox(
                     height: 5,
                   ),
-                  // GetEvents(
-                  //   listLength: meetingData.getLength(date),
-                  // ),
-                  // Spacer(flex: 1,)
                 ],
               );
             },
@@ -140,14 +135,6 @@ class _TopCalendarState extends State<TopCalendar>
                           ),
                         ),
                       ),
-                      // Center(
-                      //   child: Padding(
-                      //     padding: const EdgeInsets.only(top: 5),
-                      //     child: GetEventsHighlighted(
-                      //       listLength: meetingData.currentDayInfo().length,
-                      //     ),
-                      //   ),
-                      // ),
                     ],
                   ),
                 ),
@@ -169,15 +156,13 @@ class _TopCalendarState extends State<TopCalendar>
                   SizedBox(
                     height: 5,
                   ),
-                  // GetEvents(
-                  //   listLength: meetingData.getLength(date),
-                  // ),
-                  // Spacer(flex: 1,)
                 ],
               );
             }),
             onDaySelected: (date, meeting) {
-              // meetingData.setCurrentDay(date);
+              Provider.of<ScheduleData>(context, listen: false)
+                  .setcurrentDate(date);
+
               _animationController.forward(from: 0.0);
             },
             availableCalendarFormats: const {

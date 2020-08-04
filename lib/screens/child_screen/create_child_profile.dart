@@ -242,6 +242,7 @@ class _ChildScreenState extends State<ChildScreen> {
                     onTap: () async {
                       Provider.of<KidsData>(context, listen: false).addKid(
                         Child(
+                            4,
                             Provider.of<AvatarData>(context, listen: false)
                                 .avatars[Provider.of<AvatarData>(context,
                                         listen: false)

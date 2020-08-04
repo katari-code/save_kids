@@ -1,21 +1,25 @@
 import 'package:flutter/cupertino.dart';
 
 class Child {
+  int id;
   String name;
   String imagePath;
 
-  Child(this.imagePath, this.name);
+  Child(this.id, this.imagePath, this.name);
 }
 
 class KidsData with ChangeNotifier {
   List<Child> kids = [
     Child(
+        1,
         "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/b-01.png?alt=media&token=aeb3748f-ff44-4628-921b-4268aea1c378",
         "Jacob"),
     Child(
+        2,
         "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/b-02.png?alt=media&token=42e692af-8d9c-48cf-8142-02e1548e2465",
         "Alexander"),
     Child(
+        3,
         "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/g-02.png?alt=media&token=d80f18e6-6310-487c-8fe7-53fc08a9a1eb",
         "Isabella"),
     // Child(

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:save_kids/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:save_kids/bloc/channel_bloc.dart';
-import 'package:save_kids/models/calender.dart';
+import 'package:save_kids/models/schedule_data.dart';
 import 'package:save_kids/models/child.dart';
 import 'package:save_kids/models/child_avatar.dart';
 
