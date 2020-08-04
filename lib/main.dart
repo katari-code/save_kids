@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:save_kids/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:save_kids/bloc/channel_bloc.dart';
+import 'package:save_kids/bloc/create_child_profile_bloc.dart';
 import 'package:save_kids/models/child.dart';
 import 'package:save_kids/models/child_avatar.dart';
 
 import 'package:provider/provider.dart';
+import 'package:save_kids/screens/child_screen/create_child_profile.dart';
 import 'package:save_kids/screens/parent_screens/watch_schedule/watch_schedule.dart';
 
 import 'bloc/developer_blocs/add_channel_bloc.dart';
@@ -37,6 +39,7 @@ class MyApp extends StatelessWidget {
         blocs: [
           Bloc((i) => ChannelBloc()),
           Bloc((i) => AddChannelBloc()),
+          Bloc((i) => CreateChildProfileBloc()),
           Bloc((i) => SignUpBloc()),
           Bloc((i) => SignInBloc()),
         ],
@@ -72,7 +75,7 @@ class MyApp extends StatelessWidget {
             // from the list (English, in this case).
             return supportedLocales.first;
           },
-          home: WatchSchedule(),
+          home: ChildScreen(),
         ),
       ),
     );

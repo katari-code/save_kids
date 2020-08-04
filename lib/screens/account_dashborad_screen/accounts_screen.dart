@@ -16,7 +16,7 @@ class AccountsDashborasScreen extends StatefulWidget {
 }
 
 class _AccountsDashborasScreenState extends State<AccountsDashborasScreen> {
-  var editMode = false;
+  var editMode = true;
 
   @override
   Widget build(BuildContext context) {

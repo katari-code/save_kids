@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:save_kids/models/category.dart';
-import 'package:save_kids/models/i_firestore_converter.dart';
+import 'package:save_kids/models/interfaces/i_firestore_converter.dart';
 
 class Schedule implements FireStoreConverter {
   final String id;
