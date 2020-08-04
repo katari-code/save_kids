@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:save_kids/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:save_kids/bloc/channel_bloc.dart';
+import 'package:save_kids/models/calender.dart';
 import 'package:save_kids/models/child.dart';
 import 'package:save_kids/models/child_avatar.dart';
 
@@ -21,6 +22,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (_) => AvatarData(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ScheduleData(),
         ),
         ChangeNotifierProvider(
           create: (_) => KidsData(),
