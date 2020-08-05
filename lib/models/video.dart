@@ -1,4 +1,4 @@
-import 'package:save_kids/models/i_mapper.dart';
+import 'package:save_kids/models/interfaces/i_mapper.dart';
 
 class Video implements Mapper {
   String id;

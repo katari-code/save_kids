@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:logger/logger.dart';
 import 'package:save_kids/models/channel.dart';
-import 'package:save_kids/models/i_firestore_converter.dart';
+import 'package:save_kids/models/interfaces/i_firestore_converter.dart';
 import 'package:save_kids/models/parent.dart';
 import 'package:save_kids/models/video.dart';
 import 'package:save_kids/services/auth_service_provider.dart';
@@ -33,6 +33,21 @@ class Repository<T extends FireStoreConverter> {
     }
   }
 
+  Future deleteDocument(T type, String id) async {
+    try {
+      _fireStoreProvider = FireStoreProvider<T>(
+        type,
+        Firestore.instance.collection(collection),
+        id: id,
+      );
+      await _fireStoreProvider.deleteDocument();
+      return true;
+    } catch (e) {
+      logger.e(e);
+      return false;
+    }
+  }
+
   Stream<List<T>> getDocumentByQuery(T type, String query, String queryId) {
     try {
       _fireStoreProvider = FireStoreProvider<T>(
@@ -60,6 +75,10 @@ class Repository<T extends FireStoreConverter> {
   }
 
   //session
+  Stream<Parent> get authSession {
+    return _authServiceProvider.user;
+  }
+
   //sign in
   Future<Parent> signIn(String email, String password) async {
     try {

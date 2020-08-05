@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:save_kids/models/i_firestore_converter.dart';
+import 'package:save_kids/models/interfaces/i_firestore_converter.dart';
 
 class FireStoreProvider<T extends FireStoreConverter> {
   final CollectionReference dataCollection;
@@ -25,6 +25,10 @@ class FireStoreProvider<T extends FireStoreConverter> {
 
   Future setData() async {
     return await dataCollection.document(id).setData(converter.toFireStore());
+  }
+
+  Future deleteDocument() async {
+    return await dataCollection.document(id).delete();
   }
 
   Future<DocumentReference> get addDocument async {
