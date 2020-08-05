@@ -65,7 +65,10 @@ class WatchSchedule extends StatelessWidget {
                         Column(
                           children: List.generate(
                             showTime.length,
-                            (index) => ScheduleCard(),
+                            (index) => ScheduleCard(
+                              showTimeCard: showTime[index]
+                  
+                            ),
                           ),
                         ),
                         SizedBox(

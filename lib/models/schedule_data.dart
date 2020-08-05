@@ -37,6 +37,11 @@ class ScheduleData with ChangeNotifier {
     notifyListeners();
   }
 
+  deleteTheShowTimeCard(ShowTimeCard card) {
+    _showTimes.remove(card);
+    notifyListeners();
+  }
+
   setCurrentChild(int index) {
     currentChild = index;
     notifyListeners();

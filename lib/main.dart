@@ -9,7 +9,6 @@ import 'package:save_kids/models/child.dart';
 import 'package:save_kids/models/child_avatar.dart';
 
 import 'package:provider/provider.dart';
-import 'package:save_kids/screens/account_dashborad_screen/accounts_screen.dart';
 
 import 'package:save_kids/screens/parent_screens/watch_schedule/watch_schedule.dart';
 
@@ -51,7 +50,7 @@ class MyApp extends StatelessWidget {
           Bloc((i) => AccountDashboardBloc()),
         ],
         child: MaterialApp(
-          title: 'Flutter Demo',
+          title: 'Save Video Kids',
           theme: ThemeData(
             primarySwatch: Colors.blue,
             visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -82,7 +81,7 @@ class MyApp extends StatelessWidget {
             // from the list (English, in this case).
             return supportedLocales.first;
           },
-          home: AccountsDashborasScreen(),
+          home: WatchSchedule(),
         ),
       ),
     );

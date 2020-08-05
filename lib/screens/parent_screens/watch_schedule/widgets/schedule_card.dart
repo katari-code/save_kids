@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:save_kids/models/schedule_data.dart';
+import 'package:save_kids/models/show_time.dart';
 import 'package:save_kids/util/style.dart';
 
 class ScheduleCard extends StatelessWidget {
   const ScheduleCard({
-    Key key,
-  }) : super(key: key);
+    this.showTimeCard,
+  });
+
+  final ShowTimeCard showTimeCard;
 
   @override
   Widget build(BuildContext context) {
@@ -38,11 +44,12 @@ class ScheduleCard extends StatelessWidget {
                     SizedBox(
                       width: 10,
                     ),
-
-                    //--           --//
+                    //-- -- -- -- -- --//
                     Text(
-                      "4:00 PM",
-                      style: kBubblegum_sans20,
+                      DateFormat.jm().format(showTimeCard.timeStart),
+                      style: kBubblegum_sans20.copyWith(
+                        fontSize: 24,
+                      ),
                     ),
                     SizedBox(
                       width: 10,
@@ -55,14 +62,20 @@ class ScheduleCard extends StatelessWidget {
                       width: 10,
                     ),
                     Text(
-                      "4:30 PM",
-                      style: kBubblegum_sans20,
+                      DateFormat.jm().format(showTimeCard.timeEnd),
+                      style: kBubblegum_sans20.copyWith(
+                        fontSize: 24,
+                      ),
                     ),
                   ],
                 ),
-                Image.asset(
-                  'images/shape.png',
-                  height: 40,
+                GestureDetector(
+                  onTap: () => Provider.of<ScheduleData>(context, listen: false)
+                      .deleteTheShowTimeCard(showTimeCard),
+                  child: Image.asset(
+                    'images/shape.png',
+                    height: 40,
+                  ),
                 ),
               ],
             ),
@@ -70,7 +83,44 @@ class ScheduleCard extends StatelessWidget {
               width: 250,
               child: Wrap(
                 spacing: 30,
-                children: <Widget>[],
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.all(2),
+                    width: 100,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: kRedDarkColor,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Cartoon",
+                        textAlign: TextAlign.center,
+                        style: kBubblegum_sans20.copyWith(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.all(2),
+                    width: 100,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: kRedDarkColor,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Cartoon",
+                        textAlign: TextAlign.center,
+                        style: kBubblegum_sans20.copyWith(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             )
           ],

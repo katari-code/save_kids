@@ -30,7 +30,7 @@ class _AvatrsCarouselState extends State<AvatrsCarousel> {
                 enlargeCenterPage: true,
                 onPageChanged: (index, CarouselPageChangedReason reason) {
                   Provider.of<ScheduleData>(context, listen: false)
-                      .currentChild = index;
+                      .setCurrentChild(index);
                 },
                 scrollDirection: Axis.horizontal,
               ),
