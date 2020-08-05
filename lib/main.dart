@@ -7,6 +7,7 @@ import 'package:save_kids/bloc/developer_blocs/add_channel_bloc.dart';
 import 'package:save_kids/bloc/sign_in_bloc.dart';
 import 'package:save_kids/bloc/sign_up_bloc.dart';
 import 'package:save_kids/models/channel.dart';
+import 'package:save_kids/models/schedule_data.dart';
 import 'package:save_kids/models/child.dart';
 import 'package:save_kids/models/child_avatar.dart';
 
@@ -20,6 +21,7 @@ import 'package:save_kids/screens/parent_screens/parent_dashboard.dart';
 import 'package:save_kids/screens/sign_in/sign_in.dart';
 import 'package:save_kids/screens/sign_up/sign_up.dart';
 import 'package:save_kids/screens/test_video/video_list.dart';
+import 'package:save_kids/screens/parent_screens/watch_schedule/watch_schedule.dart';
 
 void main() {
   runApp(MyApp());
@@ -33,6 +35,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (_) => AvatarData(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ScheduleData(),
         ),
         ChangeNotifierProvider(
           create: (_) => KidsData(),
@@ -80,7 +85,7 @@ class MyApp extends StatelessWidget {
             // from the list (English, in this case).
             return supportedLocales.first;
           },
-          home: AddChannels(),
+          home: WatchSchedule(),
         ),
       ),
     );
