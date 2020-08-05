@@ -13,10 +13,6 @@ class _SpalschScreenState extends State<SpalschScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(
-      Duration(seconds: 2),
-      () => Navigator.pushReplacementNamed(context, kWrapperRoute),
-    );
   }
 
   Widget build(BuildContext context) {

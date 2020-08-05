@@ -7,3 +7,4 @@ class WrapperBloc extends BlocBase {
 
   Stream<Parent> get parentSession => _repository.authSession;
 }
+_repository.__repository..getD

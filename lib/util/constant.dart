@@ -3,7 +3,6 @@ const kHomeRoute = "/";
 const kSplashRoute = "/splash";
 const kSginUpRoute = "/sign_up";
 const kSignInRoute = "/sign_in";
-const kWrapperRoute = "/wrapper";
 
 //Parent Screens
 const kParentDashboardRoute = "/parent/dashboard";

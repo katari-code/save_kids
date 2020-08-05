@@ -26,10 +26,6 @@ Route<dynamic> createRoute(settings) {
       return MaterialPageRoute(
         builder: (context) => SignUp(),
       );
-    case kWrapperRoute:
-      return MaterialPageRoute(
-        builder: (context) => Wrapper(),
-      );
 
     case kParentDashboardRoute:
       return MaterialPageRoute(
