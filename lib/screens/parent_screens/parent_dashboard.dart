@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:save_kids/util/constant.dart';
 import 'package:save_kids/util/style.dart';
 
 class ParentDashboard extends StatefulWidget {
@@ -58,30 +59,34 @@ class _ParentDashboardState extends State<ParentDashboard> {
                 SizedBox(
                   height: 15,
                 ),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  padding: EdgeInsets.all(15),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: kPurpleColor,
-                  ),
-                  child: Row(
-                    children: <Widget>[
-                      SvgPicture.asset('images/svgs/schedule.svg'),
-                      SizedBox(
-                        width: 15,
-                      ),
-                      Column(
-                        children: <Widget>[
-                          Text(
-                            "Watch Schedule",
-                            style: kBubblegum_sans32.copyWith(
-                              color: Colors.white,
+                GestureDetector(
+                  onTap: () =>
+                      Navigator.pushNamed(context, kWatchSchdeuleRoute),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    padding: EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: kPurpleColor,
+                    ),
+                    child: Row(
+                      children: <Widget>[
+                        SvgPicture.asset('images/svgs/schedule.svg'),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Column(
+                          children: <Widget>[
+                            Text(
+                              "Watch Schedule",
+                              style: kBubblegum_sans32.copyWith(
+                                color: Colors.white,
+                              ),
                             ),
-                          ),
-                        ],
-                      )
-                    ],
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 SizedBox(

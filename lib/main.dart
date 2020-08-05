@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:save_kids/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:save_kids/bloc/account_dashboard_bloc.dart';
+import 'package:save_kids/bloc/auth_bloc.dart';
 import 'package:save_kids/bloc/channel_bloc.dart';
 import 'package:save_kids/bloc/create_child_profile_bloc.dart';
 import 'package:save_kids/models/child.dart';
@@ -11,11 +12,13 @@ import 'package:save_kids/models/child_avatar.dart';
 import 'package:provider/provider.dart';
 
 import 'package:save_kids/screens/parent_screens/watch_schedule/watch_schedule.dart';
+import 'package:save_kids/util/constant.dart';
+import 'package:save_kids/util/router.dart';
 
 import 'bloc/developer_blocs/add_channel_bloc.dart';
 import 'bloc/sign_in_bloc.dart';
 import 'bloc/sign_up_bloc.dart';
-import 'bloc/wrapper_bloc.dart';
+
 import 'models/schedule_data.dart';
 
 void main() {
@@ -49,7 +52,7 @@ class MyApp extends StatelessWidget {
           Bloc((i) => SignUpBloc()),
           Bloc((i) => SignInBloc()),
           Bloc((i) => AccountDashboardBloc()),
-          Bloc((i) => WrapperBloc()),
+          Bloc((i) => AuthBloc()),
         ],
         child: MaterialApp(
           title: 'Save Video Kids',
@@ -83,7 +86,10 @@ class MyApp extends StatelessWidget {
             // from the list (English, in this case).
             return supportedLocales.first;
           },
-          home: WatchSchedule(),
+          initialRoute: kSplashRoute,
+          onGenerateRoute: (RouteSettings settings) {
+            return createRoute(settings);
+          },
         ),
       ),
     );

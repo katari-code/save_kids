@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:save_kids/screens/account_dashborad_screen/accounts_screen.dart';
 import 'package:save_kids/screens/channel_screen/channel_screen.dart';
 import 'package:save_kids/screens/child_screen/create_child_profile.dart';
 import 'package:save_kids/screens/parent_screens/add_schedule.dart';
@@ -7,7 +8,6 @@ import 'package:save_kids/screens/parent_screens/watch_schedule/watch_schedule.d
 import 'package:save_kids/screens/sign_in/sign_in.dart';
 import 'package:save_kids/screens/sign_up/sign_up.dart';
 import 'package:save_kids/screens/splash_screen/splash_screen.dart';
-import 'package:save_kids/screens/wrapper_screen/wrapper_screen.dart';
 import 'package:save_kids/util/constant.dart';
 
 Route<dynamic> createRoute(settings) {
@@ -77,7 +77,7 @@ Route<dynamic> createRoute(settings) {
 
     case kChildAccountRoute:
       return MaterialPageRoute(
-        builder: (context) => SpalschScreen(),
+        builder: (context) => AccountDashboardScreen(),
       );
     case kVideoListRoute:
       return MaterialPageRoute(

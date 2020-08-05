@@ -8,16 +8,17 @@ import 'package:save_kids/models/child.dart';
 import 'package:save_kids/models/parent.dart';
 import 'package:save_kids/screens/child_screen/create_child_profile.dart';
 import 'package:save_kids/screens/parent_screens/parent_dashboard.dart';
+import 'package:save_kids/util/constant.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:save_kids/util/style.dart';
 
-class AccountsDashborasScreen extends StatefulWidget {
+class AccountDashboardScreen extends StatefulWidget {
   @override
   _AccountsDashborasScreenState createState() =>
       _AccountsDashborasScreenState();
 }
 
-class _AccountsDashborasScreenState extends State<AccountsDashborasScreen> {
+class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
   var editMode = true;
 
   @override
@@ -48,12 +49,8 @@ class _AccountsDashborasScreenState extends State<AccountsDashborasScreen> {
                             children: <Widget>[
                               GestureDetector(
                                 onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => ParentDashboard(),
-                                    ),
-                                  );
+                                  Navigator.pushNamed(
+                                      context, kParentDashboardRoute);
                                 },
                                 child:
                                     SvgPicture.asset("images/svgs/parent.svg"),
@@ -177,13 +174,10 @@ class _AccountsDashborasScreenState extends State<AccountsDashborasScreen> {
                                                   builder:
                                                       (context, child, value) =>
                                                           GestureDetector(
-                                                    onTap: () => Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            AddChildScreen(),
-                                                      ),
-                                                    ),
+                                                    onTap: () =>
+                                                        Navigator.pushNamed(
+                                                            context,
+                                                            kAddChildProfileRoute),
                                                     child: Column(
                                                       children: <Widget>[
                                                         Stack(

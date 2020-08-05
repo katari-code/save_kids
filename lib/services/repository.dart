@@ -33,6 +33,19 @@ class Repository<T extends FireStoreConverter> {
     }
   }
 
+  Stream<T> getDocument(T type, String id) {
+    try {
+      _fireStoreProvider = FireStoreProvider<T>(
+          type, Firestore.instance.collection(collection),
+          id: id);
+
+      return _fireStoreProvider.document;
+    } catch (e) {
+      logger.e(e);
+      return null;
+    }
+  }
+
   Future deleteDocument(T type, String id) async {
     try {
       _fireStoreProvider = FireStoreProvider<T>(

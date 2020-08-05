@@ -176,7 +176,7 @@ class _AddChildScreenState extends State<AddChildScreen> {
                               Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      AccountsDashborasScreen(),
+                                      AccountDashboardScreen(),
                                 ),
                                 (route) => false,
                               );

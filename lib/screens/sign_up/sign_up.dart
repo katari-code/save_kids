@@ -6,6 +6,7 @@ import 'package:logger/logger.dart';
 import 'package:save_kids/bloc/sign_up_bloc.dart';
 import 'package:save_kids/components/stream_input_field.dart';
 import 'package:save_kids/screens/sign_in/sign_in.dart';
+import 'package:save_kids/util/constant.dart';
 
 import 'package:save_kids/util/style.dart';
 
@@ -87,12 +88,8 @@ class _SignUpState extends State<SignUp> {
                                     ],
                                   ),
                                   GestureDetector(
-                                    onTap: () => Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => SignIn(),
-                                      ),
-                                    ),
+                                    onTap: () => Navigator.pushReplacementNamed(
+                                        context, kSignInRoute),
                                     child: Padding(
                                       padding:
                                           const EdgeInsets.only(right: 15.0),
@@ -152,7 +149,11 @@ class _SignUpState extends State<SignUp> {
   GestureDetector buildSubmitButton(SignUpBloc signUpBloc) {
     return GestureDetector(
       onTap: () async {
-        Logger().i('Sign up  ${await signUpBloc.signUp()}');
+        // Logger().i('Sign up  ${await signUpBloc.signUp()}');
+        final result = await signUpBloc.signUp();
+        if (result != null) {
+          Navigator.pushReplacementNamed(context, kChildAccountRoute);
+        }
       },
       child: Column(
         children: <Widget>[

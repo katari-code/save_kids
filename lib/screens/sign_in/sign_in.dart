@@ -6,6 +6,7 @@ import 'package:logger/logger.dart';
 import 'package:save_kids/bloc/sign_in_bloc.dart';
 import 'package:save_kids/components/stream_input_field.dart';
 import 'package:save_kids/screens/sign_up/sign_up.dart';
+import 'package:save_kids/util/constant.dart';
 import 'package:save_kids/util/style.dart';
 
 class SignIn extends StatefulWidget {
@@ -63,12 +64,8 @@ class _SignInState extends State<SignIn> {
                                 Hero(
                                   tag: "login",
                                   child: GestureDetector(
-                                    onTap: () => Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => SignUp(),
-                                      ),
-                                    ),
+                                    onTap: () => Navigator.pushReplacementNamed(
+                                        context, kSginUpRoute),
                                     child: Text(
                                       "Sign Up",
                                       style: GoogleFonts.bubblegumSans(
@@ -154,7 +151,11 @@ class _SignInState extends State<SignIn> {
       children: <Widget>[
         GestureDetector(
           onTap: () async {
-            Logger().i('Sign in  ${await signInBloc.signIn()}');
+            // Logger().i('Sign in  ${await signInBloc.signIn()}');
+            final result = await signInBloc.signIn();
+            if (result != null) {
+              Navigator.pushReplacementNamed(context, kChildAccountRoute);
+            }
           },
           child: Container(
             height: 58.00,
