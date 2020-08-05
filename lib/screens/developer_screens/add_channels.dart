@@ -14,10 +14,10 @@ import '../../app_localizations.dart';
 
 class AddChannels extends StatefulWidget {
   @override
-  _ChannelScreenState createState() => _ChannelScreenState();
+  _AddChannelScreenState createState() => _AddChannelScreenState();
 }
 
-class _ChannelScreenState extends State<AddChannels> {
+class _AddChannelScreenState extends State<AddChannels> {
   @override
   Widget build(BuildContext context) {
     final text = AppLocalizations.of(context);

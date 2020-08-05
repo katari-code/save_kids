@@ -8,12 +8,12 @@ import 'package:save_kids/util/style.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:bloc_pattern/bloc_pattern.dart' as bloc;
 
-class ChildScreen extends StatefulWidget {
+class AddChildScreen extends StatefulWidget {
   @override
-  _ChildScreenState createState() => _ChildScreenState();
+  _AddChildScreenState createState() => _AddChildScreenState();
 }
 
-class _ChildScreenState extends State<ChildScreen> {
+class _AddChildScreenState extends State<AddChildScreen> {
   @override
   Widget build(BuildContext context) {
     final text = AppLocalizations.of(context);

@@ -15,6 +15,7 @@ import 'package:save_kids/screens/parent_screens/watch_schedule/watch_schedule.d
 import 'bloc/developer_blocs/add_channel_bloc.dart';
 import 'bloc/sign_in_bloc.dart';
 import 'bloc/sign_up_bloc.dart';
+import 'bloc/wrapper_bloc.dart';
 import 'models/schedule_data.dart';
 
 void main() {
@@ -48,6 +49,7 @@ class MyApp extends StatelessWidget {
           Bloc((i) => SignUpBloc()),
           Bloc((i) => SignInBloc()),
           Bloc((i) => AccountDashboardBloc()),
+          Bloc((i) => WrapperBloc()),
         ],
         child: MaterialApp(
           title: 'Save Video Kids',

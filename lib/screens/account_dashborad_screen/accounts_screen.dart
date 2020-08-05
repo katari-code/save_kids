@@ -51,7 +51,7 @@ class _AccountsDashborasScreenState extends State<AccountsDashborasScreen> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => ParentDashBoard(),
+                                      builder: (context) => ParentDashboard(),
                                     ),
                                   );
                                 },
@@ -181,7 +181,7 @@ class _AccountsDashborasScreenState extends State<AccountsDashborasScreen> {
                                                       context,
                                                       MaterialPageRoute(
                                                         builder: (context) =>
-                                                            ChildScreen(),
+                                                            AddChildScreen(),
                                                       ),
                                                     ),
                                                     child: Column(

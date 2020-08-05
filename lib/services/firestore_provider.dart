@@ -9,6 +9,7 @@ class FireStoreProvider<T extends FireStoreConverter> {
   FireStoreProvider(this.converter, this.dataCollection, {this.id});
 
   Stream<T> get document {
+    
     return dataCollection.document(id).snapshots().map(_dataFromSnap);
   }
 

@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:save_kids/util/style.dart';
 
-class ParentDashBoard extends StatefulWidget {
+class ParentDashboard extends StatefulWidget {
   @override
-  _ParentDashBoardState createState() => _ParentDashBoardState();
+  _ParentDashboardState createState() => _ParentDashboardState();
 }
 
-class _ParentDashBoardState extends State<ParentDashBoard> {
+class _ParentDashboardState extends State<ParentDashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

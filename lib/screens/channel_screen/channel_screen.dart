@@ -11,12 +11,12 @@ import 'package:save_kids/util/style.dart';
 
 import '../../app_localizations.dart';
 
-class ChannelScreen extends StatefulWidget {
+class AddChannelScreen extends StatefulWidget {
   @override
-  _ChannelScreenState createState() => _ChannelScreenState();
+  _AddChannelScreenState createState() => _AddChannelScreenState();
 }
 
-class _ChannelScreenState extends State<ChannelScreen> {
+class _AddChannelScreenState extends State<AddChannelScreen> {
   @override
   Widget build(BuildContext context) {
     final text = AppLocalizations.of(context);
