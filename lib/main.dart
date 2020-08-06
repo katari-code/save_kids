@@ -6,12 +6,14 @@ import 'package:save_kids/bloc/account_dashboard_bloc.dart';
 import 'package:save_kids/bloc/auth_bloc.dart';
 import 'package:save_kids/bloc/channel_bloc.dart';
 import 'package:save_kids/bloc/create_child_profile_bloc.dart';
+import 'package:save_kids/bloc/test/video_list_bloc_test.dart';
 import 'package:save_kids/models/child.dart';
 import 'package:save_kids/models/child_avatar.dart';
 
 import 'package:provider/provider.dart';
 
 import 'package:save_kids/screens/parent_screens/watch_schedule/watch_schedule.dart';
+import 'package:save_kids/screens/test_video/video_list.dart';
 import 'package:save_kids/util/constant.dart';
 import 'package:save_kids/util/router.dart';
 
@@ -53,6 +55,7 @@ class MyApp extends StatelessWidget {
           Bloc((i) => SignInBloc()),
           Bloc((i) => AccountDashboardBloc()),
           Bloc((i) => AuthBloc()),
+          Bloc((i) => VideoListBloc()),
         ],
         child: MaterialApp(
           title: 'Save Video Kids',
@@ -86,10 +89,11 @@ class MyApp extends StatelessWidget {
             // from the list (English, in this case).
             return supportedLocales.first;
           },
-          initialRoute: kSplashRoute,
-          onGenerateRoute: (RouteSettings settings) {
-            return createRoute(settings);
-          },
+          // initialRoute: kSplashRoute,
+          // onGenerateRoute: (RouteSettings settings) {
+          //   return createRoute(settings);
+          // },
+          home: VideoList(),
         ),
       ),
     );

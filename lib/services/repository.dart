@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:logger/logger.dart';
+import 'package:save_kids/models/category.dart';
 import 'package:save_kids/models/channel.dart';
 import 'package:save_kids/models/interfaces/i_firestore_converter.dart';
 import 'package:save_kids/models/parent.dart';
@@ -124,11 +125,11 @@ class Repository<T extends FireStoreConverter> {
     }
   }
 
-  Future<List<Video>> getVideosBySearch(String search) async {
+  Future<Map> getVideosBySearch(String search, {String pageToken}) async {
     _youtubeApi = YoutubeApiProvider<Video>();
     try {
-      return _youtubeApi.fetchBySearch(
-          mapper: Video(), search: search, type: 'video');
+      return _youtubeApi.fetchBySearchCategory(
+          mapper: Video(), search: search, type: 'video', pageToken: pageToken);
     } catch (e) {
       logger.e(e);
       return null;
@@ -140,6 +141,33 @@ class Repository<T extends FireStoreConverter> {
     try {
       return _youtubeApi.fetchBySearch(
           mapper: Channel(), search: search, type: 'channel');
+    } catch (e) {
+      logger.e(e);
+      return null;
+    }
+  }
+
+  Future<List<String>> getChannelsPlayListIds(Category category) async {
+    _youtubeApi = YoutubeApiProvider<Channel>();
+    try {
+      List<String> playListIds = [];
+      category.channelIds.forEach((channelId) async {
+        playListIds
+            .add(await _youtubeApi.fetchPlayListId(channelId: channelId));
+      });
+      logger.i('In playlistIds $playListIds');
+      return playListIds;
+    } catch (e) {
+      logger.e(e);
+      return null;
+    }
+  }
+
+  Future<Map> getVideosByPlayListId(String playListId, String pageToken) async {
+    _youtubeApi = YoutubeApiProvider<Channel>();
+    try {
+      return _youtubeApi.fetchVideosFromPlaylist(
+          playlistId: playListId, pageToken: pageToken);
     } catch (e) {
       logger.e(e);
       return null;
