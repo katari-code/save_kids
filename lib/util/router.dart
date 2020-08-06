@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:save_kids/screens/account_dashborad_screen/accounts_screen.dart';
-import 'package:save_kids/screens/channel_screen/channel_screen.dart';
+import 'package:save_kids/screens/specify_screens/add_channel_screen.dart';
 import 'package:save_kids/screens/child_screen/create_child_profile.dart';
 import 'package:save_kids/screens/parent_screens/add_schedule.dart';
 import 'package:save_kids/screens/parent_screens/parent_dashboard.dart';
