@@ -6,14 +6,18 @@ class Video implements Mapper {
   final String thumbnailUrl;
   final String channelTitle;
   final String description;
+  final String nextPageToken;
   Video(
       {this.id,
       this.title,
+      this.nextPageToken,
       this.thumbnailUrl,
       this.channelTitle,
       this.description});
 
-  factory Video.fromMap(Map<String, dynamic> map) {
+  factory Video.fromMap(
+    Map<String, dynamic> map,
+  ) {
     return Video(
       id: map['id']['videoId'],
       description: map['snippet']['description'],
