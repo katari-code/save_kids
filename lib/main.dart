@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:save_kids/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:save_kids/bloc/account_dashboard_bloc.dart';
+import 'package:save_kids/bloc/add_schedule_bloc.dart';
 import 'package:save_kids/bloc/auth_bloc.dart';
 import 'package:save_kids/bloc/channel_bloc.dart';
 import 'package:save_kids/bloc/create_child_profile_bloc.dart';
@@ -60,6 +61,7 @@ class MyApp extends StatelessWidget {
           Bloc((i) => AuthBloc()),
           Bloc((i) => VideoListBloc()),
           Bloc((i) => AddVideoBloc()),
+          Bloc((i) => AddScheduleBloc()),
         ],
         child: MaterialApp(
           title: 'Save Video Kids',

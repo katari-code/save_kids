@@ -149,21 +149,21 @@ class Repository<T extends FireStoreConverter> {
     }
   }
 
-  Future<List<String>> getChannelsPlayListIds(Category category) async {
-    _youtubeApi = YoutubeApiProvider<Channel>();
-    try {
-      List<String> playListIds = [];
-      category.channelIds.forEach((channelId) async {
-        playListIds
-            .add(await _youtubeApi.fetchPlayListId(channelId: channelId));
-      });
-      logger.i('In playlistIds $playListIds');
-      return playListIds;
-    } catch (e) {
-      logger.e(e);
-      return null;
-    }
-  }
+  // Future<List<String>> getChannelsPlayListIds(Category category) async {
+  //   _youtubeApi = YoutubeApiProvider<Channel>();
+  //   try {
+  //     List<String> playListIds = [];
+  //     category.channelIds.forEach((channelId) async {
+  //       playListIds
+  //           .add(await _youtubeApi.fetchPlayListId(channelId: channelId));
+  //     });
+  //     logger.i('In playlistIds $playListIds');
+  //     return playListIds;
+  //   } catch (e) {
+  //     logger.e(e);
+  //     return null;
+  //   }
+  // }
 
   Future<Map> getVideosByPlayListId(String playListId, String pageToken) async {
     _youtubeApi = YoutubeApiProvider<Channel>();

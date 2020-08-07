@@ -39,8 +39,10 @@ class ChannelBloc extends BlocBase {
         await Repository().getChannelsBySearch(_searchResult.value));
   }
 
-  returnChosenChannels() async {
-    return _channelList.value.where((element) => element.chosen == true);
+  List<Channel> returnChosenChannels() {
+    return _channelList.value
+        .where((element) => element.chosen == true)
+        .toList();
   }
 
   @override

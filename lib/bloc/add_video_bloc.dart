@@ -46,8 +46,8 @@ class AddVideoBloc extends BlocBase {
     changeVideoList(map['data']);
   }
 
-  returnChosenVideos() async {
-    return _videoList.value.where((element) => element.chosen == true);
+  List<Video> returnChosenVideos() {
+    return _videoList.value.where((element) => element.chosen == true).toList();
   }
 
   @override

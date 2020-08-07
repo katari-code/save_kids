@@ -149,7 +149,7 @@ class _AddChannelScreenState extends State<AddChannels> {
                         top: 58 * 0.23,
                         child: GestureDetector(
                           onTap: () async {
-                            final result = await channelBloc.addChannels();
+                            // final result = await channelBloc.addChannels();
                           },
                           child: Text(
                             text.translate('Done'),

@@ -8,7 +8,7 @@ import 'package:save_kids/models/channel.dart';
 import 'package:save_kids/services/repository.dart';
 
 class AddChannelBloc extends BlocBase {
-  Repository _repository = Repository<Category>(collection: 'category');
+  Repository _repository = Repository(collection: 'category');
   final _searchResult = BehaviorSubject<String>();
   final _channelIds = BehaviorSubject<List<String>>();
   final _channelList = BehaviorSubject<List<Channel>>();
@@ -46,24 +46,24 @@ class AddChannelBloc extends BlocBase {
         await _repository.getChannelsBySearch(_searchResult.value));
   }
 
-  Future addChannels() async {
-    //check if the name exists already in the db
-    List<Category> result = await _repository
-        .getDocumentByQuery(Category(), 'name', _searchResult.value)
-        .first;
+  // Future addChannels() async {
+  //   //check if the name exists already in the db
+  //   List<Category> result = await _repository
+  //       .getDocumentByQuery(Category(), 'name', _searchResult.value)
+  //       .first;
 
-    if (result.length == 0) {
-      Category _category =
-          Category(name: _searchResult.value, channelIds: _channelIds.value);
+  //   if (result.length == 0) {
+  //     Category _category =
+  //         Category(name: _searchResult.value, channelIds: _channelIds.value);
 
-      return await _repository.addDocument(_category);
-    } else {
-      result.first.channelIds.addAll(_channelIds.value);
-      result.first.channelIds = result.first.channelIds.toSet().toList();
+  //     return await _repository.addDocument(_category);
+  //   } else {
+  //     result.first.channelIds.addAll(_channelIds.value);
+  //     result.first.channelIds = result.first.channelIds.toSet().toList();
 
-      return await _repository.setDocument(result.first, result.first.id);
-    }
-  }
+  //     return await _repository.setDocument(result.first, result.first.id);
+  //   }
+  // }
 
   @override
   void dispose() async {
