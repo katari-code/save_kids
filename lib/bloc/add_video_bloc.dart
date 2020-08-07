@@ -46,7 +46,7 @@ class AddVideoBloc extends BlocBase {
     changeVideoList(map['data']);
   }
 
-  Future<List<Video>> returnChosenVideos() async {
+  returnChosenVideos() async {
     return _videoList.value.where((element) => element.chosen == true);
   }
 

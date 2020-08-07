@@ -10,6 +10,17 @@ class ChannelBloc extends BlocBase {
   final _channelList = BehaviorSubject<List<Channel>>();
   Function(String) get changeSearchResult => _searchResult.sink.add;
   Function(List) get changeChannelList => _channelList.sink.add;
+  addChosenChannel(String channelId) {
+    List<Channel> videos = _channelList.value.map((channel) {
+      if (channel.id == channelId) {
+        Channel editedChannel = channel..chosen = !channel.chosen;
+        return editedChannel;
+      }
+      return channel;
+    }).toList();
+    return changeChannelList(videos);
+  }
+
   Stream<String> get searchResult =>
       _searchResult.stream.transform(_validateSearchResult);
   Stream<List<Channel>> get channels => _channelList.stream;
@@ -26,6 +37,10 @@ class ChannelBloc extends BlocBase {
   Future getChannelBySearch() async {
     changeChannelList(
         await Repository().getChannelsBySearch(_searchResult.value));
+  }
+
+  returnChosenChannels() async {
+    return _channelList.value.where((element) => element.chosen == true);
   }
 
   @override

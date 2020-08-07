@@ -9,6 +9,7 @@ class Channel implements Mapper {
   final String videoCount;
   final String uploadPlaylistId;
   final String description;
+  bool chosen;
   List<Video> videos;
 
   Channel(
@@ -19,26 +20,27 @@ class Channel implements Mapper {
       this.videoCount,
       this.uploadPlaylistId,
       this.videos,
+      this.chosen,
       this.description});
 
   factory Channel.fromMap(Map<String, dynamic> map) {
     return Channel(
-      id: map['id'],
-      title: map['snippet']['title'],
-      profilePictureUrl: map['snippet']['thumbnails']['default']['url'],
-      subscriberCount: map['statistics']['subscriberCount'],
-      videoCount: map['statistics']['videoCount'],
-      uploadPlaylistId: map['contentDetails']['relatedPlaylists']['uploads'],
-    );
+        id: map['id'],
+        title: map['snippet']['title'],
+        profilePictureUrl: map['snippet']['thumbnails']['default']['url'],
+        subscriberCount: map['statistics']['subscriberCount'],
+        videoCount: map['statistics']['videoCount'],
+        uploadPlaylistId: map['contentDetails']['relatedPlaylists']['uploads'],
+        chosen: false);
   }
 
   Channel.fromSearchMap(Map<String, dynamic> map)
       : this(
-          id: map['snippet']['channelId'],
-          title: map['snippet']['title'],
-          profilePictureUrl: map['snippet']['thumbnails']['default']['url'],
-          description: map['snippet']['description'],
-        );
+            id: map['snippet']['channelId'],
+            title: map['snippet']['title'],
+            profilePictureUrl: map['snippet']['thumbnails']['default']['url'],
+            description: map['snippet']['description'],
+            chosen: false);
 
   @override
   fromSearchMap(Map<String, dynamic> map) {
