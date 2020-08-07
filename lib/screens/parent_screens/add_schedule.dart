@@ -235,7 +235,7 @@ class _AddScheduleState extends State<AddSchedule> {
         GestureDetector(
           onTap: () => Navigator.pushNamed(
             context,
-            kAddChannelRoute,
+            kSpecifyChannelsRoute,
           ),
           child: Container(
             height: 40,
@@ -253,18 +253,21 @@ class _AddScheduleState extends State<AddSchedule> {
             ),
           ),
         ),
-        Container(
-          height: 40,
-          width: 150,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: Color(0xFF40BAD5),
-            borderRadius: BorderRadius.circular(20.00),
-          ),
-          child: Text(
-            'Specify Videos',
-            style: kBubblegum_sans20.copyWith(
-              color: Colors.white,
+        GestureDetector(
+          onTap: () => Navigator.pushNamed(context, kSpecifyVideoRoute),
+          child: Container(
+            height: 40,
+            width: 150,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: Color(0xFF40BAD5),
+              borderRadius: BorderRadius.circular(20.00),
+            ),
+            child: Text(
+              'Specify Videos',
+              style: kBubblegum_sans20.copyWith(
+                color: Colors.white,
+              ),
             ),
           ),
         ),

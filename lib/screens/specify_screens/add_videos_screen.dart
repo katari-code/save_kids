@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:save_kids/bloc/add_video_bloc.dart';
 import 'package:save_kids/models/video.dart';
 import 'package:save_kids/util/style.dart';
+import 'package:simple_animations/simple_animations.dart';
 
 class AddVideoScreen extends StatefulWidget {
   @override
@@ -50,7 +51,7 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
                             children: <Widget>[
                               Text(
                                 'Videos',
-                                style: kBubblegum_sans32.copyWith(
+                                style: kBubblegum_sans40.copyWith(
                                     color: kBlueDarkColor),
                               ),
                               SizedBox(
@@ -97,28 +98,42 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
                           StreamBuilder<List<Video>>(
                             stream: addVideoBloc.videos,
                             builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                List<Video> videos = snapshot.data;
-                                return Container(
-                                  height: MediaQuery.of(context).size.height *
-                                      0.80 /
-                                      1.75,
-                                  child: ListView.builder(
-                                      itemCount: snapshot.data.length,
-                                      itemBuilder: (conext, index) {
-                                        return buildVideoCard(videos, index);
-                                      }),
-                                );
-                              }
-                              return Center(
-                                child: Text('Nothing Shown Yet'),
+                              List<Video> videos = snapshot.data ?? [];
+                              return Container(
+                                height: MediaQuery.of(context).size.height *
+                                    0.80 /
+                                    1.75,
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    children: List<CustomAnimation>.generate(
+                                      videos.length,
+                                      (index) => CustomAnimation(
+                                        duration: Duration(milliseconds: 600),
+                                        delay: Duration(
+                                          milliseconds: (500 * 2).round(),
+                                        ),
+                                        curve: Curves.elasticOut,
+                                        tween: Tween<double>(
+                                          begin: 0,
+                                          end: 1,
+                                        ),
+                                        builder: (context, child, value) =>
+                                            Transform.scale(
+                                          scale: value,
+                                          child: buildVideoCard(
+                                              videos, index, addVideoBloc),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               );
                             },
                           ),
                           SizedBox(
                             height: 18,
                           ),
-                          buildButton(context)
+                          buildButton(context, addVideoBloc)
                         ],
                       ),
                     ),
@@ -167,87 +182,95 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
         });
   }
 
-  Container buildVideoCard(List<Video> videos, int index) {
-    return Container(
-      height: 105.00,
-      width: 336.00,
-      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            offset: Offset(0.00, 3.00),
-            color: Color(0xff000000).withOpacity(0.16),
-            blurRadius: 6,
-          ),
-        ],
-        borderRadius: BorderRadius.horizontal(
-          left: Radius.circular(10),
-          right: Radius.circular(100),
-        ),
-      ),
-      child: Stack(
-        overflow: Overflow.clip,
-        children: <Widget>[
-          Positioned(
-            top: 0,
-            left: 0,
-            child: Container(
-              height: 105.00,
-              width: 10.00,
-              decoration: BoxDecoration(
-                color: kRedColor,
-                borderRadius: BorderRadius.horizontal(
-                  left: Radius.circular(10),
-                  right: Radius.circular(100),
-                ),
-              ),
+  Widget buildVideoCard(
+      List<Video> videos, int index, AddVideoBloc addVideoBloc) {
+    return GestureDetector(
+      onTap: () {
+        addVideoBloc.addChosenVideo(videos[index].id);
+      },
+      child: Container(
+        height: 105.00,
+        width: 336.00,
+        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              offset: Offset(0.00, 3.00),
+              color: Color(0xff000000).withOpacity(0.16),
+              blurRadius: 6,
             ),
+          ],
+          borderRadius: BorderRadius.horizontal(
+            left: Radius.circular(10),
+            right: Radius.circular(100),
           ),
-          Row(
-            children: <Widget>[
-              SizedBox(
-                width: 8,
-              ),
-              Container(
+        ),
+        child: Stack(
+          overflow: Overflow.clip,
+          children: <Widget>[
+            Positioned(
+              top: 0,
+              left: 0,
+              child: Container(
                 height: 105.00,
-                child: Image.network(
-                  videos[index].thumbnailUrl,
-                  fit: BoxFit.cover,
-                  width: 336 / 2.5,
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.all(8),
-                  child: Column(
-                    children: <Widget>[
-                      Text(
-                        videos[index].title,
-                        style: kCapriola20.copyWith(
-                            fontSize: 18, color: kBlueDarkColor),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      Text(
-                        videos[index].description,
-                        style: kCapriola20.copyWith(
-                            fontSize: 14, color: kBlueDarkColor),
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
+                width: 10.00,
+                decoration: BoxDecoration(
+                  color: videos[index].chosen
+                      ? kRedColor
+                      : kChannelUnSelectedColor,
+                  borderRadius: BorderRadius.horizontal(
+                    left: Radius.circular(10),
+                    right: Radius.circular(100),
                   ),
                 ),
               ),
-            ],
-          ),
-        ],
+            ),
+            Row(
+              children: <Widget>[
+                SizedBox(
+                  width: 8,
+                ),
+                Container(
+                  height: 105.00,
+                  child: Image.network(
+                    videos[index].thumbnailUrl,
+                    fit: BoxFit.cover,
+                    width: 336 / 2.5,
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.all(8),
+                    child: Column(
+                      children: <Widget>[
+                        Text(
+                          videos[index].title,
+                          style: kCapriola20.copyWith(
+                              fontSize: 18, color: kBlueDarkColor),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Text(
+                          videos[index].description,
+                          style: kCapriola20.copyWith(
+                              fontSize: 14, color: kBlueDarkColor),
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Container buildButton(BuildContext context) {
+  Container buildButton(BuildContext context, AddVideoBloc addVideoBloc) {
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: 100,
@@ -257,7 +280,7 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
         padding: EdgeInsets.symmetric(vertical: 18),
         color: kBlueDarkColor,
         onPressed: () {
-          Navigator.pop(context);
+          Navigator.pop(context, addVideoBloc.returnChosenVideos());
         },
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.00),

@@ -24,10 +24,10 @@ class _SpalschScreenState extends State<SpalschScreen> {
   @override
   void initState() {
     super.initState();
-    // Timer(
-    //   Duration(seconds: 3),
-    //   () => getUser(),
-    // );
+    Timer(
+      Duration(seconds: 3),
+      () => getUser(),
+    );
   }
 
   Widget build(BuildContext context) {
