@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:save_kids/screens/account_dashborad_screen/accounts_screen.dart';
+import 'package:save_kids/screens/settings_screen/settings_screen.dart';
 import 'package:save_kids/screens/specify_screens/add_channel_screen.dart';
 import 'package:save_kids/screens/child_screen/create_child_profile.dart';
 import 'package:save_kids/screens/parent_screens/add_schedule.dart';
@@ -75,6 +76,10 @@ Route<dynamic> createRoute(settings) {
     //     builder: (context) => SpalschScreen(),
     //   );
 
+    case kSettingsRoute:
+      return MaterialPageRoute(
+        builder: (context) => SettingsScreen(),
+      );
     case kChildAccountRoute:
       return MaterialPageRoute(
         builder: (context) => AccountDashboardScreen(),

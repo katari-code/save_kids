@@ -24,6 +24,7 @@ import 'bloc/sign_in_bloc.dart';
 import 'bloc/sign_up_bloc.dart';
 
 import 'models/schedule_data.dart';
+import 'util/constant.dart';
 
 void main() {
   runApp(MyApp());
@@ -92,11 +93,10 @@ class MyApp extends StatelessWidget {
             // from the list (English, in this case).
             return supportedLocales.first;
           },
-          // initialRoute: kSplashRoute,
-          // onGenerateRoute: (RouteSettings settings) {
-          //   return createRoute(settings);
-          // },
-          home: AddVideoScreen(),
+          initialRoute: kSettingsRoute,
+          onGenerateRoute: (RouteSettings settings) {
+            return createRoute(settings);
+          },
         ),
       ),
     );

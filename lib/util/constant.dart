@@ -15,6 +15,7 @@ const kHistoryRoute = "/parent/history";
 const kParentSettingsRoute = "/parent/settings";
 const kAddChildProfileRoute = "/parent/add_child";
 const kParentPinRoute = "/parent/pin";
+const kSettingsRoute = "/parent/Settings";
 
 //child screen
 const kChildAccountRoute = "/child";
