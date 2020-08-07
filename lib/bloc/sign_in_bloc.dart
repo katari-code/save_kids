@@ -59,6 +59,10 @@ class SignInBloc extends BlocBase {
     return _repository.signIn(_email.value, _password.value);
   }
 
+  Future<void> signOut() {
+    return _repository.logout();
+  }
+
   //close streams and sinks after login
   @override
   void dispose() async {

@@ -109,8 +109,10 @@ class Repository<T extends FireStoreConverter> {
   //sign up
   Future<Parent> signUp(parent) async {
     try {
-      final Parent result =
-          await _authServiceProvider.signUp(parent.email, parent.password);
+      final Parent result = await _authServiceProvider.signUp(
+        parent.email,
+        parent.password,
+      );
 
       _fireStoreProvider = FireStoreProvider<T>(
           parent, Firestore.instance.collection(collection),
@@ -147,4 +149,8 @@ class Repository<T extends FireStoreConverter> {
   }
 
   //logout
+
+  Future<void> logout() async {
+    await _authServiceProvider.signOut();
+  }
 }

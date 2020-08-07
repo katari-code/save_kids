@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:save_kids/util/style.dart';
 
 class StreamReusablefield extends StatelessWidget {
   final String label;
@@ -40,44 +41,56 @@ class StreamReusablefield extends StatelessWidget {
                 ),
               ),
             ),
-            Container(
-              height: 51.00,
-              width: 276.00,
-              child: TextField(
-                obscureText: isPass == null ? false : isPass,
-                onChanged: onChangeFunction,
-                keyboardType: type,
-                inputFormatters: type == TextInputType.phone
-                    ? [
-                        WhitelistingTextInputFormatter(RegExp("[+0-9]")),
-                        LengthLimitingTextInputFormatter(13),
-                      ]
-                    : type == TextInputType.emailAddress
+            Column(
+              children: <Widget>[
+                Container(
+                  height: 50.00,
+                  width: 276.00,
+                  padding: EdgeInsets.only(left: 15),
+                  child: TextField(
+                    obscureText: isPass == null ? false : isPass,
+                    onChanged: onChangeFunction,
+                    keyboardType: type,
+                    inputFormatters: type == TextInputType.phone
                         ? [
-                            WhitelistingTextInputFormatter(
-                                RegExp("[a-zA-Z0-9@._-]")),
-                            LengthLimitingTextInputFormatter(50)
+                            WhitelistingTextInputFormatter(RegExp("[+0-9]")),
+                            LengthLimitingTextInputFormatter(13),
                           ]
-                        : null,
-                decoration: InputDecoration(
-                  hintText: hint,
-                  errorText: snapshot.error,
-                  border: OutlineInputBorder(
+                        : type == TextInputType.emailAddress
+                            ? [
+                                WhitelistingTextInputFormatter(
+                                    RegExp("[a-zA-Z0-9@._-]")),
+                                LengthLimitingTextInputFormatter(50)
+                              ]
+                            : null,
+                    decoration: InputDecoration(
+                      hintText: hint,
+                      border: InputBorder.none,
+                    ),
+                  ),
+                  decoration: BoxDecoration(
+                    color: Color(0xffffffff),
+                    boxShadow: [
+                      BoxShadow(
+                        offset: Offset(0.00, 2.00),
+                        color: Color(0xff000000).withOpacity(0.10),
+                        blurRadius: 6,
+                      ),
+                    ],
                     borderRadius: BorderRadius.circular(8.00),
                   ),
                 ),
-              ),
-              decoration: BoxDecoration(
-                color: Color(0xffffffff),
-                boxShadow: [
-                  BoxShadow(
-                    offset: Offset(0.00, 2.00),
-                    color: Color(0xff000000).withOpacity(0.10),
-                    blurRadius: 6,
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  snapshot.error ?? "",
+                  style: kCapriola20.copyWith(
+                    color: Colors.red,
+                    fontSize: 12,
                   ),
-                ],
-                borderRadius: BorderRadius.circular(8.00),
-              ),
+                ),
+              ],
             ),
             SizedBox(
               height: 10,
@@ -88,3 +101,18 @@ class StreamReusablefield extends StatelessWidget {
     );
   }
 }
+
+// new Container(
+//         height: 50.00,
+//     width: 276.00,
+//         decoration: BoxDecoration(
+//         color: Color(0xffffffff),
+//     boxShadow: [
+//         BoxShadow(
+//             offset: Offset(0.00,2.00),
+//             color: Color(0xff000000).withOpacity(0.10),
+// blurRadius: 6,
+//     ),
+//   ], borderRadius: BorderRadius.circular(8.00),
+//     ),
+//     )

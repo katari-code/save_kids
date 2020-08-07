@@ -23,19 +23,18 @@ class _SpalschScreenState extends State<SpalschScreen> {
 
   @override
   void initState() {
-    Timer(
-      Duration(seconds: 3),
-      () => getUser(),
-    );
-
     super.initState();
+    // Timer(
+    //   Duration(seconds: 3),
+    //   () => getUser(),
+    // );
   }
 
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: Text(
-          "Spalsch Screen",
+          "Splash Screen",
           style: kBubblegum_sans44,
         ),
       ),

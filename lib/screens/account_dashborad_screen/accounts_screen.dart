@@ -173,36 +173,39 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
                                                   ),
                                                   builder:
                                                       (context, child, value) =>
-                                                          GestureDetector(
-                                                    onTap: () =>
-                                                        Navigator.pushNamed(
-                                                            context,
-                                                            kAddChildProfileRoute),
-                                                    child: Column(
-                                                      children: <Widget>[
-                                                        Stack(
-                                                          alignment:
-                                                              Alignment.center,
-                                                          children: <Widget>[
-                                                            CircleAvatar(
-                                                              radius: 45,
-                                                              backgroundColor:
-                                                                  kYellowColor,
-                                                            ),
-                                                            Icon(
-                                                              Icons.add,
-                                                              color:
-                                                                  Colors.white,
-                                                              size: 70,
-                                                            )
-                                                          ],
-                                                        ),
-                                                        Text(
-                                                          "Create profile",
-                                                          style: GoogleFonts
-                                                              .capriola(),
-                                                        )
-                                                      ],
+                                                          Transform.scale(
+                                                    scale: value,
+                                                    child: GestureDetector(
+                                                      onTap: () =>
+                                                          Navigator.pushNamed(
+                                                              context,
+                                                              kAddChildProfileRoute),
+                                                      child: Column(
+                                                        children: <Widget>[
+                                                          Stack(
+                                                            alignment: Alignment
+                                                                .center,
+                                                            children: <Widget>[
+                                                              CircleAvatar(
+                                                                radius: 45,
+                                                                backgroundColor:
+                                                                    kYellowColor,
+                                                              ),
+                                                              Icon(
+                                                                Icons.add,
+                                                                color: Colors
+                                                                    .white,
+                                                                size: 70,
+                                                              )
+                                                            ],
+                                                          ),
+                                                          Text(
+                                                            "Create profile",
+                                                            style: GoogleFonts
+                                                                .capriola(),
+                                                          )
+                                                        ],
+                                                      ),
                                                     ),
                                                   ),
                                                 )

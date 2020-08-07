@@ -8,6 +8,7 @@ import 'package:save_kids/bloc/channel_bloc.dart';
 // import 'package:provider/provider.dart';
 import 'package:save_kids/models/channel.dart';
 import 'package:save_kids/util/style.dart';
+import 'package:simple_animations/simple_animations.dart';
 
 import '../../app_localizations.dart';
 
@@ -36,121 +37,147 @@ class _AddChannelScreenState extends State<AddChannelScreen> {
               ),
             ),
             Consumer<ChannelBloc>(builder: (context, channelBloc) {
-              return Column(
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        "Channels",
-                        style: kBubblegum_sans40.copyWith(color: Colors.white),
-                      ),
-                      SizedBox(
-                        width: 15,
-                      ),
-                      SvgPicture.asset("images/svgs/channel.svg"),
-                    ],
-                  ),
-                  SizedBox(
-                    width: 40,
-                  ),
-                  SizedBox(
-                    height: 35,
-                  ),
-                  Container(
-                    height: 51.00,
-                    width: 336.00,
-                    decoration: BoxDecoration(
-                      color: Color(0xffffffff),
-                      boxShadow: [
-                        BoxShadow(
-                          offset: Offset(0.00, 2.00),
-                          color: Color(0xff000000).withOpacity(0.10),
-                          blurRadius: 6,
+              return SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          "Channels",
+                          style:
+                              kBubblegum_sans40.copyWith(color: Colors.white),
                         ),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        SvgPicture.asset("images/svgs/channel.svg"),
                       ],
-                      borderRadius: BorderRadius.circular(8.00),
                     ),
-                    child: StreamBuilder<Object>(
-                        stream: channelBloc.searchResult,
-                        builder: (context, snapshot) {
-                          return TextField(
-                            onChanged: channelBloc.changeSearchResult,
-                            // onSubmitted: ,
-                            decoration: InputDecoration(
-                              errorText: snapshot.error,
-                              prefixIcon: GestureDetector(
-                                onTap: () => channelBloc.getChannelBySearch(),
-                                child: Icon(Icons.search),
-                              ),
-                              hintText: "Try Necolidation ",
-                              border: InputBorder.none,
-                            ),
-                          );
-                        }),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Padding(
-                      padding: EdgeInsets.only(left: 10),
+                    SizedBox(
+                      width: 40,
+                    ),
+                    SizedBox(
+                      height: 35,
+                    ),
+                    Container(
+                      height: 51.00,
+                      width: 336.00,
+                      decoration: BoxDecoration(
+                        color: Color(0xffffffff),
+                        boxShadow: [
+                          BoxShadow(
+                            offset: Offset(0.00, 2.00),
+                            color: Color(0xff000000).withOpacity(0.10),
+                            blurRadius: 6,
+                          ),
+                        ],
+                        borderRadius: BorderRadius.circular(8.00),
+                      ),
                       child: StreamBuilder<Object>(
-                          stream: channelBloc.channels,
+                          stream: channelBloc.searchResult,
                           builder: (context, snapshot) {
-                            List<Channel> channels = snapshot.data ?? [];
-                            return SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.5,
-                              child: ListView.builder(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 35, vertical: 0),
-                                itemCount: channels.length,
-                                itemBuilder: (context, index) => ChannelCard(
-                                    channelAvatar:
-                                        channels[index].profilePictureUrl,
-                                    channelDes: channels[index].description,
-                                    channelName: channels[index].title,
-                                    isChosen: false),
+                            return TextField(
+                              onChanged: channelBloc.changeSearchResult,
+                              // onSubmitted: ,
+                              decoration: InputDecoration(
+                                errorText: snapshot.error,
+                                prefixIcon: GestureDetector(
+                                  onTap: () => channelBloc.getChannelBySearch(),
+                                  child: Icon(Icons.search),
+                                ),
+                                hintText: "Try music for kids ",
+                                border: InputBorder.none,
                               ),
                             );
-                          })),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Stack(
-                    children: <Widget>[
-                      Container(
-                        height: 58.00,
-                        width: 226.00,
-                        decoration: BoxDecoration(
-                          color: Color(0xfff6b039),
-                          borderRadius: BorderRadius.circular(8.00),
+                          }),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    StreamBuilder<Object>(
+                      stream: channelBloc.channels,
+                      builder: (context, snapshot) {
+                        List<Channel> channels = snapshot.data ?? [];
+                        return Column(
+                          children: List<CustomAnimation>.generate(
+                            channels.length,
+                            (index) => CustomAnimation(
+                              duration: Duration(milliseconds: 600),
+                              delay: Duration(
+                                milliseconds: (500 * 2).round(),
+                              ),
+                              curve: Curves.elasticOut,
+                              tween: Tween<double>(
+                                begin: 0,
+                                end: 1,
+                              ),
+                              builder: (context, child, value) =>
+                                  Transform.scale(
+                                scale: value,
+                                child: ChannelCard(
+                                  channelAvatar:
+                                      channels[index].profilePictureUrl,
+                                  channelDes: channels[index].description,
+                                  channelName: channels[index].title,
+                                  isChosen: index < 3 ? true : false,
+                                ),
+                              ),
+                            ),
+                          ),
+                          // ListView.builder(
+                          //   padding: EdgeInsets.symmetric(
+                          //       horizontal: 35, vertical: 0),
+                          //   itemCount: channels.length,
+                          //   itemBuilder: (context, index) => ChannelCard(
+                          //     channelAvatar: channels[index].profilePictureUrl,
+                          //     channelDes: channels[index].description,
+                          //     channelName: channels[index].title,
+                          //     isChosen: index < 3 ? true : false,
+                          //   ),
+                          // ),
+                        );
+                      },
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Stack(
+                      children: <Widget>[
+                        Container(
+                          height: 58.00,
+                          width: 226.00,
+                          decoration: BoxDecoration(
+                            color: Color(0xfff6b039),
+                            borderRadius: BorderRadius.circular(8.00),
+                          ),
                         ),
-                      ),
-                      Positioned(
-                        top: -15,
-                        left: 0,
-                        child: Transform.scale(
-                          scale: 1.25,
-                          child:
-                              SvgPicture.asset("images/svgs/mask_button.svg"),
+                        Positioned(
+                          top: -15,
+                          left: 0,
+                          child: Transform.scale(
+                            scale: 1.25,
+                            child:
+                                SvgPicture.asset("images/svgs/mask_button.svg"),
+                          ),
                         ),
-                      ),
-                      Positioned(
-                        left: 226 * 0.35,
-                        top: 58 * 0.23,
-                        child: Text(
-                          text.translate('Done'),
-                          style: GoogleFonts.bubblegumSans(
-                            textStyle: kBubblegum_sans32.copyWith(
-                              color: Colors.white,
+                        Positioned(
+                          left: 226 * 0.35,
+                          top: 58 * 0.23,
+                          child: Text(
+                            text.translate('Done'),
+                            style: GoogleFonts.bubblegumSans(
+                              textStyle: kBubblegum_sans32.copyWith(
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                    overflow: Overflow.clip,
-                  ),
-                ],
+                      ],
+                      overflow: Overflow.clip,
+                    ),
+                  ],
+                ),
               );
             }),
           ],
@@ -178,7 +205,9 @@ class ChannelCard extends StatelessWidget {
     return Container(
       height: 105.00,
       width: 336.00,
-      margin: EdgeInsets.only(top: 10),
+      margin: EdgeInsets.only(
+        top: 10,
+      ),
       decoration: BoxDecoration(
         color: kRedColor,
         boxShadow: [
@@ -193,14 +222,14 @@ class ChannelCard extends StatelessWidget {
       child: Stack(
         overflow: Overflow.clip,
         children: <Widget>[
-          Positioned(
-            top: 0,
-            left: 0,
-            child: Transform.scale(
-              scale: 3,
-              child: SvgPicture.asset("images/svgs/mask_button.svg"),
-            ),
-          ),
+          // Positioned(
+          //   top: 0,
+          //   left: 0,
+          //   child: Transform.scale(
+          //     scale: 2,
+          //     child: SvgPicture.asset("images/svgs/mask_button.svg"),
+          //   ),
+          // ),
           Positioned(
             top: 0,
             left: 0,
@@ -216,25 +245,27 @@ class ChannelCard extends StatelessWidget {
           ),
           Row(
             children: <Widget>[
-              Row(
-                children: <Widget>[],
-              ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: <Widget>[
-                    CircleAvatar(
-                      backgroundImage: NetworkImage(channelAvatar),
-                      radius: 96 / 3,
-                    ),
-                    Text(
-                      channelName,
-                      style: kCapriola20.copyWith(
-                        color: Colors.white,
-                        fontSize: 16,
+                padding: const EdgeInsets.only(left: 20.0, right: 10, top: 10),
+                child: Container(
+                  width: 100,
+                  child: Column(
+                    children: <Widget>[
+                      CircleAvatar(
+                        backgroundImage: NetworkImage(channelAvatar),
+                        radius: 96 / 3,
                       ),
-                    )
-                  ],
+                      Text(
+                        channelName.length > 12
+                            ? channelName.substring(0, 12)
+                            : channelName,
+                        style: kCapriola20.copyWith(
+                          color: Colors.white,
+                          fontSize: 14,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
               Expanded(

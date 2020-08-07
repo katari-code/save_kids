@@ -12,14 +12,15 @@ class VideoCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.only(bottom: 10),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(5),
-            bottomRight: Radius.circular(5),
-            topLeft: Radius.circular(30),
-            topRight: Radius.circular(30),
-          ),
-          // image: DecorationImage(image: Netw),
-          color: Color(0xFF502F5F)),
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(5),
+          bottomRight: Radius.circular(5),
+          topLeft: Radius.circular(30),
+          topRight: Radius.circular(30),
+        ),
+        // image: DecorationImage(image: Netw),
+        color: Color(0xFF502F5F),
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -35,9 +36,10 @@ class VideoCard extends StatelessWidget {
             child: Text(
               videoTitle,
               style: GoogleFonts.capriola(
-                  color: Colors.white,
-                  fontSize: 21,
-                  fontWeight: FontWeight.w600),
+                color: Colors.white,
+                fontSize: 21,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
         ],

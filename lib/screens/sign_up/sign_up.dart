@@ -31,113 +31,119 @@ class _SignUpState extends State<SignUp> {
             ),
           ),
           SingleChildScrollView(
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  SvgPicture.asset('images/logos/appLogo_small.svg'),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.85,
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(48),
-                      color: Colors.white,
+            child: SafeArea(
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    SvgPicture.asset('images/logos/appLogo_small.svg'),
+                    SizedBox(
+                      height: 10,
                     ),
-                    child: SingleChildScrollView(
-                      child: Consumer<SignUpBloc>(
-                        builder: (conext, signUpBloc) => Column(
-                          children: <Widget>[
-                            SizedBox(
-                              height: 25,
-                            ),
-                            Container(
-                              height: 40.00,
-                              width: 244.00,
-                              decoration: BoxDecoration(
-                                color: Color(0xff035aa6),
-                                borderRadius: BorderRadius.circular(28.00),
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.85,
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(48),
+                        color: Colors.white,
+                      ),
+                      child: SingleChildScrollView(
+                        child: Consumer<SignUpBloc>(
+                          builder: (conext, signUpBloc) => Column(
+                            children: <Widget>[
+                              SizedBox(
+                                height: 25,
                               ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: <Widget>[
-                                  Stack(
-                                    children: <Widget>[
-                                      Hero(
-                                        tag: "Sign up",
-                                        child: Container(
-                                          height: 28.00,
-                                          width: 102.00,
-                                          decoration: BoxDecoration(
-                                            color: Color(0xfffcbf1e),
-                                            borderRadius:
-                                                BorderRadius.circular(50.00),
-                                          ),
-                                          child: Center(
-                                            child: Text(
-                                              "Sign up",
-                                              style: GoogleFonts.bubblegumSans(
-                                                  textStyle: kBubblegum_sans28),
+                              Container(
+                                height: 40.00,
+                                width: 244.00,
+                                decoration: BoxDecoration(
+                                  color: Color(0xff035aa6),
+                                  borderRadius: BorderRadius.circular(28.00),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: <Widget>[
+                                    Stack(
+                                      children: <Widget>[
+                                        Hero(
+                                          tag: "Sign up",
+                                          child: Container(
+                                            height: 28.00,
+                                            width: 102.00,
+                                            decoration: BoxDecoration(
+                                              color: Color(0xfffcbf1e),
+                                              borderRadius:
+                                                  BorderRadius.circular(50.00),
+                                            ),
+                                            child: Center(
+                                              child: Text(
+                                                "Sign up",
+                                                style:
+                                                    kBubblegum_sans20.copyWith(
+                                                  color: Colors.white,
+                                                ),
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  GestureDetector(
-                                    onTap: () => Navigator.pushReplacementNamed(
-                                        context, kSignInRoute),
-                                    child: Padding(
-                                      padding:
-                                          const EdgeInsets.only(right: 15.0),
-                                      child: Text(
-                                        "Login",
-                                        style: GoogleFonts.bubblegumSans(
-                                            textStyle: kBubblegum_sans28),
+                                      ],
+                                    ),
+                                    GestureDetector(
+                                      onTap: () =>
+                                          Navigator.pushReplacementNamed(
+                                              context, kSignInRoute),
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 15.0),
+                                        child: Text(
+                                          "Login",
+                                          style: kBubblegum_sans20.copyWith(
+                                            color: Colors.white,
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                            SizedBox(
-                              height: 25,
-                            ),
-                            StreamReusablefield(
-                                label: 'Full Name',
-                                stream: signUpBloc.streamName,
-                                onChangeFunction: signUpBloc.changeName),
-                            StreamReusablefield(
-                              label: 'Email',
-                              stream: signUpBloc.streamEmail,
-                              onChangeFunction: signUpBloc.changeEmail,
-                              type: TextInputType.emailAddress,
-                            ),
-                            StreamReusablefield(
-                              label: 'Password',
-                              stream: signUpBloc.streamPassword,
-                              onChangeFunction: signUpBloc.changePassword,
-                              isPass: true,
-                            ),
-                            StreamReusablefield(
-                              label: 'Phone Number',
-                              stream: signUpBloc.streamPhoneNumber,
-                              onChangeFunction: signUpBloc.changePhoneNumber,
-                              type: TextInputType.phone,
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            buildSubmitButton(signUpBloc),
-                          ],
+                              SizedBox(
+                                height: 25,
+                              ),
+                              StreamReusablefield(
+                                  label: 'Full Name',
+                                  stream: signUpBloc.streamName,
+                                  onChangeFunction: signUpBloc.changeName),
+                              StreamReusablefield(
+                                label: 'Email',
+                                stream: signUpBloc.streamEmail,
+                                onChangeFunction: signUpBloc.changeEmail,
+                                type: TextInputType.emailAddress,
+                              ),
+                              StreamReusablefield(
+                                label: 'Password',
+                                stream: signUpBloc.streamPassword,
+                                onChangeFunction: signUpBloc.changePassword,
+                                isPass: true,
+                              ),
+                              StreamReusablefield(
+                                label: 'Phone Number',
+                                stream: signUpBloc.streamPhoneNumber,
+                                onChangeFunction: signUpBloc.changePhoneNumber,
+                                type: TextInputType.phone,
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              buildSubmitButton(signUpBloc),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           )

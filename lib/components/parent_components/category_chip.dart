@@ -14,14 +14,17 @@ class CategoryChip extends StatelessWidget {
       width: 100,
       alignment: Alignment.center,
       decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(14.00),
-          border: isSelected
-              ? Border.all(color: Colors.green, width: 1)
-              : Border.all(width: 0)),
+        color: color,
+        borderRadius: BorderRadius.circular(25.00),
+        border: isSelected
+            ? Border.all(color: Colors.green, width: 4)
+            : Border.all(width: 0),
+      ),
       child: Text(
         category,
-        style: kBubblegum_sans24,
+        style: kBubblegum_sans20.copyWith(
+          color: Colors.white,
+        ),
       ),
     );
   }

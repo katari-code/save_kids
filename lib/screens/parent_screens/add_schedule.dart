@@ -6,6 +6,7 @@ import 'package:save_kids/components/parent_components/category_chip.dart';
 import 'package:save_kids/components/parent_components/chip_time_picker.dart';
 import 'package:save_kids/models/schedule_data.dart';
 import 'package:save_kids/models/show_time.dart';
+import 'package:save_kids/util/constant.dart';
 import 'package:save_kids/util/style.dart';
 
 class AddSchedule extends StatefulWidget {
@@ -36,10 +37,15 @@ class _AddScheduleState extends State<AddSchedule> {
     final end = toDouble(endTime);
     if (start < end) {
       final result = end - start;
-
+      var tag = "";
       double decimal = result - result.floor();
       String mins = (decimal * 60).floor().toString();
-      duration = "${result.floor()} : $mins";
+
+      result.floor() > 0
+          ? result.floor() > 1 ? tag = "hours" : tag = "hour"
+          : tag = "mins";
+
+      duration = "${result.floor()} : $mins  $tag";
       return duration;
     } else
       return duration;
@@ -91,21 +97,23 @@ class _AddScheduleState extends State<AddSchedule> {
                               ),
                             ),
                             SizedBox(
-                              height: 18,
+                              height: 20,
                             ),
                             buildTimePicker(),
                             SizedBox(
-                              height: 18,
+                              height: 25,
                             ),
                             buildDuration(),
                             SizedBox(
-                              height: 18,
+                              height: 20,
                             ),
-                            Center(
+                            Padding(
+                              padding: const EdgeInsets.only(left: 20),
                               child: Text(
-                                'Select Category',
+                                'Select Category :',
+                                textAlign: TextAlign.start,
                                 style: kBubblegum_sans28.copyWith(
-                                    color: kBlueDarkColor, fontSize: 21),
+                                    color: kBlueDarkColor),
                               ),
                             ),
                             SizedBox(
@@ -113,11 +121,11 @@ class _AddScheduleState extends State<AddSchedule> {
                             ),
                             buildCategoryChips(),
                             SizedBox(
-                              height: 18,
+                              height: 20,
                             ),
                             buildSpecifyChips(),
                             SizedBox(
-                              height: 18,
+                              height: 20,
                             ),
                             SizedBox(
                               height: 25,
@@ -162,13 +170,13 @@ class _AddScheduleState extends State<AddSchedule> {
       child: Column(
         children: <Widget>[
           Text(
-            'Duration',
-            style:
-                kBubblegum_sans28.copyWith(color: kBlueDarkColor, fontSize: 21),
+            'Total Duration',
+            style: kBubblegum_sans28.copyWith(color: kBlueDarkColor),
           ),
-          Text(updateDuration().toString(),
-              style: kBubblegum_sans28.copyWith(
-                  color: kBlueDarkColor, fontSize: 21))
+          Text(
+            updateDuration().toString(),
+            style: kBubblegum_sans24,
+          )
         ],
       ),
     );
@@ -182,8 +190,8 @@ class _AddScheduleState extends State<AddSchedule> {
       children: <Widget>[
         CategoryChip(kYellowColor, 'Everything', true),
         CategoryChip(kRedColor, 'Cartoon', false),
-        CategoryChip(kYellowColor, 'Science', false),
-        CategoryChip(kBlueDarkColor, 'Toys', false),
+        CategoryChip(Color(0xff2AC940), 'Science', false),
+        CategoryChip(Color(0xffF0A500), 'Toys', false),
       ],
     );
   }
@@ -196,11 +204,10 @@ class _AddScheduleState extends State<AddSchedule> {
           children: <Widget>[
             Text(
               'Start Time',
-              style: kBubblegum_sans28.copyWith(
-                  color: kBlueDarkColor, fontSize: 21),
+              style: kBubblegum_sans24.copyWith(color: kBlueDarkColor),
             ),
             SizedBox(
-              height: 18,
+              height: 10,
             ),
             ChipTimePicker(setTime: setStart, time: startTime)
           ],
@@ -209,11 +216,10 @@ class _AddScheduleState extends State<AddSchedule> {
           children: <Widget>[
             Text(
               'End Time',
-              style: kBubblegum_sans28.copyWith(
-                  color: kBlueDarkColor, fontSize: 21),
+              style: kBubblegum_sans24.copyWith(color: kBlueDarkColor),
             ),
             SizedBox(
-              height: 18,
+              height: 10,
             ),
             ChipTimePicker(setTime: setEnd, time: endTime)
           ],
@@ -226,17 +232,25 @@ class _AddScheduleState extends State<AddSchedule> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        Container(
-          height: 40,
-          width: 150,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: Color(0xFF40BAD5),
-            borderRadius: BorderRadius.circular(14.00),
+        GestureDetector(
+          onTap: () => Navigator.pushNamed(
+            context,
+            kAddChannelRoute,
           ),
-          child: Text(
-            'Specify channels',
-            style: kBubblegum_sans20,
+          child: Container(
+            height: 40,
+            width: 150,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: Color(0xFF40BAD5),
+              borderRadius: BorderRadius.circular(20.00),
+            ),
+            child: Text(
+              'Specify channels',
+              style: kBubblegum_sans20.copyWith(
+                color: Colors.white,
+              ),
+            ),
           ),
         ),
         Container(
@@ -245,7 +259,7 @@ class _AddScheduleState extends State<AddSchedule> {
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: Color(0xFF40BAD5),
-            borderRadius: BorderRadius.circular(14.00),
+            borderRadius: BorderRadius.circular(20.00),
           ),
           child: Text(
             'Specify Videos',

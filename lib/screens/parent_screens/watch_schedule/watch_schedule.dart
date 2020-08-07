@@ -28,74 +28,82 @@ class WatchSchedule extends StatelessWidget {
             child: Consumer<ScheduleData>(
               builder: (context, scheduleData, child) {
                 var showTime = scheduleData.getChildShowTime();
-                return Column(
-                  children: <Widget>[
-                    Container(
-                      color: kYellowColor,
-                      padding: EdgeInsets.all(15),
-                      height: 110,
-                      child: Row(
-                        children: <Widget>[
-                          Icon(Icons.arrow_back),
-                          SizedBox(
-                            width: 30,
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                "Watch Schedule",
-                                style: kBubblegum_sans28.copyWith(
-                                  color: Colors.white,
-                                ),
+                return SafeArea(
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        color: kYellowColor,
+                        padding: EdgeInsets.all(15),
+                        height: 70,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+                            GestureDetector(
+                              onTap: () => Navigator.pop(context),
+                              child: Icon(
+                                Icons.arrow_back,
+                                color: Colors.white,
+                                size: 30,
                               ),
-                            ],
-                          )
-                        ],
+                            ),
+                            SizedBox(
+                              width: 30,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  "Watch Schedule",
+                                  style: kBubblegum_sans28.copyWith(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                SvgPicture.asset('images/svgs/schedule.svg')
+                              ],
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 1,
-                    ),
-                    Column(
-                      children: <Widget>[
-                        AvatrsCarousel(),
-                        TopCalendar(),
-                        Column(
-                          children: List.generate(
-                            showTime.length,
-                            (index) => ScheduleCard(
-                              showTimeCard: showTime[index]
-                  
+                      SizedBox(
+                        height: 1,
+                      ),
+                      Column(
+                        children: <Widget>[
+                          AvatrsCarousel(),
+                          TopCalendar(),
+                          Column(
+                            children: List.generate(
+                              showTime.length,
+                              (index) =>
+                                  ScheduleCard(showTimeCard: showTime[index]),
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => AddSchedule(),
-                              ),
-                            );
-                          },
-                          child: AgeChip(
-                            highet: 60.0,
-                            width: 220.0,
-                            text: "Add to Schedule",
-                            color: kBlueDarkColor,
+                          SizedBox(
+                            height: 20,
                           ),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                      ],
-                    )
-                  ],
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AddSchedule(),
+                                ),
+                              );
+                            },
+                            child: AgeChip(
+                              highet: 60.0,
+                              width: 220.0,
+                              text: "Add to Schedule",
+                              color: kBlueDarkColor,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
                 );
               },
             ),

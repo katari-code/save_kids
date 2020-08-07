@@ -16,7 +16,7 @@ class _VideoListState extends State<VideoList> {
   void initState() {
     YoutubeApiProvider _youtube = YoutubeApiProvider<Video>();
     _youtube
-        .fetchBySearch(search: "ass", mapper: Video(), type: 'video')
+        .fetchBySearch(search: "Toys", mapper: Video(), type: 'video')
         .then((value) {
       setState(() {
         videoList = value;
@@ -47,8 +47,11 @@ class _VideoListState extends State<VideoList> {
                   return Container(
                     height: MediaQuery.of(context).size.height * 0.45,
                     margin: EdgeInsets.only(bottom: 10, top: 10),
-                    child: VideoCard(videoList[index].thumbnailUrl,
-                        videoList[index].title, videoList[index].description),
+                    child: VideoCard(
+                      videoList[index].thumbnailUrl,
+                      videoList[index].title,
+                      videoList[index].description,
+                    ),
                   );
                 }
                 return CircularProgressIndicator();

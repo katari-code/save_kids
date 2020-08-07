@@ -12,7 +12,6 @@ class ChannelBloc extends BlocBase {
   Function(List) get changeChannelList => _channelList.sink.add;
   Stream<String> get searchResult =>
       _searchResult.stream.transform(_validateSearchResult);
-  // Stream<List<Channel>> get channels=> _ch
   Stream<List<Channel>> get channels => _channelList.stream;
 
   final _validateSearchResult = StreamTransformer<String, String>.fromHandlers(
@@ -20,7 +19,7 @@ class ChannelBloc extends BlocBase {
     if (search.length > 1) {
       sink.add(search.trim());
     } else {
-      sink.addError('search should be more than 5');
+      // sink.addError('search should be more than 5');
     }
   });
 

@@ -12,6 +12,7 @@ import 'package:save_kids/models/child_avatar.dart';
 import 'package:provider/provider.dart';
 
 import 'package:save_kids/screens/parent_screens/watch_schedule/watch_schedule.dart';
+import 'package:save_kids/screens/test_video/video_list.dart';
 import 'package:save_kids/util/constant.dart';
 import 'package:save_kids/util/router.dart';
 
@@ -86,7 +87,7 @@ class MyApp extends StatelessWidget {
             // from the list (English, in this case).
             return supportedLocales.first;
           },
-          initialRoute: kSplashRoute,
+          initialRoute: kChildAccountRoute,
           onGenerateRoute: (RouteSettings settings) {
             return createRoute(settings);
           },
