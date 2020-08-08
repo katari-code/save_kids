@@ -37,8 +37,9 @@ class SettingsScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
+                  padding: EdgeInsets.all(15),
                   height: 80,
-                  width: 180,
+                  // width: 180,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
                       topRight: Radius.circular(25),
@@ -88,6 +89,7 @@ class SettingsScreen extends StatelessWidget {
               ],
             ),
           ),
+     
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

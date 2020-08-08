@@ -99,3 +99,10 @@ final kCapriola20 = GoogleFonts.capriola(
     color: kRedDarkColor,
   ),
 );
+final kCapriola16 = GoogleFonts.capriola(
+  textStyle: TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    color: kRedDarkColor,
+  ),
+);

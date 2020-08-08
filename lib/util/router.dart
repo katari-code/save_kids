@@ -9,6 +9,8 @@ import 'package:save_kids/screens/parent_screens/watch_schedule/watch_schedule.d
 import 'package:save_kids/screens/sign_in/sign_in.dart';
 import 'package:save_kids/screens/sign_up/sign_up.dart';
 import 'package:save_kids/screens/splash_screen/splash_screen.dart';
+import 'package:save_kids/screens/video_player_screen/video_player%20screen.dart';
+import 'package:save_kids/screens/watch_screen/watch_histroy_screen.dart';
 import 'package:save_kids/util/constant.dart';
 
 Route<dynamic> createRoute(settings) {
@@ -27,7 +29,6 @@ Route<dynamic> createRoute(settings) {
       return MaterialPageRoute(
         builder: (context) => SignUp(),
       );
-
     case kParentDashboardRoute:
       return MaterialPageRoute(
         builder: (context) => ParentDashboard(),
@@ -36,12 +37,10 @@ Route<dynamic> createRoute(settings) {
       return MaterialPageRoute(
         builder: (context) => AddSchedule(),
       );
-
     // case kParentDashboardRoute:
     //   return MaterialPageRoute(
     //     builder: (context) => PA(),
     //   );
-
     case kSpecifyChannelsRoute:
       return MaterialPageRoute(
         builder: (context) => SpalschScreen(),
@@ -58,10 +57,7 @@ Route<dynamic> createRoute(settings) {
       return MaterialPageRoute(
         builder: (context) => WatchSchedule(),
       );
-    case kHistoryRoute:
-      return MaterialPageRoute(
-        builder: (context) => SpalschScreen(),
-      );
+
     case kParentSettingsRoute:
       return MaterialPageRoute(
         builder: (context) => SpalschScreen(),
@@ -70,23 +66,25 @@ Route<dynamic> createRoute(settings) {
       return MaterialPageRoute(
         builder: (context) => AddChildScreen(),
       );
-
     // case kParentPinRoute:
     //   return MaterialPageRoute(
     //     builder: (context) => SpalschScreen(),
     //   );
-
     case kSettingsRoute:
       return MaterialPageRoute(
         builder: (context) => SettingsScreen(),
+      );
+    case kHistoryWatchRoute:
+      return MaterialPageRoute(
+        builder: (context) => WatchHistory(),
       );
     case kChildAccountRoute:
       return MaterialPageRoute(
         builder: (context) => AccountDashboardScreen(),
       );
-    case kVideoListRoute:
+    case kVideoDisplayRoute:
       return MaterialPageRoute(
-        builder: (context) => SpalschScreen(),
+        builder: (context) => VideoPlayerScreen(),
       );
     case kVideoDetailsRoute:
       return MaterialPageRoute(

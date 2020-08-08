@@ -11,13 +11,15 @@ const kSpecifyChannelsRoute = "/parent/specify_channels";
 const kSpecifyVideoRoute = "/parent/specify_video";
 const kAddChannelRoute = "/parent/add_channel";
 const kWatchSchdeuleRoute = "/parent/watch_schedule";
-const kHistoryRoute = "/parent/history";
 const kParentSettingsRoute = "/parent/settings";
 const kAddChildProfileRoute = "/parent/add_child";
 const kParentPinRoute = "/parent/pin";
 const kSettingsRoute = "/parent/Settings";
+const kHistoryWatchRoute = "/parent/HistoryWatch";
 
 //child screen
 const kChildAccountRoute = "/child";
 const kVideoListRoute = "/child/videos";
 const kVideoDetailsRoute = "/child/videos/video";
+
+const kVideoDisplayRoute = "/child/videos/display";
