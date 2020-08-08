@@ -10,6 +10,7 @@ import 'package:save_kids/screens/sign_in/sign_in.dart';
 import 'package:save_kids/screens/sign_up/sign_up.dart';
 import 'package:save_kids/screens/specify_screens/add_videos_screen.dart';
 import 'package:save_kids/screens/splash_screen/splash_screen.dart';
+import 'package:save_kids/screens/test_video/child%20display_videos.dart';
 import 'package:save_kids/screens/video_player_screen/video_player%20screen.dart';
 import 'package:save_kids/screens/watch_screen/watch_histroy_screen.dart';
 import 'package:save_kids/util/constant.dart';
@@ -61,7 +62,7 @@ Route<dynamic> createRoute(settings) {
 
     case kParentSettingsRoute:
       return MaterialPageRoute(
-        builder: (context) => SpalschScreen(),
+        builder: (context) => SettingsScreen(),
       );
     case kAddChildProfileRoute:
       return MaterialPageRoute(
@@ -71,10 +72,7 @@ Route<dynamic> createRoute(settings) {
     //   return MaterialPageRoute(
     //     builder: (context) => SpalschScreen(),
     //   );
-    case kSettingsRoute:
-      return MaterialPageRoute(
-        builder: (context) => SettingsScreen(),
-      );
+
     case kHistoryWatchRoute:
       return MaterialPageRoute(
         builder: (context) => WatchHistory(),
@@ -83,13 +81,13 @@ Route<dynamic> createRoute(settings) {
       return MaterialPageRoute(
         builder: (context) => AccountDashboardScreen(),
       );
-    case kVideoDisplayRoute:
+    case kVideoDetailsRoute:
       return MaterialPageRoute(
         builder: (context) => VideoPlayerScreen(),
       );
-    case kVideoDetailsRoute:
+    case kVideoDisplayRoute:
       return MaterialPageRoute(
-        builder: (context) => SpalschScreen(),
+        builder: (context) => ChildMainViedoList(),
       );
   }
   return null;

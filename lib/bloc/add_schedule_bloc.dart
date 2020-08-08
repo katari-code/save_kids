@@ -12,7 +12,7 @@ class AddScheduleBloc extends BlocBase {
   AddScheduleBloc() {
     changeTimeEnd(TimeOfDay.now());
     changeTimeStart(TimeOfDay.now());
-    addCategories(categories);
+    addCategories(categoriesList);
   }
   Repository _repository = Repository<Schedule>(collection: 'schedule');
   final _chosenVideos = BehaviorSubject<List<Video>>();
