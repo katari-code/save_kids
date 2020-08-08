@@ -115,66 +115,63 @@ class _AddChannelScreenState extends State<AddChannelScreen> {
                               builder: (context, child, value) =>
                                   Transform.scale(
                                 scale: value,
-                                child: ChannelCard(
-                                  channelAvatar:
-                                      channels[index].profilePictureUrl,
-                                  channelDes: channels[index].description,
-                                  channelName: channels[index].title,
-                                  isChosen: index < 3 ? true : false,
+                                child: GestureDetector(
+                                  onTap: () => channelBloc
+                                      .addChosenChannel(channels[index].id),
+                                  child: ChannelCard(
+                                    channelAvatar:
+                                        channels[index].profilePictureUrl,
+                                    channelDes: channels[index].description,
+                                    channelName: channels[index].title,
+                                    isChosen: channels[index].chosen,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                          // ListView.builder(
-                          //   padding: EdgeInsets.symmetric(
-                          //       horizontal: 35, vertical: 0),
-                          //   itemCount: channels.length,
-                          //   itemBuilder: (context, index) => ChannelCard(
-                          //     channelAvatar: channels[index].profilePictureUrl,
-                          //     channelDes: channels[index].description,
-                          //     channelName: channels[index].title,
-                          //     isChosen: index < 3 ? true : false,
-                          //   ),
-                          // ),
                         );
                       },
                     ),
                     SizedBox(
                       height: 20,
                     ),
-                    Stack(
-                      children: <Widget>[
-                        Container(
-                          height: 58.00,
-                          width: 226.00,
-                          decoration: BoxDecoration(
-                            color: Color(0xfff6b039),
-                            borderRadius: BorderRadius.circular(8.00),
+                    GestureDetector(
+                      onTap: () => Navigator.pop(
+                          context, channelBloc.returnChosenChannels()),
+                      child: Stack(
+                        children: <Widget>[
+                          Container(
+                            height: 58.00,
+                            width: 226.00,
+                            decoration: BoxDecoration(
+                              color: Color(0xfff6b039),
+                              borderRadius: BorderRadius.circular(8.00),
+                            ),
                           ),
-                        ),
-                        Positioned(
-                          top: -15,
-                          left: 0,
-                          child: Transform.scale(
-                            scale: 1.25,
-                            child:
-                                SvgPicture.asset("images/svgs/mask_button.svg"),
+                          Positioned(
+                            top: -15,
+                            left: 0,
+                            child: Transform.scale(
+                              scale: 1.25,
+                              child: SvgPicture.asset(
+                                  "images/svgs/mask_button.svg"),
+                            ),
                           ),
-                        ),
-                        Positioned(
-                          left: 226 * 0.35,
-                          top: 58 * 0.23,
-                          child: Text(
-                            text.translate('Done'),
-                            style: GoogleFonts.bubblegumSans(
-                              textStyle: kBubblegum_sans32.copyWith(
-                                color: Colors.white,
+                          Positioned(
+                            left: 226 * 0.35,
+                            top: 58 * 0.23,
+                            child: Text(
+                              text.translate('Done'),
+                              style: GoogleFonts.bubblegumSans(
+                                textStyle: kBubblegum_sans32.copyWith(
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                      overflow: Overflow.clip,
+                        ],
+                        overflow: Overflow.clip,
+                      ),
                     ),
                   ],
                 ),

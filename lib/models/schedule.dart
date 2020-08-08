@@ -1,32 +1,49 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:save_kids/models/category.dart';
 import 'package:save_kids/models/interfaces/i_firestore_converter.dart';
 
 class Schedule implements FireStoreConverter {
   final String id;
   final String childId;
-  final String timeStart;
-  final String timeEnd;
-  final List<dynamic> categories;
+  final String dateStart;
+  final String dateEnd;
+  final List<String> categories;
   final List<String> videos;
-  final List<String> days;
+  final List<String> channels;
+  final String day;
   Schedule(
       {this.id,
       this.childId,
-      this.days,
+      this.day,
       this.categories,
-      this.timeEnd,
-      this.timeStart,
+      this.dateEnd,
+      this.channels,
+      this.dateStart,
       this.videos});
+  Schedule.fromFirestore(DocumentSnapshot snapshot)
+      : this(
+            id: snapshot.documentID,
+            childId: snapshot.data['childId'],
+            day: snapshot.data['day'],
+            categories: snapshot.data['categories'],
+            dateEnd: snapshot.data['dateEnd'],
+            dateStart: snapshot.data['dateStart'],
+            channels: snapshot.data['channels'] ?? [],
+            videos: snapshot.data['videos'] ?? []);
   @override
   fromFireStore(DocumentSnapshot snapshot) {
-    // TODO: implement fromFireStore
-    throw UnimplementedError();
+    return Schedule.fromFirestore(snapshot);
   }
 
   @override
   toFireStore() {
-    // TODO: implement toFireStore
-    throw UnimplementedError();
+    return {
+      'childId': this.childId,
+      'day': this.day,
+      'categories': this.categories,
+      'dateStart': this.dateStart,
+      'dateEnd': this.dateEnd,
+      'videos': this.videos ?? [],
+      'channels': this.channels ?? [],
+    };
   }
 }

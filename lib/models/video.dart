@@ -6,11 +6,11 @@ class Video implements Mapper {
   final String thumbnailUrl;
   final String channelTitle;
   final String description;
-  final String nextPageToken;
+  bool chosen;
   Video(
       {this.id,
       this.title,
-      this.nextPageToken,
+      this.chosen,
       this.thumbnailUrl,
       this.channelTitle,
       this.description});
@@ -24,6 +24,7 @@ class Video implements Mapper {
       title: map['snippet']['title'],
       thumbnailUrl: map['snippet']['thumbnails']['medium']['url'],
       channelTitle: map['snippet']['channelTitle'],
+      chosen: false,
     );
   }
 

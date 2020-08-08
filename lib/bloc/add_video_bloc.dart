@@ -11,8 +11,20 @@ class AddVideoBloc extends BlocBase {
 
   final _searchResult = BehaviorSubject<String>();
   final _videoList = BehaviorSubject<List<Video>>();
+
   Function(String) get changeSearchResult => _searchResult.sink.add;
   Function(List) get changeVideoList => _videoList.sink.add;
+  addChosenVideo(String channelId) {
+    List<Video> videos = _videoList.value.map((video) {
+      if (video.id == channelId) {
+        Video editedVideo = video..chosen = !video.chosen;
+        return editedVideo;
+      }
+      return video;
+    }).toList();
+    return changeVideoList(videos);
+  }
+
   Stream<String> get searchResult =>
       _searchResult.stream.transform(_validateSearchResult);
   // Stream<List<Channel>> get channels=> _ch
@@ -32,6 +44,10 @@ class AddVideoBloc extends BlocBase {
         pageToken: _pageToken);
     _pageToken = map['pageToken'];
     changeVideoList(map['data']);
+  }
+
+  List<Video> returnChosenVideos() {
+    return _videoList.value.where((element) => element.chosen == true).toList();
   }
 
   @override
