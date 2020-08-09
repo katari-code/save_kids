@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:save_kids/models/schedule.dart';
 import 'package:save_kids/models/schedule_data.dart';
 import 'package:save_kids/models/show_time.dart';
 import 'package:save_kids/util/style.dart';
 
 class ScheduleCard extends StatelessWidget {
-  const ScheduleCard({
-    this.showTimeCard,
-  });
+  const ScheduleCard({this.showTimeCard, this.schedule});
 
   final ShowTimeCard showTimeCard;
+  final Schedule schedule;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,9 @@ class ScheduleCard extends StatelessWidget {
                     ),
                     //-- -- -- -- -- --//
                     Text(
-                      DateFormat.jm().format(showTimeCard.timeStart),
+                      DateFormat.jm().format(
+                          DateTime.fromMillisecondsSinceEpoch(
+                              schedule.dateStart)),
                       style: kBubblegum_sans20.copyWith(
                         fontSize: 24,
                       ),
@@ -62,7 +64,9 @@ class ScheduleCard extends StatelessWidget {
                       width: 10,
                     ),
                     Text(
-                      DateFormat.jm().format(showTimeCard.timeEnd),
+                      DateFormat.jm().format(
+                          DateTime.fromMillisecondsSinceEpoch(
+                              schedule.dateEnd)),
                       style: kBubblegum_sans20.copyWith(
                         fontSize: 24,
                       ),

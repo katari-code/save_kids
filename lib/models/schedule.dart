@@ -4,8 +4,8 @@ import 'package:save_kids/models/interfaces/i_firestore_converter.dart';
 class Schedule implements FireStoreConverter {
   final String id;
   final String childId;
-  final String dateStart;
-  final String dateEnd;
+  final int dateStart;
+  final int dateEnd;
   final List<String> categories;
   final List<String> videos;
   final List<String> channels;
@@ -22,7 +22,7 @@ class Schedule implements FireStoreConverter {
   Schedule.fromFirestore(DocumentSnapshot snapshot)
       : this(
             id: snapshot.documentID,
-            childId: snapshot.data['childId'],
+            childId: snapshot.data['childId'] ?? '',
             day: snapshot.data['day'],
             categories: snapshot.data['categories'],
             dateEnd: snapshot.data['dateEnd'],

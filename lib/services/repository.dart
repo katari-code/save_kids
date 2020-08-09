@@ -4,9 +4,11 @@ import 'package:save_kids/models/category.dart';
 import 'package:save_kids/models/channel.dart';
 import 'package:save_kids/models/interfaces/i_firestore_converter.dart';
 import 'package:save_kids/models/parent.dart';
+import 'package:save_kids/models/schedule.dart';
 import 'package:save_kids/models/video.dart';
 import 'package:save_kids/services/auth_service_provider.dart';
 import 'package:save_kids/services/firestore_provider.dart';
+import 'package:save_kids/services/schedule_provider.dart';
 import 'package:save_kids/services/youtube_api_provider.dart';
 
 class Repository<T extends FireStoreConverter> {
@@ -82,6 +84,15 @@ class Repository<T extends FireStoreConverter> {
           id: documentId);
       await _fireStoreProvider.setData();
       return type;
+    } catch (e) {
+      logger.e(e);
+      return null;
+    }
+  }
+
+  Stream<List<Schedule>> getSchedules(String childId, DateTime dateTime) {
+    try {
+      return ScheduleProvider().getSchedules(childId, dateTime);
     } catch (e) {
       logger.e(e);
       return null;

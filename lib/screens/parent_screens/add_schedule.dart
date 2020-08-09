@@ -13,7 +13,8 @@ import 'package:save_kids/util/constant.dart';
 import 'package:save_kids/util/style.dart';
 
 class AddSchedule extends StatefulWidget {
-  final String childId = 'V8J4zstRK4tHm3J99kF3';
+  final String childId;
+  AddSchedule(this.childId);
   @override
   _AddScheduleState createState() => _AddScheduleState();
 }

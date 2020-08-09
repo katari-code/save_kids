@@ -8,6 +8,7 @@ import 'package:save_kids/bloc/auth_bloc.dart';
 import 'package:save_kids/bloc/channel_bloc.dart';
 import 'package:save_kids/bloc/create_child_profile_bloc.dart';
 import 'package:save_kids/bloc/test/video_list_bloc_test.dart';
+import 'package:save_kids/bloc/watch_schedule_bloc.dart';
 import 'package:save_kids/models/child.dart';
 import 'package:save_kids/models/child_avatar.dart';
 
@@ -58,6 +59,7 @@ class MyApp extends StatelessWidget {
           Bloc((i) => VideoListBloc()),
           Bloc((i) => AddVideoBloc()),
           Bloc((i) => AddScheduleBloc()),
+          Bloc((i) => WatchScheduleBloc()),
         ],
         child: MaterialApp(
           title: 'Save Video Kids',
@@ -91,7 +93,7 @@ class MyApp extends StatelessWidget {
             // from the list (English, in this case).
             return supportedLocales.first;
           },
-          initialRoute: kSplashRoute,
+          initialRoute: kWatchSchdeuleRoute,
           onGenerateRoute: (RouteSettings settings) {
             return createRoute(settings);
           },
