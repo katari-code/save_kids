@@ -38,7 +38,8 @@ Route<dynamic> createRoute(RouteSettings settings) {
       );
     case kAddScheduleRoute:
       return MaterialPageRoute(
-        builder: (context) => AddSchedule(settings.arguments),
+        builder: (context) =>
+            AddSchedule(settings.arguments, settings.arguments),
       );
     // case kParentDashboardRoute:
     //   return MaterialPageRoute(

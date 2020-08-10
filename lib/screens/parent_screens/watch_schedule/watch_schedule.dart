@@ -22,6 +22,7 @@ class WatchSchedule extends StatefulWidget {
 }
 
 class _WatchScheduleState extends State<WatchSchedule> {
+  bool isInit = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,11 +96,16 @@ class _WatchScheduleState extends State<WatchSchedule> {
                                         initialData: null,
                                         builder: (context, snapshot) {
                                           if (snapshot.hasData) {
+                                            if (isInit) {
+                                              watchScheduleBloc
+                                                  .changeChosenChild(
+                                                      snapshot.data[0].id);
+                                              isInit = false;
+                                            }
                                             return AvatrsCarousel(snapshot.data,
                                                 (String id) {
                                               watchScheduleBloc
                                                   .changeChosenChild(id);
-                                              setState(() {});
                                             });
                                           }
                                           return CircularProgressIndicator();
@@ -127,30 +133,58 @@ class _WatchScheduleState extends State<WatchSchedule> {
                                     SizedBox(
                                       height: 20,
                                     ),
-                                    StreamBuilder<Object>(
+                                    StreamBuilder<String>(
                                         stream: watchScheduleBloc.chosenChild,
-                                        builder: (context, snapshot) {
-                                          return GestureDetector(
-                                            onTap: () {
-                                              if (snapshot.hasData) {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        AddSchedule(
-                                                            snapshot.data),
-                                                  ),
-                                                );
-                                                setState(() {});
-                                              }
-                                            },
-                                            child: AgeChip(
-                                              highet: 60.0,
-                                              width: 220.0,
-                                              text: "Add to Schedule",
-                                              color: kBlueDarkColor,
-                                            ),
-                                          );
+                                        builder: (context, child) {
+                                          String chosenChild = child.data;
+                                          return StreamBuilder<DateTime>(
+                                              stream:
+                                                  watchScheduleBloc.chosenDate,
+                                              builder: (context, date) {
+                                                DateTime dateTime = date.data;
+                                                if (chosenChild != null &&
+                                                    dateTime != null &&
+                                                    dateTime.isAfter(DateTime
+                                                            .now()
+                                                        .subtract(Duration(
+                                                            hours:
+                                                                DateTime.now()
+                                                                    .hour)))) {
+                                                  return GestureDetector(
+                                                    onTap: () {
+                                                      // Logger().i(
+                                                      //     dateTime,
+                                                      //     DateTime.now().subtract(
+                                                      //         Duration(
+                                                      //             hours: DateTime
+                                                      //                     .now()
+                                                      //                 .hour)));
+
+                                                      //check if there is a child
+                                                      //dateime is not empy
+                                                      //datetime chosen is after current time
+
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              AddSchedule(
+                                                                  child.data,
+                                                                  dateTime),
+                                                        ),
+                                                      );
+                                                      setState(() {});
+                                                    },
+                                                    child: AgeChip(
+                                                      highet: 60.0,
+                                                      width: 220.0,
+                                                      text: "Add to Schedule",
+                                                      color: kBlueDarkColor,
+                                                    ),
+                                                  );
+                                                }
+                                                return Text('');
+                                              });
                                         }),
                                     SizedBox(
                                       height: 15,
@@ -172,36 +206,3 @@ class _WatchScheduleState extends State<WatchSchedule> {
     );
   }
 }
-
-// Consumer<Calenders>(
-//   builder: (context, schedule, child) => Row(
-//     mainAxisAlignment: MainAxisAlignment.spaceAround,
-//     children: <Widget>[
-//       ...List<GestureDetector>.generate(
-//         Calenders.days.length,
-//         (index) => GestureDetector(
-//           onTap: () => schedule.setcurrentDate(index),
-//           child: Container(
-//             padding: EdgeInsets.all(2),
-//             width: 50,
-//             height: 40,
-//             decoration: BoxDecoration(
-//               color: schedule.currentDate == index
-//                   ? kRedColor
-//                   : Colors.transparent,
-//               borderRadius: BorderRadius.circular(8),
-//             ),
-//             child: Center(
-//               child: Text(
-//                 Calenders.days[index],
-//                 style: kBubblegum_sans20.copyWith(
-//                   color: Colors.white,
-//                 ),
-//               ),
-//             ),
-//           ),
-//         ),
-//       )
-//     ],
-//   ),
-// ),

@@ -2,20 +2,18 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart' as provider;
 import 'package:save_kids/bloc/add_schedule_bloc.dart';
 import 'package:save_kids/components/parent_components/category_chip.dart';
 import 'package:save_kids/components/parent_components/chip_time_picker.dart';
 import 'package:save_kids/models/category.dart';
-import 'package:save_kids/models/schedule_data.dart';
 
 import 'package:save_kids/util/constant.dart';
 import 'package:save_kids/util/style.dart';
 
 class AddSchedule extends StatefulWidget {
   final String childId;
-
-  AddSchedule(this.childId);
+  final DateTime dateTime;
+  AddSchedule(this.childId, this.dateTime);
   @override
   _AddScheduleState createState() => _AddScheduleState();
 }
@@ -278,7 +276,7 @@ class _AddScheduleState extends State<AddSchedule> {
         color: kBlueDarkColor,
         onPressed: () async {
           addScheduleBloc.childId = widget.childId;
-          await addScheduleBloc.addSchedule();
+          await addScheduleBloc.addSchedule(widget.dateTime);
           Navigator.pop(context);
         },
         shape: RoundedRectangleBorder(

@@ -10,16 +10,18 @@ class ScheduleProvider extends FireStoreProvider<Schedule> {
   ScheduleProvider()
       : super(new Schedule(), Firestore.instance.collection('schedule'));
   Stream<List<Schedule>> getSchedules(String childId, DateTime dateTime) {
-    final endTime = dateTime.add(Duration(
-      days: 1,
-    ));
-
+    final endTime = dateTime
+        .toUtc()
+        .subtract(Duration(hours: dateTime.hour))
+        .add(Duration(days: 1));
+    // Logger()
+    //     .i(dateTime.toUtc().subtract(Duration(hours: dateTime.hour)), endTime);
     return scheduleCollection
         .where('childId', isEqualTo: childId)
-        .where(
-          'dateStart',
-          isGreaterThanOrEqualTo: dateTime,
-        )
+        .where('dateStart',
+            isGreaterThanOrEqualTo:
+                dateTime.toUtc().subtract(Duration(hours: dateTime.hour)),
+            isLessThanOrEqualTo: endTime)
         .snapshots()
         .map(super.list);
   }

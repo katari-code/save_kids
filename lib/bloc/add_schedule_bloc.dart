@@ -77,8 +77,8 @@ class AddScheduleBloc extends BlocBase {
     }
   }
 
-  Future addSchedule() async {
-    final now = DateTime.now();
+  Future addSchedule(DateTime dateTime) async {
+    final now = dateTime;
     final dateSt = DateTime(now.year, now.month, now.day, _timeStart.value.hour,
             _timeStart.value.minute)
         .toLocal();
@@ -86,7 +86,8 @@ class AddScheduleBloc extends BlocBase {
     final dateEn = DateTime(now.year, now.month, now.day, _timeEnd.value.hour,
             _timeEnd.value.minute)
         .toLocal();
-    Logger().i(dateSt, dateEn);
+
+    Logger().i(dateSt, dateTime);
     List<String> categories = _categories.value
         .where((event) => event.isSelected == true)
         .map((e) => e.search)
