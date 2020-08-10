@@ -13,7 +13,7 @@ class AddScheduleBloc extends BlocBase {
   AddScheduleBloc() {
     changeTimeEnd(TimeOfDay.now());
     changeTimeStart(TimeOfDay.now());
-    addCategories(categories);
+
     addChosenChannels([]);
     addChosenVideos([]);
   }

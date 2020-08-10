@@ -14,7 +14,6 @@ const kWatchSchdeuleRoute = "/parent/watch_schedule";
 const kParentSettingsRoute = "/parent/settings";
 const kAddChildProfileRoute = "/parent/add_child";
 const kParentPinRoute = "/parent/pin";
-const kSettingsRoute = "/parent/Settings";
 const kHistoryWatchRoute = "/parent/HistoryWatch";
 
 //child screen
