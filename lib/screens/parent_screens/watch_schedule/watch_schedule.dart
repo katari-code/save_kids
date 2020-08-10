@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart' as provider;
 import 'package:save_kids/bloc/watch_schedule_bloc.dart';
+import 'package:save_kids/models/child.dart';
 import 'package:save_kids/models/parent.dart';
 import 'package:save_kids/models/schedule.dart';
 import 'package:save_kids/models/schedule_data.dart';
@@ -15,7 +16,12 @@ import 'package:save_kids/util/style.dart';
 
 import '../add_schedule.dart';
 
-class WatchSchedule extends StatelessWidget {
+class WatchSchedule extends StatefulWidget {
+  @override
+  _WatchScheduleState createState() => _WatchScheduleState();
+}
+
+class _WatchScheduleState extends State<WatchSchedule> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +40,6 @@ class WatchSchedule extends StatelessWidget {
               builder: (context, watchScheduleBloc) =>
                   provider.Consumer<ScheduleData>(
                 builder: (context, scheduleData, child) {
-                  var showTime = scheduleData.getChildShowTime();
                   return SafeArea(
                     child: StreamBuilder<Parent>(
                         stream: watchScheduleBloc.parentSession,
@@ -84,37 +89,41 @@ class WatchSchedule extends StatelessWidget {
                                 ),
                                 Column(
                                   children: <Widget>[
-                                    StreamBuilder<Object>(
+                                    StreamBuilder<List<Child>>(
                                         stream: watchScheduleBloc
                                             .children(parent.id),
                                         initialData: null,
                                         builder: (context, snapshot) {
                                           if (snapshot.hasData) {
-                                            return AvatrsCarousel(
-                                                snapshot.data,
-                                                watchScheduleBloc
-                                                    .changeChosenChild);
+                                            return AvatrsCarousel(snapshot.data,
+                                                (String id) {
+                                              watchScheduleBloc
+                                                  .changeChosenChild(id);
+                                              setState(() {});
+                                            });
                                           }
                                           return CircularProgressIndicator();
                                         }),
                                     TopCalendar(
                                         watchScheduleBloc.changeChosenDate),
                                     StreamBuilder<List<Schedule>>(
-                                        stream: watchScheduleBloc.getSchedule(),
-                                        builder: (context, snapshot) {
-                                          List<Schedule> schedules =
-                                              snapshot.data ?? [];
-                                          // Logger().i(schedules.length);
-                                          return Column(
-                                            children: List.generate(
-                                              schedules.length,
-                                              (index) => ScheduleCard(
-                                                showTimeCard: showTime[index],
+                                      stream: watchScheduleBloc.schedules,
+                                      builder: (context, snapshot) {
+                                        List<Schedule> schedules =
+                                            snapshot.data ?? [];
+
+                                        return Column(
+                                          children: List.generate(
+                                            schedules.length,
+                                            (index) => ScheduleCard(
                                                 schedule: schedules[index],
-                                              ),
-                                            ),
-                                          );
-                                        }),
+                                                deleteSchedule:
+                                                    watchScheduleBloc
+                                                        .deleteSchedule),
+                                          ),
+                                        );
+                                      },
+                                    ),
                                     SizedBox(
                                       height: 20,
                                     ),
@@ -123,14 +132,17 @@ class WatchSchedule extends StatelessWidget {
                                         builder: (context, snapshot) {
                                           return GestureDetector(
                                             onTap: () {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      AddSchedule(
-                                                          snapshot.data),
-                                                ),
-                                              );
+                                              if (snapshot.hasData) {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        AddSchedule(
+                                                            snapshot.data),
+                                                  ),
+                                                );
+                                                setState(() {});
+                                              }
                                             },
                                             child: AgeChip(
                                               highet: 60.0,

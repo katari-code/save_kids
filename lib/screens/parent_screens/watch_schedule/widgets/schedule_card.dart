@@ -3,13 +3,12 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:save_kids/models/schedule.dart';
 import 'package:save_kids/models/schedule_data.dart';
-import 'package:save_kids/models/show_time.dart';
+
 import 'package:save_kids/util/style.dart';
 
 class ScheduleCard extends StatelessWidget {
-  const ScheduleCard({this.showTimeCard, this.schedule});
-
-  final ShowTimeCard showTimeCard;
+  const ScheduleCard({this.schedule, this.deleteSchedule});
+  final Function deleteSchedule;
   final Schedule schedule;
 
   @override
@@ -46,9 +45,7 @@ class ScheduleCard extends StatelessWidget {
                     ),
                     //-- -- -- -- -- --//
                     Text(
-                      DateFormat.jm().format(
-                          DateTime.fromMillisecondsSinceEpoch(
-                              schedule.dateStart)),
+                      DateFormat.jm().format(schedule.dateStart),
                       style: kBubblegum_sans20.copyWith(
                         fontSize: 24,
                       ),
@@ -64,9 +61,7 @@ class ScheduleCard extends StatelessWidget {
                       width: 10,
                     ),
                     Text(
-                      DateFormat.jm().format(
-                          DateTime.fromMillisecondsSinceEpoch(
-                              schedule.dateEnd)),
+                      DateFormat.jm().format(schedule.dateEnd),
                       style: kBubblegum_sans20.copyWith(
                         fontSize: 24,
                       ),
@@ -74,8 +69,7 @@ class ScheduleCard extends StatelessWidget {
                   ],
                 ),
                 GestureDetector(
-                  onTap: () => Provider.of<ScheduleData>(context, listen: false)
-                      .deleteTheShowTimeCard(showTimeCard),
+                  onTap: () => deleteSchedule(schedule.id),
                   child: Image.asset(
                     'images/shape.png',
                     height: 40,

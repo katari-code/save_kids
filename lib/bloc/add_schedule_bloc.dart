@@ -2,6 +2,7 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:rxdart/rxdart.dart';
+// import 'package:save_kids/bloc/test/video_list_bloc_test.dart';
 import 'package:save_kids/models/category.dart';
 import 'package:save_kids/models/channel.dart';
 import 'package:save_kids/models/schedule.dart';
@@ -11,9 +12,9 @@ import 'package:save_kids/services/repository.dart';
 class AddScheduleBloc extends BlocBase {
   String childId;
   AddScheduleBloc() {
-    changeTimeEnd(TimeOfDay.now());
     changeTimeStart(TimeOfDay.now());
-
+    changeTimeEnd(TimeOfDay.now());
+    addCategories(categoriesList);
     addChosenChannels([]);
     addChosenVideos([]);
   }
@@ -91,12 +92,12 @@ class AddScheduleBloc extends BlocBase {
         .map((e) => e.search)
         .toList();
     Schedule schedule = Schedule(
-      categories: categories,
+      categories: categories ?? [],
       channels: _chosenChannels.value.map((e) => e.id).toSet().toList() ?? [],
       videos: _chosenVideos.value.map((e) => e.id).toSet().toList() ?? [],
       childId: childId,
-      dateEnd: dateEn.millisecondsSinceEpoch,
-      dateStart: dateSt.millisecondsSinceEpoch,
+      dateEnd: dateEn.toLocal(),
+      dateStart: dateSt.toLocal(),
     );
     return _repository.addDocument(schedule);
   }

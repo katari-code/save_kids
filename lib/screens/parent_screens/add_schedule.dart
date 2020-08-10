@@ -14,6 +14,7 @@ import 'package:save_kids/util/style.dart';
 
 class AddSchedule extends StatefulWidget {
   final String childId;
+
   AddSchedule(this.childId);
   @override
   _AddScheduleState createState() => _AddScheduleState();
@@ -39,78 +40,74 @@ class _AddScheduleState extends State<AddSchedule> {
             ),
             Center(
               child: Consumer<AddScheduleBloc>(
-                builder: (context, addScheduleBloc) =>
-                    provider.Consumer<ScheduleData>(
-                  builder: (context, scheduleData, child) => Container(
-                    alignment: Alignment.center,
-                    height: MediaQuery.of(context).size.height * 0.95,
-                    width: MediaQuery.of(context).size.width,
-                    padding: EdgeInsets.symmetric(horizontal: 4),
-                    child: Card(
-                      elevation: 6,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(45),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: SingleChildScrollView(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              buildTitleForm(),
-                              Center(
-                                child: Text(
-                                  ScheduleData.daysOfWeek[
-                                      scheduleData.currentDate.weekday - 1],
-                                  style: kBubblegum_sans28.copyWith(
-                                      color: kRedColor),
-                                ),
+                builder: (context, addScheduleBloc) => Container(
+                  alignment: Alignment.center,
+                  height: MediaQuery.of(context).size.height * 0.95,
+                  width: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.symmetric(horizontal: 4),
+                  child: Card(
+                    elevation: 6,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(45),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            buildTitleForm(),
+                            Center(
+                              child: Text(
+                                '',
+                                style: kBubblegum_sans28.copyWith(
+                                    color: kRedColor),
                               ),
-                              SizedBox(
-                                height: 20,
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            buildTimePicker(addScheduleBloc),
+                            SizedBox(
+                              height: 25,
+                            ),
+                            buildDuration(addScheduleBloc),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 20),
+                              child: Text(
+                                'Select Category :',
+                                textAlign: TextAlign.start,
+                                style: kBubblegum_sans28.copyWith(
+                                    color: kBlueDarkColor),
                               ),
-                              buildTimePicker(addScheduleBloc),
-                              SizedBox(
-                                height: 25,
-                              ),
-                              buildDuration(addScheduleBloc),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 20),
-                                child: Text(
-                                  'Select Category :',
-                                  textAlign: TextAlign.start,
-                                  style: kBubblegum_sans28.copyWith(
-                                      color: kBlueDarkColor),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 18,
-                              ),
-                              buildCategoryChips(addScheduleBloc),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              buildSpecifyChips(addScheduleBloc),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              SizedBox(
-                                height: 25,
-                              ),
-                              buildButton(addScheduleBloc)
-                            ],
-                          ),
+                            ),
+                            SizedBox(
+                              height: 18,
+                            ),
+                            buildCategoryChips(addScheduleBloc),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            buildSpecifyChips(addScheduleBloc),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            SizedBox(
+                              height: 25,
+                            ),
+                            buildButton(addScheduleBloc)
+                          ],
                         ),
                       ),
                     ),
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

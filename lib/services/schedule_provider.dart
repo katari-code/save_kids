@@ -4,25 +4,23 @@ import 'package:logger/logger.dart';
 import 'package:save_kids/models/schedule.dart';
 import 'package:save_kids/services/firestore_provider.dart';
 
-class ScheduleProvider extends FireStoreProvider {
+class ScheduleProvider extends FireStoreProvider<Schedule> {
+  final CollectionReference scheduleCollection =
+      Firestore.instance.collection('schedule');
   ScheduleProvider()
-      : super(Schedule(), Firestore.instance.collection('schedule'));
+      : super(new Schedule(), Firestore.instance.collection('schedule'));
   Stream<List<Schedule>> getSchedules(String childId, DateTime dateTime) {
     final endTime = dateTime.add(Duration(
       days: 1,
     ));
-    Logger().i(endTime.millisecondsSinceEpoch, dateTime.millisecondsSinceEpoch);
-    return super
-        .dataCollection
-        // .where('childId', isEqualTo: childId)
+
+    return scheduleCollection
+        .where('childId', isEqualTo: childId)
         .where(
           'dateStart',
-          isGreaterThanOrEqualTo: dateTime.millisecondsSinceEpoch,
+          isGreaterThanOrEqualTo: dateTime,
         )
         .snapshots()
-        .map((query) {
-      Logger().i(query.documents);
-      return super.list(query);
-    });
+        .map(super.list);
   }
 }
