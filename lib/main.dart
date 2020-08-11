@@ -7,7 +7,9 @@ import 'package:save_kids/bloc/add_schedule_bloc.dart';
 import 'package:save_kids/bloc/auth_bloc.dart';
 import 'package:save_kids/bloc/channel_bloc.dart';
 import 'package:save_kids/bloc/create_child_profile_bloc.dart';
+import 'package:save_kids/bloc/parent_settings_bloc.dart';
 import 'package:save_kids/bloc/test/video_list_bloc_test.dart';
+import 'package:save_kids/bloc/watch_schedule_bloc.dart';
 import 'package:save_kids/models/child.dart';
 import 'package:save_kids/models/child_avatar.dart';
 
@@ -56,11 +58,13 @@ class MyApp extends StatelessWidget {
           Bloc((i) => CreateChildProfileBloc()),
           Bloc((i) => SignUpBloc()),
           Bloc((i) => SignInBloc()),
+          Bloc((i) => ParentSettingsBloc()),
           Bloc((i) => AccountDashboardBloc()),
           Bloc((i) => AuthBloc()),
           Bloc((i) => VideoListBloc()),
           Bloc((i) => AddVideoBloc()),
           Bloc((i) => AddScheduleBloc()),
+          Bloc((i) => WatchScheduleBloc()),
         ],
         child: MaterialApp(
           title: 'Save Video Kids',

@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:save_kids/models/schedule.dart';
 import 'package:save_kids/models/schedule_data.dart';
-import 'package:save_kids/models/show_time.dart';
+
 import 'package:save_kids/util/style.dart';
 
 class ScheduleCard extends StatelessWidget {
-  const ScheduleCard({
-    this.showTimeCard,
-  });
-
-  final ShowTimeCard showTimeCard;
+  const ScheduleCard({this.schedule, this.deleteSchedule});
+  final Function deleteSchedule;
+  final Schedule schedule;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +45,7 @@ class ScheduleCard extends StatelessWidget {
                     ),
                     //-- -- -- -- -- --//
                     Text(
-                      DateFormat.jm().format(showTimeCard.timeStart),
+                      DateFormat.jm().format(schedule.dateStart),
                       style: kBubblegum_sans20.copyWith(
                         fontSize: 24,
                       ),
@@ -62,7 +61,7 @@ class ScheduleCard extends StatelessWidget {
                       width: 10,
                     ),
                     Text(
-                      DateFormat.jm().format(showTimeCard.timeEnd),
+                      DateFormat.jm().format(schedule.dateEnd),
                       style: kBubblegum_sans20.copyWith(
                         fontSize: 24,
                       ),
@@ -70,8 +69,7 @@ class ScheduleCard extends StatelessWidget {
                   ],
                 ),
                 GestureDetector(
-                  onTap: () => Provider.of<ScheduleData>(context, listen: false)
-                      .deleteTheShowTimeCard(showTimeCard),
+                  onTap: () => deleteSchedule(schedule.id),
                   child: Image.asset(
                     'images/shape.png',
                     height: 40,
@@ -82,48 +80,44 @@ class ScheduleCard extends StatelessWidget {
             Container(
               width: 250,
               child: Wrap(
-                spacing: 30,
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.all(2),
-                    width: 100,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: kRedDarkColor,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Center(
-                      child: Text(
-                        "Cartoon",
-                        textAlign: TextAlign.center,
-                        style: kBubblegum_sans20.copyWith(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.all(2),
-                    width: 100,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: kRedDarkColor,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Center(
-                      child: Text(
-                        "Cartoon",
-                        textAlign: TextAlign.center,
-                        style: kBubblegum_sans20.copyWith(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                  spacing: 15,
+                  runSpacing: 10,
+                  children: List<Widget>.generate(schedule.categories.length,
+                      (index) {
+                    return ShowTimeCategory(
+                        schedule.categories[index], kRedDarkColor);
+                  })),
             )
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class ShowTimeCategory extends StatelessWidget {
+  final Color color;
+  final String name;
+  ShowTimeCategory(this.name, this.color);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.all(2),
+      padding: EdgeInsets.all(5),
+      width: 100,
+      height: 50,
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Center(
+        child: Text(
+          name,
+          textAlign: TextAlign.center,
+          style: kBubblegum_sans20.copyWith(
+            color: Colors.white,
+          ),
         ),
       ),
     );

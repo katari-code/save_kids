@@ -31,8 +31,8 @@ final categoriesList = [
   //   isSelected: true,
   // ),
   Category(
-    'Explor',
-    'Explor for kids',
+    'Explore',
+    'Explore for kids',
     color: kYellowColor,
     index: 0,
     isSelected: true,

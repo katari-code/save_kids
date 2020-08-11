@@ -1,6 +1,8 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:rxdart/rxdart.dart';
+// import 'package:save_kids/bloc/test/video_list_bloc_test.dart';
 import 'package:save_kids/models/category.dart';
 import 'package:save_kids/models/channel.dart';
 import 'package:save_kids/models/schedule.dart';
@@ -10,9 +12,11 @@ import 'package:save_kids/services/repository.dart';
 class AddScheduleBloc extends BlocBase {
   String childId;
   AddScheduleBloc() {
-    changeTimeEnd(TimeOfDay.now());
     changeTimeStart(TimeOfDay.now());
+    changeTimeEnd(TimeOfDay.now());
     addCategories(categoriesList);
+    addChosenChannels([]);
+    addChosenVideos([]);
   }
   Repository _repository = Repository<Schedule>(collection: 'schedule');
   final _chosenVideos = BehaviorSubject<List<Video>>();
@@ -73,25 +77,28 @@ class AddScheduleBloc extends BlocBase {
     }
   }
 
-  Future addSchedule() async {
-    final now = DateTime.now();
+  Future addSchedule(DateTime dateTime) async {
+    final now = dateTime;
     final dateSt = DateTime(now.year, now.month, now.day, _timeStart.value.hour,
-        _timeStart.value.minute);
+            _timeStart.value.minute)
+        .toLocal();
 
     final dateEn = DateTime(now.year, now.month, now.day, _timeEnd.value.hour,
-        _timeEnd.value.minute);
+            _timeEnd.value.minute)
+        .toLocal();
 
+    // Logger().i(dateSt, dateTime);
     List<String> categories = _categories.value
         .where((event) => event.isSelected == true)
         .map((e) => e.search)
         .toList();
     Schedule schedule = Schedule(
-      categories: categories,
-      channels: _chosenChannels.value.map((e) => e.id).toSet().toList(),
-      videos: _chosenVideos.value.map((e) => e.id).toSet().toList(),
+      categories: categories ?? [],
+      channels: _chosenChannels.value.map((e) => e.id).toSet().toList() ?? [],
+      videos: _chosenVideos.value.map((e) => e.id).toSet().toList() ?? [],
       childId: childId,
-      dateEnd: dateEn.toString(),
-      dateStart: dateSt.toString(),
+      dateEnd: dateEn.toLocal(),
+      dateStart: dateSt.toLocal(),
     );
     return _repository.addDocument(schedule);
   }

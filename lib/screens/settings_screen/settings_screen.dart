@@ -2,6 +2,8 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:save_kids/bloc/parent_settings_bloc.dart';
+import 'package:save_kids/models/parent.dart';
 
 import '../../app_localizations.dart';
 import '../../bloc/sign_in_bloc.dart';
@@ -89,95 +91,114 @@ class SettingsScreen extends StatelessWidget {
               ],
             ),
           ),
-     
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Spacer(
-                  flex: 3,
-                ),
-                Text(
-                  "Account Information",
-                  style: kBubblegum_sans28,
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  padding: EdgeInsets.all(25),
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                  //settings
-                  child: Consumer<SignInBloc>(
-                    builder: (context, signInBloc) => Column(
+          Consumer<ParentSettingsBloc>(
+            builder: (context, parentSettingsBloc) => Center(
+              child: StreamBuilder<Parent>(
+                  stream: parentSettingsBloc.parentSession,
+                  builder: (context, snapshot) {
+                    return Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        StreamReusablefield(
-                          label: 'Full Name',
-                          stream: signInBloc.password,
-                          onChangeFunction: signInBloc.changePassword,
-                          isPass: true,
+                        Spacer(
+                          flex: 3,
                         ),
-                        StreamReusablefield(
-                          label: 'Password',
-                          stream: signInBloc.password,
-                          onChangeFunction: signInBloc.changePassword,
-                          isPass: true,
+                        Text(
+                          "Account Information",
+                          style: kBubblegum_sans28,
                         ),
-                        StreamReusablefield(
-                          label: 'Email',
-                          stream: signInBloc.password,
-                          onChangeFunction: signInBloc.changePassword,
-                          isPass: true,
+                        SizedBox(
+                          height: 10,
                         ),
-                        Stack(
-                          children: <Widget>[
-                            Container(
-                              height: 58.00,
-                              width: 226.00,
-                              decoration: BoxDecoration(
-                                color: Color(0xfff6b039),
-                                borderRadius: BorderRadius.circular(8.00),
-                              ),
-                            ),
-                            Positioned(
-                              top: -15,
-                              left: 0,
-                              child: Transform.scale(
-                                scale: 1.25,
-                                child: SvgPicture.asset(
-                                    "images/svgs/mask_button.svg"),
-                              ),
-                            ),
-                            Positioned(
-                              left: 226 * 0.35,
-                              top: 58 * 0.23,
-                              child: Text(
-                                text.translate('SAVE'),
-                                style: GoogleFonts.bubblegumSans(
-                                  textStyle: kBubblegum_sans32.copyWith(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                          overflow: Overflow.clip,
+                        Container(
+                          padding: EdgeInsets.all(25),
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          //settings
+                          child: StreamBuilder<Parent>(
+                              stream:
+                                  parentSettingsBloc.getParent(snapshot.data),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  parentSettingsBloc
+                                      .changeParent(snapshot.data);
+                                  return Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      StreamReusablefield(
+                                        label: 'Full Name',
+                                        stream: parentSettingsBloc.password,
+                                        onChangeFunction:
+                                            parentSettingsBloc.changePassword,
+                                        isPass: false,
+                                      ),
+                                      StreamReusablefield(
+                                        label: 'Password',
+                                        stream: parentSettingsBloc.password,
+                                        onChangeFunction:
+                                            parentSettingsBloc.changePassword,
+                                        isPass: true,
+                                      ),
+                                      StreamReusablefield(
+                                        label: 'Email',
+                                        stream: parentSettingsBloc.password,
+                                        onChangeFunction:
+                                            parentSettingsBloc.changePassword,
+                                        isPass: false,
+                                      ),
+                                      Stack(
+                                        children: <Widget>[
+                                          Container(
+                                            height: 58.00,
+                                            width: 226.00,
+                                            decoration: BoxDecoration(
+                                              color: Color(0xfff6b039),
+                                              borderRadius:
+                                                  BorderRadius.circular(8.00),
+                                            ),
+                                          ),
+                                          Positioned(
+                                            top: -15,
+                                            left: 0,
+                                            child: Transform.scale(
+                                              scale: 1.25,
+                                              child: SvgPicture.asset(
+                                                  "images/svgs/mask_button.svg"),
+                                            ),
+                                          ),
+                                          Positioned(
+                                            left: 226 * 0.35,
+                                            top: 58 * 0.23,
+                                            child: Text(
+                                              text.translate('SAVE'),
+                                              style: GoogleFonts.bubblegumSans(
+                                                textStyle:
+                                                    kBubblegum_sans32.copyWith(
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                        overflow: Overflow.clip,
+                                      ),
+                                    ],
+                                  );
+                                }
+                                return CircularProgressIndicator();
+                              }),
+                        ),
+                        Spacer(
+                          flex: 1,
                         ),
                       ],
-                    ),
-                  ),
-                ),
-                Spacer(
-                  flex: 1,
-                ),
-              ],
+                    );
+                  }),
             ),
           )
         ],

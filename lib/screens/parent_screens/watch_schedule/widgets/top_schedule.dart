@@ -5,6 +5,8 @@ import 'package:save_kids/util/style.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class TopCalendar extends StatefulWidget {
+  final Function chosenDate;
+  TopCalendar(this.chosenDate);
   @override
   _TopCalendarState createState() => _TopCalendarState();
 }
@@ -160,9 +162,9 @@ class _TopCalendarState extends State<TopCalendar>
               );
             }),
             onDaySelected: (date, meeting) {
-              Provider.of<ScheduleData>(context, listen: false)
-                  .setcurrentDate(date);
-
+              // Provider.of<ScheduleData>(context, listen: false)
+              //     .setcurrentDate(date);
+              widget.chosenDate(date);
               _animationController.forward(from: 0.0);
             },
             availableCalendarFormats: const {

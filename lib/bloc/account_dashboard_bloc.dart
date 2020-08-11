@@ -6,6 +6,8 @@ import 'package:save_kids/services/repository.dart';
 
 class AccountDashboardBloc extends BlocBase {
   Repository _repository = Repository<Child>(collection: 'children');
+  Repository _parentRepo = Repository<Parent>(collection: 'parent');
+  String parentId;
   AccountDashboardBloc() {
     changeEditMode(false);
   }
@@ -14,6 +16,7 @@ class AccountDashboardBloc extends BlocBase {
   Stream<bool> get editMode => _isEditMode.stream;
 
   Stream<Parent> get parentSession => _repository.authSession;
+  Stream<Parent> get parent => _parentRepo.getDocument(Parent(), parentId);
 
   Stream<List<Child>> children(String parentId) {
     return _repository.getDocumentByQuery(Child(), 'parentId', parentId);
