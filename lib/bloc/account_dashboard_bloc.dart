@@ -15,6 +15,9 @@ class AccountDashboardBloc extends BlocBase {
   Function(bool) get changeEditMode => _isEditMode.sink.add;
   Stream<bool> get editMode => _isEditMode.stream;
 
+  Future<bool> get isEmailVerified => _repository.isEmailVerified;
+  Future get sendEmailVerification => _repository.sendEmailVerification;
+
   Stream<Parent> get parentSession => _repository.authSession;
   Stream<Parent> get parent => _parentRepo.getDocument(Parent(), parentId);
 

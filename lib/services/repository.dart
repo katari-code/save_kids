@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:logger/logger.dart';
-import 'package:save_kids/models/category.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:save_kids/models/channel.dart';
 import 'package:save_kids/models/interfaces/i_firestore_converter.dart';
 import 'package:save_kids/models/parent.dart';
@@ -104,6 +104,23 @@ class Repository<T extends FireStoreConverter> {
     return _authServiceProvider.user;
   }
 
+  Future<bool> get isEmailVerified {
+    return _authServiceProvider.isEmailVerified;
+  }
+
+  Future<FirebaseUser> get currentUser {
+    return _authServiceProvider.currentUser;
+  }
+
+  Future<bool> get sendEmailVerification async {
+    FirebaseUser user = await currentUser;
+    if (user != null) {
+      await _authServiceProvider.verifyEmail(user);
+      return true;
+    }
+    return false;
+  }
+
   //sign in
   Future<Parent> signIn(String email, String password) async {
     try {
@@ -112,6 +129,15 @@ class Repository<T extends FireStoreConverter> {
           Parent(), Firestore.instance.collection(collection),
           id: result.id);
       return await _fireStoreProvider.document.first;
+    } catch (e) {
+      logger.e(e);
+      return null;
+    }
+  }
+
+  Future<Parent> signInWithGoogle() async {
+    try {
+      return await _authServiceProvider.signInWithGoogle();
     } catch (e) {
       logger.e(e);
       return null;

@@ -2,6 +2,7 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:logger/logger.dart';
 import 'package:save_kids/bloc/sign_in_bloc.dart';
 import 'package:save_kids/components/control_widgets/message.dart';
 import 'package:save_kids/components/control_widgets/progress_bar.dart';
@@ -201,29 +202,45 @@ class _SignInState extends State<SignIn> {
                 SizedBox(
                   height: 10,
                 ),
-                Container(
-                  height: 58.00,
-                  width: 221.00,
-                  decoration: BoxDecoration(
-                    color: Color(0xff40BAD5),
-                    borderRadius: BorderRadius.circular(84.00),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      SvgPicture.asset('images/svgs/googleIcon.svg'),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Text(
-                        "Continue with Google",
-                        style: GoogleFonts.bubblegumSans(
-                          textStyle: kBubblegum_sans16.copyWith(
-                            color: Colors.white,
+                GestureDetector(
+                  onTap: () async {
+                    signInBloc.showProgressBar(true);
+                    final result = await signInBloc.signInWithGoogle();
+                    signInBloc.showProgressBar(false);
+                    if (result != null) {
+                      Navigator.pushReplacementNamed(
+                          context, kChildAccountRoute);
+                    }
+                    Message(
+                            color: Colors.redAccent,
+                            input: 'User Not Found',
+                            context: context)
+                        .displayMessage();
+                  },
+                  child: Container(
+                    height: 58.00,
+                    width: 221.00,
+                    decoration: BoxDecoration(
+                      color: Color(0xff40BAD5),
+                      borderRadius: BorderRadius.circular(84.00),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        SvgPicture.asset('images/svgs/googleIcon.svg'),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          "Continue with Google",
+                          style: GoogleFonts.bubblegumSans(
+                            textStyle: kBubblegum_sans16.copyWith(
+                              color: Colors.white,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ],
