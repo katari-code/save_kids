@@ -9,8 +9,18 @@ class Category {
   bool isSelected;
   Color color;
   String imgURl;
-  Category(this.categoryName, this.search,
-      {this.color, this.isSelected, this.imgURl, this.index});
+  String v1; // Vector 1
+  String v2; // Vector 2
+  Category(
+    this.categoryName,
+    this.search, {
+    this.color,
+    this.isSelected,
+    this.imgURl,
+    this.index,
+    this.v1,
+    this.v2,
+  });
 }
 
 final categoriesList = [
@@ -37,6 +47,8 @@ final categoriesList = [
     isSelected: true,
     imgURl:
         "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/categories%2Fceducation%408x.png?alt=media&token=b6250206-7d7e-452b-91b7-fd40bc847ac1",
+    v1: "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/categories%2Fedu_v2.svg?alt=media&token=a719a517-20f9-47ed-8f0d-a13d24248acd",
+    v2: "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/categories%2Fedu_v2.svg?alt=media&token=a719a517-20f9-47ed-8f0d-a13d24248acd",
   ),
   Category(
     'Shows',

@@ -6,8 +6,6 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:save_kids/bloc/account_dashboard_bloc.dart';
 import 'package:save_kids/models/child.dart';
 import 'package:save_kids/models/parent.dart';
-import 'package:save_kids/screens/child_screen/create_child_profile.dart';
-import 'package:save_kids/screens/parent_screens/parent_dashboard.dart';
 import 'package:save_kids/util/constant.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:save_kids/util/style.dart';

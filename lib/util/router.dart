@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:save_kids/screens/account_dashborad_screen/accounts_screen.dart';
+import 'package:save_kids/screens/child_display_videos/child_display_videos.dart';
+import 'package:save_kids/screens/child_display_videos/video_list.dart';
+import 'package:save_kids/screens/child_display_videos/video_player_screen/video_player_screen.dart';
+import 'package:save_kids/screens/create_child_profile/create_child_profile.dart';
+import 'package:save_kids/screens/parent_screens/watch_history_screen/watch_histroy_screen.dart';
 import 'package:save_kids/screens/settings_screen/settings_screen.dart';
 import 'package:save_kids/screens/specify_screens/add_channel_screen.dart';
-import 'package:save_kids/screens/child_screen/create_child_profile.dart';
 import 'package:save_kids/screens/parent_screens/add_schedule.dart';
 import 'package:save_kids/screens/parent_screens/parent_dashboard.dart';
 import 'package:save_kids/screens/parent_screens/watch_schedule/watch_schedule.dart';
@@ -10,9 +14,6 @@ import 'package:save_kids/screens/sign_in/sign_in.dart';
 import 'package:save_kids/screens/sign_up/sign_up.dart';
 import 'package:save_kids/screens/specify_screens/add_videos_screen.dart';
 import 'package:save_kids/screens/splash_screen/splash_screen.dart';
-import 'package:save_kids/screens/test_video/child%20display_videos.dart';
-import 'package:save_kids/screens/video_player_screen/video_player%20screen.dart';
-import 'package:save_kids/screens/watch_screen/watch_histroy_screen.dart';
 import 'package:save_kids/util/constant.dart';
 
 Route<dynamic> createRoute(settings) {
@@ -39,10 +40,6 @@ Route<dynamic> createRoute(settings) {
       return MaterialPageRoute(
         builder: (context) => AddSchedule(),
       );
-    // case kParentDashboardRoute:
-    //   return MaterialPageRoute(
-    //     builder: (context) => PA(),
-    //   );
     case kSpecifyChannelsRoute:
       return MaterialPageRoute(
         builder: (context) => AddChannelScreen(),
@@ -51,15 +48,10 @@ Route<dynamic> createRoute(settings) {
       return MaterialPageRoute(
         builder: (context) => AddVideoScreen(),
       );
-    // case kAddChannelRoute:
-    //   return MaterialPageRoute(
-    //     builder: (context) => AddChannelScreen(),
-    //   );
     case kWatchSchdeuleRoute:
       return MaterialPageRoute(
         builder: (context) => WatchSchedule(),
       );
-
     case kParentSettingsRoute:
       return MaterialPageRoute(
         builder: (context) => SettingsScreen(),
@@ -68,11 +60,6 @@ Route<dynamic> createRoute(settings) {
       return MaterialPageRoute(
         builder: (context) => AddChildScreen(),
       );
-    // case kParentPinRoute:
-    //   return MaterialPageRoute(
-    //     builder: (context) => SpalschScreen(),
-    //   );
-
     case kHistoryWatchRoute:
       return MaterialPageRoute(
         builder: (context) => WatchHistory(),
@@ -88,6 +75,10 @@ Route<dynamic> createRoute(settings) {
     case kVideoDisplayRoute:
       return MaterialPageRoute(
         builder: (context) => ChildMainViedoList(),
+      );
+    case kVideoListRoute:
+      return MaterialPageRoute(
+        builder: (context) => VideoList(),
       );
   }
   return null;

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:save_kids/models/schedule_data.dart';
-import 'package:save_kids/screens/child_screen/create_child_profile.dart';
+import 'package:save_kids/screens/create_child_profile/create_child_profile.dart';
 import 'package:save_kids/screens/parent_screens/watch_schedule/widgets/avatart_carousel.dart';
 import 'package:save_kids/screens/parent_screens/watch_schedule/widgets/schedule_card.dart';
 import 'package:save_kids/screens/parent_screens/watch_schedule/widgets/top_schedule.dart';

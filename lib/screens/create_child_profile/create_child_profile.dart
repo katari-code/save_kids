@@ -4,6 +4,7 @@ import 'package:save_kids/app_localizations.dart';
 import 'package:save_kids/bloc/create_child_profile_bloc.dart';
 import 'package:save_kids/models/parent.dart';
 import 'package:save_kids/screens/account_dashborad_screen/accounts_screen.dart';
+import 'package:save_kids/screens/create_child_profile/widget/time_coursal.dart';
 import 'package:save_kids/util/style.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:bloc_pattern/bloc_pattern.dart' as bloc;
@@ -150,23 +151,17 @@ class _AddChildScreenState extends State<AddChildScreen> {
                   ),
                   buildTextField(context, createChildBloc),
                   buildAgeChips(text, createChildBloc),
+                  Text(
+                    "Daily Total Watch Time",
+                    style: kBubblegum_sans32,
+                  ),
+                  TimeCoursal(),
                   StreamBuilder<Parent>(
                       stream: createChildBloc.parentSession,
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           return GestureDetector(
                             onTap: () async {
-                              // Provider.of<KidsData>(context, listen: false).addKid(
-                              //   Child(
-                              //       imagePath:
-                              //           Provider.of<AvatarData>(context, listen: false)
-                              //               .avatars[Provider.of<AvatarData>(context,
-                              //                       listen: false)
-                              //                   .currentAvatar]
-                              //               .childAvatar,
-                              //       name: childname),
-                              // );
-
                               final result = await buildShowModeDialog(context);
                               if (result == null) {
                                 await createChildBloc.addChild(

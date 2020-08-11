@@ -12,8 +12,8 @@ import 'package:save_kids/models/child.dart';
 import 'package:save_kids/models/child_avatar.dart';
 
 import 'package:provider/provider.dart';
-import 'package:save_kids/util/constant.dart';
-import 'package:save_kids/util/router.dart';
+import 'package:save_kids/models/timer.dart';
+import 'package:save_kids/screens/child_display_videos/child_display_videos.dart';
 
 import 'bloc/add_video_bloc.dart';
 import 'bloc/developer_blocs/add_channel_bloc.dart';
@@ -21,7 +21,6 @@ import 'bloc/sign_in_bloc.dart';
 import 'bloc/sign_up_bloc.dart';
 
 import 'models/schedule_data.dart';
-import 'util/constant.dart';
 
 void main() {
   runApp(MyApp());
@@ -42,6 +41,10 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => KidsData(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => TimerData(),
+        ),
+
         // ChangeNotifierProvider(
         //   create: (_) => ChannelData(),
         // ),
@@ -69,7 +72,6 @@ class MyApp extends StatelessWidget {
             Locale('en', 'US'),
             Locale('de', 'DE'),
           ],
-
           localizationsDelegates: [
             // A class which loads the translations from JSON files
             AppLocalizations.delegate,
@@ -91,10 +93,11 @@ class MyApp extends StatelessWidget {
             // from the list (English, in this case).
             return supportedLocales.first;
           },
-          initialRoute: kVideoDisplayRoute,
-          onGenerateRoute: (RouteSettings settings) {
-            return createRoute(settings);
-          },
+          // initialRoute: kVideoDisplayRoute,
+          // onGenerateRoute: (RouteSettings settings) {
+          //   return createRoute(settings);
+          // },
+          home: ChildMainViedoList(),
         ),
       ),
     );
