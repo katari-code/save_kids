@@ -12,6 +12,10 @@ class SignInBloc extends BlocBase {
   final _password = BehaviorSubject<String>();
   final _isSignedIn = BehaviorSubject<bool>();
 
+  SignInBloc() {
+    showProgressBar(false);
+  }
+
   //onChanged Functions
   Function(String) get changeEmail => _email.sink.add;
   Function(String) get changePassword => _password.sink.add;

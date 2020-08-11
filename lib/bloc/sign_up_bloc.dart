@@ -7,6 +7,9 @@ import 'package:save_kids/services/repository.dart';
 
 class SignUpBloc extends BlocBase {
   Repository _repository = new Repository<Parent>(collection: 'parent');
+  SignUpBloc() {
+    showProgressBar(false);
+  }
   final _fullName = BehaviorSubject<String>();
   final _email = BehaviorSubject<String>();
   final _password = BehaviorSubject<String>();
@@ -23,6 +26,9 @@ class SignUpBloc extends BlocBase {
   Function(String) get changePhoneNumber => _phoneNumber.sink.add;
   Function(String) get changePassword => _password.sink.add;
 
+  final _isSignedIn = BehaviorSubject<bool>();
+  Function(bool) get showProgressBar => _isSignedIn.sink.add;
+  Stream<bool> get signInStatus => _isSignedIn.stream;
   final _validateName =
       StreamTransformer<String, String>.fromHandlers(handleData: (data, sink) {
     if (data.length > 5) {
@@ -53,6 +59,23 @@ class SignUpBloc extends BlocBase {
       sink.addError('name length must be over 5 letters!');
   });
 
+  bool validateSignInFields() {
+    if (_email.value != null &&
+        _email.value.isNotEmpty &&
+        _password.value != null &&
+        _password.value.isNotEmpty &&
+        _email.value.contains('@') &&
+        _password.value.length > 5 &&
+        _fullName.value != null &&
+        _fullName.value.isNotEmpty &&
+        _phoneNumber.value != null &&
+        _phoneNumber.value.isNotEmpty) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   Future<Parent> signUp() {
     Parent parent = Parent(
       email: _email.value,
@@ -72,7 +95,7 @@ class SignUpBloc extends BlocBase {
     _phoneNumber.close();
     await _password.drain();
     _password.close();
-
+    await _isSignedIn.drain();
     super.dispose();
   }
 }

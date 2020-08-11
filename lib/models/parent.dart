@@ -21,7 +21,9 @@ class Parent extends FireStoreConverter {
           email: snapshot.data['email'],
           pin: snapshot.data['pin'],
           id: snapshot.documentID,
-          children: [...List.from(snapshot.data['children']).toList()] ?? [],
+          name: snapshot.data['name'],
+          children:
+              [...List<String>.from(snapshot.data['children']).toList()] ?? [],
         );
 
   @override
