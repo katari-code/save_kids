@@ -80,48 +80,44 @@ class ScheduleCard extends StatelessWidget {
             Container(
               width: 250,
               child: Wrap(
-                spacing: 30,
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.all(2),
-                    width: 100,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: kRedDarkColor,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Center(
-                      child: Text(
-                        "Cartoon",
-                        textAlign: TextAlign.center,
-                        style: kBubblegum_sans20.copyWith(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.all(2),
-                    width: 100,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: kRedDarkColor,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Center(
-                      child: Text(
-                        "Cartoon",
-                        textAlign: TextAlign.center,
-                        style: kBubblegum_sans20.copyWith(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                  spacing: 15,
+                  runSpacing: 10,
+                  children: List<Widget>.generate(schedule.categories.length,
+                      (index) {
+                    return ShowTimeCategory(
+                        schedule.categories[index], kRedDarkColor);
+                  })),
             )
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class ShowTimeCategory extends StatelessWidget {
+  final Color color;
+  final String name;
+  ShowTimeCategory(this.name, this.color);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.all(2),
+      padding: EdgeInsets.all(5),
+      width: 100,
+      height: 50,
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Center(
+        child: Text(
+          name,
+          textAlign: TextAlign.center,
+          style: kBubblegum_sans20.copyWith(
+            color: Colors.white,
+          ),
         ),
       ),
     );
