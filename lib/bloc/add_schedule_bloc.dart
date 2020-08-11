@@ -87,7 +87,7 @@ class AddScheduleBloc extends BlocBase {
             _timeEnd.value.minute)
         .toLocal();
 
-    Logger().i(dateSt, dateTime);
+    // Logger().i(dateSt, dateTime);
     List<String> categories = _categories.value
         .where((event) => event.isSelected == true)
         .map((e) => e.search)

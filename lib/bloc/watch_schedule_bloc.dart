@@ -15,7 +15,11 @@ class WatchScheduleBloc extends BlocBase {
   WatchScheduleBloc() {
     changeChosenDate(DateTime.now());
   }
-  Function(String) get changeChosenChild => _chosenChild.sink.add;
+  changeChosenChild(String chosenChildId) {
+    _chosenChild.sink.add(chosenChildId);
+    changeSchedule();
+  }
+
   changeChosenDate(DateTime date) {
     _chosenDate.sink.add(date);
     changeSchedule();

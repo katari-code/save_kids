@@ -173,7 +173,8 @@ class _WatchScheduleState extends State<WatchSchedule> {
                                                                   dateTime),
                                                         ),
                                                       );
-                                                      setState(() {});
+                                                      watchScheduleBloc
+                                                          .changeSchedule();
                                                     },
                                                     child: AgeChip(
                                                       highet: 60.0,

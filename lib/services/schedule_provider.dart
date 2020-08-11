@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:logger/logger.dart';
 
 import 'package:save_kids/models/schedule.dart';
 import 'package:save_kids/services/firestore_provider.dart';
@@ -12,7 +11,7 @@ class ScheduleProvider extends FireStoreProvider<Schedule> {
   Stream<List<Schedule>> getSchedules(String childId, DateTime dateTime) {
     final endTime = dateTime
         .toUtc()
-        .subtract(Duration(hours: dateTime.hour))
+        .subtract(Duration(hours: dateTime.hour + 6))
         .add(Duration(days: 1));
     // Logger()
     //     .i(dateTime.toUtc().subtract(Duration(hours: dateTime.hour)), endTime);
@@ -20,7 +19,7 @@ class ScheduleProvider extends FireStoreProvider<Schedule> {
         .where('childId', isEqualTo: childId)
         .where('dateStart',
             isGreaterThanOrEqualTo:
-                dateTime.toUtc().subtract(Duration(hours: dateTime.hour)),
+                dateTime.toUtc().subtract(Duration(hours: dateTime.hour + 6)),
             isLessThanOrEqualTo: endTime)
         .snapshots()
         .map(super.list);
