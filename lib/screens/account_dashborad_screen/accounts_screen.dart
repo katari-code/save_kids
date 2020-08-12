@@ -38,14 +38,16 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
                   if (snapshot.hasData) {
                     accountDashBloc.parentId = snapshot.data.id;
                     return StreamBuilder<bool>(
-                      stream: accountDashBloc.isVerified,
-                      initialData: false,
+                      stream: accountDashBloc.isVerified.stream,
                       builder: (context, isVerified) {
-                        if (isVerified.data) {
-                          return buildVerifiedUI(accountDashBloc, snapshot);
-                        } else {
-                          return buildUnverifiedUI(context, accountDashBloc);
+                        if (isVerified.hasData) {
+                          if (isVerified.data) {
+                            return buildVerifiedUI(accountDashBloc, snapshot);
+                          } else {
+                            return buildUnverifiedUI(context, accountDashBloc);
+                          }
                         }
+                        return Center(child: ProgressBar());
                       },
                     );
                   }
@@ -92,7 +94,15 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
                 ),
                 SizedBox(height: 40),
                 GestureDetector(
-                  onTap: () => accountDashBloc.checkIsEmailVerified,
+                  onTap: () async {
+                    // await accountDashBloc.checkIsEmailVerified;
+                    if (await accountDashBloc.isEmailVerified &&
+                        accountDashBloc.isNew) {
+                      await Navigator.pushNamed(context, kAddChildProfileRoute);
+                      await accountDashBloc.checkIsEmailVerified;
+                      accountDashBloc.isNew = false;
+                    }
+                  },
                   child: Container(
                     height: 58.00,
                     width: 100.00,
@@ -198,162 +208,167 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
               SizedBox(height: 20),
               StreamBuilder<List<Child>>(
                   stream: accountDashBloc.children(snapshot.data.id),
-                  initialData: [],
                   builder: (context, snapshot) {
-                    return Container(
-                      height: MediaQuery.of(context).size.height * 0.6,
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(25),
-                        color: Colors.white,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: GridView.count(
-                          primary: false,
-                          crossAxisSpacing: 20,
-                          mainAxisSpacing: 10,
-                          crossAxisCount: 2,
-                          children: List<Widget>.generate(
-                            snapshot.data.length == 4
-                                ? snapshot.data.length
-                                : snapshot.data.length + 1,
-                            (index) => snapshot.data.length == 4
-                                ? CustomAnimation(
-                                    duration: Duration(milliseconds: 800),
-                                    delay: Duration(
-                                      milliseconds: (800 * 2).round(),
-                                    ),
-                                    curve: Curves.elasticOut,
-                                    tween: Tween<double>(
-                                      begin: 0,
-                                      end: 1,
-                                    ),
-                                    builder: (context, child, value) =>
-                                        GestureDetector(
-                                      onTap: () {},
-                                      child: Column(children: <Widget>[
-                                        Stack(
-                                          alignment: Alignment.center,
-                                          overflow: Overflow.visible,
-                                          children: editMode
-                                              ? _displayMode(
-                                                  snapshot
-                                                      .data[index].imagePath,
-                                                )
-                                              : _editMode(
-                                                  snapshot.data[index].id,
-                                                  snapshot
-                                                      .data[index].imagePath,
-                                                  accountDashBloc,
-                                                ),
-                                        ),
-                                        Text(
-                                          snapshot.data[index].name,
-                                          style: GoogleFonts.bubblegumSans(
-                                            textStyle:
-                                                kBubblegum_sans28.copyWith(
-                                                    color: kBlueDarkColor),
+                    if (snapshot.hasData) {
+                      return Container(
+                        height: MediaQuery.of(context).size.height * 0.6,
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25),
+                          color: Colors.white,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: GridView.count(
+                            primary: false,
+                            crossAxisSpacing: 20,
+                            mainAxisSpacing: 10,
+                            crossAxisCount: 2,
+                            children: List<Widget>.generate(
+                              snapshot.data.length == 4
+                                  ? snapshot.data.length
+                                  : snapshot.data.length + 1,
+                              (index) => snapshot.data.length == 4
+                                  ? CustomAnimation(
+                                      duration: Duration(milliseconds: 800),
+                                      delay: Duration(
+                                        milliseconds: (800 * 2).round(),
+                                      ),
+                                      curve: Curves.elasticOut,
+                                      tween: Tween<double>(
+                                        begin: 0,
+                                        end: 1,
+                                      ),
+                                      builder: (context, child, value) =>
+                                          GestureDetector(
+                                        onTap: () {},
+                                        child: Column(children: <Widget>[
+                                          Stack(
+                                            alignment: Alignment.center,
+                                            overflow: Overflow.visible,
+                                            children: editMode
+                                                ? _displayMode(
+                                                    snapshot
+                                                        .data[index].imagePath,
+                                                  )
+                                                : _editMode(
+                                                    snapshot.data[index].id,
+                                                    snapshot
+                                                        .data[index].imagePath,
+                                                    accountDashBloc,
+                                                  ),
                                           ),
-                                        ),
-                                      ]),
-                                    ),
-                                  )
-                                : index == snapshot.data.length
-                                    ? CustomAnimation(
-                                        duration: Duration(milliseconds: 800),
-                                        delay: Duration(
-                                          milliseconds: (800 * 2).round(),
-                                        ),
-                                        curve: Curves.elasticOut,
-                                        tween: Tween<double>(
-                                          begin: 0,
-                                          end: 1,
-                                        ),
-                                        builder: (context, child, value) =>
-                                            Transform.scale(
-                                          scale: value,
-                                          child: GestureDetector(
-                                            onTap: () => Navigator.pushNamed(
-                                                context, kAddChildProfileRoute),
-                                            child: Column(
-                                              children: <Widget>[
-                                                Stack(
-                                                  alignment: Alignment.center,
-                                                  children: <Widget>[
-                                                    CircleAvatar(
-                                                      radius: 45,
-                                                      backgroundColor:
-                                                          kYellowColor,
-                                                    ),
-                                                    Icon(
-                                                      Icons.add,
-                                                      color: Colors.white,
-                                                      size: 70,
-                                                    )
-                                                  ],
-                                                ),
-                                                Text(
-                                                  "Create profile",
-                                                  style: GoogleFonts.capriola(),
-                                                )
-                                              ],
+                                          Text(
+                                            snapshot.data[index].name,
+                                            style: GoogleFonts.bubblegumSans(
+                                              textStyle:
+                                                  kBubblegum_sans28.copyWith(
+                                                      color: kBlueDarkColor),
                                             ),
                                           ),
-                                        ),
-                                      )
-                                    : CustomAnimation(
-                                        duration: Duration(milliseconds: 800),
-                                        delay: Duration(
-                                          milliseconds: (800 * 2).round(),
-                                        ),
-                                        curve: Curves.elasticOut,
-                                        tween: Tween<double>(
-                                          begin: 0,
-                                          end: 1,
-                                        ),
-                                        builder: (context, child, value) =>
-                                            Transform.scale(
-                                          scale: value,
-                                          child: GestureDetector(
-                                            onTap: () {},
-                                            child: Column(
-                                              children: <Widget>[
-                                                Stack(
-                                                  overflow: Overflow.visible,
-                                                  alignment: Alignment.center,
-                                                  children: editMode
-                                                      ? _displayMode(
-                                                          snapshot.data[index]
-                                                              .imagePath,
-                                                        )
-                                                      : _editMode(
-                                                          snapshot
-                                                              .data[index].id,
-                                                          snapshot.data[index]
-                                                              .imagePath,
-                                                          accountDashBloc,
-                                                        ),
-                                                ),
-                                                Text(
-                                                  snapshot.data[index].name,
-                                                  style:
-                                                      GoogleFonts.bubblegumSans(
-                                                    textStyle: kBubblegum_sans28
-                                                        .copyWith(
-                                                      color: kBlueDarkColor,
+                                        ]),
+                                      ),
+                                    )
+                                  : index == snapshot.data.length
+                                      ? CustomAnimation(
+                                          duration: Duration(milliseconds: 800),
+                                          delay: Duration(
+                                            milliseconds: (800 * 2).round(),
+                                          ),
+                                          curve: Curves.elasticOut,
+                                          tween: Tween<double>(
+                                            begin: 0,
+                                            end: 1,
+                                          ),
+                                          builder: (context, child, value) =>
+                                              Transform.scale(
+                                            scale: value,
+                                            child: GestureDetector(
+                                              onTap: () => Navigator.pushNamed(
+                                                  context,
+                                                  kAddChildProfileRoute),
+                                              child: Column(
+                                                children: <Widget>[
+                                                  Stack(
+                                                    alignment: Alignment.center,
+                                                    children: <Widget>[
+                                                      CircleAvatar(
+                                                        radius: 45,
+                                                        backgroundColor:
+                                                            kYellowColor,
+                                                      ),
+                                                      Icon(
+                                                        Icons.add,
+                                                        color: Colors.white,
+                                                        size: 70,
+                                                      )
+                                                    ],
+                                                  ),
+                                                  Text(
+                                                    "Create profile",
+                                                    style:
+                                                        GoogleFonts.capriola(),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      : CustomAnimation(
+                                          duration: Duration(milliseconds: 800),
+                                          delay: Duration(
+                                            milliseconds: (800 * 2).round(),
+                                          ),
+                                          curve: Curves.elasticOut,
+                                          tween: Tween<double>(
+                                            begin: 0,
+                                            end: 1,
+                                          ),
+                                          builder: (context, child, value) =>
+                                              Transform.scale(
+                                            scale: value,
+                                            child: GestureDetector(
+                                              onTap: () {},
+                                              child: Column(
+                                                children: <Widget>[
+                                                  Stack(
+                                                    overflow: Overflow.visible,
+                                                    alignment: Alignment.center,
+                                                    children: editMode
+                                                        ? _displayMode(
+                                                            snapshot.data[index]
+                                                                .imagePath,
+                                                          )
+                                                        : _editMode(
+                                                            snapshot
+                                                                .data[index].id,
+                                                            snapshot.data[index]
+                                                                .imagePath,
+                                                            accountDashBloc,
+                                                          ),
+                                                  ),
+                                                  Text(
+                                                    snapshot.data[index].name,
+                                                    style: GoogleFonts
+                                                        .bubblegumSans(
+                                                      textStyle:
+                                                          kBubblegum_sans28
+                                                              .copyWith(
+                                                        color: kBlueDarkColor,
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
+                            ),
                           ),
                         ),
-                      ),
-                    );
+                      );
+                    }
+                    return ProgressBar();
                   }),
             ],
           );

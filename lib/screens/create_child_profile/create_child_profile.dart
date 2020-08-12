@@ -168,13 +168,7 @@ class _AddChildScreenState extends State<AddChildScreen> {
                                     snapshot.data.id, 'exploratory');
                               }
 
-                              Navigator.of(context).pushAndRemoveUntil(
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      AccountDashboardScreen(),
-                                ),
-                                (route) => false,
-                              );
+                              Navigator.of(context).pop(context);
                             },
                             child: Container(
                               height: 58.00,

@@ -8,18 +8,25 @@ class AccountDashboardBloc extends BlocBase {
   Repository _repository = Repository<Child>(collection: 'children');
   Repository _parentRepo = Repository<Parent>(collection: 'parent');
   String parentId;
+  bool isNew = false;
   AccountDashboardBloc() {
     changeEditMode(false);
+    checkIsEmailVerified;
+    _repository.isEmailVerified.then((value) => {
+          if (!value) {isNew = true}
+        });
   }
   final _isEditMode = BehaviorSubject<bool>();
-  PublishSubject<bool> isVerified = PublishSubject<bool>();
+  BehaviorSubject<bool> isVerified = BehaviorSubject<bool>();
   Function(bool) get changeEditMode => _isEditMode.sink.add;
   Stream<bool> get editMode => _isEditMode.stream;
-  Stream<bool> get isEmailVerified => isVerified.stream;
+  // Stream<bool> get isEmailVerified => isVerified.stream;
   get checkIsEmailVerified async {
-    isVerified.add(await _repository.isEmailVerified);
+    isVerified.add(await isEmailVerified);
     // isEmailVerified;
   }
+
+  Future<bool> get isEmailVerified => _repository.isEmailVerified;
 
   Future get sendEmailVerification => _repository.sendEmailVerification;
 
