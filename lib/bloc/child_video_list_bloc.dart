@@ -111,7 +111,7 @@ class ChildVideoListBloc extends BlocBase {
     ),
     Category(
       'Music',
-      'science for kids',
+      'Music for kids',
       color: kYellowColor,
       index: 3,
       isSelected: true,

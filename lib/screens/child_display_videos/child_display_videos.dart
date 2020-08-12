@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:logger/logger.dart';
-import 'package:provider/provider.dart';
 import 'package:bloc_pattern/bloc_pattern.dart' as Bolc;
 import 'package:save_kids/bloc/child_video_list_bloc.dart';
+import 'package:flutter/services.dart';
 
 import 'package:save_kids/bloc/test/video_list_bloc_test.dart';
 import 'package:save_kids/components/video_card.dart';
 import 'package:save_kids/models/category.dart';
-import 'package:save_kids/models/child.dart';
 import 'package:save_kids/models/video.dart';
 import 'package:save_kids/screens/child_display_videos/video_player_screen/video_player_screen.dart';
 import 'package:save_kids/util/style.dart';
@@ -26,7 +25,29 @@ class _ChildMainViedoListState extends State<ChildMainViedoList> {
   int selectedIndex = 0;
 
   @override
+  void initState() {
+    super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+    ]);
+  }
+
+  @override
+  dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    print(widget.childId);
+
     return Scaffold(
       backgroundColor: kBlueColor,
       body: Stack(
@@ -86,9 +107,12 @@ class _ChildMainViedoListState extends State<ChildMainViedoList> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                SvgPicture.asset(
-                                  'images/svgs/Back_video.svg',
-                                  height: 70,
+                                GestureDetector(
+                                  onTap: () => Navigator.pop(context),
+                                  child: SvgPicture.asset(
+                                    'images/svgs/Back_video.svg',
+                                    height: 70,
+                                  ),
                                 ),
                                 Column(
                                   children: [
@@ -176,13 +200,13 @@ class _ChildMainViedoListState extends State<ChildMainViedoList> {
                           FutureBuilder<List<Video>>(
                             future: videoListBloc.fetchVideos(),
                             builder: (context, snapshot) {
-                              // if (snapshot.hasData) {
-                              List<Video> videoList = [];
-                              videoList.addAll(snapshot.data);
-                              Logger().i(videoList.length);
-                              return VideoGrid(videoList: videoList);
-                              // } else
-                              //   return CircularProgressIndicator();
+                              if (snapshot.hasData) {
+                                List<Video> videoList = [];
+                                videoList.addAll(snapshot.data);
+                                Logger().i(videoList.length);
+                                return VideoGrid(videoList: videoList);
+                              } else
+                                return CircularProgressIndicator();
                             },
                           ),
                         ],

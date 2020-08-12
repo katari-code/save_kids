@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:save_kids/bloc/child_video_list_bloc.dart';
 import 'package:save_kids/components/control_widgets/progress_bar.dart';
@@ -17,7 +18,7 @@ class ChildTimer extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(15.0),
         child: StreamBuilder<Timer>(
-            stream: _childVideoListBloc.timer,
+            stream: _childVideoListBloc.timer.stream,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return Countdown(

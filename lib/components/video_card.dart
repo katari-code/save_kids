@@ -62,7 +62,7 @@ class VideoCardEnhanced extends StatelessWidget {
                     padding: EdgeInsets.all(5),
                     color: Colors.black.withOpacity(0.15),
                     child: Text(
-                      "00:00",
+                      "    ",
                       style: kCapriola16.copyWith(
                         color: Colors.white,
                       ),

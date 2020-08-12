@@ -103,7 +103,7 @@ class MyApp extends StatelessWidget {
             // from the list (English, in this case).
             return supportedLocales.first;
           },
-          initialRoute: kVideoDisplayRoute,
+          initialRoute: kSplashRoute,
           onGenerateRoute: (RouteSettings settings) {
             return createRoute(settings);
           },

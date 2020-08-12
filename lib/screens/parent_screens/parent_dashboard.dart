@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:save_kids/util/constant.dart';
 import 'package:save_kids/util/style.dart';
@@ -9,6 +10,26 @@ class ParentDashboard extends StatefulWidget {
 }
 
 class _ParentDashboardState extends State<ParentDashboard> {
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+  }
+
+  @override
+  dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -145,60 +166,31 @@ class _ParentDashboardState extends State<ParentDashboard> {
                 SizedBox(
                   height: 15,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Container(
-                      width: 150,
-                      height: 150,
-                      decoration: BoxDecoration(
-                        color: Color(0xffFF7E71),
-                        borderRadius: BorderRadius.circular(8),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  padding: EdgeInsets.all(15),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: Color(0xffFF7E71),
+                  ),
+                  child: Row(
+                    children: <Widget>[
+                      Image.asset(
+                        'images/viedos.png',
+                        height: 70,
                       ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Image.asset(
-                            'images/viedos.png',
-                            height: 90,
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            "Specify Videos",
-                            style: kBubblegum_sans16.copyWith(
-                              color: Colors.white,
-                            ),
-                          )
-                        ],
+                      SizedBox(
+                        width: 15,
                       ),
-                    ),
-                    Container(
-                      width: 150,
-                      height: 150,
-                      decoration: BoxDecoration(
-                        color: kRedColor,
-                        borderRadius: BorderRadius.circular(8),
+                      Text(
+                        "Specify Videos",
+                        style: kBubblegum_sans32.copyWith(
+                          color: Colors.white,
+                        ),
                       ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          SvgPicture.asset(
-                            'images/svgs/timer.svg',
-                            height: 100,
-                          ),
-                          Text(
-                            "Set Timer",
-                            style: kBubblegum_sans16.copyWith(
-                              color: Colors.white,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                )
+                    ],
+                  ),
+                ),
               ],
             ),
           )

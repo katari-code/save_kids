@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -16,6 +17,10 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   @override
   void initState() {
     super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+    ]);
     _controller = YoutubePlayerController(
       initialVideoId: widget.viedoId,
       flags: YoutubePlayerFlags(
@@ -23,6 +28,17 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
         autoPlay: true,
       ),
     );
+  }
+
+  @override
+  dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    super.dispose();
   }
 
   @override
@@ -51,6 +67,15 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                     ),
                   ),
                   SvgPicture.asset("images/svgs/Back_video.svg"),
+                  YoutubePlayer(
+                    width: MediaQuery.of(context).size.width,
+                    aspectRatio: 16 / 9,
+                    controller: _controller,
+                    showVideoProgressIndicator: true,
+                    onReady: () {
+                      print('Player is ready.');
+                    },
+                  ),
                 ],
               ),
             ),

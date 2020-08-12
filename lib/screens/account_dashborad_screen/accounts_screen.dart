@@ -241,7 +241,12 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
                                       ),
                                       builder: (context, child, value) =>
                                           GestureDetector(
-                                        onTap: () {},
+                                        onTap: () {
+                                          Navigator.pushNamed(
+                                              context, kVideoDisplayRoute,
+                                              arguments:
+                                                  snapshot.data[index].id);
+                                        },
                                         child: Column(children: <Widget>[
                                           Stack(
                                             alignment: Alignment.center,
@@ -329,8 +334,10 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
                                             scale: value,
                                             child: GestureDetector(
                                               onTap: () {
-                                                 
-
+                                                Navigator.pushNamed(
+                                                    context, kVideoDisplayRoute,
+                                                    arguments: snapshot
+                                                        .data[index].id);
                                               },
                                               child: Column(
                                                 children: <Widget>[
