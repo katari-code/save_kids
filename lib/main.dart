@@ -13,12 +13,12 @@ import 'package:save_kids/models/child_avatar.dart';
 
 import 'package:provider/provider.dart';
 import 'package:save_kids/models/timer.dart';
-import 'package:save_kids/screens/child_display_videos/child_display_videos.dart';
+
 import 'package:save_kids/util/constant.dart';
 import 'package:save_kids/util/router.dart';
 
 import 'bloc/add_video_bloc.dart';
-import 'bloc/developer_blocs/add_channel_bloc.dart';
+
 import 'bloc/sign_in_bloc.dart';
 import 'bloc/sign_up_bloc.dart';
 
@@ -54,7 +54,6 @@ class MyApp extends StatelessWidget {
       child: BlocProvider(
         blocs: [
           Bloc((i) => ChannelBloc()),
-          Bloc((i) => AddChannelBloc()),
           Bloc((i) => CreateChildProfileBloc()),
           Bloc((i) => SignUpBloc()),
           Bloc((i) => SignInBloc()),

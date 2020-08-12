@@ -164,6 +164,12 @@ class Repository<T extends FireStoreConverter> {
     }
   }
 
+  //logout
+
+  Future<void> logout() async {
+    await _authServiceProvider.signOut();
+  }
+
   Future<Map> getVideosBySearch(String search, {String pageToken}) async {
     _youtubeApi = YoutubeApiProvider<Video>();
     try {
@@ -175,47 +181,17 @@ class Repository<T extends FireStoreConverter> {
     }
   }
 
-  Future<List<Channel>> getChannelsBySearch(String search) async {
+  Future<Map> getChannelsBySearch(String search, {String pageToken}) async {
     _youtubeApi = YoutubeApiProvider<Channel>();
     try {
-      return _youtubeApi.fetchBySearch(
-          mapper: Channel(), search: search, type: 'channel');
+      return _youtubeApi.fetchBySearchCategory(
+          mapper: Channel(),
+          search: search,
+          type: 'channel',
+          pageToken: pageToken);
     } catch (e) {
       logger.e(e);
       return null;
     }
-  }
-
-  // Future<List<String>> getChannelsPlayListIds(Category category) async {
-  //   _youtubeApi = YoutubeApiProvider<Channel>();
-  //   try {
-  //     List<String> playListIds = [];
-  //     category.channelIds.forEach((channelId) async {
-  //       playListIds
-  //           .add(await _youtubeApi.fetchPlayListId(channelId: channelId));
-  //     });
-  //     logger.i('In playlistIds $playListIds');
-  //     return playListIds;
-  //   } catch (e) {
-  //     logger.e(e);
-  //     return null;
-  //   }
-  // }
-
-  Future<Map> getVideosByPlayListId(String playListId, String pageToken) async {
-    _youtubeApi = YoutubeApiProvider<Channel>();
-    try {
-      return _youtubeApi.fetchVideosFromPlaylist(
-          playlistId: playListId, pageToken: pageToken);
-    } catch (e) {
-      logger.e(e);
-      return null;
-    }
-  }
-
-  //logout
-
-  Future<void> logout() async {
-    await _authServiceProvider.signOut();
   }
 }
