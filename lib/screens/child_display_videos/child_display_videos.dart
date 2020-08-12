@@ -182,8 +182,9 @@ class _ChildMainViedoListState extends State<ChildMainViedoList> {
                               Logger().i(videoList.length);
                               return VideoGrid(
                                   videoList: videoList,
-                                  addToWatchHistory:
-                                      videoListBloc.updateWatchHistory);
+                                  addToWatchHistory: (String videoId) =>
+                                      videoListBloc.updateWatchHistory(
+                                          videoId, widget.childId));
                               // } else
                               //   return CircularProgressIndicator();
                             },

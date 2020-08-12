@@ -88,12 +88,12 @@ class ChildVideoListBloc extends BlocBase {
     }
   }
 
-  Future updateWatchHistory(String videoId) async {
+  Future updateWatchHistory(String videoId, String childId) async {
     _repository = Repository<Child>(collection: 'children');
-    if (child.value != null) {
-      Child updatedChild = child.value..watchHistory.add(videoId);
-      await _repository.setDocument(updatedChild, updatedChild.id);
-    }
+    Child value = await _repository.getDocument(Child(), childId).first;
+
+    Child updatedChild = value..watchHistory.add(videoId);
+    await _repository.setDocument(updatedChild, updatedChild.id);
   }
 
   @override

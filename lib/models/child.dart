@@ -33,8 +33,10 @@ class Child implements FireStoreConverter {
           schedules: [...List.from(snapshot.data['schedules']).toList()] ?? [],
           timer: Timer.fromFirestore(snapshot.data['timer']),
           id: snapshot.documentID,
-          watchHistory:
-              [...List.from(snapshot.data['watchHistory']).toList()] ?? [],
+          watchHistory: [
+                ...List<String>.from(snapshot.data['watchHistory']).toList()
+              ] ??
+              [],
         );
 
   @override
