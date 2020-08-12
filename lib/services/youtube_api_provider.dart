@@ -53,4 +53,41 @@ class YoutubeApiProvider<T> {
       throw json.decode(response.body)['error']['message'];
     }
   }
+
+  Future<List<Video>> fetchVideoList({List<String> videos}) async {
+    String videoIds = '';
+    videos.forEach((video) {
+      videoIds += '$video,';
+    });
+    Map<String, String> parameters = {
+      'part': 'snippet',
+      'type': 'video',
+      'id': videoIds,
+      'key': API_KEY,
+    };
+    Uri uri = Uri.https(
+      baseUrl,
+      'youtube/v3/videos',
+      parameters,
+    );
+
+    final response = await http.get(uri, headers: headers);
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body);
+
+      pageToken = data['nextPageToken'] ?? '';
+      List<dynamic> videosJson = data['items'];
+
+      // Fetch first eight videos from uploads playlist
+      List<Video> collection = [];
+      videosJson.forEach(
+        (json) => collection.add(
+          Video.fromMap(json),
+        ),
+      );
+      return collection;
+    } else {
+      throw json.decode(response.body)['error']['message'];
+    }
+  }
 }
