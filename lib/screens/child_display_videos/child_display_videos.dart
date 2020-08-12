@@ -15,8 +15,8 @@ import 'package:simple_animations/simple_animations.dart';
 import 'widget/childTimer.dart';
 
 class ChildMainViedoList extends StatefulWidget {
-  final String childId;
-  ChildMainViedoList(this.childId);
+  final String childId = '2iJpiM4M0pPjsyoCreb1';
+  // ChildMainViedoList(this.childId);
   @override
   _ChildMainViedoListState createState() => _ChildMainViedoListState();
 }
@@ -68,7 +68,7 @@ class _ChildMainViedoListState extends State<ChildMainViedoList> {
             color: Colors.white.withOpacity(0.5),
           ),
           Bolc.Consumer<ChildVideoListBloc>(builder: (context, videoListBloc) {
-            videoListBloc.childId = widget.childId;
+            videoListBloc.childId.add(widget.childId);
             return Stack(
               children: [
                 Padding(
