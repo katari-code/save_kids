@@ -12,10 +12,15 @@ class AccountDashboardBloc extends BlocBase {
     changeEditMode(false);
   }
   final _isEditMode = BehaviorSubject<bool>();
+  PublishSubject<bool> isVerified = PublishSubject<bool>();
   Function(bool) get changeEditMode => _isEditMode.sink.add;
   Stream<bool> get editMode => _isEditMode.stream;
+  Stream<bool> get isEmailVerified => isVerified.stream;
+  get checkIsEmailVerified async {
+    isVerified.add(await _repository.isEmailVerified);
+    // isEmailVerified;
+  }
 
-  Future<bool> get isEmailVerified => _repository.isEmailVerified;
   Future get sendEmailVerification => _repository.sendEmailVerification;
 
   Stream<Parent> get parentSession => _repository.authSession;
@@ -33,6 +38,7 @@ class AccountDashboardBloc extends BlocBase {
   void dispose() async {
     await _isEditMode.drain();
     _isEditMode.close();
+    isVerified.drain();
     super.dispose();
   }
 }

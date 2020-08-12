@@ -1,11 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:rxdart/rxdart.dart';
+
 import 'package:save_kids/models/parent.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthServiceProvider {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
+
   String uid;
+
   //check if there is any user session
   Stream<Parent> get user {
     return _auth.onAuthStateChanged.map(_userFromFirebase);
@@ -16,7 +20,10 @@ class AuthServiceProvider {
   }
 
   Future<bool> get isEmailVerified async {
-    if ((await _auth.currentUser()).isEmailVerified) {
+    FirebaseUser user = await currentUser;
+    await user.reload();
+    user = await currentUser;
+    if (user.isEmailVerified) {
       return true;
     } else
       return false;

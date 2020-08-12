@@ -39,102 +39,14 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     accountDashBloc.parentId = snapshot.data.id;
-                    return FutureBuilder<Object>(
-                      future: accountDashBloc.isEmailVerified,
+                    return StreamBuilder<bool>(
+                      stream: accountDashBloc.isVerified,
                       initialData: false,
                       builder: (context, isVerified) {
                         if (isVerified.data) {
                           return buildVerifiedUI(accountDashBloc, snapshot);
                         } else {
-                          return Column(
-                            children: <Widget>[
-                              Text(
-                                "Hi, ${snapshot.data.name}",
-                                style: GoogleFonts.bubblegumSans(
-                                  textStyle: kBubblegum_sans32.copyWith(
-                                    fontSize: 30,
-                                    color: Color(0xff000000),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 20),
-                              Text(
-                                "Who is using the app now ?",
-                                style: GoogleFonts.capriola(
-                                  textStyle: kBubblegum_sans32.copyWith(
-                                    fontSize: 16,
-                                    color: Color(0xff000000),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 20),
-                              Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.6,
-                                width: MediaQuery.of(context).size.width * 0.8,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(25),
-                                  color: Colors.white,
-                                ),
-                                child: Column(
-                                  // crossAxisAlignment:
-                                  //     CrossAxisAlignment.stretch,
-
-                                  children: <Widget>[
-                                    Text('Your email is not verified yet'),
-                                    GestureDetector(
-                                      onTap: () {
-                                        setState(() {});
-                                      },
-                                      child: Container(
-                                        height: 58.00,
-                                        width: 100.00,
-                                        decoration: BoxDecoration(
-                                          color: kBlueDarkColor,
-                                          borderRadius:
-                                              BorderRadius.circular(84.00),
-                                        ),
-                                        child: Center(
-                                          child: Text(
-                                            "Refresh",
-                                            style: GoogleFonts.bubblegumSans(
-                                              textStyle:
-                                                  kBubblegum_sans20.copyWith(
-                                                      color: Colors.white),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(height: 20),
-                                    GestureDetector(
-                                      onTap: () =>
-                                          accountDashBloc.sendEmailVerification,
-                                      child: Container(
-                                        height: 58.00,
-                                        width: 250.00,
-                                        decoration: BoxDecoration(
-                                          color: Color(0xfffcbf1e),
-                                          borderRadius:
-                                              BorderRadius.circular(84.00),
-                                        ),
-                                        child: Center(
-                                          child: Text(
-                                            "Send Verification Email",
-                                            style: GoogleFonts.bubblegumSans(
-                                              textStyle:
-                                                  kBubblegum_sans24.copyWith(
-                                                      color: Colors.white),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          );
+                          return buildUnverifiedUI(context, accountDashBloc);
                         }
                       },
                     );
@@ -142,6 +54,87 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
                   return ProgressBar();
                 },
               ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  SafeArea buildUnverifiedUI(
+      BuildContext context, AccountDashboardBloc accountDashBloc) {
+    return SafeArea(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            "Hi",
+            style: GoogleFonts.bubblegumSans(
+              textStyle: kBubblegum_sans32.copyWith(
+                fontSize: 30,
+                color: Color(0xff000000),
+              ),
+            ),
+          ),
+          SizedBox(height: 20),
+          Container(
+            height: MediaQuery.of(context).size.height * 0.6,
+            width: MediaQuery.of(context).size.width * 0.8,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(25),
+              color: Colors.white,
+            ),
+            child: Column(
+              // crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  'Your email is not verified yet',
+                  style: kBubblegum_sans28,
+                ),
+                SizedBox(height: 40),
+                GestureDetector(
+                  onTap: () => accountDashBloc.checkIsEmailVerified,
+                  child: Container(
+                    height: 58.00,
+                    width: 100.00,
+                    decoration: BoxDecoration(
+                      color: kBlueDarkColor,
+                      borderRadius: BorderRadius.circular(84.00),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Refresh",
+                        style: GoogleFonts.bubblegumSans(
+                          textStyle:
+                              kBubblegum_sans20.copyWith(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20),
+                GestureDetector(
+                  onTap: () => accountDashBloc.sendEmailVerification,
+                  child: Container(
+                    height: 58.00,
+                    width: 250.00,
+                    decoration: BoxDecoration(
+                      color: Color(0xfffcbf1e),
+                      borderRadius: BorderRadius.circular(84.00),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Send Verification Email",
+                        style: GoogleFonts.bubblegumSans(
+                          textStyle:
+                              kBubblegum_sans24.copyWith(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           )
         ],
