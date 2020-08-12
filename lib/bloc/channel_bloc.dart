@@ -8,6 +8,7 @@ import 'package:save_kids/services/repository.dart';
 class ChannelBloc extends BlocBase {
   final _searchResult = BehaviorSubject<String>();
   final _channelList = BehaviorSubject<List<Channel>>();
+  static String pageToken = '';
   Function(String) get changeSearchResult => _searchResult.sink.add;
   Function(List) get changeChannelList => _channelList.sink.add;
   addChosenChannel(String channelId) {
@@ -35,8 +36,10 @@ class ChannelBloc extends BlocBase {
   });
 
   Future getChannelBySearch() async {
-    changeChannelList(
-        await Repository().getChannelsBySearch(_searchResult.value));
+    final result = await Repository()
+        .getChannelsBySearch(_searchResult.value, pageToken: pageToken);
+    pageToken = result['pageToken'];
+    changeChannelList(result['data']);
   }
 
   List<Channel> returnChosenChannels() {

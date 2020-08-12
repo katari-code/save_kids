@@ -17,13 +17,14 @@ class AddScheduleBloc extends BlocBase {
     addCategories(categoriesList);
     addChosenChannels([]);
     addChosenVideos([]);
+    duration.add("0 mins");
   }
   Repository _repository = Repository<Schedule>(collection: 'schedule');
   final _chosenVideos = BehaviorSubject<List<Video>>();
   final _chosenChannels = BehaviorSubject<List<Channel>>();
   final _timeStart = BehaviorSubject<TimeOfDay>();
   final _timeEnd = BehaviorSubject<TimeOfDay>();
-  final _duration = BehaviorSubject<String>();
+  final duration = BehaviorSubject<String>();
   final _categories = BehaviorSubject<List<Category>>();
   Function(List<Video>) get addChosenVideos => _chosenVideos.sink.add;
   Function(List<Channel>) get addChosenChannels => _chosenChannels.sink.add;
@@ -51,7 +52,7 @@ class AddScheduleBloc extends BlocBase {
 
   Stream<TimeOfDay> get timeStart => _timeStart.stream;
   Stream<TimeOfDay> get timeEnd => _timeEnd.stream;
-  Stream<String> get duration => _duration.stream;
+
   Stream<List<Category>> get categoryList => _categories.stream;
   double toDouble(TimeOfDay myTime) {
     if (myTime != null) {
@@ -73,7 +74,7 @@ class AddScheduleBloc extends BlocBase {
           ? result.floor() > 1 ? tag = "hours" : tag = "hour"
           : tag = "mins";
 
-      _duration.sink.add("${result.floor()} : $mins  $tag");
+      duration.add("${result.floor()} : $mins  $tag");
     }
   }
 
@@ -109,8 +110,18 @@ class AddScheduleBloc extends BlocBase {
     _chosenChannels.drain();
     _timeStart.drain();
     _timeEnd.drain();
-    _duration.drain();
+
     _categories.drain();
     super.dispose();
   }
+
+  final daysOfWeek = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ];
 }

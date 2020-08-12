@@ -58,7 +58,7 @@ class _AddScheduleState extends State<AddSchedule> {
                             buildTitleForm(),
                             Center(
                               child: Text(
-                                '',
+                                '${addScheduleBloc.daysOfWeek[DateTime.now().weekday]}',
                                 style: kBubblegum_sans28.copyWith(
                                     color: kRedColor),
                               ),

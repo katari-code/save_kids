@@ -14,7 +14,7 @@ class Parent extends FireStoreConverter {
       {this.email, this.id, this.password, this.pin, this.children, this.name});
 
   Parent.fromFirebase(FirebaseUser user)
-      : this(id: user.uid, email: user.email);
+      : this(id: user.uid, email: user.email, name: user.displayName);
 
   Parent.fromFirestore(DocumentSnapshot snapshot)
       : this(
