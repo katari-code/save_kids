@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:bloc_pattern/bloc_pattern.dart' as Bolc;
+import 'package:save_kids/bloc/child_video_list_bloc.dart';
 
 import 'package:save_kids/bloc/test/video_list_bloc_test.dart';
 import 'package:save_kids/components/video_card.dart';
@@ -15,7 +16,8 @@ import 'package:simple_animations/simple_animations.dart';
 import 'widget/childTimer.dart';
 
 class ChildMainViedoList extends StatefulWidget {
-  
+  final String childId;
+  ChildMainViedoList(this.childId);
   @override
   _ChildMainViedoListState createState() => _ChildMainViedoListState();
 }
@@ -44,8 +46,9 @@ class _ChildMainViedoListState extends State<ChildMainViedoList> {
             height: MediaQuery.of(context).size.height,
             color: Colors.white.withOpacity(0.5),
           ),
-          Bolc.Consumer<VideoListBloc>(
-            builder: (context, videoListBloc) => Stack(
+          Bolc.Consumer<ChildVideoListBloc>(builder: (context, videoListBloc) {
+            videoListBloc.childId = widget.childId;
+            return Stack(
               children: [
                 Padding(
                   padding: const EdgeInsets.all(25.0),
@@ -187,10 +190,10 @@ class _ChildMainViedoListState extends State<ChildMainViedoList> {
                     ),
                   ],
                 ),
-                ChildTimer(),
+                ChildTimer(videoListBloc),
               ],
-            ),
-          )
+            );
+          })
         ],
       ),
     );

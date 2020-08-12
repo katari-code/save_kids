@@ -6,6 +6,7 @@ import 'package:save_kids/bloc/account_dashboard_bloc.dart';
 import 'package:save_kids/bloc/add_schedule_bloc.dart';
 import 'package:save_kids/bloc/auth_bloc.dart';
 import 'package:save_kids/bloc/channel_bloc.dart';
+import 'package:save_kids/bloc/child_video_list_bloc.dart';
 import 'package:save_kids/bloc/create_child_profile_bloc.dart';
 import 'package:save_kids/bloc/test/video_list_bloc_test.dart';
 import 'package:save_kids/bloc/watch_schedule_bloc.dart';
@@ -27,7 +28,6 @@ import 'models/schedule_data.dart';
 import 'util/Preference/prefs_singleton.dart';
 
 void main() async {
-  
   WidgetsFlutterBinding.ensureInitialized();
   PrefsSingleton.prefs = await SharedPreferences.getInstance();
 
@@ -70,6 +70,7 @@ class MyApp extends StatelessWidget {
           Bloc((i) => AddVideoBloc()),
           Bloc((i) => AddScheduleBloc()),
           Bloc((i) => WatchScheduleBloc()),
+          Bloc((i) => ChildVideoListBloc()),
         ],
         child: MaterialApp(
           title: 'Save Video Kids',
