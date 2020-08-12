@@ -86,7 +86,7 @@ class _WatchScheduleState extends State<WatchSchedule> {
                                   initialData: null,
                                   builder: (context, snapshot) {
                                     if (snapshot.hasData) {
-                                      if (isInit) {
+                                      if (isInit && snapshot.data.length > 0) {
                                         watchScheduleBloc.changeChosenChild(
                                             snapshot.data[0].id);
                                         isInit = false;
