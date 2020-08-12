@@ -63,6 +63,12 @@ class SignInBloc extends BlocBase {
     return _repository.signIn(_email.value, _password.value);
   }
 
+  Future<Parent> signInWithGoogle() async {
+    final parent = await _repository.signInWithGoogle();
+    //store the data
+    return _repository.setDocument(parent, parent.id);
+  }
+
   Future<void> signOut() {
     return _repository.logout();
   }

@@ -40,6 +40,7 @@ dependencies:
   cloud_firestore: ^0.13.7
   firebase_storage: ^3.1.6
   firebase_auth: ^0.16.1
+  google_sign_in: ^4.5.1
   animated_widgets: ^1.0.6
   simple_animations: ^2.2.1
   sa_v1_migration: ^1.1.2

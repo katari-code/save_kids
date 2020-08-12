@@ -7,7 +7,6 @@ import 'package:save_kids/bloc/add_schedule_bloc.dart';
 import 'package:save_kids/bloc/auth_bloc.dart';
 import 'package:save_kids/bloc/channel_bloc.dart';
 import 'package:save_kids/bloc/create_child_profile_bloc.dart';
-import 'package:save_kids/bloc/parent_settings_bloc.dart';
 import 'package:save_kids/bloc/test/video_list_bloc_test.dart';
 import 'package:save_kids/bloc/watch_schedule_bloc.dart';
 import 'package:save_kids/models/child_avatar.dart';
@@ -20,7 +19,7 @@ import 'package:save_kids/util/router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'bloc/add_video_bloc.dart';
-import 'bloc/developer_blocs/add_channel_bloc.dart';
+
 import 'bloc/sign_in_bloc.dart';
 import 'bloc/sign_up_bloc.dart';
 
@@ -51,6 +50,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => TimerData(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => TimerData(),
+        ),
 
         // ChangeNotifierProvider(
         //   create: (_) => ChannelData(),
@@ -59,11 +61,9 @@ class MyApp extends StatelessWidget {
       child: BlocProvider(
         blocs: [
           Bloc((i) => ChannelBloc()),
-          Bloc((i) => AddChannelBloc()),
           Bloc((i) => CreateChildProfileBloc()),
           Bloc((i) => SignUpBloc()),
           Bloc((i) => SignInBloc()),
-          Bloc((i) => ParentSettingsBloc()),
           Bloc((i) => AccountDashboardBloc()),
           Bloc((i) => AuthBloc()),
           Bloc((i) => VideoListBloc()),
@@ -106,6 +106,7 @@ class MyApp extends StatelessWidget {
           onGenerateRoute: (RouteSettings settings) {
             return createRoute(settings);
           },
+          // home: ChildMainViedoList(),
         ),
       ),
     );

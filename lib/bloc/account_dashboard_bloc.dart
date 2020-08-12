@@ -8,18 +8,53 @@ class AccountDashboardBloc extends BlocBase {
   Repository _repository = Repository<Child>(collection: 'children');
   Repository _parentRepo = Repository<Parent>(collection: 'parent');
   String parentId;
+  bool isNew = false;
+
   AccountDashboardBloc() {
     changeEditMode(false);
+    checkIsEmailVerified;
+    children.addStream(_changeChildren);
+    parent.addStream(_changeParent);
+    isEmailVerified.then((value) => {
+          if (!value) {isNew = true}
+        });
   }
   final _isEditMode = BehaviorSubject<bool>();
+  BehaviorSubject<bool> isVerified = BehaviorSubject<bool>();
+  BehaviorSubject<List<Child>> children = BehaviorSubject<List<Child>>();
+  BehaviorSubject<Parent> parent = BehaviorSubject<Parent>();
+
   Function(bool) get changeEditMode => _isEditMode.sink.add;
   Stream<bool> get editMode => _isEditMode.stream;
 
-  Stream<Parent> get parentSession => _repository.authSession;
-  Stream<Parent> get parent => _parentRepo.getDocument(Parent(), parentId);
+  Future<bool> get isEmailVerified => _repository.isEmailVerified;
 
-  Stream<List<Child>> children(String parentId) {
-    return _repository.getDocumentByQuery(Child(), 'parentId', parentId);
+  Future get sendEmailVerification => _repository.sendEmailVerification;
+
+  Stream<Parent> get parentSession => _repository.authSession;
+
+  get checkIsEmailVerified async {
+    isVerified.add(await isEmailVerified);
+  }
+
+  Stream<List<Child>> get _changeChildren {
+    return parentSession.switchMap((value) {
+      if (value != null) {
+        return _repository.getDocumentByQuery(Child(), 'parentId', value.id);
+      } else {
+        return BehaviorSubject.seeded([]);
+      }
+    });
+  }
+
+  Stream<Parent> get _changeParent {
+    return parentSession.switchMap((value) {
+      if (value != null) {
+        return _parentRepo.getDocument(Parent(), value.id);
+      } else {
+        return BehaviorSubject.seeded(null);
+      }
+    });
   }
 
   Future deleteChild(String childId) async {
@@ -30,6 +65,7 @@ class AccountDashboardBloc extends BlocBase {
   void dispose() async {
     await _isEditMode.drain();
     _isEditMode.close();
+    isVerified.drain();
     super.dispose();
   }
 }
