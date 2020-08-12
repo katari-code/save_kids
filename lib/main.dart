@@ -7,13 +7,13 @@ import 'package:save_kids/bloc/add_schedule_bloc.dart';
 import 'package:save_kids/bloc/auth_bloc.dart';
 import 'package:save_kids/bloc/channel_bloc.dart';
 import 'package:save_kids/bloc/create_child_profile_bloc.dart';
-import 'package:save_kids/bloc/parent_settings_bloc.dart';
 import 'package:save_kids/bloc/test/video_list_bloc_test.dart';
-import 'package:save_kids/bloc/watch_schedule_bloc.dart';
 import 'package:save_kids/models/child.dart';
 import 'package:save_kids/models/child_avatar.dart';
 
 import 'package:provider/provider.dart';
+import 'package:save_kids/models/timer.dart';
+import 'package:save_kids/screens/child_display_videos/child_display_videos.dart';
 import 'package:save_kids/util/constant.dart';
 import 'package:save_kids/util/router.dart';
 
@@ -23,7 +23,6 @@ import 'bloc/sign_in_bloc.dart';
 import 'bloc/sign_up_bloc.dart';
 
 import 'models/schedule_data.dart';
-import 'util/constant.dart';
 
 void main() {
   runApp(MyApp());
@@ -44,6 +43,10 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => KidsData(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => TimerData(),
+        ),
+
         // ChangeNotifierProvider(
         //   create: (_) => ChannelData(),
         // ),
@@ -55,13 +58,11 @@ class MyApp extends StatelessWidget {
           Bloc((i) => CreateChildProfileBloc()),
           Bloc((i) => SignUpBloc()),
           Bloc((i) => SignInBloc()),
-          Bloc((i) => ParentSettingsBloc()),
           Bloc((i) => AccountDashboardBloc()),
           Bloc((i) => AuthBloc()),
           Bloc((i) => VideoListBloc()),
           Bloc((i) => AddVideoBloc()),
           Bloc((i) => AddScheduleBloc()),
-          Bloc((i) => WatchScheduleBloc()),
         ],
         child: MaterialApp(
           title: 'Save Video Kids',
@@ -73,7 +74,6 @@ class MyApp extends StatelessWidget {
             Locale('en', 'US'),
             Locale('de', 'DE'),
           ],
-
           localizationsDelegates: [
             // A class which loads the translations from JSON files
             AppLocalizations.delegate,
@@ -95,10 +95,11 @@ class MyApp extends StatelessWidget {
             // from the list (English, in this case).
             return supportedLocales.first;
           },
-          initialRoute: kSignInRoute,
+          initialRoute: kVideoDisplayRoute,
           onGenerateRoute: (RouteSettings settings) {
             return createRoute(settings);
           },
+          // home: ChildMainViedoList(),
         ),
       ),
     );

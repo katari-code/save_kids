@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:save_kids/models/interfaces/i_firestore_converter.dart';
+import 'package:save_kids/models/timer.dart';
 
 class Child implements FireStoreConverter {
   String name;
@@ -9,6 +10,7 @@ class Child implements FireStoreConverter {
   String type;
   String parentId;
   String id;
+  Timer timer;
   List<String> watchHistory;
   List<dynamic> schedules;
   Child(
@@ -19,6 +21,7 @@ class Child implements FireStoreConverter {
       this.schedules,
       this.type,
       this.id,
+      this.timer,
       this.age});
   Child.fromFirestore(DocumentSnapshot snapshot)
       : this(
