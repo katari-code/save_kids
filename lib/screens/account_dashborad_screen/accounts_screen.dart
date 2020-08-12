@@ -207,7 +207,7 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
               ),
               SizedBox(height: 20),
               StreamBuilder<List<Child>>(
-                  stream: accountDashBloc.children(snapshot.data.id),
+                  stream: accountDashBloc.children,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return Container(
