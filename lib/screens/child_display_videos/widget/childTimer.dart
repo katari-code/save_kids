@@ -17,7 +17,7 @@ class ChildTimer extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(15.0),
         child: StreamBuilder<Timer>(
-            stream: _childVideoListBloc.timer,
+            stream: _childVideoListBloc.timer.stream,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return Countdown(

@@ -1,4 +1,5 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
+import 'package:logger/logger.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:save_kids/models/category.dart';
 import 'package:save_kids/models/child.dart';
@@ -16,9 +17,10 @@ class ChildVideoListBloc extends BlocBase {
 
   static String _pageToken = '';
   Repository _repository;
-  String childId;
+
   BehaviorSubject<Timer> timer = BehaviorSubject<Timer>();
   BehaviorSubject<Child> child = BehaviorSubject<Child>();
+  BehaviorSubject<String> childId = BehaviorSubject<String>();
   final _category = BehaviorSubject<Category>();
 
   void changeCategory(Category category) {
@@ -27,28 +29,42 @@ class ChildVideoListBloc extends BlocBase {
   }
 
   Stream<Category> get streamCategory => _category.stream;
-  Stream<Child> get getChild {
+  Stream<Child> getChild(String id) {
     _repository = Repository<Child>(collection: 'children');
-    return _repository.getDocument(Child(), childId);
+    Logger().i('here in getChild ', child);
+    return _repository.getDocument(Child(), id);
   }
 
+  get startListening {}
+
   get changeTimer {
-    return getChild.switchMap<Timer>((child) {
-      if (child != null) {
-        return BehaviorSubject.seeded(child.timer);
-      } else {
-        return BehaviorSubject.seeded(null);
+    return childId.switchMap((value) {
+      if (value != null) {
+        return getChild(value).switchMap<Timer>((child) {
+          if (child != null) {
+            return BehaviorSubject.seeded(child.timer);
+          } else {
+            return BehaviorSubject.seeded(null);
+          }
+        });
       }
+      return BehaviorSubject.seeded(null);
     });
   }
 
   get changeChild {
-    return getChild.switchMap<Child>((child) {
-      if (child != null) {
-        return BehaviorSubject.seeded(child);
-      } else {
-        return BehaviorSubject.seeded(null);
+    return childId.switchMap((value) {
+      if (value != null) {
+        return getChild(value).switchMap<Child>((child) {
+          Logger().i('here in changeChild ', child);
+          if (child != null) {
+            return BehaviorSubject.seeded(child);
+          } else {
+            return BehaviorSubject.seeded(null);
+          }
+        });
       }
+      return BehaviorSubject.seeded(null);
     });
   }
 
