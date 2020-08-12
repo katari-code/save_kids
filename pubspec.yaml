@@ -45,6 +45,7 @@ dependencies:
   sa_v1_migration: ^1.1.2
   table_calendar: ^2.2.3
   carousel_slider: ^2.2.1
+  shared_preferences: ^0.5.6+1
 
   http: ^0.12.2
   youtube_player_flutter: ^7.0.0+7

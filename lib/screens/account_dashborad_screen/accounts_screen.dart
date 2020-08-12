@@ -137,7 +137,15 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
                                                     builder: (context, child,
                                                             value) =>
                                                         GestureDetector(
-                                                      onTap: () {},
+                                                      onTap: () {
+                                                        //! Child
+                                                        if (editMode) {
+                                                          Navigator.pushNamed(
+                                                            context,
+                                                            kVideoDisplayRoute,
+                                                          );
+                                                        }
+                                                      },
                                                       child: Column(
                                                           children: <Widget>[
                                                             Stack(
@@ -256,7 +264,16 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
                                                           scale: value,
                                                           child:
                                                               GestureDetector(
-                                                            onTap: () {},
+                                                            onTap: () {
+                                                              //!!
+                                                              if (editMode) {
+                                                                Navigator
+                                                                    .pushNamed(
+                                                                  context,
+                                                                  kVideoDisplayRoute,
+                                                                );
+                                                              }
+                                                            },
                                                             child: Column(
                                                               children: <
                                                                   Widget>[

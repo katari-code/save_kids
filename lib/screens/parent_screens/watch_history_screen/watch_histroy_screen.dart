@@ -56,65 +56,66 @@ class WatchHistory extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Consumer<KidsData>(
-                    builder: (context, kidsData, child) {
-                      var kids = kidsData.kids;
-                      return Column(
-                        children: [
-                          ...List<Widget>.generate(
-                            kids.length,
-                            (index) => Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(15.0),
-                                  child: Row(
-                                    children: [
-                                      Stack(
-                                        children: [
-                                          Center(
-                                            child: CircleAvatar(
-                                              backgroundColor: kYellowColor,
-                                              radius: 40,
-                                              child: CircleAvatar(
-                                                backgroundColor: Colors.white,
-                                                radius: 35,
-                                                backgroundImage: NetworkImage(
-                                                  kids[index].imagePath,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        width: 15,
-                                      ),
-                                      Text(
-                                        kids[index].name,
-                                        style: kBubblegum_sans32.copyWith(
-                                          color: Colors.white,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 190,
-                                  child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    padding: EdgeInsets.only(left: 15),
-                                    itemCount: 4,
-                                    itemBuilder: (context, index) =>
-                                        VideoCardEnhanced(),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  ),
+                  // Consumer<KidsData>(
+                  //   builder: (context, kidsData, child) {
+                  //     var kids = kidsData.kids;
+                  //     return Column(
+                  //       children: [
+                  //         ...List<Widget>.generate(
+                  //           kids.length,
+                  //           (index) => Column(
+                  //             children: [
+                  //               Padding(
+                  //                 padding: const EdgeInsets.all(15.0),
+                  //                 child: Row(
+                  //                   children: [
+                  //                     Stack(
+                  //                       children: [
+                  //                         Center(
+                  //                           child: CircleAvatar(
+                  //                             backgroundColor: kYellowColor,
+                  //                             radius: 40,
+                  //                             child: CircleAvatar(
+                  //                               backgroundColor: Colors.white,
+                  //                               radius: 35,
+                  //                               backgroundImage: NetworkImage(
+                  //                                 kids[index].imagePath,
+                  //                               ),
+                  //                             ),
+                  //                           ),
+                  //                         ),
+                  //                       ],
+                  //                     ),
+                  //                     SizedBox(
+                  //                       width: 15,
+                  //                     ),
+                  //                     Text(
+                  //                       kids[index].name,
+                  //                       style: kBubblegum_sans32.copyWith(
+                  //                         color: Colors.white,
+                  //                       ),
+                  //                     )
+                  //                   ],
+                  //                 ),
+                  //               ),
+                  //               SizedBox(
+                  //                 height: 190,
+                  //                 child: ListView.builder(
+                  //                   scrollDirection: Axis.horizontal,
+                  //                   padding: EdgeInsets.only(left: 15),
+                  //                   itemCount: 4,
+                  //                   itemBuilder: (context, index) =>
+                  //                       VideoCardEnhanced(),
+                  //                 ),
+                  //               ),
+                  //             ],
+                  //           ),
+                  //         ),
+                  //       ],
+                  //     );
+                  //   },
+                  // ),
+            
                 ],
               ),
             ),

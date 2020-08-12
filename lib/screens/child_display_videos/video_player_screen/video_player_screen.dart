@@ -29,43 +29,33 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.yellow[100],
-      body: SafeArea(
-        child: Stack(
-          children: [
-            Center(
-              child: Container(
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      offset: Offset(0.00, 3.00),
-                      color: Color(0xff000000).withOpacity(0.11),
-                      blurRadius: 100,
+      body: Stack(
+        children: [
+          Center(
+            child: Container(
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    offset: Offset(0.00, 3.00),
+                    color: Color(0xff000000).withOpacity(0.11),
+                    blurRadius: 100,
+                  ),
+                ],
+              ),
+              child: Stack(
+                children: [
+                  Center(
+                    child: SvgPicture.asset(
+                      "images/BK.svg",
+                      fit: BoxFit.fill,
                     ),
-                  ],
-                ),
-                child: Stack(
-                  children: [
-                    Center(
-                      child: SvgPicture.asset(
-                        "images/BK.svg",
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                    YoutubePlayer(
-                      controller: _controller,
-                      // width: MediaQuery.of(context).size.width * 0.72,
-                      showVideoProgressIndicator: true,
-                      onReady: () {
-                        print('Player is ready.');
-                      },
-                    ),
-                    SvgPicture.asset("images/svgs/Back_video.svg"),
-                  ],
-                ),
+                  ),
+                  SvgPicture.asset("images/svgs/Back_video.svg"),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

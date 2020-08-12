@@ -155,7 +155,9 @@ class _AddChildScreenState extends State<AddChildScreen> {
                     "Daily Total Watch Time",
                     style: kBubblegum_sans32,
                   ),
-                  TimeCoursal(),
+                  TimeCoursal(
+                    createChildBloc: createChildBloc,
+                  ),
                   StreamBuilder<Parent>(
                       stream: createChildBloc.parentSession,
                       builder: (context, snapshot) {
@@ -312,6 +314,7 @@ class _AddChildScreenState extends State<AddChildScreen> {
           ),
           child: Container(
             height: MediaQuery.of(context).size.height * 0.5,
+            width: 300,
             decoration: BoxDecoration(
               color: kRedColor,
               borderRadius: BorderRadius.circular(35),
@@ -321,7 +324,8 @@ class _AddChildScreenState extends State<AddChildScreen> {
               children: <Widget>[
                 Positioned(
                   top: -98,
-                  left: MediaQuery.of(context).size.width * 0.25,
+                  left: 80,
+                  // left: MediaQuery.of(context).size.width * 0.25,
                   child: Transform.scale(
                     scale: 1.2,
                     child: SvgPicture.asset(

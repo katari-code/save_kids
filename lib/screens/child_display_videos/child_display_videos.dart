@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:bloc_pattern/bloc_pattern.dart' as Bolc;
 
@@ -14,13 +15,14 @@ import 'package:simple_animations/simple_animations.dart';
 import 'widget/childTimer.dart';
 
 class ChildMainViedoList extends StatefulWidget {
+  
   @override
   _ChildMainViedoListState createState() => _ChildMainViedoListState();
 }
 
 class _ChildMainViedoListState extends State<ChildMainViedoList> {
   int selectedIndex = 0;
-  int test = 6;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,19 +89,19 @@ class _ChildMainViedoListState extends State<ChildMainViedoList> {
                                 ),
                                 Column(
                                   children: [
-                                    CircleAvatar(
-                                      radius: 33,
-                                      backgroundColor: kYellowColor,
-                                      child: CircleAvatar(
-                                        radius: 30,
-                                        backgroundColor: Colors.white,
-                                        backgroundImage: NetworkImage(
-                                          Provider.of<KidsData>(context)
-                                              .kids[0]
-                                              .imagePath,
-                                        ),
-                                      ),
-                                    ),
+                                    // CircleAvatar(
+                                    //   radius: 33,
+                                    //   backgroundColor: kYellowColor,
+                                    //   child: CircleAvatar(
+                                    //     radius: 30,
+                                    //     backgroundColor: Colors.white,
+                                    //     backgroundImage: NetworkImage(
+                                    //       Provider.of<KidsData>(context)
+                                    //           .kids[0]
+                                    //           .imagePath,
+                                    //     ),
+                                    //   ),
+                                    // ),
                                   ],
                                 )
                               ],
@@ -168,18 +170,18 @@ class _ChildMainViedoListState extends State<ChildMainViedoList> {
                           //             //     itemBuilder: (context, index) => VideoCardEnhanced(),
                           //             //   ),
                           //             // ),
-                          // FutureBuilder<List<Video>>(
-                          //   future: videoListBloc.fetchVideos(),
-                          //   builder: (context, snapshot) {
-                          //     // if (snapshot.hasData) {
-                          //     List<Video> videoList = [];
-                          //     videoList.addAll(snapshot.data);
-                          //     Logger().i(videoList.length);
-                          //     return VideoGrid(videoList: videoList);
-                          //     // } else
-                          //     //   return CircularProgressIndicator();
-                          //   },
-                          // ),
+                          FutureBuilder<List<Video>>(
+                            future: videoListBloc.fetchVideos(),
+                            builder: (context, snapshot) {
+                              // if (snapshot.hasData) {
+                              List<Video> videoList = [];
+                              videoList.addAll(snapshot.data);
+                              Logger().i(videoList.length);
+                              return VideoGrid(videoList: videoList);
+                              // } else
+                              //   return CircularProgressIndicator();
+                            },
+                          ),
                         ],
                       ),
                     ),

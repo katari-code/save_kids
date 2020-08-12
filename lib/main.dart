@@ -10,12 +10,14 @@ import 'package:save_kids/bloc/create_child_profile_bloc.dart';
 import 'package:save_kids/bloc/parent_settings_bloc.dart';
 import 'package:save_kids/bloc/test/video_list_bloc_test.dart';
 import 'package:save_kids/bloc/watch_schedule_bloc.dart';
-import 'package:save_kids/models/child.dart';
 import 'package:save_kids/models/child_avatar.dart';
 
 import 'package:provider/provider.dart';
 import 'package:save_kids/models/timer.dart';
-import 'package:save_kids/screens/child_display_videos/child_display_videos.dart';
+
+import 'package:save_kids/util/constant.dart';
+import 'package:save_kids/util/router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'bloc/add_video_bloc.dart';
 import 'bloc/developer_blocs/add_channel_bloc.dart';
@@ -23,8 +25,13 @@ import 'bloc/sign_in_bloc.dart';
 import 'bloc/sign_up_bloc.dart';
 
 import 'models/schedule_data.dart';
+import 'util/Preference/prefs_singleton.dart';
 
-void main() {
+void main() async {
+  
+  WidgetsFlutterBinding.ensureInitialized();
+  PrefsSingleton.prefs = await SharedPreferences.getInstance();
+
   runApp(MyApp());
 }
 
@@ -40,9 +47,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => ScheduleData(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => KidsData(),
-        ),
+
         ChangeNotifierProvider(
           create: (_) => TimerData(),
         ),
@@ -97,11 +102,10 @@ class MyApp extends StatelessWidget {
             // from the list (English, in this case).
             return supportedLocales.first;
           },
-          // initialRoute: kVideoDisplayRoute,
-          // onGenerateRoute: (RouteSettings settings) {
-          //   return createRoute(settings);
-          // },
-          home: ChildMainViedoList(),
+          initialRoute: kVideoDisplayRoute,
+          onGenerateRoute: (RouteSettings settings) {
+            return createRoute(settings);
+          },
         ),
       ),
     );
