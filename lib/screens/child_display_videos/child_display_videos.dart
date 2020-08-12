@@ -180,7 +180,10 @@ class _ChildMainViedoListState extends State<ChildMainViedoList> {
                               List<Video> videoList = [];
                               videoList.addAll(snapshot.data);
                               Logger().i(videoList.length);
-                              return VideoGrid(videoList: videoList);
+                              return VideoGrid(
+                                  videoList: videoList,
+                                  addToWatchHistory:
+                                      videoListBloc.updateWatchHistory);
                               // } else
                               //   return CircularProgressIndicator();
                             },
@@ -201,13 +204,12 @@ class _ChildMainViedoListState extends State<ChildMainViedoList> {
 }
 
 class VideoGrid extends StatelessWidget {
-  const VideoGrid({
-    Key key,
-    @required this.videoList,
-  }) : super(key: key);
+  const VideoGrid(
+      {Key key, @required this.videoList, @required this.addToWatchHistory})
+      : super(key: key);
 
   final List<Video> videoList;
-
+  final Function addToWatchHistory;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -223,7 +225,8 @@ class VideoGrid extends StatelessWidget {
           shrinkWrap: true,
           itemCount: videoList.length,
           itemBuilder: (context, index) => GestureDetector(
-            onTap: () {
+            onTap: () async {
+              await addToWatchHistory(videoList[index].id);
               Navigator.push(
                 context,
                 MaterialPageRoute(

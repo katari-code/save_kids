@@ -88,6 +88,14 @@ class ChildVideoListBloc extends BlocBase {
     }
   }
 
+  Future updateWatchHistory(String videoId) async {
+    _repository = Repository<Child>(collection: 'children');
+    if (child.value != null) {
+      Child updatedChild = child.value..watchHistory.add(videoId);
+      await _repository.setDocument(updatedChild, updatedChild.id);
+    }
+  }
+
   @override
   void dispose() {
     _category.drain();
