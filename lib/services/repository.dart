@@ -194,4 +194,14 @@ class Repository<T extends FireStoreConverter> {
       return null;
     }
   }
+
+  Future<List<Video>> getVideos(List<String> videos) async {
+    _youtubeApi = YoutubeApiProvider<Channel>();
+    try {
+      return _youtubeApi.fetchVideoList(videos: videos);
+    } catch (e) {
+      logger.e(e);
+      return null;
+    }
+  }
 }
