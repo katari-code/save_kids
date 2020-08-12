@@ -91,12 +91,28 @@ class _WatchScheduleState extends State<WatchSchedule> {
                                             snapshot.data[0].id);
                                         isInit = false;
                                       }
-                                      return AvatrsCarousel(snapshot.data,
-                                          (String id) {
-                                        watchScheduleBloc.changeChosenChild(id);
-                                      });
+                                      if (snapshot.data.length > 0) {
+                                        return AvatrsCarousel(snapshot.data,
+                                            (String id) {
+                                          watchScheduleBloc
+                                              .changeChosenChild(id);
+                                        });
+                                      }
+                                      return Center(
+                                        child: Container(
+                                          margin: EdgeInsets.symmetric(
+                                              vertical: 15),
+                                          child: Text(
+                                            'No children To Display',
+                                            style: kBubblegum_sans32.copyWith(
+                                                color: Colors.white),
+                                          ),
+                                        ),
+                                      );
                                     }
-                                    return ProgressBar();
+                                    return ProgressBar(
+                                      color: Colors.white,
+                                    );
                                   }),
                               TopCalendar(watchScheduleBloc.changeChosenDate),
                               StreamBuilder<List<Schedule>>(
@@ -115,7 +131,9 @@ class _WatchScheduleState extends State<WatchSchedule> {
                                       ),
                                     );
                                   }
-                                  return ProgressBar();
+                                  return ProgressBar(
+                                    color: Colors.white,
+                                  );
                                 },
                               ),
                               SizedBox(
@@ -164,7 +182,9 @@ class _WatchScheduleState extends State<WatchSchedule> {
                                             return Text('');
                                           });
                                     }
-                                    return ProgressBar();
+                                    return ProgressBar(
+                                      color: Colors.white,
+                                    );
                                   }),
                               SizedBox(
                                 height: 15,

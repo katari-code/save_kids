@@ -96,7 +96,7 @@ class MyApp extends StatelessWidget {
             // from the list (English, in this case).
             return supportedLocales.first;
           },
-          initialRoute: kSignInRoute,
+          initialRoute: kChildAccountRoute,
           onGenerateRoute: (RouteSettings settings) {
             return createRoute(settings);
           },
