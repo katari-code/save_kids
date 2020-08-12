@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:save_kids/bloc/auth_bloc.dart';
 import 'package:save_kids/util/constant.dart';
 import 'package:save_kids/util/style.dart';
@@ -25,17 +26,19 @@ class _SpalschScreenState extends State<SpalschScreen> {
   void initState() {
     super.initState();
     Timer(
-      Duration(seconds: 1),
+      Duration(seconds: 4),
       () => getUser(),
     );
   }
 
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text(
-          "Splash Screen",
-          style: kBubblegum_sans44,
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: Image.asset(
+          "images/sc.png",
+          fit: BoxFit.cover,
         ),
       ),
     );

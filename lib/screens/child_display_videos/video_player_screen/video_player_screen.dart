@@ -21,6 +21,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
     ]);
+
     _controller = YoutubePlayerController(
       initialVideoId: widget.viedoId,
       flags: YoutubePlayerFlags(
@@ -69,7 +70,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                   SvgPicture.asset("images/svgs/Back_video.svg"),
                   YoutubePlayer(
                     width: MediaQuery.of(context).size.width,
-                    aspectRatio: 16 / 9,
+                    aspectRatio: 3 / 2,
                     controller: _controller,
                     showVideoProgressIndicator: true,
                     onReady: () {

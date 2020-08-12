@@ -46,7 +46,6 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => ScheduleData(),
         ),
-
         ChangeNotifierProvider(
           create: (_) => TimerData(),
         ),

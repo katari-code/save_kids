@@ -40,161 +40,164 @@ class _AddChildScreenState extends State<AddChildScreen> {
                   fit: BoxFit.cover,
                 ),
               ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Text(
-                    text.translate('Create_a_profile_for_your_kids'),
-                    style:
-                        GoogleFonts.bubblegumSans(textStyle: kBubblegum_sans32),
-                  ),
-                  FlatButton(
-                    onPressed: () => showDialog(
-                      context: context,
-                      builder: (BuildContext _) => StatefulBuilder(
-                        builder: (context, setStaste) => Dialog(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(48),
-                          ),
-                          child: Container(
-                            height: MediaQuery.of(context).size.height - 100,
-                            child: StreamBuilder<Object>(
-                                stream: createChildBloc.imageAvatar,
-                                initialData: createChildBloc.avatars[0],
-                                builder: (context, snapshot) {
-                                  return Column(
-                                    children: <Widget>[
-                                      SizedBox(
-                                        height: 60,
-                                      ),
-                                      CircleAvatar(
-                                        backgroundColor: Colors.yellow[50],
-                                        radius: 60,
-                                        backgroundImage:
-                                            NetworkImage(snapshot.data),
-                                      ),
-                                      Flexible(
-                                        child: GridView.count(
-                                          primary: false,
-                                          padding: const EdgeInsets.all(20),
-                                          crossAxisSpacing: 10,
-                                          mainAxisSpacing: 10,
-                                          crossAxisCount: 3,
-                                          children: List<Widget>.generate(
-                                            createChildBloc.avatars.length,
-                                            (index) => GestureDetector(
-                                              onTap: () {
-                                                createChildBloc
-                                                    .changeImageAvatar(
+              SafeArea(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Text(
+                      text.translate('Create_a_profile_for_your_kids'),
+                      style: GoogleFonts.bubblegumSans(
+                          textStyle: kBubblegum_sans32),
+                    ),
+                    FlatButton(
+                      onPressed: () => showDialog(
+                        context: context,
+                        builder: (BuildContext _) => StatefulBuilder(
+                          builder: (context, setStaste) => Dialog(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(48),
+                            ),
+                            child: Container(
+                              height: MediaQuery.of(context).size.height - 100,
+                              child: StreamBuilder<Object>(
+                                  stream: createChildBloc.imageAvatar,
+                                  initialData: createChildBloc.avatars[0],
+                                  builder: (context, snapshot) {
+                                    return Column(
+                                      children: <Widget>[
+                                        SizedBox(
+                                          height: 60,
+                                        ),
+                                        CircleAvatar(
+                                          backgroundColor: Colors.yellow[50],
+                                          radius: 60,
+                                          backgroundImage:
+                                              NetworkImage(snapshot.data),
+                                        ),
+                                        Flexible(
+                                          child: GridView.count(
+                                            primary: false,
+                                            padding: const EdgeInsets.all(20),
+                                            crossAxisSpacing: 10,
+                                            mainAxisSpacing: 10,
+                                            crossAxisCount: 3,
+                                            children: List<Widget>.generate(
+                                              createChildBloc.avatars.length,
+                                              (index) => GestureDetector(
+                                                onTap: () {
                                                   createChildBloc
-                                                      .avatars[index],
-                                                );
-                                              },
-                                              child: Stack(
-                                                children: <Widget>[
-                                                  CircleAvatar(
-                                                    radius: 60,
-                                                    backgroundColor:
-                                                        createChildBloc.avatars[
-                                                                    index] ==
-                                                                snapshot.data
-                                                            ? kPurpleColor
-                                                            : kYellowColor,
-                                                  ),
-                                                  Center(
-                                                    child: CircleAvatar(
+                                                      .changeImageAvatar(
+                                                    createChildBloc
+                                                        .avatars[index],
+                                                  );
+                                                },
+                                                child: Stack(
+                                                  children: <Widget>[
+                                                    CircleAvatar(
+                                                      radius: 60,
                                                       backgroundColor:
-                                                          Colors.white,
-                                                      radius: 40,
-                                                      backgroundImage:
-                                                          NetworkImage(
-                                                        createChildBloc
-                                                            .avatars[index],
+                                                          createChildBloc.avatars[
+                                                                      index] ==
+                                                                  snapshot.data
+                                                              ? kPurpleColor
+                                                              : kYellowColor,
+                                                    ),
+                                                    Center(
+                                                      child: CircleAvatar(
+                                                        backgroundColor:
+                                                            Colors.white,
+                                                        radius: 40,
+                                                        backgroundImage:
+                                                            NetworkImage(
+                                                          createChildBloc
+                                                              .avatars[index],
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                ],
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () => Navigator.pop(context),
-                                        child: AgeChip(
-                                          color: kBlueDarkColor,
-                                          text: "Done",
-                                          highet: 60.0,
-                                          width: 120.0,
+                                        GestureDetector(
+                                          onTap: () => Navigator.pop(context),
+                                          child: AgeChip(
+                                            color: kBlueDarkColor,
+                                            text: "Done",
+                                            highet: 60.0,
+                                            width: 120.0,
+                                          ),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        height: 60,
-                                      ),
-                                    ],
-                                  );
-                                }),
+                                        SizedBox(
+                                          height: 60,
+                                        ),
+                                      ],
+                                    );
+                                  }),
+                            ),
                           ),
                         ),
                       ),
+                      child: StreamBuilder<Object>(
+                          stream: createChildBloc.imageAvatar,
+                          initialData: createChildBloc.avatars[0],
+                          builder: (context, snapshot) {
+                            return CircleAvatar(
+                              backgroundColor: Colors.white,
+                              radius: 60,
+                              backgroundImage: NetworkImage(snapshot.data),
+                            );
+                          }),
                     ),
-                    child: StreamBuilder<Object>(
-                        stream: createChildBloc.imageAvatar,
-                        initialData: createChildBloc.avatars[0],
+                    buildTextField(context, createChildBloc),
+                    buildAgeChips(text, createChildBloc),
+                    Text(
+                      "Daily Total Watch Time",
+                      style: kBubblegum_sans32,
+                    ),
+                    TimeCoursal(
+                      createChildBloc: createChildBloc,
+                    ),
+                    StreamBuilder<Parent>(
+                        stream: createChildBloc.parentSession,
                         builder: (context, snapshot) {
-                          return CircleAvatar(
-                            backgroundColor: Colors.white,
-                            radius: 60,
-                            backgroundImage: NetworkImage(snapshot.data),
-                          );
-                        }),
-                  ),
-                  buildTextField(context, createChildBloc),
-                  buildAgeChips(text, createChildBloc),
-                  Text(
-                    "Daily Total Watch Time",
-                    style: kBubblegum_sans32,
-                  ),
-                  TimeCoursal(
-                    createChildBloc: createChildBloc,
-                  ),
-                  StreamBuilder<Parent>(
-                      stream: createChildBloc.parentSession,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return GestureDetector(
-                            onTap: () async {
-                              final result = await buildShowModeDialog(context);
-                              if (result == null) {
-                                await createChildBloc.addChild(
-                                    snapshot.data.id, 'exploratory');
-                              }
+                          if (snapshot.hasData) {
+                            return GestureDetector(
+                              onTap: () async {
+                                final result =
+                                    await buildShowModeDialog(context);
+                                if (result == null) {
+                                  await createChildBloc.addChild(
+                                      snapshot.data.id, 'exploratory');
+                                }
 
-                              Navigator.of(context).pop(context);
-                            },
-                            child: Container(
-                              height: 58.00,
-                              width: 226.00,
-                              decoration: BoxDecoration(
-                                color: kYellowColor,
-                                borderRadius: BorderRadius.circular(50.00),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  text.translate('Finish'),
-                                  style: GoogleFonts.bubblegumSans(
-                                    textStyle: kBubblegum_sans32.copyWith(
-                                      color: Colors.white,
+                                Navigator.of(context).pop(context);
+                              },
+                              child: Container(
+                                height: 58.00,
+                                width: 226.00,
+                                decoration: BoxDecoration(
+                                  color: kYellowColor,
+                                  borderRadius: BorderRadius.circular(50.00),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    text.translate('Finish'),
+                                    style: GoogleFonts.bubblegumSans(
+                                      textStyle: kBubblegum_sans32.copyWith(
+                                        color: Colors.white,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                          );
-                        }
-                        return CircularProgressIndicator();
-                      })
-                ],
+                            );
+                          }
+                          return CircularProgressIndicator();
+                        })
+                  ],
+                ),
               ),
             ],
           ),

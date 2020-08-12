@@ -55,6 +55,7 @@ class _ParentDashboardState extends State<ParentDashboard> {
               fit: BoxFit.cover,
             ),
           ),
+
           SafeArea(
             child: Align(
               alignment: Alignment.topRight,
@@ -210,7 +211,7 @@ class _ParentDashboardState extends State<ParentDashboard> {
         child: GestureDetector(
           onTap: () => Navigator.pushReplacementNamed(
             context,
-            kParentDashboardRoute,
+            kChildAccountRoute,
           ),
           child: Container(
             decoration: BoxDecoration(
