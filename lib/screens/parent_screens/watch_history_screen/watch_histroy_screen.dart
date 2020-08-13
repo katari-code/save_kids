@@ -40,21 +40,24 @@ class WatchHistory extends StatelessWidget {
                           ),
                           color: kYellowColor,
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Icon(
-                              Icons.arrow_back,
-                              size: 30,
-                              color: Colors.white,
-                            ),
-                            Text(
-                              "Watch History",
-                              style: kBubblegum_sans40.copyWith(
+                        child: GestureDetector(
+                          onTap: () => Navigator.pop(context),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Icon(
+                                Icons.arrow_back,
+                                size: 30,
                                 color: Colors.white,
                               ),
-                            ),
-                          ],
+                              Text(
+                                "Watch History",
+                                style: kBubblegum_sans40.copyWith(
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -125,7 +128,8 @@ class WatchHistory extends StatelessWidget {
                                                         Axis.horizontal,
                                                     padding: EdgeInsets.only(
                                                         left: 15),
-                                                    itemCount: 4,
+                                                    itemCount:
+                                                        videos.data.length,
                                                     itemBuilder:
                                                         (context, index) =>
                                                             VideoCardEnhanced(

@@ -6,8 +6,10 @@ import 'package:save_kids/bloc/child_video_list_bloc.dart';
 import 'package:flutter/services.dart';
 
 import 'package:save_kids/bloc/test/video_list_bloc_test.dart';
+import 'package:save_kids/components/control_widgets/progress_bar.dart';
 import 'package:save_kids/components/video_card.dart';
 import 'package:save_kids/models/category.dart';
+import 'package:save_kids/models/timer.dart';
 import 'package:save_kids/models/video.dart';
 import 'package:save_kids/screens/child_display_videos/video_player_screen/video_player_screen.dart';
 import 'package:save_kids/util/style.dart';
@@ -15,8 +17,8 @@ import 'package:simple_animations/simple_animations.dart';
 import 'widget/childTimer.dart';
 
 class ChildMainViedoList extends StatefulWidget {
-  final String childId = '2iJpiM4M0pPjsyoCreb1';
-  // ChildMainViedoList(this.childId);
+  final String childId;
+  ChildMainViedoList(this.childId);
   @override
   _ChildMainViedoListState createState() => _ChildMainViedoListState();
 }
@@ -218,7 +220,16 @@ class _ChildMainViedoListState extends State<ChildMainViedoList> {
                     ),
                   ],
                 ),
-                ChildTimer(videoListBloc),
+                StreamBuilder<Timer>(
+                  stream: videoListBloc.timer,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData && snapshot.data.remainSec != null) {
+                      return ChildTimer(
+                          snapshot.data, videoListBloc.storeTimer);
+                    }
+                    return ProgressBar();
+                  },
+                ),
               ],
             );
           })
@@ -251,7 +262,7 @@ class VideoGrid extends StatelessWidget {
           itemCount: videoList.length,
           itemBuilder: (context, index) => GestureDetector(
             onTap: () async {
-              await addToWatchHistory(videoList[index].id);
+              addToWatchHistory(videoList[index].id);
               Navigator.push(
                 context,
                 MaterialPageRoute(

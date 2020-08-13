@@ -16,11 +16,14 @@ class ChildVideoListBloc extends BlocBase {
   }
 
   static String _pageToken = '';
-  Repository _repository;
+  Repository _repository = Repository<Child>(collection: 'children');
+  Repository _videoRepo = Repository();
+  Repository _childRepo = Repository<Child>(collection: 'children');
 
   BehaviorSubject<Timer> timer = BehaviorSubject<Timer>();
   BehaviorSubject<Child> child = BehaviorSubject<Child>();
   BehaviorSubject<String> childId = BehaviorSubject<String>();
+  // BehaviorSubject<List<String>>
   final _category = BehaviorSubject<Category>();
 
   void changeCategory(Category category) {
@@ -30,9 +33,8 @@ class ChildVideoListBloc extends BlocBase {
 
   Stream<Category> get streamCategory => _category.stream;
   Stream<Child> getChild(String id) {
-    _repository = Repository<Child>(collection: 'children');
-    Logger().i('here in getChild ', child);
-    return _repository.getDocument(Child(), id);
+    // Logger().i('here in getChild ', child);
+    return _childRepo.getDocument(Child(), id);
   }
 
   get startListening {}
@@ -44,11 +46,11 @@ class ChildVideoListBloc extends BlocBase {
           if (child != null) {
             return BehaviorSubject.seeded(child.timer);
           } else {
-            return BehaviorSubject.seeded(null);
+            return BehaviorSubject.seeded(Timer());
           }
         });
       }
-      return BehaviorSubject.seeded(null);
+      return BehaviorSubject.seeded(Timer());
     });
   }
 
@@ -56,23 +58,22 @@ class ChildVideoListBloc extends BlocBase {
     return childId.switchMap((value) {
       if (value != null) {
         return getChild(value).switchMap<Child>((child) {
-          Logger().i('here in changeChild ', child);
+          // Logger().i('here in changeChild ', child);
           if (child != null) {
             return BehaviorSubject.seeded(child);
           } else {
-            return BehaviorSubject.seeded(null);
+            return BehaviorSubject.seeded(Child());
           }
         });
       }
-      return BehaviorSubject.seeded(null);
+      return BehaviorSubject.seeded(Child());
     });
   }
 
   Future<List<Video>> fetchVideos() async {
-    _repository = Repository();
     List<Video> videos = [];
 
-    final map = await _repository.getVideosBySearch(_category.value.search,
+    final map = await _videoRepo.getVideosBySearch(_category.value.search,
         pageToken: _pageToken);
     videos.addAll(map['data']);
     _pageToken = map['pageToken'];
@@ -81,7 +82,6 @@ class ChildVideoListBloc extends BlocBase {
   }
 
   Future storeTimer(Timer timer) async {
-    _repository = Repository<Child>(collection: 'children');
     if (child.value != null) {
       Child updatedChild = child.value..timer = timer;
       await _repository.setDocument(updatedChild, updatedChild.id);
@@ -89,7 +89,6 @@ class ChildVideoListBloc extends BlocBase {
   }
 
   Future updateWatchHistory(String videoId, String childId) async {
-    _repository = Repository<Child>(collection: 'children');
     Child value = await _repository.getDocument(Child(), childId).first;
 
     Child updatedChild = value..watchHistory.add(videoId);

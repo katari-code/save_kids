@@ -82,7 +82,7 @@ class YoutubeApiProvider<T> {
       List<Video> collection = [];
       videosJson.forEach(
         (json) => collection.add(
-          Video.fromMap(json),
+          Video.fromIdsMap(json),
         ),
       );
       return collection;

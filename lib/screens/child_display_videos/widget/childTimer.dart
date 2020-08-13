@@ -9,71 +9,64 @@ import 'package:save_kids/util/style.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 
 class ChildTimer extends StatelessWidget {
-  final ChildVideoListBloc _childVideoListBloc;
-  ChildTimer(this._childVideoListBloc);
+  final Function updateTimer;
+  final Timer timer;
+  ChildTimer(this.timer, this.updateTimer);
   @override
   Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.bottomRight,
       child: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: StreamBuilder<Timer>(
-            stream: _childVideoListBloc.timer.stream,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Countdown(
-                  controller: Provider.of<TimerData>(context).controller,
-                  seconds: snapshot.data.remainSec.toInt(),
-                  build: (_, double time) {
-                    _childVideoListBloc.storeTimer(
-                      Timer(
-                          remainSec: time.toInt(),
-                          lableText: snapshot.data.lableText,
-                          lengthSec: snapshot.data.lengthSec,
-                          isComplete: snapshot.data.isComplete),
-                    );
-                    return Container(
-                      width: MediaQuery.of(context).size.width * 0.16,
-                      padding: EdgeInsets.only(top: 7),
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage("images/clock.png"),
-                        ),
+          padding: const EdgeInsets.all(15.0),
+          child: Countdown(
+            controller: Provider.of<TimerData>(context).controller,
+            seconds: timer.remainSec.toInt(),
+            build: (_, double time) {
+              updateTimer(
+                Timer(
+                    remainSec: time.toInt(),
+                    lableText: timer.lableText,
+                    lengthSec: timer.lengthSec,
+                    isComplete: timer.isComplete),
+              );
+              return Container(
+                width: MediaQuery.of(context).size.width * 0.16,
+                padding: EdgeInsets.only(top: 7),
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("images/clock.png"),
+                  ),
+                ),
+                child: CircularPercentIndicator(
+                  radius: 70.0,
+                  animation: false,
+                  animationDuration: 1200,
+                  lineWidth: 40.0,
+                  percent: time / timer.lengthSec,
+                  center: CircleAvatar(
+                    backgroundColor: Color(0xff51197C),
+                    radius: 25,
+                    child: Text(
+                      displayTime(time),
+                      textAlign: TextAlign.center,
+                      style: kBubblegum_sans16.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 17.0,
                       ),
-                      child: CircularPercentIndicator(
-                        radius: 70.0,
-                        animation: false,
-                        animationDuration: 1200,
-                        lineWidth: 40.0,
-                        percent: time / snapshot.data.lengthSec,
-                        center: CircleAvatar(
-                          backgroundColor: Color(0xff51197C),
-                          radius: 25,
-                          child: Text(
-                            displayTime(time),
-                            textAlign: TextAlign.center,
-                            style: kBubblegum_sans16.copyWith(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 17.0,
-                            ),
-                          ),
-                        ),
-                        circularStrokeCap: CircularStrokeCap.butt,
-                        backgroundColor: Colors.transparent,
-                        progressColor: kYellowColor,
-                      ),
-                    );
-                  },
-                  interval: Duration(milliseconds: 100),
-                  onFinished: () {
-                    // SystemNavigator.pop();
-                  },
-                );
-              }
-              return ProgressBar();
-            }),
-      ),
+                    ),
+                  ),
+                  circularStrokeCap: CircularStrokeCap.butt,
+                  backgroundColor: Colors.transparent,
+                  progressColor: kYellowColor,
+                ),
+              );
+            },
+            interval: Duration(milliseconds: 100),
+            onFinished: () {
+              // SystemNavigator.pop();
+            },
+          )),
     );
   }
 

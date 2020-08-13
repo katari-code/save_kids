@@ -139,29 +139,32 @@ class _ParentDashboardState extends State<ParentDashboard> {
                 SizedBox(
                   height: 15,
                 ),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  padding: EdgeInsets.all(15),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: Color(0xffFFA846),
-                  ),
-                  child: Row(
-                    children: <Widget>[
-                      Image.asset(
-                        'images/whatchHistory.png',
-                        height: 70,
-                      ),
-                      SizedBox(
-                        width: 15,
-                      ),
-                      Text(
-                        "Watch History",
-                        style: kBubblegum_sans32.copyWith(
-                          color: Colors.white,
+                GestureDetector(
+                  onTap: () => Navigator.pushNamed(context, kHistoryWatchRoute),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    padding: EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Color(0xffFFA846),
+                    ),
+                    child: Row(
+                      children: <Widget>[
+                        Image.asset(
+                          'images/whatchHistory.png',
+                          height: 70,
                         ),
-                      ),
-                    ],
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Text(
+                          "Watch History",
+                          style: kBubblegum_sans32.copyWith(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 SizedBox(

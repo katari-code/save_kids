@@ -27,9 +27,25 @@ class Video implements Mapper {
       chosen: false,
     );
   }
+  factory Video.fromIdsMap(
+    Map<String, dynamic> map,
+  ) {
+    return Video(
+      id: map['id'],
+      description: map['snippet']['description'],
+      title: map['snippet']['title'],
+      thumbnailUrl: map['snippet']['thumbnails']['medium']['url'],
+      channelTitle: map['snippet']['channelTitle'],
+      chosen: false,
+    );
+  }
 
   @override
   fromSearchMap(Map<String, dynamic> map) {
     return Video.fromMap(map);
+  }
+
+  fromIdsMap(Map<String, dynamic> map) {
+    return Video.fromIdsMap(map);
   }
 }

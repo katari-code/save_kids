@@ -75,7 +75,7 @@ Route<dynamic> createRoute(RouteSettings settings) {
       );
     case kVideoDisplayRoute:
       return MaterialPageRoute(
-        builder: (context) => ChildMainViedoList(),
+        builder: (context) => ChildMainViedoList(settings.arguments),
       );
     case kVideoListRoute:
       return MaterialPageRoute(
