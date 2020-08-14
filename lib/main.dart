@@ -19,8 +19,8 @@ import 'package:provider/provider.dart';
 import 'package:save_kids/models/timer.dart';
 
 import 'package:save_kids/util/constant.dart';
+import 'package:save_kids/util/preference/prefs_singleton.dart';
 import 'package:save_kids/util/router.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'bloc/add_video_bloc.dart';
 
@@ -29,11 +29,10 @@ import 'bloc/sign_in_bloc.dart';
 import 'bloc/sign_up_bloc.dart';
 
 import 'models/schedule_data.dart';
-import 'util/Preference/prefs_singleton.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  PrefsSingleton.prefs = await SharedPreferences.getInstance();
+  PreferenceUtils.init();
 
   runApp(MyApp());
 }

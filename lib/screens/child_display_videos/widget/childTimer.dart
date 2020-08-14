@@ -6,11 +6,14 @@ import 'package:save_kids/bloc/child_video_list_bloc.dart';
 import 'package:save_kids/components/control_widgets/progress_bar.dart';
 import 'package:save_kids/models/timer.dart';
 import 'package:save_kids/util/style.dart';
+import 'package:timer_count_down/timer_controller.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 
 class ChildTimer extends StatelessWidget {
   final Function updateTimer;
   final Timer timer;
+  final CountdownController controller = CountdownController();
+
   ChildTimer(this.timer, this.updateTimer);
   @override
   Widget build(BuildContext context) {
@@ -19,7 +22,7 @@ class ChildTimer extends StatelessWidget {
       child: Padding(
           padding: const EdgeInsets.all(15.0),
           child: Countdown(
-            controller: Provider.of<TimerData>(context).controller,
+            controller: controller,
             seconds: timer.remainSec.toInt(),
             build: (_, double time) {
               updateTimer(
@@ -43,7 +46,7 @@ class ChildTimer extends StatelessWidget {
                   animation: false,
                   animationDuration: 1200,
                   lineWidth: 40.0,
-                  percent: 1,
+                  percent: time / timer.lengthSec,
                   center: CircleAvatar(
                     backgroundColor: Color(0xff51197C),
                     radius: 25,

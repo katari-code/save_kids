@@ -1,12 +1,17 @@
+import 'dart:convert';
+
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:logger/logger.dart';
 import 'package:save_kids/bloc/kids_accounts_specify_video_bloc.dart';
 import 'package:save_kids/components/control_widgets/progress_bar.dart';
 import 'package:save_kids/models/child.dart';
 import 'package:save_kids/models/parent.dart';
+import 'package:save_kids/models/video.dart';
 import 'package:save_kids/util/constant.dart';
+import 'package:save_kids/util/preference/prefs_singleton.dart';
 import 'package:save_kids/util/style.dart';
 import 'package:simple_animations/simple_animations.dart';
 
@@ -72,8 +77,8 @@ class ChildrenScreenAccounts extends StatelessWidget {
                                       return GridView.count(
                                         primary: false,
                                         padding: EdgeInsets.all(15),
-                                        // crossAxisSpacing: 20,
-                                        // mainAxisSpacing: 10,
+                                        crossAxisSpacing: 20,
+                                        mainAxisSpacing: 10,
                                         crossAxisCount: 2,
                                         children: List<Widget>.generate(
                                             snapshot.data.length,
@@ -92,12 +97,20 @@ class ChildrenScreenAccounts extends StatelessWidget {
                                                   builder:
                                                       (context, child, value) =>
                                                           GestureDetector(
-                                                    onTap: () {
-                                                      Navigator.pushNamed(
-                                                          context,
-                                                          kVideoDisplayRoute,
-                                                          arguments: snapshot
-                                                              .data[index].id);
+                                                    onTap: () async {
+                                                      final result =
+                                                          await Navigator
+                                                              .pushNamed(
+                                                        context,
+                                                        kSpecifyVideoRoute,
+                                                      );
+                                                      final String viedoList =
+                                                          Video.encodeVideos(
+                                                              result);
+                                                      PreferenceUtils.setString(
+                                                          snapshot
+                                                              .data[index].id,
+                                                          viedoList);
                                                     },
                                                     child: Container(
                                                       decoration: BoxDecoration(

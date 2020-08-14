@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:save_kids/models/interfaces/i_mapper.dart';
 
 class Video implements Mapper {
@@ -14,6 +16,36 @@ class Video implements Mapper {
       this.thumbnailUrl,
       this.channelTitle,
       this.description});
+
+  Video.fromJson(Map<String, dynamic> json)
+      : this(
+          id: json['id'],
+          title: json['title'],
+          thumbnailUrl: json['thumbnailUrl'],
+          channelTitle: json['channelTitle'],
+          description: json['description'],
+        );
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'title': title,
+        'thumbnailUrl': thumbnailUrl,
+        'channelTitle': channelTitle,
+        'description': description
+      };
+
+  static String encodeVideos(List<Video> videos) => json.encode(
+        videos
+            .map<Map<String, dynamic>>(
+              (video) => video.toJson(),
+            )
+            .toList(),
+      );
+
+  static List<Video> decodeVideos(String videos) =>
+      (json.decode(videos) as List<dynamic>)
+          .map<Video>((video) => Video.fromJson(video))
+          .toList();
 
   factory Video.fromMap(
     Map<String, dynamic> map,

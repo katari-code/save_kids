@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:save_kids/screens/account_dashborad_screen/accounts_screen.dart';
 import 'package:save_kids/screens/child_display_videos/child_display_videos.dart';
@@ -14,6 +15,7 @@ import 'package:save_kids/screens/sign_in/sign_in.dart';
 import 'package:save_kids/screens/sign_up/sign_up.dart';
 import 'package:save_kids/screens/specify_screens/add_videos_screen.dart';
 import 'package:save_kids/screens/specify_videos_screen/children_account_screen.dart';
+import 'package:save_kids/screens/specify_videos_screen/viedo_screen_specify.dart';
 import 'package:save_kids/screens/splash_screen/splash_screen.dart';
 import 'package:save_kids/util/constant.dart';
 
@@ -85,6 +87,10 @@ Route<dynamic> createRoute(RouteSettings settings) {
     case kVideoListRoute:
       return MaterialPageRoute(
         builder: (context) => VideoList(),
+      );
+    case kSpecifyVideoSearchChild:
+      return MaterialPageRoute(
+        builder: (context) => SpecifyVideoScreen(),
       );
   }
   return null;
