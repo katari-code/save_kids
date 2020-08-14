@@ -12,6 +12,7 @@ import 'package:save_kids/models/category.dart';
 import 'package:save_kids/models/timer.dart';
 import 'package:save_kids/models/video.dart';
 import 'package:save_kids/screens/child_display_videos/video_player_screen/video_player_screen.dart';
+import 'package:save_kids/util/preference/prefs_singleton.dart';
 import 'package:save_kids/util/style.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'widget/childTimer.dart';
@@ -224,7 +225,20 @@ class _ChildMainViedoListState extends State<ChildMainViedoList>
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
                                 List<Video> videoList = [];
-                                videoList.addAll(snapshot.data);
+                                if (selectedIndex == 0) {
+                                  final String listString =
+                                      PreferenceUtils.getString(
+                                    this.widget.childId,
+                                  );
+                                  Logger().i(listString);
+                                  listString.length < 5
+                                      ? videoList.addAll(snapshot.data)
+                                      : videoList.addAll(
+                                          Video.decodeVideos(listString));
+                                } else {
+                                  videoList.addAll(snapshot.data);
+                                }
+
                                 Logger().i(videoList.length);
                                 return VideoGrid(
                                     videoList: videoList,
@@ -273,30 +287,25 @@ class VideoGrid extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(25.0),
       child: SingleChildScrollView(
-        child: GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 2.0,
-            mainAxisSpacing: 2.0,
-          ),
-          physics: ClampingScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: videoList.length,
-          itemBuilder: (context, index) => GestureDetector(
-            onTap: () async {
-              addToWatchHistory(videoList[index].id);
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => VideoPlayerScreen(
-                    viedoId: videoList[index].id,
+        child: Wrap(
+          children: List<GestureDetector>.generate(
+            videoList.length,
+            (index) => GestureDetector(
+              onTap: () async {
+                addToWatchHistory(videoList[index].id);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => VideoPlayerScreen(
+                      viedoId: videoList[index].id,
+                    ),
                   ),
-                ),
-              );
-            },
-            child: VideoCardEnhanced(
-              videoTitle: videoList[index].title,
-              image: videoList[index].thumbnailUrl,
+                );
+              },
+              child: VideoCardEnhanced(
+                videoTitle: videoList[index].title,
+                image: videoList[index].thumbnailUrl,
+              ),
             ),
           ),
         ),

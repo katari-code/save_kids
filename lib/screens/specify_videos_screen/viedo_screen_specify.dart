@@ -151,33 +151,59 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
     return StreamBuilder<Object>(
         stream: addVideoBloc.searchResult,
         builder: (context, snapshot) {
-          return Container(
-            // padding: EdgeInsets.symmetric(horizontal: 15),
-            margin: EdgeInsets.symmetric(horizontal: 20),
-            child: TextField(
-              onChanged: addVideoBloc.changeSearchResult,
-              // onSubmitted: ,
-              decoration: InputDecoration(
-                // errorText: snapshot.error,
-                prefixIcon: GestureDetector(
-                  onTap: () => addVideoBloc.getVideoBySearch(),
-                  child: Icon(Icons.search),
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 250,
+                height: 45,
+                // padding: EdgeInsets.symmetric(horizontal: 15),
+                margin: EdgeInsets.symmetric(horizontal: 20),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: TextField(
+                    onChanged: addVideoBloc.changeSearchResult,
+                    // onSubmitted: ,
+                    decoration: InputDecoration(
+                      // errorText: snapshot.error,
+
+                      hintText: "Try Science For Kids ",
+                      border: InputBorder.none,
+                    ),
+                  ),
                 ),
-                hintText: "Try Science For Kids ",
-                border: InputBorder.none,
+                decoration: BoxDecoration(
+                  color: Color(0xffffffff),
+                  boxShadow: [
+                    BoxShadow(
+                      offset: Offset(0.00, 2.00),
+                      color: Color(0xff000000).withOpacity(0.10),
+                      blurRadius: 6,
+                    ),
+                  ],
+                  borderRadius: BorderRadius.circular(8.00),
+                ),
               ),
-            ),
-            decoration: BoxDecoration(
-              color: Color(0xffffffff),
-              boxShadow: [
-                BoxShadow(
-                  offset: Offset(0.00, 2.00),
-                  color: Color(0xff000000).withOpacity(0.10),
-                  blurRadius: 6,
+              Container(
+                width: 50,
+                height: 45,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  boxShadow: [
+                    BoxShadow(
+                      offset: Offset(0.00, 2.00),
+                      color: Color(0xff000000).withOpacity(0.10),
+                      blurRadius: 6,
+                    )
+                  ],
+                  color: kYellowColor,
                 ),
-              ],
-              borderRadius: BorderRadius.circular(8.00),
-            ),
+                child: GestureDetector(
+                  onTap: () => addVideoBloc.getVideoBySearch(),
+                  child: Icon(Icons.search, color: Colors.white),
+                ),
+              ),
+            ],
           );
         });
   }
@@ -189,7 +215,7 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
         addVideoBloc.addChosenVideo(videos[index].id);
       },
       child: Container(
-        height: 105.00,
+        // height: 105.00,
         width: 336.00,
         margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         decoration: BoxDecoration(

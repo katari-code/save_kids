@@ -102,7 +102,7 @@ class ChildrenScreenAccounts extends StatelessWidget {
                                                           await Navigator
                                                               .pushNamed(
                                                         context,
-                                                        kSpecifyVideoRoute,
+                                                        kSpecifyVideoSearchChild,
                                                       );
                                                       final String viedoList =
                                                           Video.encodeVideos(
@@ -114,8 +114,7 @@ class ChildrenScreenAccounts extends StatelessWidget {
                                                     },
                                                     child: Container(
                                                       decoration: BoxDecoration(
-                                                        color: kBlueColor
-                                                            .withOpacity(0.7),
+                                                        color: kBlueColor,
                                                         borderRadius:
                                                             BorderRadius
                                                                 .circular(8),
