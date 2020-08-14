@@ -34,7 +34,7 @@ class Video implements Mapper {
       id: map['id'],
       description: map['snippet']['description'],
       title: map['snippet']['title'],
-      thumbnailUrl: map['snippet']['thumbnails']['medium']['url'],
+      thumbnailUrl: map['snippet']['thumbnails']['high']['url'],
       channelTitle: map['snippet']['channelTitle'],
       chosen: false,
     );

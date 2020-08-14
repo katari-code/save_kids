@@ -85,4 +85,15 @@ class AuthServiceProvider {
   void signOutGoogle() async {
     await googleSignIn.signOut();
   }
+
+  updateCurrentUser(FirebaseUser user, Parent parent) {
+    if (parent.email != user.email && parent.email != null) {
+      user.updateEmail(parent.email);
+    }
+    if (parent.password != null && parent.password.isNotEmpty) {
+      user.updatePassword(parent.password);
+    }
+
+    user.reload();
+  }
 }

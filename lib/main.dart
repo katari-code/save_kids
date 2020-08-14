@@ -8,6 +8,8 @@ import 'package:save_kids/bloc/auth_bloc.dart';
 import 'package:save_kids/bloc/channel_bloc.dart';
 import 'package:save_kids/bloc/child_video_list_bloc.dart';
 import 'package:save_kids/bloc/create_child_profile_bloc.dart';
+import 'package:save_kids/bloc/parent_dashboard_bloc.dart';
+import 'package:save_kids/bloc/parent_settings_bloc.dart';
 import 'package:save_kids/bloc/test/video_list_bloc_test.dart';
 import 'package:save_kids/bloc/watch_history_bloc.dart';
 import 'package:save_kids/bloc/watch_schedule_bloc.dart';
@@ -66,12 +68,14 @@ class MyApp extends StatelessWidget {
           Bloc((i) => SignUpBloc()),
           Bloc((i) => SignInBloc()),
           Bloc((i) => AccountDashboardBloc()),
+          Bloc((i) => ParentDashBoardBloc()),
+          Bloc((i) => ParentSettingsBloc()),
           Bloc((i) => AuthBloc()),
           Bloc((i) => VideoListBloc()),
           Bloc((i) => AddVideoBloc()),
           Bloc((i) => AddScheduleBloc()),
           Bloc((i) => WatchScheduleBloc()),
-          Bloc((i) => ChildVideoListBloc()),
+          Bloc((i) => ChildVideoListBloc(), singleton: true),
           Bloc((i) => WatchHistoryBloc()),
           Bloc((i) => KidsAccountsSpecifyVideosBloc())
         ],

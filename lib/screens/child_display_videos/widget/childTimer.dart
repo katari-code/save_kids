@@ -29,6 +29,7 @@ class ChildTimer extends StatelessWidget {
                     lengthSec: timer.lengthSec,
                     isComplete: timer.isComplete),
               );
+              print(timer.lengthSec);
               return Container(
                 width: MediaQuery.of(context).size.width * 0.16,
                 padding: EdgeInsets.only(top: 7),
@@ -42,7 +43,7 @@ class ChildTimer extends StatelessWidget {
                   animation: false,
                   animationDuration: 1200,
                   lineWidth: 40.0,
-                  percent: time / timer.lengthSec.toDouble(),
+                  percent: 1,
                   center: CircleAvatar(
                     backgroundColor: Color(0xff51197C),
                     radius: 25,

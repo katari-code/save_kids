@@ -13,22 +13,31 @@ class ChildVideoListBloc extends BlocBase {
     changeCategory(categories[1]);
     timer.addStream(changeTimer);
     child.addStream(changeChild);
+    // videos.addStream(changeVideos);
   }
 
   static String _pageToken = '';
+
   Repository _repository = Repository<Child>(collection: 'children');
   Repository _videoRepo = Repository();
   Repository _childRepo = Repository<Child>(collection: 'children');
 
   BehaviorSubject<Timer> timer = BehaviorSubject<Timer>();
+  static Timer localTimer;
   BehaviorSubject<Child> child = BehaviorSubject<Child>();
   BehaviorSubject<String> childId = BehaviorSubject<String>();
+  BehaviorSubject<List<Video>> videos = BehaviorSubject<List<Video>>();
   // BehaviorSubject<List<String>>
   final _category = BehaviorSubject<Category>();
 
   void changeCategory(Category category) {
     if (category != _category.value) _pageToken = '';
     _category.sink.add(category);
+    // fetchVideos();
+  }
+
+  updateTimer(Timer time) {
+    localTimer = time;
   }
 
   Stream<Category> get streamCategory => _category.stream;
@@ -36,8 +45,6 @@ class ChildVideoListBloc extends BlocBase {
     // Logger().i('here in getChild ', child);
     return _childRepo.getDocument(Child(), id);
   }
-
-  get startListening {}
 
   get changeTimer {
     return childId.switchMap((value) {
@@ -70,6 +77,21 @@ class ChildVideoListBloc extends BlocBase {
     });
   }
 
+  get changeVideos {
+    return _category.switchMap<List<Video>>((value) {
+      return _videoRepo
+          .getVideosBySearch(value.search, pageToken: _pageToken)
+          .asStream()
+          .switchMap<List<Video>>((map) {
+        if (map != null) {
+          _pageToken = map['pageToken'];
+          return BehaviorSubject.seeded(map['data']);
+        }
+        return BehaviorSubject.seeded([]);
+      });
+    });
+  }
+
   Future<List<Video>> fetchVideos() async {
     List<Video> videos = [];
 
@@ -77,15 +99,16 @@ class ChildVideoListBloc extends BlocBase {
         pageToken: _pageToken);
     videos.addAll(map['data']);
     _pageToken = map['pageToken'];
-
     return videos;
   }
 
-  Future storeTimer(Timer timer) async {
-    if (child.value != null) {
-      Child updatedChild = child.value..timer = timer;
-      await _repository.setDocument(updatedChild, updatedChild.id);
-    }
+  //store it in the backend if the app is closed or on background
+  Future storeTimer(String childId) async {
+    Repository _repo = Repository<Child>(collection: 'children');
+    Child getChild = await _repo.getDocument(Child(), childId).first;
+
+    Child updatedChild = getChild..timer = localTimer;
+    await _repo.setDocument(updatedChild, updatedChild.id);
   }
 
   Future updateWatchHistory(String videoId, String childId) async {

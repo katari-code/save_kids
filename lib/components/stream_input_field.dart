@@ -47,9 +47,10 @@ class StreamReusablefield extends StatelessWidget {
                   height: 50.00,
                   width: 276.00,
                   padding: EdgeInsets.only(left: 15),
-                  child: TextField(
+                  child: TextFormField(
                     obscureText: isPass == null ? false : isPass,
                     onChanged: onChangeFunction,
+                    initialValue: initialValue ?? '',
                     keyboardType: type,
                     inputFormatters: type == TextInputType.phone
                         ? [
