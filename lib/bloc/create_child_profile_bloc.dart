@@ -94,5 +94,3 @@ class CreateChildProfileBloc extends BlocBase {
         isComplete: false),
   ];
 }
-
-
