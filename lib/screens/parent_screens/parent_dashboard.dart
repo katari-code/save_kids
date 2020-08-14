@@ -1,6 +1,11 @@
+import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:save_kids/bloc/auth_bloc.dart';
+import 'package:save_kids/bloc/parent_dashboard_bloc.dart';
+import 'package:save_kids/components/control_widgets/progress_bar.dart';
+import 'package:save_kids/models/parent.dart';
 import 'package:save_kids/util/constant.dart';
 import 'package:save_kids/util/style.dart';
 
@@ -30,6 +35,17 @@ class _ParentDashboardState extends State<ParentDashboard> {
     super.dispose();
   }
 
+  //  parent.password == null
+  //                                           ? Text(
+  //                                               'Add Password to your Account to lock The Parent Mode!',
+  //                                               style:
+  //                                                   kBubblegum_sans24.copyWith(
+  //                                                       color: kRedColor,
+  //                                                       fontWeight:
+  //                                                           FontWeight.normal),
+  //                                             )
+  //                                           : Text('')
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,173 +56,211 @@ class _ParentDashboardState extends State<ParentDashboard> {
         elevation: 0.0,
         actions: <Widget>[
           FlatButton(
-            onPressed: () {},
+            onPressed: () => Navigator.pushNamed(context, kParentSettingsRoute),
             child: Icon(Icons.settings),
           ),
         ],
       ),
       extendBodyBehindAppBar: true,
-      body: Stack(
-        children: <Widget>[
-          Opacity(
-            opacity: 0.10,
-            child: SvgPicture.asset(
-              "images/svgs/Asset1.svg",
-              fit: BoxFit.cover,
+      body: Consumer<AuthBloc>(
+        builder: (context, authBloc) => Stack(
+          children: <Widget>[
+            Opacity(
+              opacity: 0.10,
+              child: SvgPicture.asset(
+                "images/svgs/Asset1.svg",
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
 
-          SafeArea(
-            child: Align(
-              alignment: Alignment.topRight,
-              child: Container(
-                height: 40,
-                width: 130,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(8),
-                    bottomLeft: Radius.circular(8),
+            SafeArea(
+              child: Align(
+                alignment: Alignment.topRight,
+                child: Container(
+                  height: 40,
+                  width: 130,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(8),
+                      bottomLeft: Radius.circular(8),
+                    ),
+                    color: kBlueDarkColor,
                   ),
-                  color: kBlueDarkColor,
-                ),
-                child: Center(
-                  child: Text(
-                    "Free Verison",
-                    style: kBubblegum_sans20.copyWith(
-                      color: Colors.white,
+                  child: Center(
+                    child: Text(
+                      "Free Verison",
+                      style: kBubblegum_sans20.copyWith(
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-          SafeArea(
-            child: Column(
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 21, vertical: 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        'Hello, john',
-                        style: kBubblegum_sans32.copyWith(color: Colors.black),
-                      ),
-                      Text(
-                        'Monitor your children account',
-                        style: kBubblegum_sans24.copyWith(
-                            color: Colors.black, fontWeight: FontWeight.normal),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                GestureDetector(
-                  onTap: () =>
-                      Navigator.pushNamed(context, kWatchSchdeuleRoute),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    padding: EdgeInsets.all(15),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: kPurpleColor,
-                    ),
-                    child: Row(
-                      children: <Widget>[
-                        SvgPicture.asset('images/svgs/schedule.svg'),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        Column(
-                          children: <Widget>[
-                            Text(
-                              "Watch Schedule",
-                              style: kBubblegum_sans32.copyWith(
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                GestureDetector(
-                  onTap: () => Navigator.pushNamed(context, kHistoryWatchRoute),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    padding: EdgeInsets.all(15),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: Color(0xffFFA846),
-                    ),
-                    child: Row(
-                      children: <Widget>[
-                        Image.asset(
-                          'images/whatchHistory.png',
-                          height: 70,
-                        ),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        Text(
-                          "Watch History",
-                          style: kBubblegum_sans32.copyWith(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  padding: EdgeInsets.all(15),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: Color(0xffFF7E71),
-                  ),
-                  child: Row(
-                    children: <Widget>[
-                      Image.asset(
-                        'images/viedos.png',
-                        height: 70,
-                      ),
-                      SizedBox(
-                        width: 15,
-                      ),
-                      Text(
-                        "Specify Videos",
-                        style: kBubblegum_sans32.copyWith(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          )
+            SafeArea(
+              child: StreamBuilder<Parent>(
+                  stream: authBloc.parentSession,
+                  builder: (context, session) {
+                    if (session.hasData) {
+                      return StreamBuilder<Parent>(
+                          stream: authBloc.parentData(session.data.id),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              Parent parent = snapshot.data;
 
-          // Center(
-          //   child: Container(
-          //     alignment: Alignment.center,
-          //     height: 150,
-          //     // width: 300,
-          //   ),
-          // )
-        ],
+                              return Column(
+                                children: <Widget>[
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 21, vertical: 16),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.stretch,
+                                      children: <Widget>[
+                                        SizedBox(
+                                          height: 50,
+                                        ),
+                                        Text(
+                                          'Hello, ${parent.name}',
+                                          style: kBubblegum_sans32.copyWith(
+                                              color: Colors.black),
+                                        ),
+                                        Text(
+                                          'Monitor your children account',
+                                          style: kBubblegum_sans24.copyWith(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.normal),
+                                        ),
+                                        parent.password == null
+                                            ? Text(
+                                                'Add Password to your Account to lock The Parent Mode!',
+                                                style:
+                                                    kBubblegum_sans20.copyWith(
+                                                        color: Colors.redAccent,
+                                                        fontWeight:
+                                                            FontWeight.normal),
+                                              )
+                                            : Text('')
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () => Navigator.pushNamed(
+                                        context, kWatchSchdeuleRoute),
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.8,
+                                      padding: EdgeInsets.all(15),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        color: kPurpleColor,
+                                      ),
+                                      child: Row(
+                                        children: <Widget>[
+                                          SvgPicture.asset(
+                                              'images/svgs/schedule.svg'),
+                                          SizedBox(
+                                            width: 15,
+                                          ),
+                                          Column(
+                                            children: <Widget>[
+                                              Text(
+                                                "Watch Schedule",
+                                                style:
+                                                    kBubblegum_sans32.copyWith(
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () => Navigator.pushNamed(
+                                        context, kHistoryWatchRoute),
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.8,
+                                      padding: EdgeInsets.all(15),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        color: Color(0xffFFA846),
+                                      ),
+                                      child: Row(
+                                        children: <Widget>[
+                                          Image.asset(
+                                            'images/whatchHistory.png',
+                                            height: 70,
+                                          ),
+                                          SizedBox(
+                                            width: 15,
+                                          ),
+                                          Text(
+                                            "Watch History",
+                                            style: kBubblegum_sans32.copyWith(
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
+                                  Container(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.8,
+                                    padding: EdgeInsets.all(15),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                      color: Color(0xffFF7E71),
+                                    ),
+                                    child: Row(
+                                      children: <Widget>[
+                                        Image.asset(
+                                          'images/viedos.png',
+                                          height: 70,
+                                        ),
+                                        SizedBox(
+                                          width: 15,
+                                        ),
+                                        Text(
+                                          "Specify Videos",
+                                          style: kBubblegum_sans32.copyWith(
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              );
+                            }
+                            return ProgressBar();
+                          });
+                    }
+                    return Center(child: ProgressBar());
+                  }),
+            ),
+
+            // Center(
+            //   child: Container(
+            //     alignment: Alignment.center,
+            //     height: 150,
+            //     // width: 300,
+            //   ),
+            // )
+          ],
+        ),
       ),
       bottomNavigationBar: BottomAppBar(
         clipBehavior: Clip.antiAliasWithSaveLayer,

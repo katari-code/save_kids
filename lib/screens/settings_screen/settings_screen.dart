@@ -3,20 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:save_kids/bloc/parent_settings_bloc.dart';
+import 'package:save_kids/components/control_widgets/message.dart';
+import 'package:save_kids/components/control_widgets/progress_bar.dart';
 import 'package:save_kids/models/parent.dart';
 
 import '../../app_localizations.dart';
-import '../../bloc/sign_in_bloc.dart';
+
 import '../../components/stream_input_field.dart';
 import '../../util/style.dart';
-import '../../util/style.dart';
-import '../../util/style.dart';
-import '../../util/style.dart';
-import '../../util/style.dart';
-import '../../util/style.dart';
-import '../../util/style.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
+  @override
+  _SettingsScreenState createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final text = AppLocalizations.of(context);
@@ -49,21 +50,26 @@ class SettingsScreen extends StatelessWidget {
                     ),
                     color: kYellowColor,
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Icon(
-                        Icons.arrow_back,
-                        size: 30,
-                        color: Colors.white,
-                      ),
-                      Text(
-                        "Settings",
-                        style: kBubblegum_sans40.copyWith(
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Icon(
+                          Icons.arrow_back,
+                          size: 30,
                           color: Colors.white,
                         ),
-                      ),
-                    ],
+                        Text(
+                          "Settings",
+                          style: kBubblegum_sans40.copyWith(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 Container(
@@ -93,116 +99,274 @@ class SettingsScreen extends StatelessWidget {
           ),
           Consumer<ParentSettingsBloc>(
             builder: (context, parentSettingsBloc) => Center(
-              child: StreamBuilder<Parent>(
-                  stream: parentSettingsBloc.parentSession,
-                  builder: (context, snapshot) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Spacer(
-                          flex: 3,
-                        ),
-                        Text(
-                          "Account Information",
-                          style: kBubblegum_sans28,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(25),
-                          width: MediaQuery.of(context).size.width * 0.9,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          //settings
-                          child: StreamBuilder<Parent>(
-                              stream:
-                                  parentSettingsBloc.getParent(snapshot.data),
-                              builder: (context, snapshot) {
-                                if (snapshot.hasData) {
-                                  parentSettingsBloc
-                                      .changeParent(snapshot.data);
-                                  return Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      StreamReusablefield(
-                                        label: 'Full Name',
-                                        stream: parentSettingsBloc.password,
-                                        onChangeFunction:
-                                            parentSettingsBloc.changePassword,
-                                        isPass: false,
-                                      ),
-                                      StreamReusablefield(
-                                        label: 'Password',
-                                        stream: parentSettingsBloc.password,
-                                        onChangeFunction:
-                                            parentSettingsBloc.changePassword,
-                                        isPass: true,
-                                      ),
-                                      StreamReusablefield(
-                                        label: 'Email',
-                                        stream: parentSettingsBloc.password,
-                                        onChangeFunction:
-                                            parentSettingsBloc.changePassword,
-                                        isPass: false,
-                                      ),
-                                      Stack(
-                                        children: <Widget>[
-                                          Container(
-                                            height: 58.00,
-                                            width: 226.00,
-                                            decoration: BoxDecoration(
-                                              color: Color(0xfff6b039),
-                                              borderRadius:
-                                                  BorderRadius.circular(8.00),
-                                            ),
-                                          ),
-                                          Positioned(
-                                            top: -15,
-                                            left: 0,
-                                            child: Transform.scale(
-                                              scale: 1.25,
-                                              child: SvgPicture.asset(
-                                                  "images/svgs/mask_button.svg"),
-                                            ),
-                                          ),
-                                          Positioned(
-                                            left: 226 * 0.35,
-                                            top: 58 * 0.23,
-                                            child: Text(
-                                              text.translate('SAVE'),
-                                              style: GoogleFonts.bubblegumSans(
-                                                textStyle:
-                                                    kBubblegum_sans32.copyWith(
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                        overflow: Overflow.clip,
-                                      ),
-                                    ],
-                                  );
-                                }
-                                return CircularProgressIndicator();
-                              }),
-                        ),
-                        Spacer(
-                          flex: 1,
-                        ),
-                      ],
-                    );
-                  }),
+              child: StreamBuilder<bool>(
+                stream: parentSettingsBloc.isAuthorised,
+                builder: (context, snapshot) {
+                  if (snapshot.data) {
+                    return buildAuthorizedUI(context, parentSettingsBloc, text);
+                  }
+                  return buildUnAuthorizedUI(context, parentSettingsBloc);
+                },
+              ),
             ),
           )
         ],
       ),
+    );
+  }
+
+  Widget buildUnAuthorizedUI(
+      BuildContext context, ParentSettingsBloc parentSettingsBloc) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Center(
+          child: Text(
+            "Verify To Access Your Account Information",
+            style: kBubblegum_sans28,
+            textAlign: TextAlign.center,
+          ),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        Container(
+          padding: EdgeInsets.all(25),
+          width: MediaQuery.of(context).size.width * 0.9,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(25),
+          ),
+          child: Column(
+            children: <Widget>[
+              StreamReusablefield(
+                label: 'Email',
+                stream: parentSettingsBloc.signEmail,
+                onChangeFunction: parentSettingsBloc.changeEmail,
+                type: TextInputType.emailAddress,
+              ),
+              StreamReusablefield(
+                label: 'Password',
+                stream: parentSettingsBloc.singPassword,
+                onChangeFunction: parentSettingsBloc.changePassword,
+                isPass: true,
+              ),
+              buildSubmitButtons(parentSettingsBloc)
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget buildSubmitButtons(ParentSettingsBloc parentSettingsBloc) {
+    return StreamBuilder<bool>(
+        stream: parentSettingsBloc.signInStatus,
+        initialData: false,
+        builder: (context, snapshot) {
+          if (!snapshot.data) {
+            return Column(
+              children: <Widget>[
+                GestureDetector(
+                  onTap: () async {
+                    if (parentSettingsBloc.validateSignInFields()) {
+                      parentSettingsBloc.showProgressBar(true);
+                      final result = await parentSettingsBloc.signIn();
+                      parentSettingsBloc.showProgressBar(false);
+                      if (result) {
+                        parentSettingsBloc.isAuthorised.add(true);
+                      } else {
+                        Message(
+                                color: Colors.redAccent,
+                                input: 'User credentials is not correct',
+                                context: context)
+                            .displayMessage();
+                      }
+                    }
+                  },
+                  child: Container(
+                    height: 58.00,
+                    width: 221.00,
+                    decoration: BoxDecoration(
+                      color: Color(0xfffcbf1e),
+                      borderRadius: BorderRadius.circular(84.00),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Sign In",
+                        style: GoogleFonts.bubblegumSans(
+                          textStyle:
+                              kBubblegum_sans32.copyWith(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    parentSettingsBloc.showProgressBar(true);
+                    final result = await parentSettingsBloc.signInWithGoogle();
+                    parentSettingsBloc.showProgressBar(false);
+                    if (result) {
+                      parentSettingsBloc.isAuthorised.add(true);
+                    } else {
+                      Message(
+                              color: Colors.redAccent,
+                              input: 'User Not Found',
+                              context: context)
+                          .displayMessage();
+                    }
+                  },
+                  child: Container(
+                    height: 58.00,
+                    width: 221.00,
+                    decoration: BoxDecoration(
+                      color: Color(0xff40BAD5),
+                      borderRadius: BorderRadius.circular(84.00),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        SvgPicture.asset('images/svgs/googleIcon.svg'),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          "Continue with Google",
+                          style: GoogleFonts.bubblegumSans(
+                            textStyle: kBubblegum_sans16.copyWith(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            );
+          }
+          return ProgressBar(
+            color: kBlueDarkColor,
+          );
+        });
+  }
+
+  Column buildAuthorizedUI(BuildContext context,
+      ParentSettingsBloc parentSettingsBloc, AppLocalizations text) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Spacer(
+          flex: 3,
+        ),
+        Text(
+          "Account Information",
+          style: kBubblegum_sans28,
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        Container(
+            padding: EdgeInsets.all(25),
+            width: MediaQuery.of(context).size.width * 0.9,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(25),
+            ),
+            //settings
+            child: StreamBuilder<Parent>(
+                stream: parentSettingsBloc.parent,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    parentSettingsBloc.initiateValues(snapshot.data);
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        StreamReusablefield(
+                          label: 'Full Name',
+                          stream: parentSettingsBloc.name,
+                          onChangeFunction: parentSettingsBloc.name.add,
+                          initialValue: snapshot.data.name,
+                          isPass: false,
+                        ),
+                        StreamReusablefield(
+                          label: 'Password',
+                          stream: parentSettingsBloc.password,
+                          onChangeFunction: parentSettingsBloc.password.add,
+                          initialValue: snapshot.data.password,
+                          isPass: true,
+                        ),
+                        StreamReusablefield(
+                          label: 'Email',
+                          stream: parentSettingsBloc.email,
+                          onChangeFunction: parentSettingsBloc.email.add,
+                          initialValue: snapshot.data.email,
+                          isPass: false,
+                        ),
+                        GestureDetector(
+                          onTap: () async {
+                            final result =
+                                await parentSettingsBloc.updateUser();
+                            if (result != null) {
+                              Message(
+                                      color: Colors.green,
+                                      context: context,
+                                      input:
+                                          'User Credential has been Updated!')
+                                  .displayMessage();
+                            }
+                          },
+                          child: Stack(
+                            children: <Widget>[
+                              Container(
+                                height: 58.00,
+                                width: 226.00,
+                                decoration: BoxDecoration(
+                                  color: Color(0xfff6b039),
+                                  borderRadius: BorderRadius.circular(8.00),
+                                ),
+                              ),
+                              Positioned(
+                                top: -15,
+                                left: 0,
+                                child: Transform.scale(
+                                  scale: 1.25,
+                                  child: SvgPicture.asset(
+                                      "images/svgs/mask_button.svg"),
+                                ),
+                              ),
+                              Positioned(
+                                left: 226 * 0.35,
+                                top: 58 * 0.23,
+                                child: Text(
+                                  text.translate('SAVE'),
+                                  style: GoogleFonts.bubblegumSans(
+                                    textStyle: kBubblegum_sans32.copyWith(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                            overflow: Overflow.clip,
+                          ),
+                        ),
+                      ],
+                    );
+                  }
+                  return ProgressBar();
+                })),
+        Spacer(
+          flex: 1,
+        ),
+      ],
     );
   }
 }

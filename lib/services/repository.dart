@@ -121,6 +121,16 @@ class Repository<T extends FireStoreConverter> {
     return false;
   }
 
+  Future updateCurrentUser(Parent parent) async {
+    try {
+      FirebaseUser user = await currentUser;
+      await _authServiceProvider.updateCurrentUser(user, parent);
+    } catch (e) {
+      logger.e(e);
+      return null;
+    }
+  }
+
   //sign in
   Future<Parent> signIn(String email, String password) async {
     try {
@@ -199,6 +209,37 @@ class Repository<T extends FireStoreConverter> {
     _youtubeApi = YoutubeApiProvider<Channel>();
     try {
       return _youtubeApi.fetchVideoList(videos: videos);
+    } catch (e) {
+      logger.e(e);
+      return null;
+    }
+  }
+
+  Future<bool> verifyAccount(String email, String password) async {
+    try {
+      FirebaseUser user = await currentUser;
+      if (user.email == email) {
+        Parent parent = await signIn(email, password);
+        if (parent != null) {
+          return true;
+        }
+        return false;
+      }
+      return false;
+    } catch (e) {
+      logger.e(e);
+      return null;
+    }
+  }
+
+  Future<bool> verifyAccountWithGoogle() async {
+    try {
+      FirebaseUser user = await currentUser;
+      Parent parent = await signInWithGoogle();
+      if (parent != null && parent.email == user.email) {
+        return true;
+      }
+      return false;
     } catch (e) {
       logger.e(e);
       return null;

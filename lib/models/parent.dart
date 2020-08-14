@@ -7,11 +7,10 @@ class Parent extends FireStoreConverter {
   String email;
   String name;
   String password;
-  String pin;
+
   // String type;
   List<dynamic> children;
-  Parent(
-      {this.email, this.id, this.password, this.pin, this.children, this.name});
+  Parent({this.email, this.id, this.password, this.children, this.name});
 
   Parent.fromFirebase(FirebaseUser user)
       : this(id: user.uid, email: user.email, name: user.displayName);
@@ -19,7 +18,7 @@ class Parent extends FireStoreConverter {
   Parent.fromFirestore(DocumentSnapshot snapshot)
       : this(
           email: snapshot.data['email'],
-          pin: snapshot.data['pin'],
+          password: snapshot.data['password'],
           id: snapshot.documentID,
           name: snapshot.data['name'],
           children:
@@ -35,7 +34,7 @@ class Parent extends FireStoreConverter {
   toFireStore() {
     return {
       'email': this.email,
-      'pin': this.pin,
+      'password': this.password,
       'children': this.children ?? [],
       'name': this.name
     };
