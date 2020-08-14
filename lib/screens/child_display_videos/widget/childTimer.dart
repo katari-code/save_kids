@@ -42,7 +42,7 @@ class ChildTimer extends StatelessWidget {
                   animation: false,
                   animationDuration: 1200,
                   lineWidth: 40.0,
-                  percent: time / timer.lengthSec,
+                  percent: time / timer.lengthSec.toDouble(),
                   center: CircleAvatar(
                     backgroundColor: Color(0xff51197C),
                     radius: 25,

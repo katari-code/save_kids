@@ -25,6 +25,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'bloc/add_video_bloc.dart';
 
+import 'bloc/kids_accounts_specify_video_bloc.dart';
 import 'bloc/sign_in_bloc.dart';
 import 'bloc/sign_up_bloc.dart';
 
@@ -78,6 +79,7 @@ class MyApp extends StatelessWidget {
           Bloc((i) => WatchScheduleBloc()),
           Bloc((i) => ChildVideoListBloc(), singleton: true),
           Bloc((i) => WatchHistoryBloc()),
+          Bloc((i) => KidsAccountsSpecifyVideosBloc())
         ],
         child: MaterialApp(
           title: 'Save Video Kids',

@@ -14,6 +14,7 @@ import 'package:save_kids/screens/parent_screens/watch_schedule/watch_schedule.d
 import 'package:save_kids/screens/sign_in/sign_in.dart';
 import 'package:save_kids/screens/sign_up/sign_up.dart';
 import 'package:save_kids/screens/specify_screens/add_videos_screen.dart';
+import 'package:save_kids/screens/specify_videos_screen/children_account_screen.dart';
 import 'package:save_kids/screens/splash_screen/splash_screen.dart';
 import 'package:save_kids/util/constant.dart';
 
@@ -49,6 +50,10 @@ Route<dynamic> createRoute(RouteSettings settings) {
     case kSpecifyVideoRoute:
       return MaterialPageRoute(
         builder: (context) => AddVideoScreen(),
+      );
+    case kSpecifyVideoChildrenAccount:
+      return MaterialPageRoute(
+        builder: (context) => ChildrenScreenAccounts(),
       );
     case kWatchSchdeuleRoute:
       return MaterialPageRoute(
