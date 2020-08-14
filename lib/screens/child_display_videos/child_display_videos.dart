@@ -23,7 +23,8 @@ class ChildMainViedoList extends StatefulWidget {
   _ChildMainViedoListState createState() => _ChildMainViedoListState();
 }
 
-class _ChildMainViedoListState extends State<ChildMainViedoList> {
+class _ChildMainViedoListState extends State<ChildMainViedoList>
+    with WidgetsBindingObserver {
   int selectedIndex = 0;
 
   @override
@@ -33,6 +34,7 @@ class _ChildMainViedoListState extends State<ChildMainViedoList> {
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
     ]);
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
@@ -43,7 +45,25 @@ class _ChildMainViedoListState extends State<ChildMainViedoList> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+    ChildVideoListBloc().storeTimer(widget.childId);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    switch (state) {
+      case AppLifecycleState.paused:
+      case AppLifecycleState.detached:
+      case AppLifecycleState.inactive:
+        ChildVideoListBloc().storeTimer(widget.childId);
+        break;
+      case AppLifecycleState.resumed:
+        break;
+
+      default:
+    }
   }
 
   @override
@@ -225,7 +245,9 @@ class _ChildMainViedoListState extends State<ChildMainViedoList> {
                   builder: (context, snapshot) {
                     if (snapshot.hasData && snapshot.data.remainSec != null) {
                       return ChildTimer(
-                          snapshot.data, videoListBloc.storeTimer);
+                        snapshot.data,
+                        videoListBloc.updateTimer,
+                      );
                     }
                     return ProgressBar();
                   },

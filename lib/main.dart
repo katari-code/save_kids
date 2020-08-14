@@ -70,7 +70,7 @@ class MyApp extends StatelessWidget {
           Bloc((i) => AddVideoBloc()),
           Bloc((i) => AddScheduleBloc()),
           Bloc((i) => WatchScheduleBloc()),
-          Bloc((i) => ChildVideoListBloc()),
+          Bloc((i) => ChildVideoListBloc(), singleton: true),
           Bloc((i) => WatchHistoryBloc()),
         ],
         child: MaterialApp(
