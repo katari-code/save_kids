@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:logger/logger.dart';
 import 'package:save_kids/models/channel.dart';
 import 'package:save_kids/models/interfaces/i_mapper.dart';
 import 'package:save_kids/models/video.dart';
@@ -50,7 +51,8 @@ class YoutubeApiProvider<T> {
       );
       return {'data': collection, 'pageToken': pageToken};
     } else {
-      throw json.decode(response.body)['error']['message'];
+      Logger().e(json.decode(response.body)['error']['message']);
+      return {'data': List<T>.from([]).toList(), 'pageToken': ''};
     }
   }
 
@@ -87,7 +89,8 @@ class YoutubeApiProvider<T> {
       );
       return collection;
     } else {
-      throw json.decode(response.body)['error']['message'];
+      Logger().e(json.decode(response.body)['error']['message']);
+      return List<Video>.from([]).toList();
     }
   }
 }
