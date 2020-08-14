@@ -169,7 +169,10 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
                   children: <Widget>[
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, kParentDashboardRoute);
+                        if (parent.password == null) {
+                          Navigator.pushNamed(context, kParentDashboardRoute);
+                        } else
+                          Navigator.pushNamed(context, kParentPinRoute);
                       },
                       child: SvgPicture.asset("images/svgs/parent.svg"),
                     ),

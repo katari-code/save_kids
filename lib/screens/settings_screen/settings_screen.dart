@@ -63,7 +63,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           color: Colors.white,
                         ),
                         Text(
-                          "Settings",
+                          "Dashboard",
                           style: kBubblegum_sans40.copyWith(
                             color: Colors.white,
                           ),
@@ -194,7 +194,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                     child: Center(
                       child: Text(
-                        "Sign In",
+                        "Verify",
                         style: GoogleFonts.bubblegumSans(
                           textStyle:
                               kBubblegum_sans32.copyWith(color: Colors.white),
