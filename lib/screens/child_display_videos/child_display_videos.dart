@@ -46,6 +46,7 @@ class _ChildMainViedoListState extends State<ChildMainViedoList>
       DeviceOrientation.portraitDown,
     ]);
     ChildVideoListBloc().storeTimer(widget.childId);
+    ChildVideoListBloc().dispose();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
