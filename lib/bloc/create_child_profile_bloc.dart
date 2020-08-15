@@ -68,6 +68,11 @@ class CreateChildProfileBloc extends BlocBase {
   ];
   final List<Timer> timers = [
     Timer(
+        lableText: "05 mins",
+        lengthSec: (5 * 60),
+        remainSec: (5 * 60),
+        isComplete: false),
+    Timer(
         lableText: "10 mins",
         lengthSec: (10 * 60),
         remainSec: (10 * 60),
@@ -83,7 +88,7 @@ class CreateChildProfileBloc extends BlocBase {
         remainSec: (30 * 60),
         isComplete: false),
     Timer(
-        lableText: "1 hr",
+        lableText: "1:00 hr",
         lengthSec: (60 * 60 * 60),
         remainSec: (60 * 60 * 60),
         isComplete: false),

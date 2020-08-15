@@ -43,6 +43,10 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+    ]);
     return Scaffold(
       backgroundColor: Colors.yellow[100],
       body: Stack(
@@ -67,14 +71,23 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                     ),
                   ),
                   SvgPicture.asset("images/svgs/Back_video.svg"),
-                  YoutubePlayer(
-                    width: MediaQuery.of(context).size.width,
-                    aspectRatio: 16 / 9,
-                    controller: _controller,
-                    showVideoProgressIndicator: true,
-                    onReady: () {
-                      print('Player is ready.');
-                    },
+                  YoutubePlayerBuilder(
+                    player: YoutubePlayer(
+                      width: MediaQuery.of(context).size.width,
+                      aspectRatio: 16 / 9,
+                      controller: _controller,
+                      showVideoProgressIndicator: true,
+                      onReady: () {
+                        print('Player is ready.');
+                      },
+                    ),
+                    builder: (context, player) => Column(
+                      children: [
+                        // some widgets
+                        player,
+                        //some other widgets
+                      ],
+                    ),
                   ),
                 ],
               ),

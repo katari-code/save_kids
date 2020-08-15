@@ -255,17 +255,20 @@ class _ChildMainViedoListState extends State<ChildMainViedoList>
                     ),
                   ],
                 ),
-                StreamBuilder<Timer>(
-                  stream: videoListBloc.timer,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData && snapshot.data.remainSec != null) {
-                      return ChildTimer(
-                        snapshot.data,
-                        videoListBloc.updateTimer,
-                      );
-                    }
-                    return ProgressBar();
-                  },
+                // StreamBuilder<Timer>(
+                //   stream: videoListBloc.timer,
+                //   builder: (context, snapshot) {
+                //     if (snapshot.hasData && snapshot.data.remainSec != null) {
+                //       return ChildTimer(
+                //         snapshot.data,
+                //         videoListBloc.updateTimer,
+                //       );
+                //     }
+                //     return ProgressBar();
+                //   },
+                // ),
+                ChildTimer(
+                  childId: widget.childId,
                 ),
               ],
             );

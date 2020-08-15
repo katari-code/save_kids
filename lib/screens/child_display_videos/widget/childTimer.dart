@@ -1,38 +1,58 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
-import 'package:save_kids/bloc/child_video_list_bloc.dart';
-import 'package:save_kids/components/control_widgets/progress_bar.dart';
 import 'package:save_kids/models/timer.dart';
+
+import 'package:save_kids/screens/create_child_profile/create_child_profile.dart';
+import 'package:save_kids/util/preference/prefs_singleton.dart';
 import 'package:save_kids/util/style.dart';
 import 'package:timer_count_down/timer_controller.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 
-class ChildTimer extends StatelessWidget {
-  final Function updateTimer;
-  final Timer timer;
+class ChildTimer extends StatefulWidget {
+  // final Function updateTimer;
+  // final Timer timer;
+  final childId;
+  ChildTimer({this.childId});
+  @override
+  _ChildTimerState createState() => _ChildTimerState();
+}
+
+class _ChildTimerState extends State<ChildTimer> {
   final CountdownController controller = CountdownController();
 
-  ChildTimer(this.timer, this.updateTimer);
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final timerString = PreferenceUtils.getString(widget.childId + "_timer");
+    final timer = Timer.fromJson(jsonDecode(timerString));
     return Align(
       alignment: Alignment.bottomRight,
       child: Padding(
           padding: const EdgeInsets.all(15.0),
           child: Countdown(
             controller: controller,
-            seconds: timer.remainSec.toInt(),
+            seconds: timer.remainSec,
             build: (_, double time) {
-              updateTimer(
-                Timer(
-                    remainSec: time.toInt(),
-                    lableText: timer.lableText,
-                    lengthSec: timer.lengthSec,
-                    isComplete: timer.isComplete),
-              );
-              print(timer.lengthSec);
+              // updateTimer(
+              //   Timer(
+              //     remainSec: time.toInt(),
+              //     lableText: timer.lableText,
+              //     lengthSec: timer.lengthSec,
+              //     isComplete: timer.isComplete,
+              //   ),
+              // );
+              // print(timer.lengthSec);
+              timer.remainSec = time.toInt();
+              PreferenceUtils.setString(
+                  widget.childId + "_timer", jsonEncode(timer));
               return Container(
                 width: MediaQuery.of(context).size.width * 0.16,
                 padding: EdgeInsets.only(top: 7),
@@ -67,8 +87,9 @@ class ChildTimer extends StatelessWidget {
               );
             },
             interval: Duration(milliseconds: 100),
-            onFinished: () {
-              // SystemNavigator.pop();
+            onFinished: () async {
+              await buildShowModeDialog(context);
+              SystemNavigator.pop();
             },
           )),
     );
@@ -85,4 +106,55 @@ class ChildTimer extends StatelessWidget {
       return "1 min";
     }
   }
+}
+
+Future buildShowModeDialog(BuildContext context) {
+  return showDialog(
+    context: context,
+    builder: (BuildContext _) => StatefulBuilder(
+      builder: (context, setStaste) => Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(48),
+        ),
+        child: Container(
+          height: MediaQuery.of(context).size.height * 0.5,
+          width: 300,
+          decoration: BoxDecoration(
+            color: kRedColor,
+            borderRadius: BorderRadius.circular(35),
+          ),
+          child: Stack(
+            overflow: Overflow.visible,
+            children: <Widget>[
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Text(
+                    "Time's Up",
+                    textAlign: TextAlign.center,
+                    style: kBubblegum_sans32.copyWith(color: Colors.white),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  GestureDetector(
+                    onTap: () => Navigator.pop(context, null),
+                    child: AgeChip(
+                      color: kBlueDarkColor,
+                      text: "See you tomorrow",
+                      highet: 60.0,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
 }

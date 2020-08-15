@@ -20,7 +20,7 @@ class TimeCoursal extends StatelessWidget {
                 return CarouselSlider.builder(
                   options: CarouselOptions(
                     height: 80,
-                    viewportFraction: 0.3,
+                    viewportFraction: 0.5,
                     enableInfiniteScroll: true,
                     reverse: true,
                     enlargeCenterPage: true,

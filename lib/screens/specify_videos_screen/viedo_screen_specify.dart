@@ -71,27 +71,27 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
                           SizedBox(
                             height: 18,
                           ),
-                          CarouselSlider.builder(
-                            itemCount: languages.length,
-                            itemBuilder: (context, index) => Container(
-                              child: Text(
-                                languages[index],
-                                style: kBubblegum_sans24.copyWith(
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                            options: CarouselOptions(
-                              height: 50,
-                              initialPage: 0,
-                              viewportFraction: 0.30,
-                              enableInfiniteScroll: true,
-                              reverse: false,
-                              enlargeCenterPage: true,
+                          // CarouselSlider.builder(
+                          //   itemCount: languages.length,
+                          //   itemBuilder: (context, index) => Container(
+                          //     child: Text(
+                          //       languages[index],
+                          //       style: kBubblegum_sans24.copyWith(
+                          //         color: Colors.black,
+                          //       ),
+                          //     ),
+                          //   ),
+                          //   options: CarouselOptions(
+                          //     height: 50,
+                          //     initialPage: 0,
+                          //     viewportFraction: 0.30,
+                          //     enableInfiniteScroll: true,
+                          //     reverse: false,
+                          //     enlargeCenterPage: true,
 
-                              // onPageChanged: (index, reason) => ,
-                            ),
-                          ),
+                          //     // onPageChanged: (index, reason) => ,
+                          //   ),
+                          // ),
                           SizedBox(
                             height: 18,
                           ),

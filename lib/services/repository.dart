@@ -1,15 +1,20 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:logger/logger.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:save_kids/models/channel.dart';
+import 'package:save_kids/models/child.dart';
 import 'package:save_kids/models/interfaces/i_firestore_converter.dart';
 import 'package:save_kids/models/parent.dart';
 import 'package:save_kids/models/schedule.dart';
+import 'package:save_kids/models/timer.dart';
 import 'package:save_kids/models/video.dart';
 import 'package:save_kids/services/auth_service_provider.dart';
 import 'package:save_kids/services/firestore_provider.dart';
 import 'package:save_kids/services/schedule_provider.dart';
 import 'package:save_kids/services/youtube_api_provider.dart';
+import 'package:save_kids/util/preference/prefs_singleton.dart';
 
 class Repository<T extends FireStoreConverter> {
   final String collection;
@@ -28,7 +33,15 @@ class Repository<T extends FireStoreConverter> {
         Firestore.instance.collection(collection),
       );
       final result = await _fireStoreProvider.addDocument;
+
       logger.i("Parent ${result.documentID} has been added");
+      if (type is Child) {
+        result.get().then((value) {
+          final timer = Timer.fromJson(value.data['timer']);
+          PreferenceUtils.setString(
+              result.documentID + "_timer", jsonEncode(timer));
+        });
+      }
       return type;
     } catch (e) {
       logger.e(e);

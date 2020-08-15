@@ -12,7 +12,7 @@ class VideoCardEnhanced extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 300.00,
-      width: 250.00,
+      width: 270.00,
       margin: EdgeInsets.only(right: 20, bottom: 15),
       child: Stack(
         overflow: Overflow.clip,

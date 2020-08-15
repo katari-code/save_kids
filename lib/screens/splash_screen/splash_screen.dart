@@ -23,11 +23,10 @@ class _SpalschScreenState extends State<SpalschScreen> {
   @override
   void initState() {
     super.initState();
-    // Timer(
-    //   Duration(seconds: 2),
-    //   () => getUser(),
-    // );
-    getUser();
+    Timer(
+      Duration(seconds: 4),
+      () => getUser(),
+    );
   }
 
   Widget build(BuildContext context) {
@@ -35,10 +34,10 @@ class _SpalschScreenState extends State<SpalschScreen> {
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        // child: Image.asset(
-        //   "images/sc.png",
-        //   fit: BoxFit.cover,
-        // ),
+        child: Image.asset(
+          "images/sc.png",
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }

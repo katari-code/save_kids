@@ -22,8 +22,8 @@ class WatchHistory extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
-          SingleChildScrollView(
-            child: SafeArea(
+          SafeArea(
+            child: SingleChildScrollView(
               child: Column(
                 children: [
                   Row(
@@ -62,6 +62,7 @@ class WatchHistory extends StatelessWidget {
                       ),
                     ],
                   ),
+           
                   Consumer<WatchHistoryBloc>(
                     builder: (context, watchHistoryBloc) {
                       return StreamBuilder<List<Child>>(
@@ -114,7 +115,7 @@ class WatchHistory extends StatelessWidget {
                                           ),
                                         ),
                                         SizedBox(
-                                          height: 190,
+                                          height: 250,
                                           child: FutureBuilder<List<Video>>(
                                               future: watchHistoryBloc
                                                   .getVideos(snapshot

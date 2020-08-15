@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bloc_pattern/bloc_pattern.dart';
+import 'package:logger/logger.dart';
 import 'package:save_kids/bloc/account_dashboard_bloc.dart';
 import 'package:save_kids/components/control_widgets/progress_bar.dart';
 import 'package:save_kids/models/child.dart';
 import 'package:save_kids/models/parent.dart';
 import 'package:save_kids/util/constant.dart';
+import 'package:save_kids/util/preference/prefs_singleton.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:save_kids/util/style.dart';
 
@@ -19,6 +22,29 @@ class AccountDashboardScreen extends StatefulWidget {
 
 class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
   var editMode = true;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    // TODO: implement dispose
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,9 +114,13 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
               // crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text(
-                  'Your email is not verified yet',
-                  style: kBubblegum_sans28,
+                Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Your email is not verified yet',
+                    style: kBubblegum_sans28,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
                 SizedBox(height: 40),
                 GestureDetector(
@@ -245,6 +275,11 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
                                       builder: (context, child, value) =>
                                           GestureDetector(
                                         onTap: () {
+                                          Logger().i(
+                                            PreferenceUtils.getString(
+                                                snapshot.data[index].id +
+                                                    "_timer"),
+                                          );
                                           Navigator.pushNamed(
                                               context, kVideoDisplayRoute,
                                               arguments:
@@ -337,6 +372,11 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
                                             scale: value,
                                             child: GestureDetector(
                                               onTap: () {
+                                                Logger().i(
+                                                  PreferenceUtils.getString(
+                                                      snapshot.data[index].id +
+                                                          "_timer"),
+                                                );
                                                 Navigator.pushNamed(
                                                     context, kVideoDisplayRoute,
                                                     arguments: snapshot

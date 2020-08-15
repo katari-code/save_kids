@@ -11,6 +11,21 @@ class Timer {
 
   Timer({this.lableText, this.lengthSec, this.remainSec, this.isComplete});
 
+  Timer.fromJson(Map<String, dynamic> json)
+      : this(
+          lengthSec: json['lengthSec'],
+          remainSec: json['remainSec'],
+          lableText: json['lableText'],
+          isComplete: json['isComplete'],
+        );
+
+  Map<String, dynamic> toJson() => {
+        'isComplete': isComplete,
+        'lableText': lableText,
+        'remainSec': remainSec,
+        'lengthSec': lengthSec,
+      };
+
   Timer.fromFirestore(Map<String, dynamic> timer)
       : this(
             lengthSec: timer['lengthSec'],
@@ -22,7 +37,6 @@ class Timer {
   fromFireStore(Map<String, dynamic> timer) {
     return Timer.fromFirestore(timer);
   }
-  
 
   @override
   toFireStore() {
@@ -36,8 +50,6 @@ class Timer {
 }
 
 class TimerData with ChangeNotifier {
-  final CountdownController controller = CountdownController();
-
   int currentTimerindex = 0;
 
   void setCurrentTimer(int index) {

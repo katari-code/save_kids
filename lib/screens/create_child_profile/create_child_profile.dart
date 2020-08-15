@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:logger/logger.dart';
 import 'package:save_kids/app_localizations.dart';
 import 'package:save_kids/bloc/create_child_profile_bloc.dart';
 import 'package:save_kids/models/parent.dart';
 import 'package:save_kids/screens/account_dashborad_screen/accounts_screen.dart';
 import 'package:save_kids/screens/create_child_profile/widget/time_coursal.dart';
+import 'package:save_kids/util/preference/prefs_singleton.dart';
 import 'package:save_kids/util/style.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:bloc_pattern/bloc_pattern.dart' as bloc;
@@ -165,13 +167,11 @@ class _AddChildScreenState extends State<AddChildScreen> {
                           if (snapshot.hasData) {
                             return GestureDetector(
                               onTap: () async {
-                                final result =
-                                    await buildShowModeDialog(context);
-                                if (result == null) {
-                                  await createChildBloc.addChild(
-                                      snapshot.data.id, 'exploratory');
-                                }
+                                await buildShowModeDialog(context);
+                                final child = await createChildBloc.addChild(
+                                    snapshot.data.id, 'exploratory');
 
+                                Logger().i(child.id);
                                 Navigator.of(context).pop(context);
                               },
                               child: Container(
