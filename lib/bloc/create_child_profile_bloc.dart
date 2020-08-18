@@ -11,7 +11,6 @@ class CreateChildProfileBloc extends BlocBase {
     _timer.sink.add(timers[0]);
   }
   Repository _repository = Repository<Child>(collection: 'children');
-  // final _isEditMode = BehaviorSubject<bool>();
   final _childName = BehaviorSubject<String>();
   final _age = BehaviorSubject<String>();
   final _imageAvatar = BehaviorSubject<String>();
@@ -20,15 +19,15 @@ class CreateChildProfileBloc extends BlocBase {
   Function(String) get changeChildName => _childName.sink.add;
   Function(Timer) get changeTimer => _timer.sink.add;
   Function(String) get changeAge => _age.sink.add;
-  // Function(bool) get changeEditMode => _isEditMode.sink.add;
   Function(String) get changeImageAvatar => _imageAvatar.sink.add;
 
   Stream<String> get childName => _childName.stream;
   Stream<String> get age => _age.stream;
-  // Stream<bool> get editMode => _isEditMode.stream;
   Stream<String> get imageAvatar => _imageAvatar.stream;
   Stream<Timer> get timer => _timer.stream;
 
+  // Function(bool) get changeEditMode => _isEditMode.sink.add;
+  // Stream<bool> get editMode => _isEditMode.stream;
   Stream<Parent> get parentSession => _repository.authSession;
 
   Future<Child> addChild(String parentId, String type) async {
@@ -40,6 +39,7 @@ class CreateChildProfileBloc extends BlocBase {
       age: _age.value,
       timer: _timer.value,
     );
+    _timer.sink.add(timers[0]);
     return await _repository.addDocument(child);
   }
 
@@ -89,13 +89,23 @@ class CreateChildProfileBloc extends BlocBase {
         isComplete: false),
     Timer(
         lableText: "1:00 hr",
-        lengthSec: (60 * 60 * 60),
-        remainSec: (60 * 60 * 60),
+        lengthSec: (60 * 60),
+        remainSec: (60 * 60),
         isComplete: false),
     Timer(
         lableText: "1:30 hr",
-        lengthSec: (90 * 60 * 60),
-        remainSec: (90 * 60 * 60),
+        lengthSec: (90 * 60),
+        remainSec: (90 * 60),
+        isComplete: false),
+    Timer(
+        lableText: "2:00 hr",
+        lengthSec: (120 * 60),
+        remainSec: (120 * 60),
+        isComplete: false),
+    Timer(
+        lableText: "2:30 hr",
+        lengthSec: (150 * 60),
+        remainSec: (150 * 60),
         isComplete: false),
   ];
 }

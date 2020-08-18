@@ -40,7 +40,7 @@ class AuthServiceProvider {
 
     FirebaseUser user = result.user;
 
-    verifyEmail(user);
+    // verifyEmail(user);
     return _userFromFirebase(user);
   }
 

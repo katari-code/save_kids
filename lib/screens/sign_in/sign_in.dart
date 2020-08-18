@@ -2,7 +2,6 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:logger/logger.dart';
 import 'package:save_kids/bloc/sign_in_bloc.dart';
 import 'package:save_kids/components/control_widgets/message.dart';
 import 'package:save_kids/components/control_widgets/progress_bar.dart';
@@ -21,13 +20,17 @@ class _SignInState extends State<SignIn> {
     return Scaffold(
       backgroundColor: kBlueColor,
       body: Stack(
+        overflow: Overflow.visible,
         children: <Widget>[
-          Opacity(
-            opacity: 0.10,
-            child: SvgPicture.asset(
-              "images/svgs/Asset1.svg",
-              color: Colors.black,
-              fit: BoxFit.cover,
+          Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: Opacity(
+              opacity: 0.1,
+              child: Image.asset(
+                "images/background.png",
+                repeat: ImageRepeat.repeat,
+              ),
             ),
           ),
           SingleChildScrollView(

@@ -1,13 +1,13 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:save_kids/bloc/add_video_bloc.dart';
+import 'package:save_kids/bloc/specify_add_video_bloc.dart';
 import 'package:save_kids/models/video.dart';
 import 'package:save_kids/util/style.dart';
 import 'package:simple_animations/simple_animations.dart';
 
 class SpecifyVideoScreen extends StatefulWidget {
+  String childID;
+  SpecifyVideoScreen({this.childID});
   @override
   _SpecifyVideoScreenState createState() => _SpecifyVideoScreenState();
 }
@@ -22,16 +22,19 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
       body: SafeArea(
         child: Stack(
           children: <Widget>[
-            Opacity(
-              opacity: 0.10,
-              child: SvgPicture.asset(
-                "images/svgs/Asset1.svg",
-                color: Colors.black,
-                fit: BoxFit.cover,
+            Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: Opacity(
+                opacity: 0.1,
+                child: Image.asset(
+                  "images/background.png",
+                  repeat: ImageRepeat.repeat,
+                ),
               ),
             ),
-            Consumer<AddVideoBloc>(
-              builder: (conext, addVideoBloc) => Center(
+            Consumer<SpecifyAddVideoBloc>(
+              builder: (conext, specifyAddVideoBloc) => Center(
                 child: Container(
                   alignment: Alignment.center,
                   height: MediaQuery.of(context).size.height * 0.90,
@@ -57,46 +60,30 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
                               SizedBox(
                                 width: 18,
                               ),
-                              Icon(
-                                Icons.cancel,
-                                size: 32,
-                                color: kRedColor,
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Icon(
+                                  Icons.cancel,
+                                  size: 32,
+                                  color: kRedColor,
+                                ),
                               ),
                             ],
                           ),
                           SizedBox(
                             height: 18,
                           ),
-                          buildSearchButton(addVideoBloc),
+                          buildSearchButton(specifyAddVideoBloc),
                           SizedBox(
                             height: 18,
                           ),
-                          // CarouselSlider.builder(
-                          //   itemCount: languages.length,
-                          //   itemBuilder: (context, index) => Container(
-                          //     child: Text(
-                          //       languages[index],
-                          //       style: kBubblegum_sans24.copyWith(
-                          //         color: Colors.black,
-                          //       ),
-                          //     ),
-                          //   ),
-                          //   options: CarouselOptions(
-                          //     height: 50,
-                          //     initialPage: 0,
-                          //     viewportFraction: 0.30,
-                          //     enableInfiniteScroll: true,
-                          //     reverse: false,
-                          //     enlargeCenterPage: true,
-
-                          //     // onPageChanged: (index, reason) => ,
-                          //   ),
-                          // ),
                           SizedBox(
                             height: 18,
                           ),
                           StreamBuilder<List<Video>>(
-                            stream: addVideoBloc.videos,
+                            stream: specifyAddVideoBloc.videos,
                             builder: (context, snapshot) {
                               List<Video> videos = snapshot.data ?? [];
                               return Container(
@@ -120,8 +107,8 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
                                         builder: (context, child, value) =>
                                             Transform.scale(
                                           scale: value,
-                                          child: buildVideoCard(
-                                              videos, index, addVideoBloc),
+                                          child: buildVideoCard(videos, index,
+                                              specifyAddVideoBloc),
                                         ),
                                       ),
                                     ),
@@ -133,7 +120,7 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
                           SizedBox(
                             height: 18,
                           ),
-                          buildButton(context, addVideoBloc)
+                          buildButton(context, specifyAddVideoBloc)
                         ],
                       ),
                     ),
@@ -147,9 +134,10 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
     );
   }
 
-  StreamBuilder<Object> buildSearchButton(AddVideoBloc addVideoBloc) {
+  StreamBuilder<Object> buildSearchButton(
+      SpecifyAddVideoBloc specifyAddVideoBloc) {
     return StreamBuilder<Object>(
-        stream: addVideoBloc.searchResult,
+        stream: specifyAddVideoBloc.searchResult,
         builder: (context, snapshot) {
           return Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -162,7 +150,7 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 8.0),
                   child: TextField(
-                    onChanged: addVideoBloc.changeSearchResult,
+                    onChanged: specifyAddVideoBloc.changeSearchResult,
                     // onSubmitted: ,
                     decoration: InputDecoration(
                       // errorText: snapshot.error,
@@ -199,7 +187,7 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
                   color: kYellowColor,
                 ),
                 child: GestureDetector(
-                  onTap: () => addVideoBloc.getVideoBySearch(),
+                  onTap: () => specifyAddVideoBloc.getVideoBySearch(),
                   child: Icon(Icons.search, color: Colors.white),
                 ),
               ),
@@ -209,10 +197,10 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
   }
 
   Widget buildVideoCard(
-      List<Video> videos, int index, AddVideoBloc addVideoBloc) {
+      List<Video> videos, int index, SpecifyAddVideoBloc specifyAddVideoBloc) {
     return GestureDetector(
       onTap: () {
-        addVideoBloc.addChosenVideo(videos[index].id);
+        specifyAddVideoBloc.addChosenVideo(videos[index].id);
       },
       child: Container(
         // height: 105.00,
@@ -296,7 +284,8 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
     );
   }
 
-  Container buildButton(BuildContext context, AddVideoBloc addVideoBloc) {
+  Container buildButton(
+      BuildContext context, SpecifyAddVideoBloc specifyAddVideoBloc) {
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: 100,
@@ -306,7 +295,7 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
         padding: EdgeInsets.symmetric(vertical: 18),
         color: kBlueDarkColor,
         onPressed: () {
-          Navigator.pop(context, addVideoBloc.returnChosenVideos());
+          // Navigator.pop(context, specifyAddVideoBloc.returnChosenVideos());
         },
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.00),

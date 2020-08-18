@@ -125,7 +125,6 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
                 SizedBox(height: 40),
                 GestureDetector(
                   onTap: () async {
-                    // await accountDashBloc.checkIsEmailVerified;
                     if (await accountDashBloc.isEmailVerified &&
                         accountDashBloc.isNew) {
                       await Navigator.pushNamed(context, kAddChildProfileRoute);
@@ -372,11 +371,6 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
                                             scale: value,
                                             child: GestureDetector(
                                               onTap: () {
-                                                Logger().i(
-                                                  PreferenceUtils.getString(
-                                                      snapshot.data[index].id +
-                                                          "_timer"),
-                                                );
                                                 Navigator.pushNamed(
                                                     context, kVideoDisplayRoute,
                                                     arguments: snapshot

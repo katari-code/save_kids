@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:save_kids/bloc/auth_bloc.dart';
 import 'package:save_kids/util/constant.dart';
 
@@ -23,10 +24,26 @@ class _SpalschScreenState extends State<SpalschScreen> {
   @override
   void initState() {
     super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+
     Timer(
-      Duration(seconds: 4),
+      Duration(seconds: 3),
       () => getUser(),
     );
+  }
+
+  @override
+  dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    super.dispose();
   }
 
   Widget build(BuildContext context) {

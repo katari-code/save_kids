@@ -23,7 +23,7 @@ class ChildVideoListBloc extends BlocBase {
   Repository _childRepo = Repository<Child>(collection: 'children');
 
   BehaviorSubject<Timer> timer = BehaviorSubject<Timer>();
-  static Timer localTimer;
+  Timer localTimer;
   BehaviorSubject<Child> child = BehaviorSubject<Child>();
   BehaviorSubject<String> childId = BehaviorSubject<String>();
   BehaviorSubject<List<Video>> videos = BehaviorSubject<List<Video>>();
@@ -108,6 +108,9 @@ class ChildVideoListBloc extends BlocBase {
     Child getChild = await _repo.getDocument(Child(), childId).first;
 
     Child updatedChild = getChild..timer = localTimer;
+    Logger().i("LocalTimer $localTimer");
+    Logger().i("UpdateChild ${updatedChild.timer}");
+
     await _repo.setDocument(updatedChild, updatedChild.id);
   }
 

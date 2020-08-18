@@ -22,11 +22,15 @@ class ChildrenScreenAccounts extends StatelessWidget {
       backgroundColor: kPurpleColor,
       body: Stack(
         children: [
-          Opacity(
-            opacity: 0.10,
-            child: SvgPicture.asset(
-              "images/svgs/Asset1.svg",
-              fit: BoxFit.cover,
+          Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: Opacity(
+              opacity: 0.1,
+              child: Image.asset(
+                "images/background.png",
+                repeat: ImageRepeat.repeat,
+              ),
             ),
           ),
           SafeArea(
@@ -68,6 +72,9 @@ class ChildrenScreenAccounts extends StatelessWidget {
                     ),
                   ],
                 ),
+                SizedBox(
+                  height: 50,
+                ),
                 Align(
                   alignment: Alignment.center,
                   child: Text(
@@ -76,6 +83,9 @@ class ChildrenScreenAccounts extends StatelessWidget {
                       color: Colors.white,
                     ),
                   ),
+                ),
+                SizedBox(
+                  height: 15,
                 ),
                 SizedBox(
                   child: Container(
@@ -120,11 +130,12 @@ class ChildrenScreenAccounts extends StatelessWidget {
                                                 context,
                                                 kSpecifyVideoSearchChild,
                                               );
-                                              final String viedoList =
-                                                  Video.encodeVideos(result);
-                                              PreferenceUtils.setString(
-                                                  snapshot.data[index].id,
-                                                  viedoList);
+
+                                              // final String viedoList =
+                                              //     Video.encodeVideos(result);
+                                              // PreferenceUtils.setString(
+                                              //     snapshot.data[index].id,
+                                              //     viedoList);
                                             },
                                             child: Container(
                                               decoration: BoxDecoration(

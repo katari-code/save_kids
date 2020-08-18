@@ -30,11 +30,15 @@ class _WatchScheduleState extends State<WatchSchedule> {
       backgroundColor: kPurpleColor,
       body: Stack(
         children: <Widget>[
-          Opacity(
-            opacity: 0.10,
-            child: SvgPicture.asset(
-              "images/svgs/Asset1.svg",
-              fit: BoxFit.cover,
+          Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: Opacity(
+              opacity: 0.1,
+              child: Image.asset(
+                "images/background.png",
+                repeat: ImageRepeat.repeat,
+              ),
             ),
           ),
           SingleChildScrollView(

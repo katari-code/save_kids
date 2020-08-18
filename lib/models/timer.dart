@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:logger/logger.dart';
-import 'package:timer_count_down/timer_controller.dart';
+import 'interfaces/i_firestore_converter.dart';
 
-class Timer {
+class Timer implements FireStoreConverter {
   final int lengthSec;
   int remainSec;
   String lableText;
@@ -20,22 +18,22 @@ class Timer {
         );
 
   Map<String, dynamic> toJson() => {
-        'isComplete': isComplete,
-        'lableText': lableText,
-        'remainSec': remainSec,
-        'lengthSec': lengthSec,
+        'isComplete': this.isComplete,
+        'lableText': this.lableText,
+        'remainSec': this.remainSec,
+        'lengthSec': this.lengthSec,
       };
 
-  Timer.fromFirestore(Map<String, dynamic> timer)
+  Timer.fromFirestore(DocumentSnapshot snapshot)
       : this(
-            lengthSec: timer['lengthSec'],
-            remainSec: timer['remainSec'],
-            lableText: timer['lableText'],
-            isComplete: timer['isComplete']);
+            lengthSec: snapshot.data['lengthSec'],
+            remainSec: snapshot.data['remainSec'],
+            lableText: snapshot.data['lableText'],
+            isComplete: snapshot.data['isComplete']);
 
   @override
-  fromFireStore(Map<String, dynamic> timer) {
-    return Timer.fromFirestore(timer);
+  fromFireStore(DocumentSnapshot snapshot) {
+    return Timer.fromFirestore(snapshot);
   }
 
   @override
@@ -46,15 +44,5 @@ class Timer {
       'lableText': this.lableText,
       'isComplete': this.isComplete,
     };
-  }
-}
-
-class TimerData with ChangeNotifier {
-  int currentTimerindex = 0;
-
-  void setCurrentTimer(int index) {
-    currentTimerindex = index;
-    Logger().d(index);
-    notifyListeners();
   }
 }

@@ -64,13 +64,6 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
               ),
               child: Stack(
                 children: [
-                  Center(
-                    child: SvgPicture.asset(
-                      "images/BK.svg",
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                  SvgPicture.asset("images/svgs/Back_video.svg"),
                   YoutubePlayerBuilder(
                     player: YoutubePlayer(
                       width: MediaQuery.of(context).size.width,
@@ -83,9 +76,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                     ),
                     builder: (context, player) => Column(
                       children: [
-                        // some widgets
                         player,
-                        //some other widgets
                       ],
                     ),
                   ),

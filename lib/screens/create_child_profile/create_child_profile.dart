@@ -35,11 +35,15 @@ class _AddChildScreenState extends State<AddChildScreen> {
           height: MediaQuery.of(context).size.height,
           child: Stack(
             children: <Widget>[
-              Opacity(
-                opacity: 0.10,
-                child: SvgPicture.asset(
-                  "images/svgs/Asset1.svg",
-                  fit: BoxFit.cover,
+              Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: Opacity(
+                  opacity: 0.1,
+                  child: Image.asset(
+                    "images/background.png",
+                    repeat: ImageRepeat.repeat,
+                  ),
                 ),
               ),
               SafeArea(
@@ -170,8 +174,6 @@ class _AddChildScreenState extends State<AddChildScreen> {
                                 await buildShowModeDialog(context);
                                 final child = await createChildBloc.addChild(
                                     snapshot.data.id, 'exploratory');
-
-                                Logger().i(child.id);
                                 Navigator.of(context).pop(context);
                               },
                               child: Container(

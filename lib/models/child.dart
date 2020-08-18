@@ -23,6 +23,7 @@ class Child implements FireStoreConverter {
       this.id,
       this.timer,
       this.age});
+
   Child.fromFirestore(DocumentSnapshot snapshot)
       : this(
           name: snapshot.data['name'],
@@ -31,7 +32,7 @@ class Child implements FireStoreConverter {
           type: snapshot.data['type'],
           parentId: snapshot.data['parentId'],
           schedules: [...List.from(snapshot.data['schedules']).toList()] ?? [],
-          timer: Timer.fromFirestore(snapshot.data['timer']),
+          timer: Timer.fromJson(snapshot.data['timer']),
           id: snapshot.documentID,
           watchHistory: [
                 ...List<String>.from(snapshot.data['watchHistory']).toList()
@@ -53,7 +54,7 @@ class Child implements FireStoreConverter {
       'type': this.type,
       'schedules': this.schedules ?? [],
       'parentId': this.parentId,
-      'timer': this.timer.toFireStore(),
+      'timer': this.timer.toJson(),
       'watchHistory': this.watchHistory ?? []
     };
   }
