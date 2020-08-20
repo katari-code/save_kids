@@ -127,9 +127,10 @@ class ChildrenScreenAccounts extends StatelessWidget {
                                             onTap: () async {
                                               final result =
                                                   await Navigator.pushNamed(
-                                                context,
-                                                kSpecifyVideoSearchChild,
-                                              );
+                                                      context,
+                                                      kSpecifyVideoSearchChild,
+                                                      arguments: snapshot
+                                                          .data[index].id);
 
                                               // final String viedoList =
                                               //     Video.encodeVideos(result);

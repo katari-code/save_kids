@@ -59,14 +59,25 @@ class CreateChildProfileBloc extends BlocBase {
   }
 
   final List<String> avatars = [
-    "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/b-01.png?alt=media&token=aeb3748f-ff44-4628-921b-4268aea1c378",
-    "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/b-02.png?alt=media&token=42e692af-8d9c-48cf-8142-02e1548e2465",
-    "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/b-03.png?alt=media&token=657ad3ac-7dd4-4bc2-b3d2-71f90e9852e4",
-    "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/g-01.png?alt=media&token=5933af5f-3e97-4ae0-b09d-c73f5b84d630",
-    "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/g-02.png?alt=media&token=d80f18e6-6310-487c-8fe7-53fc08a9a1eb",
-    "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/g-03.png?alt=media&token=e6c687d8-63aa-46a6-a2d5-ccc87daf3432",
+    "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/Asset1.png?alt=media&token=d2fd0566-1d99-412e-a010-a17bab977f64",
+    "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/Asset2.png?alt=media&token=9b06e088-a686-48f7-a6ca-3782ae4e7ab2",
+    "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/Asset3.png?alt=media&token=c65a4c6e-16de-480f-a1da-47f0e8e7ea80",
+    "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/Asset4.png?alt=media&token=f0c753f1-440a-4baf-899d-575f3d7362a4",
+    "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/Asset5.png?alt=media&token=9dd512c4-8ba4-40dc-9bc2-4fb1bff7b749",
+    "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/Asset6.png?alt=media&token=4d14567a-6c48-4a98-aca0-350d40da76e6",
+    "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/Asset7.png?alt=media&token=7062daff-31a5-4d22-a009-7eda81882036",
+    "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/Asset8.png?alt=media&token=fe5a8689-ce76-4b0d-8573-5011a6890c4f",
+    "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/Asset9.png?alt=media&token=531d2cf8-227e-41e2-b2fa-c1b959129fe2",
+    "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/Asset10.png?alt=media&token=8bf72423-f52a-4fb0-9a18-be53685df04c",
+    "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/Asset11.png?alt=media&token=b04157b2-9f8d-4d91-ad6f-f722672b8052",
+    "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/Asset12.png?alt=media&token=4ac51112-6c09-4b17-9b9c-ebfbdd0bd28f",
   ];
   final List<Timer> timers = [
+    Timer(
+        lableText: "60 sec",
+        lengthSec: (60),
+        remainSec: (60),
+        isComplete: false),
     Timer(
         lableText: "05 mins",
         lengthSec: (5 * 60),

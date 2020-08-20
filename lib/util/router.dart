@@ -94,7 +94,9 @@ Route<dynamic> createRoute(RouteSettings settings) {
       );
     case kSpecifyVideoSearchChild:
       return MaterialPageRoute(
-        builder: (context) => SpecifyVideoScreen(),
+        builder: (context) => SpecifyVideoScreen(
+          childID: settings.arguments,
+        ),
       );
   }
   return null;

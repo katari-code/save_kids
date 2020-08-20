@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -13,7 +14,9 @@ import 'package:timer_count_down/timer_count_down.dart';
 class ChildTimer extends StatelessWidget {
   final Function updateTimer;
   final Timer timer;
-  ChildTimer(this.timer, this.updateTimer);
+  final ChildVideoListBloc bloc;
+  final String childId;
+  ChildTimer(this.timer, this.updateTimer, this.bloc, this.childId);
   final CountdownController controller = CountdownController();
   @override
   Widget build(BuildContext context) {
@@ -27,10 +30,11 @@ class ChildTimer extends StatelessWidget {
             build: (_, double time) {
               updateTimer(
                 Timer(
-                    remainSec: time.toInt(),
-                    lableText: timer.lableText,
-                    lengthSec: timer.lengthSec,
-                    isComplete: timer.isComplete),
+                  remainSec: time.toInt(),
+                  lableText: timer.lableText,
+                  lengthSec: timer.lengthSec,
+                  isComplete: timer.isComplete,
+                ),
               );
               return Container(
                 width: MediaQuery.of(context).size.width * 0.16,
@@ -66,8 +70,18 @@ class ChildTimer extends StatelessWidget {
               );
             },
             interval: Duration(milliseconds: 100),
-            onFinished: () {
-              // SystemNavigator.pop();
+            onFinished: () async {
+              await buildShowModeDialog(context);
+              bloc.updateTimer(
+                Timer(
+                  remainSec: 0,
+                  lableText: timer.lableText,
+                  lengthSec: timer.lengthSec,
+                  isComplete: true,
+                ),
+              );
+              await bloc.storeTimer(childId);
+              SystemNavigator.pop();
             },
           )),
     );
@@ -91,40 +105,60 @@ Future buildShowModeDialog(BuildContext context) {
     context: context,
     builder: (BuildContext _) => StatefulBuilder(
       builder: (context, setStaste) => Dialog(
+        clipBehavior: Clip.hardEdge,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(48),
+          borderRadius: BorderRadius.circular(50),
         ),
         child: Container(
-          height: MediaQuery.of(context).size.height * 0.5,
+          height: MediaQuery.of(context).size.height * 0.8,
           width: 300,
           decoration: BoxDecoration(
             color: kRedColor,
-            borderRadius: BorderRadius.circular(35),
+            borderRadius: BorderRadius.circular(50),
           ),
           child: Stack(
-            overflow: Overflow.visible,
+            overflow: Overflow.clip,
             children: <Widget>[
+              Container(
+                height: MediaQuery.of(context).size.height * 0.8,
+                width: 300,
+                child: Opacity(
+                  opacity: 0.3,
+                  child: Image.asset(
+                    'images/background.png',
+                    fit: BoxFit.cover,
+                    repeat: ImageRepeat.repeat,
+                  ),
+                ),
+              ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
+                  SvgPicture.asset(
+                    'images/svgs/timespopup.svg',
+                    height: 120,
+                  ),
                   SizedBox(
                     height: 30,
                   ),
                   Text(
-                    "Time's Up",
+                    "your time is end today",
                     textAlign: TextAlign.center,
                     style: kBubblegum_sans32.copyWith(color: Colors.white),
                   ),
                   SizedBox(
                     height: 15,
                   ),
-                  GestureDetector(
-                    onTap: () => Navigator.pop(context, null),
-                    child: AgeChip(
-                      color: kBlueDarkColor,
-                      text: "See you tomorrow",
-                      highet: 60.0,
+                  Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: GestureDetector(
+                      onTap: () => Navigator.pop(context, null),
+                      child: AgeChip(
+                        color: kBlueDarkColor,
+                        text: "See you tomorrow",
+                        highet: 60.0,
+                      ),
                     ),
                   ),
                 ],

@@ -12,12 +12,14 @@ class Child implements FireStoreConverter {
   String id;
   Timer timer;
   List<String> watchHistory;
+  List<String> specifyVideos;
   List<dynamic> schedules;
   Child(
       {this.imagePath,
       this.name,
       this.parentId,
       this.watchHistory,
+      this.specifyVideos,
       this.schedules,
       this.type,
       this.id,
@@ -26,7 +28,7 @@ class Child implements FireStoreConverter {
 
   Child.fromFirestore(DocumentSnapshot snapshot)
       : this(
-          name: snapshot.data['name'],
+          name: snapshot.data['name'] ?? " ",
           age: snapshot.data['age'],
           imagePath: snapshot.data['imagePath'],
           type: snapshot.data['type'],
@@ -34,6 +36,10 @@ class Child implements FireStoreConverter {
           schedules: [...List.from(snapshot.data['schedules']).toList()] ?? [],
           timer: Timer.fromJson(snapshot.data['timer']),
           id: snapshot.documentID,
+          specifyVideos: [
+                ...List<String>.from(snapshot.data['specifyVideos']).toList()
+              ] ??
+              [],
           watchHistory: [
                 ...List<String>.from(snapshot.data['watchHistory']).toList()
               ] ??
@@ -55,7 +61,8 @@ class Child implements FireStoreConverter {
       'schedules': this.schedules ?? [],
       'parentId': this.parentId,
       'timer': this.timer.toJson(),
-      'watchHistory': this.watchHistory ?? []
+      'watchHistory': this.watchHistory ?? [],
+      'specifyVideos': this.specifyVideos ?? []
     };
   }
 }

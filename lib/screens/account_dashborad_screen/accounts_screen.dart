@@ -4,13 +4,12 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bloc_pattern/bloc_pattern.dart';
-import 'package:logger/logger.dart';
 import 'package:save_kids/bloc/account_dashboard_bloc.dart';
 import 'package:save_kids/components/control_widgets/progress_bar.dart';
 import 'package:save_kids/models/child.dart';
 import 'package:save_kids/models/parent.dart';
+import 'package:save_kids/screens/child_display_videos/widget/childTimer.dart';
 import 'package:save_kids/util/constant.dart';
-import 'package:save_kids/util/preference/prefs_singleton.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:save_kids/util/style.dart';
 
@@ -23,26 +22,13 @@ class AccountDashboardScreen extends StatefulWidget {
 class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
   var editMode = true;
 
-  @override
-  void initState() {
-    // TODO: implement initState
-
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
+  dispose() {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    // TODO: implement dispose
     super.dispose();
   }
 
@@ -52,9 +38,13 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
       backgroundColor: kBlueColor,
       body: Stack(
         children: <Widget>[
-          SvgPicture.asset(
-            "images/svgs/dashborad_background.svg",
-            fit: BoxFit.cover,
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: Image.asset(
+              "images/ChildernBK.png",
+              fit: BoxFit.cover,
+            ),
           ),
           Consumer<AccountDashboardBloc>(
             builder: (conext, accountDashBloc) => Center(
@@ -93,15 +83,6 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Text(
-            "Hi",
-            style: GoogleFonts.bubblegumSans(
-              textStyle: kBubblegum_sans32.copyWith(
-                fontSize: 30,
-                color: Color(0xff000000),
-              ),
-            ),
-          ),
           SizedBox(height: 20),
           Container(
             height: MediaQuery.of(context).size.height * 0.6,
@@ -114,31 +95,52 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
               // crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    'Your email is not verified yet',
-                    style: kBubblegum_sans28,
-                    textAlign: TextAlign.center,
-                  ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      "images/envelope.png",
+                      height: 80,
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'One last step ..  ',
+                        style: kBubblegum_sans28,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'verify yor email',
+                        style: kBubblegum_sans28,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(height: 40),
-                GestureDetector(
-                  onTap: () async {
-                    if (await accountDashBloc.isEmailVerified &&
-                        accountDashBloc.isNew) {
-                      await Navigator.pushNamed(context, kAddChildProfileRoute);
-                      await accountDashBloc.checkIsEmailVerified;
-                      accountDashBloc.isNew = false;
-                    }
-                  },
-                  child: Container(
-                    height: 58.00,
-                    width: 100.00,
-                    decoration: BoxDecoration(
-                      color: kBlueDarkColor,
-                      borderRadius: BorderRadius.circular(84.00),
-                    ),
+                Container(
+                  height: 58.00,
+                  width: 100.00,
+                  decoration: BoxDecoration(
+                    color: kBlueDarkColor,
+                    borderRadius: BorderRadius.circular(84.00),
+                  ),
+                  child: FlatButton(
+                    onPressed: () async {
+                      if (await accountDashBloc.isEmailVerified &&
+                          accountDashBloc.isNew) {
+                        await Navigator.pushNamed(
+                            context, kAddChildProfileRoute);
+                        await accountDashBloc.checkIsEmailVerified;
+                        accountDashBloc.isNew = false;
+                      }
+                    },
                     child: Center(
                       child: Text(
                         "Refresh",
@@ -151,15 +153,15 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
                   ),
                 ),
                 SizedBox(height: 20),
-                GestureDetector(
-                  onTap: () => accountDashBloc.sendEmailVerification,
-                  child: Container(
-                    height: 58.00,
-                    width: 250.00,
-                    decoration: BoxDecoration(
-                      color: Color(0xfffcbf1e),
-                      borderRadius: BorderRadius.circular(84.00),
-                    ),
+                Container(
+                  height: 58.00,
+                  width: 250.00,
+                  decoration: BoxDecoration(
+                    color: Color(0xfffcbf1e),
+                    borderRadius: BorderRadius.circular(84.00),
+                  ),
+                  child: FlatButton(
+                    onPressed: () => accountDashBloc.sendEmailVerification,
                     child: Center(
                       child: Text(
                         "Send Verification Email",
@@ -186,82 +188,82 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
         builder: (context, parentSnap) {
           Parent parent = parentSnap.data ?? Parent();
           return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 50,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    GestureDetector(
-                      onTap: () {
-                        if (parent.password == null) {
-                          Navigator.pushNamed(context, kParentDashboardRoute);
-                        } else
-                          Navigator.pushNamed(context, kParentPinRoute);
-                      },
-                      child: SvgPicture.asset("images/svgs/parent.svg"),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(
-                          () {
-                            editMode = !editMode;
-                          },
-                        );
-                      },
-                      child: SvgPicture.asset("images/svgs/edit.svg"),
-                    ),
-                  ],
-                ),
-              ),
-              Text(
-                "Hi, ${parent.name}",
-                style: GoogleFonts.bubblegumSans(
-                  textStyle: kBubblegum_sans32.copyWith(
-                    fontSize: 30,
-                    color: Color(0xff000000),
+              SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 50,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      GestureDetector(
+                        onTap: () {
+                          if (parent.password == null) {
+                            Navigator.pushNamed(context, kParentDashboardRoute);
+                          } else
+                            Navigator.pushNamed(context, kParentPinRoute);
+                        },
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 20,
+                            ),
+                            SvgPicture.asset(
+                              "images/svgs/parents.svg",
+                              height: 65,
+                            ),
+                            Text(
+                              "Parents control",
+                              style: kBubblegum_sans24.copyWith(
+                                  color: Colors.white),
+                            )
+                          ],
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          setState(
+                            () {
+                              editMode = !editMode;
+                            },
+                          );
+                        },
+                        child: Column(
+                          children: [
+                            SvgPicture.asset(
+                              "images/svgs/edit.svg",
+                              height: 65,
+                            ),
+                            Text(
+                              "Edit",
+                              style: kBubblegum_sans24.copyWith(
+                                  color: Colors.white),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
-              SizedBox(height: 20),
-              Text(
-                "Who is using the app now ?",
-                style: GoogleFonts.capriola(
-                  textStyle: kBubblegum_sans32.copyWith(
-                    fontSize: 16,
-                    color: Color(0xff000000),
-                  ),
-                ),
-              ),
-              SizedBox(height: 20),
+              SizedBox(height: 8),
               StreamBuilder<List<Child>>(
                   stream: accountDashBloc.children,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return Container(
-                        height: MediaQuery.of(context).size.height * 0.6,
-                        width: MediaQuery.of(context).size.width * 0.8,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(25),
-                          color: Colors.white,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: GridView.count(
-                            primary: false,
-                            crossAxisSpacing: 20,
-                            mainAxisSpacing: 10,
-                            crossAxisCount: 2,
-                            children: List<Widget>.generate(
-                              snapshot.data.length == 4
-                                  ? snapshot.data.length
-                                  : snapshot.data.length + 1,
-                              (index) => snapshot.data.length == 4
-                                  ? CustomAnimation(
+                        child: Wrap(
+                          children: List<Widget>.generate(
+                            snapshot.data.length == 4
+                                ? snapshot.data.length
+                                : snapshot.data.length + 1,
+                            (index) => snapshot.data.length == 4
+                                ? Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: CustomAnimation(
                                       duration: Duration(milliseconds: 800),
                                       delay: Duration(
                                         milliseconds: (800 * 2).round(),
@@ -274,11 +276,6 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
                                       builder: (context, child, value) =>
                                           GestureDetector(
                                         onTap: () {
-                                          Logger().i(
-                                            PreferenceUtils.getString(
-                                                snapshot.data[index].id +
-                                                    "_timer"),
-                                          );
                                           Navigator.pushNamed(
                                               context, kVideoDisplayRoute,
                                               arguments:
@@ -310,9 +307,12 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
                                           ),
                                         ]),
                                       ),
-                                    )
-                                  : index == snapshot.data.length
-                                      ? CustomAnimation(
+                                    ),
+                                  )
+                                : index == snapshot.data.length
+                                    ? Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: CustomAnimation(
                                           duration: Duration(milliseconds: 800),
                                           delay: Duration(
                                             milliseconds: (800 * 2).round(),
@@ -348,15 +348,20 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
                                                   ),
                                                   Text(
                                                     "Create profile",
-                                                    style:
-                                                        GoogleFonts.capriola(),
+                                                    style: kBubblegum_sans24
+                                                        .copyWith(
+                                                            color:
+                                                                Colors.black),
                                                   )
                                                 ],
                                               ),
                                             ),
                                           ),
-                                        )
-                                      : CustomAnimation(
+                                        ),
+                                      )
+                                    : Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: CustomAnimation(
                                           duration: Duration(milliseconds: 800),
                                           delay: Duration(
                                             milliseconds: (800 * 2).round(),
@@ -370,11 +375,20 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
                                               Transform.scale(
                                             scale: value,
                                             child: GestureDetector(
-                                              onTap: () {
-                                                Navigator.pushNamed(
-                                                    context, kVideoDisplayRoute,
-                                                    arguments: snapshot
-                                                        .data[index].id);
+                                              onTap: () async {
+                                                if (snapshot.data[index].timer
+                                                        .isComplete ==
+                                                    true) {
+                                                  await buildShowModeDialog(
+                                                      context);
+                                                } else if (snapshot.data[index]
+                                                        .timer.isComplete ==
+                                                    false) {
+                                                  Navigator.pushNamed(context,
+                                                      kVideoDisplayRoute,
+                                                      arguments: snapshot
+                                                          .data[index].id);
+                                                }
                                               },
                                               child: Column(
                                                 children: <Widget>[
@@ -410,7 +424,7 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
                                             ),
                                           ),
                                         ),
-                            ),
+                                      ),
                           ),
                         ),
                       );

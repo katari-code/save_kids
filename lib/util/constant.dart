@@ -1,4 +1,3 @@
-// Auth
 const kHomeRoute = "/";
 const kSplashRoute = "/splash";
 const kSginUpRoute = "/sign_up";

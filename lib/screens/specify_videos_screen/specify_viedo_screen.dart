@@ -1,7 +1,11 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:save_kids/bloc/specify_add_video_bloc.dart';
 import 'package:save_kids/models/video.dart';
+import 'package:save_kids/screens/child_display_videos/video_player_screen/video_player_screen.dart';
+import 'package:save_kids/screens/child_display_videos/video_player_screen_copy/video_player_screen.dart';
 import 'package:save_kids/util/style.dart';
 import 'package:simple_animations/simple_animations.dart';
 
@@ -13,7 +17,15 @@ class SpecifyVideoScreen extends StatefulWidget {
 }
 
 class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
-  final languages = ['English', 'French', 'Spanish'];
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +46,12 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
               ),
             ),
             Consumer<SpecifyAddVideoBloc>(
-              builder: (conext, specifyAddVideoBloc) => Center(
+                builder: (conext, specifyAddVideoBloc) {
+              List<Video> initVideos = [];
+              specifyAddVideoBloc
+                  .initVideos(widget.childID)
+                  .then((value) => initVideos = value);
+              return Center(
                 child: Container(
                   alignment: Alignment.center,
                   height: MediaQuery.of(context).size.height * 0.90,
@@ -79,10 +96,33 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
                           SizedBox(
                             height: 18,
                           ),
-                          SizedBox(
-                            height: 18,
+                          CarouselSlider.builder(
+                            itemCount: specifyAddVideoBloc.languages.length,
+                            itemBuilder: (context, index) => Container(
+                              child: Text(
+                                specifyAddVideoBloc.languages[index].lnName ??
+                                    "  ",
+                                style: kBubblegum_sans24.copyWith(
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                            options: CarouselOptions(
+                              onPageChanged: (index, _) {
+                                print(specifyAddVideoBloc.languages.length);
+                                specifyAddVideoBloc.changeLanguage(
+                                    specifyAddVideoBloc.languages[index]);
+                              },
+                              height: 50,
+                              initialPage: 0,
+                              viewportFraction: 0.45,
+                              enableInfiniteScroll: true,
+                              reverse: false,
+                              enlargeCenterPage: true,
+                            ),
                           ),
                           StreamBuilder<List<Video>>(
+                            initialData: initVideos,
                             stream: specifyAddVideoBloc.videos,
                             builder: (context, snapshot) {
                               List<Video> videos = snapshot.data ?? [];
@@ -126,8 +166,8 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
                     ),
                   ),
                 ),
-              ),
-            )
+              );
+            })
           ],
         ),
       ),
@@ -186,8 +226,8 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
                   ],
                   color: kYellowColor,
                 ),
-                child: GestureDetector(
-                  onTap: () => specifyAddVideoBloc.getVideoBySearch(),
+                child: FlatButton(
+                  onPressed: () => specifyAddVideoBloc.getVideoBySearch(),
                   child: Icon(Icons.search, color: Colors.white),
                 ),
               ),
@@ -199,6 +239,14 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
   Widget buildVideoCard(
       List<Video> videos, int index, SpecifyAddVideoBloc specifyAddVideoBloc) {
     return GestureDetector(
+      onLongPress: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => VideoPlayerScreen2(
+            viedoId: videos[index].id,
+          ),
+        ),
+      ),
       onTap: () {
         specifyAddVideoBloc.addChosenVideo(videos[index].id);
       },
@@ -215,10 +263,6 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
               blurRadius: 6,
             ),
           ],
-          borderRadius: BorderRadius.horizontal(
-            left: Radius.circular(10),
-            right: Radius.circular(100),
-          ),
         ),
         child: Stack(
           overflow: Overflow.clip,
@@ -233,10 +277,6 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
                   color: videos[index].chosen
                       ? kRedColor
                       : kChannelUnSelectedColor,
-                  borderRadius: BorderRadius.horizontal(
-                    left: Radius.circular(10),
-                    right: Radius.circular(100),
-                  ),
                 ),
               ),
             ),
@@ -295,7 +335,9 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
         padding: EdgeInsets.symmetric(vertical: 18),
         color: kBlueDarkColor,
         onPressed: () {
-          // Navigator.pop(context, specifyAddVideoBloc.returnChosenVideos());
+          specifyAddVideoBloc.updateSpecifyVideos(widget.childID);
+          specifyAddVideoBloc.changeLanguage(specifyAddVideoBloc.languages[0]);
+          Navigator.pop(context);
         },
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.00),

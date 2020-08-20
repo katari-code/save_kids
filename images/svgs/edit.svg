@@ -1,23 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="55" height="55" viewBox="0 0 55 55">
-  <defs>
-    <rect id="rect-2" width="25" height="25.182" x="17" y="9"/>
-    <mask id="mask-3" maskContentUnits="userSpaceOnUse" maskUnits="userSpaceOnUse">
-      <rect width="55" height="55" x="0" y="0" fill="black"/>
-      <use fill="white" xlink:href="#rect-2"/>
-    </mask>
-  </defs>
-  <g>
-    <g>
-      <path fill="rgb(50,39,74)" fill-rule="evenodd" d="M55 27.5C55 42.67766317 42.67766317 55 27.5 55c-2.2491995 0-4.43569406-.27060712-6.52867433-.78101204C8.94081467 51.28516577 0 40.42846366 0 27.5 0 12.32233683 12.32233683 0 27.5 0S55 12.32233683 55 27.5z"/>
-      <text font-size="0" style="white-space:pre">
-        <tspan x="18" y="46" fill="rgb(255,255,255)" font-family="Bubblegum Sans" font-size="12" font-weight="400" style="white-space:pre;text-transform:none">Edit</tspan>
-      </text>
-    </g>
-    <g>
-      <use fill="none" xlink:href="#rect-2"/>
-      <g mask="url(#mask-3)">
-        <path fill="rgb(255,255,255)" fill-rule="evenodd" d="M40.944458 13.25242615l1.05538941-1.06307984L38.83358765 9l-1.0553894 1.06313133 3.16625976 3.18929482zm-3.90847778-2.44074631L40.20224 14.00183487l-1.05560303 1.06293106-3.16619873-3.19015694 1.055542-1.06292915zm-1.08135986 10.19948578l2.94177246-2.919281V31.0312004c0 1.73991012-1.40048218 3.15075302-3.1279602 3.15075302H20.12808228c-1.72735596 0-3.12799073-1.4108429-3.12799073-3.15075302V15.27709198c0-1.74006271 1.40063477-3.1509552 3.12799073-3.1509552H32.973114l-3.0093689 2.94952011H19.94644166v16.1247139h16.00817871V21.01116562zm-10.3416748 1.30898666l9.49902343-9.57036972 3.16629029 3.19010544-9.49902344 9.56960678-4.61114502 1.4524765 1.44485474-4.641819zm2.11584472.67540741l-.54156494-.5547638 8.14279175-8.06258391.54156494.55476379-8.14279175 8.06258392z"/>
-      </g>
+<svg xmlns="http://www.w3.org/2000/svg" width="119.574" height="119.574" viewBox="0 0 119.574 119.574">
+  <g id="Group_2" data-name="Group 2" transform="translate(306 -301.426)">
+    <path id="Path_6" data-name="Path 6" d="M59.787,0A59.787,59.787,0,1,1,0,59.787,59.787,59.787,0,0,1,59.787,0Z" transform="translate(-306 301.426)" fill="#fff"/>
+    <path id="Path_5" data-name="Path 5" d="M55.2,0A55.2,55.2,0,1,1,0,55.2,55.2,55.2,0,0,1,55.2,0Z" transform="translate(-301 305.593)" fill="#c600ff"/>
+    <g id="Icon_feather-edit" data-name="Icon feather-edit" transform="translate(-270.651 336.304)">
+      <path id="Path_7" data-name="Path 7" d="M22.8,6H7.4A4.4,4.4,0,0,0,3,10.4v30.8a4.4,4.4,0,0,0,4.4,4.4h30.8a4.4,4.4,0,0,0,4.4-4.4V25.8" transform="translate(0 1.484)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+      <path id="Path_8" data-name="Path 8" d="M35.1,4.185a4.666,4.666,0,0,1,6.6,6.6l-20.9,20.9L12,33.88l2.2-8.8Z" transform="translate(4.198)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
     </g>
   </g>
 </svg>

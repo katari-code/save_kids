@@ -1,7 +1,6 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:save_kids/bloc/add_video_bloc.dart';
 import 'package:save_kids/models/video.dart';
 import 'package:save_kids/util/style.dart';

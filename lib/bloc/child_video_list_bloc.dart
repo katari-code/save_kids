@@ -10,23 +10,23 @@ import 'package:save_kids/util/style.dart';
 
 class ChildVideoListBloc extends BlocBase {
   ChildVideoListBloc() {
-    changeCategory(categories[1]);
+    changeCategory(categories[0]);
     timer.addStream(changeTimer);
     child.addStream(changeChild);
-    // videos.addStream(changeVideos);
   }
 
   static String _pageToken = '';
 
-  Repository _repository = Repository<Child>(collection: 'children');
   Repository _videoRepo = Repository();
+  Repository _repository = Repository<Child>(collection: 'children');
   Repository _childRepo = Repository<Child>(collection: 'children');
 
   BehaviorSubject<Timer> timer = BehaviorSubject<Timer>();
   Timer localTimer;
   BehaviorSubject<Child> child = BehaviorSubject<Child>();
   BehaviorSubject<String> childId = BehaviorSubject<String>();
-  BehaviorSubject<List<Video>> videos = BehaviorSubject<List<Video>>();
+
+  BehaviorSubject<List<String>> videosList = BehaviorSubject<List<String>>();
   // BehaviorSubject<List<String>>
   final _category = BehaviorSubject<Category>();
 
@@ -42,7 +42,6 @@ class ChildVideoListBloc extends BlocBase {
 
   Stream<Category> get streamCategory => _category.stream;
   Stream<Child> getChild(String id) {
-    // Logger().i('here in getChild ', child);
     return _childRepo.getDocument(Child(), id);
   }
 
@@ -94,11 +93,17 @@ class ChildVideoListBloc extends BlocBase {
 
   Future<List<Video>> fetchVideos() async {
     List<Video> videos = [];
+    if (_category.value.categoryName == "Explor" &&
+        child.value.specifyVideos.isNotEmpty) {
+      final videosList = await _repository.getVideos(child.value.specifyVideos);
+      videos = videosList;
+    } else {
+      final map = await _videoRepo.getVideosBySearch(_category.value.search,
+          pageToken: _pageToken);
+      videos.addAll(map['data']);
+      _pageToken = map['pageToken'];
+    }
 
-    final map = await _videoRepo.getVideosBySearch(_category.value.search,
-        pageToken: _pageToken);
-    videos.addAll(map['data']);
-    _pageToken = map['pageToken'];
     return videos;
   }
 
@@ -108,9 +113,6 @@ class ChildVideoListBloc extends BlocBase {
     Child getChild = await _repo.getDocument(Child(), childId).first;
 
     Child updatedChild = getChild..timer = localTimer;
-    Logger().i("LocalTimer $localTimer");
-    Logger().i("UpdateChild ${updatedChild.timer}");
-
     await _repo.setDocument(updatedChild, updatedChild.id);
   }
 

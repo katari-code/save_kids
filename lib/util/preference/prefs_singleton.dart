@@ -1,14 +1,17 @@
 import 'dart:async' show Future;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:translator/translator.dart';
 
 class PreferenceUtils {
   static Future<SharedPreferences> get _instance async =>
       _prefsInstance ??= await SharedPreferences.getInstance();
   static SharedPreferences _prefsInstance;
+  static final translator = GoogleTranslator();
 
   // call this method from iniState() function of mainApp().
   static Future<SharedPreferences> init() async {
     _prefsInstance = await _instance;
+
     return _prefsInstance;
   }
 

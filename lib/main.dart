@@ -18,8 +18,8 @@ import 'package:save_kids/bloc/watch_schedule_bloc.dart';
 import 'package:save_kids/models/child_avatar.dart';
 
 import 'package:provider/provider.dart';
-
 import 'package:save_kids/util/constant.dart';
+
 import 'package:save_kids/util/preference/prefs_singleton.dart';
 import 'package:save_kids/util/router.dart';
 

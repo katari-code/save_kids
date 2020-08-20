@@ -17,11 +17,11 @@ class ParentDashboard extends StatefulWidget {
 class _ParentDashboardState extends State<ParentDashboard> {
   @override
   void initState() {
-    super.initState();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+    super.initState();
   }
 
   @override
@@ -48,6 +48,10 @@ class _ParentDashboardState extends State<ParentDashboard> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return Scaffold(
       backgroundColor: kBlueColor,
       appBar: AppBar(
@@ -151,104 +155,110 @@ class _ParentDashboardState extends State<ParentDashboard> {
                                   SizedBox(
                                     height: 15,
                                   ),
-                                  GestureDetector(
-                                    onTap: () => Navigator.pushNamed(
-                                        context, kWatchSchdeuleRoute),
-                                    child: Container(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.8,
-                                      padding: EdgeInsets.all(15),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(8),
-                                        color: kPurpleColor,
-                                      ),
-                                      child: Row(
-                                        children: <Widget>[
-                                          SvgPicture.asset(
-                                              'images/svgs/schedule.svg'),
-                                          SizedBox(
-                                            width: 15,
-                                          ),
-                                          Column(
-                                            children: <Widget>[
-                                              Text(
-                                                "Watch Schedule",
-                                                style:
-                                                    kBubblegum_sans32.copyWith(
-                                                  color: Colors.white,
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 15),
+                                    child: GestureDetector(
+                                      onTap: () => Navigator.pushNamed(
+                                          context, kWatchSchdeuleRoute),
+                                      child: Container(
+                                        padding: EdgeInsets.all(15),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          color: kPurpleColor,
+                                        ),
+                                        child: Row(
+                                          children: <Widget>[
+                                            SvgPicture.asset(
+                                                'images/svgs/schedule.svg'),
+                                            SizedBox(
+                                              width: 15,
+                                            ),
+                                            Column(
+                                              children: <Widget>[
+                                                Text(
+                                                  "Watch Schedule",
+                                                  style: kBubblegum_sans32
+                                                      .copyWith(
+                                                    color: Colors.white,
+                                                  ),
                                                 ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 15),
+                                    child: GestureDetector(
+                                      onTap: () => Navigator.pushNamed(
+                                          context, kHistoryWatchRoute),
+                                      child: Container(
+                                        padding: EdgeInsets.all(15),
+                                        height: 90,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          color: Color(0xffFFA846),
+                                        ),
+                                        child: Row(
+                                          children: <Widget>[
+                                            Image.asset(
+                                              'images/whatchHistory.png',
+                                              height: 90,
+                                            ),
+                                            SizedBox(
+                                              width: 15,
+                                            ),
+                                            Text(
+                                              "Watch History",
+                                              style: kBubblegum_sans32.copyWith(
+                                                color: Colors.white,
                                               ),
-                                            ],
-                                          )
-                                        ],
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
-                                    height: 15,
-                                  ),
-                                  GestureDetector(
-                                    onTap: () => Navigator.pushNamed(
-                                        context, kHistoryWatchRoute),
-                                    child: Container(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.8,
-                                      padding: EdgeInsets.all(15),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(8),
-                                        color: Color(0xffFFA846),
-                                      ),
-                                      child: Row(
-                                        children: <Widget>[
-                                          Image.asset(
-                                            'images/whatchHistory.png',
-                                            height: 70,
-                                          ),
-                                          SizedBox(
-                                            width: 15,
-                                          ),
-                                          Text(
-                                            "Watch History",
-                                            style: kBubblegum_sans32.copyWith(
-                                              color: Colors.white,
+                                  Padding(
+                                    padding: EdgeInsets.all(15),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.pushNamed(context,
+                                            kSpecifyVideoChildrenAccount);
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.all(15),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          color: Color(0xffFF7E71),
+                                        ),
+                                        child: Row(
+                                          children: <Widget>[
+                                            Image.asset(
+                                              'images/viedos.png',
+                                              height: 70,
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 15,
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      Navigator.pushNamed(context,
-                                          kSpecifyVideoChildrenAccount);
-                                    },
-                                    child: Container(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.8,
-                                      padding: EdgeInsets.all(15),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(8),
-                                        color: Color(0xffFF7E71),
-                                      ),
-                                      child: Row(
-                                        children: <Widget>[
-                                          Image.asset(
-                                            'images/viedos.png',
-                                            height: 70,
-                                          ),
-                                          SizedBox(
-                                            width: 15,
-                                          ),
-                                          Text(
-                                            "Specify Videos",
-                                            style: kBubblegum_sans32.copyWith(
-                                              color: Colors.white,
+                                            SizedBox(
+                                              width: 15,
                                             ),
-                                          ),
-                                        ],
+                                            Text(
+                                              "Specify Videos",
+                                              style: kBubblegum_sans32.copyWith(
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),

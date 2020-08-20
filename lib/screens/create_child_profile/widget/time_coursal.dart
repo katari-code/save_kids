@@ -13,6 +13,9 @@ class TimeCoursal extends StatelessWidget {
     return Container(
       child: Column(
         children: <Widget>[
+          SizedBox(
+            height: 10,
+          ),
           StreamBuilder<Object>(
               initialData: createChildBloc.timers[0],
               stream: createChildBloc.timer,

@@ -43,12 +43,6 @@ class _ChildMainViedoListState extends State<ChildMainViedoList>
 
   @override
   dispose() {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeRight,
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
     widget.videoListBloc.storeTimer(widget.childId);
     ChildVideoListBloc().dispose();
     WidgetsBinding.instance.removeObserver(this);
@@ -73,8 +67,6 @@ class _ChildMainViedoListState extends State<ChildMainViedoList>
 
   @override
   Widget build(BuildContext context) {
-    print(widget.childId);
-
     return Scaffold(
       backgroundColor: kBlueColor,
       body: Stack(
@@ -224,12 +216,12 @@ class _ChildMainViedoListState extends State<ChildMainViedoList>
                             if (snapshot.hasData) {
                               List<Video> videoList = [];
                               videoList.addAll(snapshot.data);
-                              Logger().i(videoList.length);
                               return VideoGrid(
-                                  videoList: videoList,
-                                  addToWatchHistory: (String videoId) =>
-                                      widget.videoListBloc.updateWatchHistory(
-                                          videoId, widget.childId));
+                                videoList: videoList,
+                                addToWatchHistory: (String videoId) =>
+                                    widget.videoListBloc.updateWatchHistory(
+                                        videoId, widget.childId),
+                              );
                             } else
                               return CircularProgressIndicator();
                           },
@@ -244,9 +236,10 @@ class _ChildMainViedoListState extends State<ChildMainViedoList>
                 builder: (context, snapshot) {
                   if (snapshot.hasData && snapshot.data.remainSec != null) {
                     return ChildTimer(
-                      snapshot.data,
-                      widget.videoListBloc.updateTimer,
-                    );
+                        snapshot.data,
+                        widget.videoListBloc.updateTimer,
+                        widget.videoListBloc,
+                        widget.childId);
                   }
                   return ProgressBar();
                 },
