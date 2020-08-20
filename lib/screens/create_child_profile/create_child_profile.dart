@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:save_kids/app_localizations.dart';
 import 'package:save_kids/bloc/create_child_profile_bloc.dart';
+import 'package:save_kids/components/premium_model.dart';
 import 'package:save_kids/models/parent.dart';
 import 'package:save_kids/screens/create_child_profile/widget/time_coursal.dart';
 import 'package:save_kids/util/style.dart';
@@ -193,7 +194,7 @@ class _AddChildScreenState extends State<AddChildScreen> {
                             if (snapshot.hasData) {
                               return GestureDetector(
                                 onTap: () async {
-                                  await buildShowModeDialog(context);
+                                  await popUpShow(context);
                                   final child = await createChildBloc.addChild(
                                       snapshot.data.id, 'exploratory');
                                   Navigator.of(context).pop(context);
@@ -327,98 +328,6 @@ class _AddChildScreenState extends State<AddChildScreen> {
             ],
           );
         });
-  }
-
-  Future buildShowModeDialog(BuildContext context) {
-    return showDialog(
-      context: context,
-      builder: (BuildContext _) => StatefulBuilder(
-        builder: (context, setStaste) => Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(48),
-          ),
-          child: Container(
-            height: MediaQuery.of(context).size.height * 0.5,
-            width: 300,
-            decoration: BoxDecoration(
-              color: kRedColor,
-              borderRadius: BorderRadius.circular(35),
-            ),
-            child: Stack(
-              overflow: Overflow.visible,
-              children: <Widget>[
-                Positioned(
-                  top: -98,
-                  left: 80,
-                  // left: MediaQuery.of(context).size.width * 0.25,
-                  child: Transform.scale(
-                    scale: 1.2,
-                    child: SvgPicture.asset(
-                        "images/svgs/mama_and_girls_create.svg"),
-                  ),
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Text(
-                      "Get the full experience",
-                      style: kBubblegum_sans24.copyWith(color: Colors.white),
-                    ),
-                    Text(
-                      " \$ 2.99",
-                      style: kBubblegum_sans44.copyWith(
-                        color: Colors.white,
-                        fontSize: 48,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "+ Schedule the Videos for your kids, \n + Customize the experience for them ",
-                        style: kBubblegum_sans20.copyWith(color: Colors.white),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () => Navigator.pop(context),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          AgeChip(
-                            color: kYellowColor,
-                            text: "Get the app now ",
-                            highet: 60.0,
-                            width: 240.0,
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    GestureDetector(
-                      onTap: () => Navigator.pop(context, null),
-                      child: AgeChip(
-                        color: kBlueDarkColor,
-                        text: "Done",
-                        highet: 60.0,
-                        width: 120.0,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
   }
 }
 

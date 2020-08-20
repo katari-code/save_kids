@@ -4,6 +4,7 @@ import 'package:save_kids/screens/child_display_videos/child_display_videos.dart
 import 'package:save_kids/screens/child_display_videos/video_list.dart';
 import 'package:save_kids/screens/child_display_videos/video_player_screen/video_player_screen.dart';
 import 'package:save_kids/screens/create_child_profile/create_child_profile.dart';
+import 'package:save_kids/screens/onboarding_screen/onboarding_builder.dart';
 import 'package:save_kids/screens/parent_screens/parent_password.dart';
 import 'package:save_kids/screens/parent_screens/watch_history_screen/watch_histroy_screen.dart';
 import 'package:save_kids/screens/settings_screen/settings_screen.dart';
@@ -26,6 +27,10 @@ Route<dynamic> createRoute(RouteSettings settings) {
     case kSplashRoute:
       return MaterialPageRoute(
         builder: (context) => SpalschScreen(),
+      );
+    case kOnboradingScreen:
+      return MaterialPageRoute(
+        builder: (context) => OnboardingScreen(),
       );
     case kSignInRoute:
       return MaterialPageRoute(

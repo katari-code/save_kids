@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:save_kids/bloc/auth_bloc.dart';
-import 'package:save_kids/bloc/parent_dashboard_bloc.dart';
 import 'package:save_kids/components/control_widgets/progress_bar.dart';
+import 'package:save_kids/components/premium_model.dart';
 import 'package:save_kids/models/parent.dart';
+import 'package:save_kids/services/auth_service_provider.dart';
 import 'package:save_kids/util/constant.dart';
 import 'package:save_kids/util/style.dart';
 
@@ -58,12 +59,32 @@ class _ParentDashboardState extends State<ParentDashboard> {
         backgroundColor: Colors.transparent,
         automaticallyImplyLeading: false,
         elevation: 0.0,
-        actions: <Widget>[
-          FlatButton(
-            onPressed: () => Navigator.pushNamed(context, kParentSettingsRoute),
-            child: Icon(Icons.settings),
-          ),
-        ],
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            GestureDetector(
+              onTap: () => Navigator.pushNamed(context, kParentSettingsRoute),
+              child: SvgPicture.asset(
+                "images/svgs/settings.svg",
+                height: 55,
+              ),
+            ),
+            SizedBox(
+              width: 15,
+            ),
+            GestureDetector(
+              onTap: () async {
+                await AuthServiceProvider().signOut();
+                Navigator.pushNamedAndRemoveUntil(
+                    context, kSignInRoute, (route) => false);
+              },
+              child: SvgPicture.asset(
+                "images/svgs/logout.svg",
+                height: 55,
+              ),
+            ),
+          ],
+        ),
       ),
       extendBodyBehindAppBar: true,
       body: Consumer<AuthBloc>(
@@ -80,31 +101,42 @@ class _ParentDashboardState extends State<ParentDashboard> {
                 ),
               ),
             ),
-
-            SafeArea(
-              child: Align(
-                alignment: Alignment.topRight,
-                child: Container(
-                  height: 40,
-                  width: 130,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(8),
-                      bottomLeft: Radius.circular(8),
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: SafeArea(
+                child: Align(
+                  alignment: Alignment.topRight,
+                  child: Container(
+                    height: 40,
+                    width: 130,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(8),
+                        bottomLeft: Radius.circular(8),
+                      ),
+                      color: kBlueDarkColor,
                     ),
-                    color: kBlueDarkColor,
-                  ),
-                  child: Center(
-                    child: Text(
-                      "Free Verison",
-                      style: kBubblegum_sans20.copyWith(
-                        color: Colors.white,
+                    child: GestureDetector(
+                      onTap: () async {
+                        await popUpShow(context);
+                      },
+                      child: Center(
+                        child: Text(
+                          "Free Verison",
+                          style: kBubblegum_sans20.copyWith(
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
             ),
+
             SafeArea(
               child: StreamBuilder<Parent>(
                   stream: authBloc.parentSession,
@@ -155,42 +187,43 @@ class _ParentDashboardState extends State<ParentDashboard> {
                                   SizedBox(
                                     height: 15,
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 15),
-                                    child: GestureDetector(
-                                      onTap: () => Navigator.pushNamed(
-                                          context, kWatchSchdeuleRoute),
-                                      child: Container(
-                                        padding: EdgeInsets.all(15),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          color: kPurpleColor,
-                                        ),
-                                        child: Row(
-                                          children: <Widget>[
-                                            SvgPicture.asset(
-                                                'images/svgs/schedule.svg'),
-                                            SizedBox(
-                                              width: 15,
-                                            ),
-                                            Column(
-                                              children: <Widget>[
-                                                Text(
-                                                  "Watch Schedule",
-                                                  style: kBubblegum_sans32
-                                                      .copyWith(
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
+                                  // Padding(
+                                  //   padding: const EdgeInsets.symmetric(
+                                  //       horizontal: 15),
+                                  //   child: GestureDetector(
+                                  //     onTap: () => Navigator.pushNamed(
+                                  //         context, kWatchSchdeuleRoute),
+                                  //     child: Container(
+                                  //       padding: EdgeInsets.all(15),
+                                  //       decoration: BoxDecoration(
+                                  //         borderRadius:
+                                  //             BorderRadius.circular(8),
+                                  //         color: kPurpleColor,
+                                  //       ),
+                                  //       child: Row(
+                                  //         children: <Widget>[
+                                  //           SvgPicture.asset(
+                                  //               'images/svgs/schedule.svg'),
+                                  //           SizedBox(
+                                  //             width: 15,
+                                  //           ),
+                                  //           Column(
+                                  //             children: <Widget>[
+                                  //               Text(
+                                  //                 "Watch Schedule",
+                                  //                 style: kBubblegum_sans32
+                                  //                     .copyWith(
+                                  //                   color: Colors.white,
+                                  //                 ),
+                                  //               ),
+                                  //             ],
+                                  //           )
+                                  //         ],
+                                  //       ),
+                                  //     ),
+                                  //   ),
+                                  // ),
+
                                   SizedBox(
                                     height: 15,
                                   ),

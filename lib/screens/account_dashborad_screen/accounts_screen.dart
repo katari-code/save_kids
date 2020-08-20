@@ -109,7 +109,7 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
                       alignment: Alignment.center,
                       child: Text(
                         'One last step ..  ',
-                        style: kBubblegum_sans28,
+                        style: kBubblegum_sans24,
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -126,7 +126,7 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
                 SizedBox(height: 40),
                 Container(
                   height: 58.00,
-                  width: 100.00,
+                  width: 200.00,
                   decoration: BoxDecoration(
                     color: kBlueDarkColor,
                     borderRadius: BorderRadius.circular(84.00),
@@ -146,7 +146,7 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
                         "Refresh",
                         style: GoogleFonts.bubblegumSans(
                           textStyle:
-                              kBubblegum_sans20.copyWith(color: Colors.white),
+                              kBubblegum_sans24.copyWith(color: Colors.white),
                         ),
                       ),
                     ),
@@ -155,7 +155,7 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
                 SizedBox(height: 20),
                 Container(
                   height: 58.00,
-                  width: 250.00,
+                  width: 200.00,
                   decoration: BoxDecoration(
                     color: Color(0xfffcbf1e),
                     borderRadius: BorderRadius.circular(84.00),
@@ -164,10 +164,10 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
                     onPressed: () => accountDashBloc.sendEmailVerification,
                     child: Center(
                       child: Text(
-                        "Send Verification Email",
+                        "Send the Email again",
                         style: GoogleFonts.bubblegumSans(
                           textStyle:
-                              kBubblegum_sans24.copyWith(color: Colors.white),
+                              kBubblegum_sans20.copyWith(color: Colors.white),
                         ),
                       ),
                     ),

@@ -18,7 +18,7 @@ class _SpalschScreenState extends State<SpalschScreen> {
     if (result != null) {
       Navigator.pushReplacementNamed(context, kChildAccountRoute);
     } else
-      Navigator.pushReplacementNamed(context, kSignInRoute);
+      Navigator.pushReplacementNamed(context, kOnboradingScreen);
   }
 
   @override

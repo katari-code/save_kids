@@ -18,6 +18,8 @@ import 'package:save_kids/bloc/watch_schedule_bloc.dart';
 import 'package:save_kids/models/child_avatar.dart';
 
 import 'package:provider/provider.dart';
+import 'package:save_kids/screens/onboarding_screen/onboarding_builder.dart';
+import 'package:save_kids/screens/splash_screen/splash_screen.dart';
 import 'package:save_kids/util/constant.dart';
 
 import 'package:save_kids/util/preference/prefs_singleton.dart';
@@ -105,7 +107,6 @@ class MyApp extends StatelessWidget {
           onGenerateRoute: (RouteSettings settings) {
             return createRoute(settings);
           },
-          // home: ChildMainViedoList(),
         ),
       ),
     );

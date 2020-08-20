@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="119.574" height="119.574" viewBox="0 0 119.574 119.574">
+  <g id="Group_1" data-name="Group 1" transform="translate(161 126)">
+    <g id="Group_2" data-name="Group 2" transform="translate(145 -427.426)">
+      <path id="Path_6" data-name="Path 6" d="M59.787,0A59.787,59.787,0,1,1,0,59.787,59.787,59.787,0,0,1,59.787,0Z" transform="translate(-306 301.426)" fill="#fff"/>
+      <path id="Path_5" data-name="Path 5" d="M55.2,0A55.2,55.2,0,1,1,0,55.2,55.2,55.2,0,0,1,55.2,0Z" transform="translate(-301 305.593)" fill="#c600ff"/>
+    </g>
+    <path id="Icon_open-account-logout" data-name="Icon open-account-logout" d="M20.512,0V6.837h27.35V41.025H20.512v6.837H54.7V0ZM13.675,13.675,0,23.931,13.675,34.187V27.35h27.35V20.512H13.675Z" transform="translate(-129 -90)" fill="#fff"/>
+  </g>
+</svg>
