@@ -143,7 +143,7 @@ Future buildShowModeDialog(BuildContext context) {
                     height: 30,
                   ),
                   Text(
-                    "your time is end today",
+                    "your time is up for today",
                     textAlign: TextAlign.center,
                     style: kBubblegum_sans32.copyWith(color: Colors.white),
                   ),

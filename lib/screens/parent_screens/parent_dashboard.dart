@@ -76,7 +76,7 @@ class _ParentDashboardState extends State<ParentDashboard> {
               onTap: () async {
                 await AuthServiceProvider().signOut();
                 Navigator.pushNamedAndRemoveUntil(
-                    context, kSignInRoute, (route) => false);
+                    context, kOnboradingScreen, (route) => false);
               },
               child: SvgPicture.asset(
                 "images/svgs/logout.svg",
