@@ -1,15 +1,15 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
-import 'package:logger/logger.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:save_kids/models/category.dart';
 import 'package:save_kids/models/child.dart';
+import 'package:save_kids/models/schedule.dart';
 import 'package:save_kids/models/timer.dart';
 import 'package:save_kids/models/video.dart';
 import 'package:save_kids/services/repository.dart';
 import 'package:save_kids/util/style.dart';
 
-class ChildVideoListBloc extends BlocBase {
-  ChildVideoListBloc() {
+class ChildVideoListWSBloc extends BlocBase {
+  ChildVideoListWSBloc() {
     changeCategory(categories[0]);
     timer.addStream(changeTimer);
     child.addStream(changeChild);
@@ -20,11 +20,13 @@ class ChildVideoListBloc extends BlocBase {
   Repository _videoRepo = Repository();
   Repository _repository = Repository<Child>(collection: 'children');
   Repository _childRepo = Repository<Child>(collection: 'children');
+  Repository _schedulerepository = Repository<Schedule>(collection: 'schedule');
 
   BehaviorSubject<Timer> timer = BehaviorSubject<Timer>();
   Timer localTimer;
   BehaviorSubject<Child> child = BehaviorSubject<Child>();
   BehaviorSubject<String> childId = BehaviorSubject<String>();
+  BehaviorSubject<DateTime> chosenDate = BehaviorSubject<DateTime>();
 
   BehaviorSubject<List<String>> videosList = BehaviorSubject<List<String>>();
   final _category = BehaviorSubject<Category>();
@@ -42,6 +44,18 @@ class ChildVideoListBloc extends BlocBase {
   Stream<Category> get streamCategory => _category.stream;
   Stream<Child> getChild(String id) {
     return _childRepo.getDocument(Child(), id);
+  }
+
+  Stream<List<Schedule>> get changeSchedule {
+    return child.switchMap<List<Schedule>>((child) {
+      return chosenDate.switchMap((date) {
+        if (date != null && child != null) {
+          return _schedulerepository.getSchedules(childId.value, date);
+        } else {
+          return BehaviorSubject.seeded([]);
+        }
+      });
+    });
   }
 
   get changeTimer {
@@ -127,7 +141,7 @@ class ChildVideoListBloc extends BlocBase {
     _category.drain();
     print('disposing');
     timer.drain();
-
+    videosList.drain();
     localTimer = null;
     super.dispose();
   }

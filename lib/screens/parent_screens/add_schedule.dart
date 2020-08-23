@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:save_kids/bloc/add_schedule_bloc.dart';
-import 'package:save_kids/components/parent_components/category_chip.dart';
 import 'package:save_kids/components/parent_components/chip_time_picker.dart';
 import 'package:save_kids/models/category.dart';
 
@@ -58,7 +57,7 @@ class _AddScheduleState extends State<AddSchedule> {
                             buildTitleForm(),
                             Center(
                               child: Text(
-                                '${addScheduleBloc.daysOfWeek[DateTime.now().weekday]}',
+                                '${addScheduleBloc.daysOfWeek[DateTime.now().weekday - 1]}',
                                 style: kBubblegum_sans28.copyWith(
                                     color: kRedColor),
                               ),
@@ -90,14 +89,32 @@ class _AddScheduleState extends State<AddSchedule> {
                             SizedBox(
                               height: 20,
                             ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 20),
+                              child: Text(
+                                'Customize the experiences :',
+                                textAlign: TextAlign.start,
+                                style: kBubblegum_sans28.copyWith(
+                                    color: kBlueDarkColor),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 15,
+                            ),
                             buildSpecifyChips(addScheduleBloc),
                             SizedBox(
                               height: 20,
                             ),
+                            StreamBuilder<bool>(
+                                initialData: false,
+                                stream: addScheduleBloc.isValidate,
+                                builder: (context, snapshot) {
+                                  return buildButton(
+                                      addScheduleBloc, snapshot.data);
+                                }),
                             SizedBox(
-                              height: 25,
+                              height: 15,
                             ),
-                            buildButton(addScheduleBloc)
                           ],
                         ),
                       ),
@@ -123,10 +140,13 @@ class _AddScheduleState extends State<AddSchedule> {
         SizedBox(
           width: 18,
         ),
-        Icon(
-          Icons.cancel,
-          size: 32,
-          color: kRedColor,
+        GestureDetector(
+          onTap: () => Navigator.pop(context),
+          child: Icon(
+            Icons.cancel,
+            size: 32,
+            color: kRedColor,
+          ),
         )
       ],
     );
@@ -164,14 +184,25 @@ class _AddScheduleState extends State<AddSchedule> {
             runSpacing: 10,
             spacing: 10,
             children: List<Widget>.generate(categories.length, (index) {
-              return GestureDetector(
-                onTap: () => addScheduleBloc
-                    .addChosenCategories(categories[index].categoryName),
-                child: CategoryChip(
-                    categories[index].color,
-                    categories[index].categoryName,
-                    categories[index].isSelected),
-              );
+              if (index != 0)
+                return GestureDetector(
+                  onTap: () {
+                    addScheduleBloc
+                        .addChosenCategories(categories[index].categoryName);
+                  },
+                  child: CircleAvatar(
+                    backgroundColor: categories[index].isSelected
+                        ? Colors.yellow
+                        : Colors.transparent,
+                    maxRadius: 40,
+                    child: Container(
+                      child: Image.network(categories[index].imgURl),
+                    ),
+                  ),
+                );
+              else {
+                return Text("");
+              }
             }),
           );
         });
@@ -224,17 +255,30 @@ class _AddScheduleState extends State<AddSchedule> {
             if (result != null) addScheduleBloc.addChosenChannels(result);
           },
           child: Container(
-            height: 40,
-            width: 150,
+            height: 50,
             alignment: Alignment.center,
             decoration: BoxDecoration(
               color: Color(0xFF40BAD5),
               borderRadius: BorderRadius.circular(20.00),
             ),
-            child: Text(
-              'Specify channels',
-              style: kBubblegum_sans20.copyWith(
-                color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Text(
+                    'Specify channels',
+                    style: kBubblegum_sans20.copyWith(
+                      color: Colors.white,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  CircleAvatar(
+                    backgroundColor: Colors.transparent,
+                    child: SvgPicture.asset('images/svgs/channel.svg'),
+                  ),
+                ],
               ),
             ),
           ),
@@ -246,17 +290,30 @@ class _AddScheduleState extends State<AddSchedule> {
             if (result != null) addScheduleBloc.addChosenVideos(result);
           },
           child: Container(
-            height: 40,
-            width: 150,
+            height: 50,
             alignment: Alignment.center,
             decoration: BoxDecoration(
               color: Color(0xFF40BAD5),
               borderRadius: BorderRadius.circular(20.00),
             ),
-            child: Text(
-              'Specify Videos',
-              style: kBubblegum_sans20.copyWith(
-                color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Specify Videos',
+                    style: kBubblegum_sans20.copyWith(
+                      color: Colors.white,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  CircleAvatar(
+                    backgroundImage: AssetImage('images/viedos.png'),
+                  ),
+                ],
               ),
             ),
           ),
@@ -265,7 +322,7 @@ class _AddScheduleState extends State<AddSchedule> {
     );
   }
 
-  Container buildButton(AddScheduleBloc addScheduleBloc) {
+  Container buildButton(AddScheduleBloc addScheduleBloc, bool isValidate) {
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: 100,
@@ -273,17 +330,20 @@ class _AddScheduleState extends State<AddSchedule> {
       child: RaisedButton(
         textColor: Colors.white,
         padding: EdgeInsets.symmetric(vertical: 18),
-        color: kBlueDarkColor,
-        onPressed: () async {
-          addScheduleBloc.childId = widget.childId;
-          await addScheduleBloc.addSchedule(widget.dateTime);
-          Navigator.pop(context);
-        },
+        color: isValidate ? kBlueDarkColor : Colors.grey,
+        onPressed: isValidate
+            ? () async {
+                addScheduleBloc.childId = widget.childId;
+                await addScheduleBloc.addSchedule(widget.dateTime);
+
+                Navigator.pop(context);
+              }
+            : () {},
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.00),
         ),
         child: Text(
-          'ADD',
+          'Add To Schedule',
           style: kBubblegum_sans24.copyWith(
             fontSize: 21,
             color: Colors.white,

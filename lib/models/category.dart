@@ -35,7 +35,7 @@ final categoriesList = [
     'Explore for kids',
     color: kYellowColor,
     index: 0,
-    isSelected: true,
+    isSelected: false,
     imgURl:
         "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/categories%2Fccexploer.png?alt=media&token=f7ecff35-9621-4f14-9e4c-8dd60c204605",
   ),
@@ -44,7 +44,7 @@ final categoriesList = [
     'science for kids',
     index: 1,
     color: kYellowColor,
-    isSelected: true,
+    isSelected: false,
     imgURl:
         "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/categories%2Fceducation%408x.png?alt=media&token=b6250206-7d7e-452b-91b7-fd40bc847ac1",
     v1: "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/categories%2Fedu_v2.svg?alt=media&token=a719a517-20f9-47ed-8f0d-a13d24248acd",
@@ -55,7 +55,7 @@ final categoriesList = [
     'Shows for kids',
     index: 2,
     color: kYellowColor,
-    isSelected: true,
+    isSelected: false,
     imgURl:
         "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/categories%2Fcshows%408x.png?alt=media&token=a1d71049-0fc7-43e6-b331-c3480f00e25e",
   ),
@@ -64,7 +64,7 @@ final categoriesList = [
     'science for kids',
     color: kYellowColor,
     index: 3,
-    isSelected: true,
+    isSelected: false,
     imgURl:
         "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/categories%2Fcmusic%408x.png?alt=media&token=0626f186-a4f2-4672-bd1e-1610d911c986",
   ),

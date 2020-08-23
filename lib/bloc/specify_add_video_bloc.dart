@@ -12,6 +12,7 @@ class SpecifyAddVideoBloc extends BlocBase {
   SpecifyAddVideoBloc() {
     languages.forEach((element) => print(element.lnName));
     _language.sink.add(languages[0]);
+    _videoList.sink.add([]);
   }
 
   String _pageToken = '';

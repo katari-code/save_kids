@@ -1,17 +1,25 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
+import 'package:logger/logger.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:save_kids/models/child.dart';
 import 'package:save_kids/models/parent.dart';
 import 'package:save_kids/services/repository.dart';
 
 class ParentDashBoardBloc extends BlocBase {
+  Repository _childRepo = Repository<Child>(collection: 'children');
   Repository _repository = Repository<Parent>(collection: 'parent');
+  String parentId;
 
   ParentDashBoardBloc() {
     parent.addStream(changeParent);
+    children.addStream(_changeChildren);
+    parentSession.map((event) => parentId = event.id);
   }
+  BehaviorSubject<List<Child>> children = BehaviorSubject<List<Child>>();
   BehaviorSubject<Parent> parent = BehaviorSubject<Parent>();
+  Stream<Parent> get parentSession => _repository.authSession;
 
-  get changeParent {
+  Stream<Parent> get changeParent {
     return parentSession.switchMap((value) {
       if (value != null) {
         return _repository.getDocument(Parent(), value.id);
@@ -20,5 +28,36 @@ class ParentDashBoardBloc extends BlocBase {
     });
   }
 
-  Stream<Parent> get parentSession => _repository.authSession;
+  Stream<List<Child>> get _changeChildren {
+    return parentSession.switchMap((value) {
+      if (value != null) {
+        return _childRepo.getDocumentByQuery(Child(), 'parentId', value.id);
+      } else {
+        return BehaviorSubject.seeded([]);
+      }
+    });
+  }
+
+  Future deleteChild(String childId) async {
+    return _childRepo.deleteDocument(Child(), childId);
+  }
+
+  Future changeMode(String childId, int index) async {
+    Child getChild = await _childRepo.getDocument(Child(), childId).first;
+
+    if (index == 0) {
+      Logger().i(index);
+      Child updatedChild = getChild..type = "exploratory";
+      await _childRepo.setDocument(updatedChild, updatedChild.id);
+    } else {
+      Logger().i(index);
+      Child updatedChild = getChild..type = "WC";
+      await _childRepo.setDocument(updatedChild, updatedChild.id);
+    }
+  }
+
+  @override
+  void dispose() async {
+    super.dispose();
+  }
 }

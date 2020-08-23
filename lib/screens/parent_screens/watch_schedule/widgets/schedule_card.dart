@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import 'package:save_kids/models/schedule.dart';
-import 'package:save_kids/models/schedule_data.dart';
-
 import 'package:save_kids/util/style.dart';
 
 class ScheduleCard extends StatelessWidget {
@@ -46,8 +43,8 @@ class ScheduleCard extends StatelessWidget {
                     //-- -- -- -- -- --//
                     Text(
                       DateFormat.jm().format(schedule.dateStart),
-                      style: kBubblegum_sans20.copyWith(
-                        fontSize: 24,
+                      style: kBubblegum_sans24.copyWith(
+                        color: Colors.white,
                       ),
                     ),
                     SizedBox(
@@ -62,8 +59,8 @@ class ScheduleCard extends StatelessWidget {
                     ),
                     Text(
                       DateFormat.jm().format(schedule.dateEnd),
-                      style: kBubblegum_sans20.copyWith(
-                        fontSize: 24,
+                      style: kBubblegum_sans24.copyWith(
+                        color: Colors.white,
                       ),
                     ),
                   ],
@@ -84,8 +81,7 @@ class ScheduleCard extends StatelessWidget {
                   runSpacing: 10,
                   children: List<Widget>.generate(schedule.categories.length,
                       (index) {
-                    return ShowTimeCategory(
-                        schedule.categories[index], kRedDarkColor);
+                    return ShowTimeCategory(schedule.categories[index]);
                   })),
             )
           ],
@@ -96,28 +92,17 @@ class ScheduleCard extends StatelessWidget {
 }
 
 class ShowTimeCategory extends StatelessWidget {
-  final Color color;
   final String name;
-  ShowTimeCategory(this.name, this.color);
+  ShowTimeCategory(this.name);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(2),
-      padding: EdgeInsets.all(5),
-      width: 100,
-      height: 50,
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Center(
-        child: Text(
-          name,
-          textAlign: TextAlign.center,
-          style: kBubblegum_sans20.copyWith(
-            color: Colors.white,
-          ),
+      child: CircleAvatar(
+        maxRadius: 28,
+        backgroundColor: Colors.transparent,
+        child: Container(
+          child: Image.network(name),
         ),
       ),
     );

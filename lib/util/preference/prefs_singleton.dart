@@ -1,6 +1,7 @@
 import 'dart:async' show Future;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:translator/translator.dart';
+import 'package:cron/cron.dart';
 
 class PreferenceUtils {
   static Future<SharedPreferences> get _instance async =>

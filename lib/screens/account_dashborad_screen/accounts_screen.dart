@@ -4,10 +4,12 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bloc_pattern/bloc_pattern.dart';
+import 'package:logger/logger.dart';
 import 'package:save_kids/bloc/account_dashboard_bloc.dart';
 import 'package:save_kids/components/control_widgets/progress_bar.dart';
 import 'package:save_kids/models/child.dart';
 import 'package:save_kids/models/parent.dart';
+import 'package:save_kids/models/schedule.dart';
 import 'package:save_kids/screens/child_display_videos/widget/childTimer.dart';
 import 'package:save_kids/util/constant.dart';
 import 'package:simple_animations/simple_animations.dart';
@@ -223,28 +225,6 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
                           ],
                         ),
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          setState(
-                            () {
-                              editMode = !editMode;
-                            },
-                          );
-                        },
-                        child: Column(
-                          children: [
-                            SvgPicture.asset(
-                              "images/svgs/edit.svg",
-                              height: 65,
-                            ),
-                            Text(
-                              "Edit",
-                              style: kBubblegum_sans24.copyWith(
-                                  color: Colors.white),
-                            )
-                          ],
-                        ),
-                      ),
                     ],
                   ),
                 ),
@@ -257,174 +237,104 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
                       return Container(
                         child: Wrap(
                           children: List<Widget>.generate(
-                            snapshot.data.length == 4
-                                ? snapshot.data.length
-                                : snapshot.data.length + 1,
-                            (index) => snapshot.data.length == 4
-                                ? Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: CustomAnimation(
-                                      duration: Duration(milliseconds: 800),
-                                      delay: Duration(
-                                        milliseconds: (800 * 2).round(),
-                                      ),
-                                      curve: Curves.elasticOut,
-                                      tween: Tween<double>(
-                                        begin: 0,
-                                        end: 1,
-                                      ),
-                                      builder: (context, child, value) =>
-                                          GestureDetector(
-                                        onTap: () {
+                            snapshot.data.length,
+                            (index) => Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: CustomAnimation(
+                                duration: Duration(milliseconds: 800),
+                                delay: Duration(
+                                  milliseconds: (800 * 2).round(),
+                                ),
+                                curve: Curves.elasticOut,
+                                tween: Tween<double>(
+                                  begin: 0,
+                                  end: 1,
+                                ),
+                                builder: (context, child, value) =>
+                                    Transform.scale(
+                                  scale: value,
+                                  child: GestureDetector(
+                                    onTap: () async {
+                                      if (snapshot.data[index].type ==
+                                          "exploratory") {
+                                        if (snapshot
+                                                .data[index].timer.isComplete ==
+                                            true) {
+                                          await buildShowModeDialog(context);
+                                        } else if (snapshot
+                                                .data[index].timer.isComplete ==
+                                            false) {
                                           Navigator.pushNamed(
                                               context, kVideoDisplayRoute,
                                               arguments:
                                                   snapshot.data[index].id);
-                                        },
-                                        child: Column(children: <Widget>[
-                                          Stack(
-                                            alignment: Alignment.center,
+                                        }
+                                      } else if (snapshot.data[index].type ==
+                                          "WC") {
+                                        accountDashBloc.changeChosenChild(
+                                            snapshot.data[index].id);
+                                        accountDashBloc.chosenDate
+                                            .add(DateTime.now());
+                                        List<Schedule> schss =
+                                            await accountDashBloc
+                                                .changeSchedule.first;
+
+                                        Logger().i(schss[0]
+                                            .dateStart
+                                            .difference(DateTime.now())
+                                            .inSeconds);
+                                        Logger().i(schss[0]
+                                                .dateEnd
+                                                .difference(DateTime.now())
+                                                .inSeconds /
+                                            60);
+
+                                        if (schss[0]
+                                                .dateStart
+                                                .isBefore(DateTime.now()) &&
+                                            schss[0]
+                                                .dateStart
+                                                .isAfter(DateTime.now())) {
+                                          Logger().i("ShowTime");
+                                        } else {
+                                          Logger().i("not show time");
+                                        }
+                                        StreamBuilder<List<Schedule>>(
+                                            stream: accountDashBloc
+                                                .schedules.stream,
+                                            builder: (context, snapshot) {
+                                              if (snapshot.hasData) {
+                                                Logger().d(
+                                                    snapshot.data[0].childId);
+                                              } else {
+                                                Logger().d("koss");
+                                              }
+                                            });
+                                      }
+                                    },
+                                    child: Column(
+                                      children: <Widget>[
+                                        Stack(
                                             overflow: Overflow.visible,
-                                            children: editMode
-                                                ? _displayMode(
-                                                    snapshot
-                                                        .data[index].imagePath,
-                                                  )
-                                                : _editMode(
-                                                    snapshot.data[index].id,
-                                                    snapshot
-                                                        .data[index].imagePath,
-                                                    accountDashBloc,
-                                                  ),
-                                          ),
-                                          Text(
-                                            snapshot.data[index].name,
-                                            style: GoogleFonts.bubblegumSans(
-                                              textStyle:
-                                                  kBubblegum_sans28.copyWith(
-                                                      color: kBlueDarkColor),
+                                            alignment: Alignment.center,
+                                            children: _displayMode(
+                                              snapshot.data[index].imagePath,
+                                            )),
+                                        Text(
+                                          snapshot.data[index].name,
+                                          style: GoogleFonts.bubblegumSans(
+                                            textStyle:
+                                                kBubblegum_sans28.copyWith(
+                                              color: kBlueDarkColor,
                                             ),
                                           ),
-                                        ]),
-                                      ),
+                                        ),
+                                      ],
                                     ),
-                                  )
-                                : index == snapshot.data.length
-                                    ? Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: CustomAnimation(
-                                          duration: Duration(milliseconds: 800),
-                                          delay: Duration(
-                                            milliseconds: (800 * 2).round(),
-                                          ),
-                                          curve: Curves.elasticOut,
-                                          tween: Tween<double>(
-                                            begin: 0,
-                                            end: 1,
-                                          ),
-                                          builder: (context, child, value) =>
-                                              Transform.scale(
-                                            scale: value,
-                                            child: GestureDetector(
-                                              onTap: () => Navigator.pushNamed(
-                                                  context,
-                                                  kAddChildProfileRoute),
-                                              child: Column(
-                                                children: <Widget>[
-                                                  Stack(
-                                                    alignment: Alignment.center,
-                                                    children: <Widget>[
-                                                      CircleAvatar(
-                                                        radius: 45,
-                                                        backgroundColor:
-                                                            kYellowColor,
-                                                      ),
-                                                      Icon(
-                                                        Icons.add,
-                                                        color: Colors.white,
-                                                        size: 70,
-                                                      )
-                                                    ],
-                                                  ),
-                                                  Text(
-                                                    "Create profile",
-                                                    style: kBubblegum_sans24
-                                                        .copyWith(
-                                                            color:
-                                                                Colors.black),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                    : Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: CustomAnimation(
-                                          duration: Duration(milliseconds: 800),
-                                          delay: Duration(
-                                            milliseconds: (800 * 2).round(),
-                                          ),
-                                          curve: Curves.elasticOut,
-                                          tween: Tween<double>(
-                                            begin: 0,
-                                            end: 1,
-                                          ),
-                                          builder: (context, child, value) =>
-                                              Transform.scale(
-                                            scale: value,
-                                            child: GestureDetector(
-                                              onTap: () async {
-                                                if (snapshot.data[index].timer
-                                                        .isComplete ==
-                                                    true) {
-                                                  await buildShowModeDialog(
-                                                      context);
-                                                } else if (snapshot.data[index]
-                                                        .timer.isComplete ==
-                                                    false) {
-                                                  Navigator.pushNamed(context,
-                                                      kVideoDisplayRoute,
-                                                      arguments: snapshot
-                                                          .data[index].id);
-                                                }
-                                              },
-                                              child: Column(
-                                                children: <Widget>[
-                                                  Stack(
-                                                    overflow: Overflow.visible,
-                                                    alignment: Alignment.center,
-                                                    children: editMode
-                                                        ? _displayMode(
-                                                            snapshot.data[index]
-                                                                .imagePath,
-                                                          )
-                                                        : _editMode(
-                                                            snapshot
-                                                                .data[index].id,
-                                                            snapshot.data[index]
-                                                                .imagePath,
-                                                            accountDashBloc,
-                                                          ),
-                                                  ),
-                                                  Text(
-                                                    snapshot.data[index].name,
-                                                    style: GoogleFonts
-                                                        .bubblegumSans(
-                                                      textStyle:
-                                                          kBubblegum_sans28
-                                                              .copyWith(
-                                                        color: kBlueDarkColor,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                       );
@@ -440,12 +350,12 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
 _displayMode(String imgUrl) {
   List<Widget> _displayMode = [
     CircleAvatar(
-      radius: 50,
+      radius: 60,
       backgroundColor: kYellowColor,
     ),
     CircleAvatar(
       backgroundColor: Colors.white,
-      radius: 45,
+      radius: 55,
       backgroundImage: NetworkImage(
         imgUrl,
       ),

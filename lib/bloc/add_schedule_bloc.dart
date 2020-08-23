@@ -23,11 +23,13 @@ class AddScheduleBloc extends BlocBase {
   final _chosenVideos = BehaviorSubject<List<Video>>();
   final _chosenChannels = BehaviorSubject<List<Channel>>();
   final _timeStart = BehaviorSubject<TimeOfDay>();
+  final _isValidate = BehaviorSubject<bool>();
   final _timeEnd = BehaviorSubject<TimeOfDay>();
   final duration = BehaviorSubject<String>();
   final _categories = BehaviorSubject<List<Category>>();
   Function(List<Video>) get addChosenVideos => _chosenVideos.sink.add;
   Function(List<Channel>) get addChosenChannels => _chosenChannels.sink.add;
+  Function(bool) get changeIsValidate => _isValidate.sink.add;
   Function(List) get addCategories => _categories.sink.add;
   addChosenCategories(String categoryName) {
     List<Category> categoryList = _categories.value.map((category) {
@@ -52,6 +54,7 @@ class AddScheduleBloc extends BlocBase {
 
   Stream<TimeOfDay> get timeStart => _timeStart.stream;
   Stream<TimeOfDay> get timeEnd => _timeEnd.stream;
+  Stream<bool> get isValidate => _isValidate.stream;
 
   Stream<List<Category>> get categoryList => _categories.stream;
   double toDouble(TimeOfDay myTime) {
@@ -64,9 +67,10 @@ class AddScheduleBloc extends BlocBase {
   uptimeDuration() {
     final start = toDouble(_timeStart.value);
     final end = toDouble(_timeEnd.value);
+
     if (start < end) {
       final result = end - start;
-      var tag = "";
+      var tag = " ";
       double decimal = result - result.floor();
       String mins = (decimal * 60).floor().toString();
 
@@ -74,7 +78,11 @@ class AddScheduleBloc extends BlocBase {
           ? result.floor() > 1 ? tag = "hours" : tag = "hour"
           : tag = "mins";
 
-      duration.add("${result.floor()} : $mins  $tag");
+      duration.add("${result.floor()} : $mins $tag");
+      changeIsValidate(true);
+    } else {
+      duration.add("you pick time on the past");
+      changeIsValidate(false);
     }
   }
 
@@ -91,7 +99,7 @@ class AddScheduleBloc extends BlocBase {
     // Logger().i(dateSt, dateTime);
     List<String> categories = _categories.value
         .where((event) => event.isSelected == true)
-        .map((e) => e.search)
+        .map((e) => e.imgURl)
         .toList();
     Schedule schedule = Schedule(
       categories: categories ?? [],
@@ -109,8 +117,8 @@ class AddScheduleBloc extends BlocBase {
     _chosenVideos.drain();
     _chosenChannels.drain();
     _timeStart.drain();
+    _isValidate.drain();
     _timeEnd.drain();
-
     _categories.drain();
     super.dispose();
   }

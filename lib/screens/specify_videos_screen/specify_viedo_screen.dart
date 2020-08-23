@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:save_kids/bloc/specify_add_video_bloc.dart';
 import 'package:save_kids/models/video.dart';
-import 'package:save_kids/screens/child_display_videos/video_player_screen/video_player_screen.dart';
 import 'package:save_kids/screens/child_display_videos/video_player_screen_copy/video_player_screen.dart';
 import 'package:save_kids/util/style.dart';
 import 'package:simple_animations/simple_animations.dart';

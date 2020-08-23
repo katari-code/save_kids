@@ -22,6 +22,7 @@ class WatchScheduleBloc extends BlocBase {
   changeChosenChild(String chosenChildId) {
     chosenChild.add(chosenChildId);
   }
+
   changeChosenDate(DateTime date) {
     chosenDate.add(date);
   }

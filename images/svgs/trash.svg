@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="119.574" height="119.574" viewBox="0 0 119.574 119.574">
+  <g id="Group_2" data-name="Group 2" transform="translate(306 -301.426)">
+    <path id="Path_6" data-name="Path 6" d="M59.787,0A59.787,59.787,0,1,1,0,59.787,59.787,59.787,0,0,1,59.787,0Z" transform="translate(-306 301.426)" fill="#fff"/>
+    <path id="Path_5" data-name="Path 5" d="M55.2,0A55.2,55.2,0,1,1,0,55.2,55.2,55.2,0,0,1,55.2,0Z" transform="translate(-301 305.593)" fill="#c600ff"/>
+    <g id="Icon_feather-trash-2" data-name="Icon feather-trash-2" transform="translate(-277.65 327.854)">
+      <path id="Path_2" data-name="Path 2" d="M4.5,9H56.65" transform="translate(0 5.589)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+      <path id="Path_3" data-name="Path 3" d="M48.061,14.589V55.15a5.794,5.794,0,0,1-5.794,5.794H13.294A5.794,5.794,0,0,1,7.5,55.15V14.589m8.692,0V8.794A5.794,5.794,0,0,1,21.986,3H33.575a5.794,5.794,0,0,1,5.794,5.794v5.794" transform="translate(2.794)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+      <path id="Path_4" data-name="Path 4" d="M15,16.5V33.883" transform="translate(9.781 12.575)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+      <path id="Path_5-2" data-name="Path 5" d="M21,16.5V33.883" transform="translate(15.369 12.575)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+    </g>
+  </g>
+</svg>

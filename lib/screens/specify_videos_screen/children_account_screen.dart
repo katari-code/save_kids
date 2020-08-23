@@ -1,8 +1,6 @@
-import 'dart:convert';
-
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
 import 'package:save_kids/bloc/kids_accounts_specify_video_bloc.dart';
@@ -14,6 +12,7 @@ import 'package:save_kids/util/constant.dart';
 import 'package:save_kids/util/preference/prefs_singleton.dart';
 import 'package:save_kids/util/style.dart';
 import 'package:simple_animations/simple_animations.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ChildrenScreenAccounts extends StatelessWidget {
   @override

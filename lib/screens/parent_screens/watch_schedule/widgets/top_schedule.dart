@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:save_kids/models/schedule_data.dart';
+import 'package:save_kids/services/schedule_provider.dart';
 import 'package:save_kids/util/style.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -145,7 +147,6 @@ class _TopCalendarState extends State<TopCalendar>
               return Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  // Spacer(flex: 1,),
                   SizedBox(
                     height: 15,
                   ),
@@ -161,9 +162,7 @@ class _TopCalendarState extends State<TopCalendar>
                 ],
               );
             }),
-            onDaySelected: (date, meeting) {
-              // Provider.of<ScheduleData>(context, listen: false)
-              //     .setcurrentDate(date);
+            onDaySelected: (date, meeting) async {
               widget.chosenDate(date);
               _animationController.forward(from: 0.0);
             },

@@ -1,14 +1,11 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:logger/logger.dart';
 import 'package:provider/provider.dart' as provider;
 import 'package:save_kids/bloc/watch_schedule_bloc.dart';
 import 'package:save_kids/components/control_widgets/progress_bar.dart';
 import 'package:save_kids/models/child.dart';
-import 'package:save_kids/models/parent.dart';
 import 'package:save_kids/models/schedule.dart';
-import 'package:save_kids/models/schedule_data.dart';
 import 'package:save_kids/screens/create_child_profile/create_child_profile.dart';
 import 'package:save_kids/screens/parent_screens/watch_schedule/widgets/avatart_carousel.dart';
 import 'package:save_kids/screens/parent_screens/watch_schedule/widgets/schedule_card.dart';
@@ -155,16 +152,18 @@ class _WatchScheduleState extends State<WatchSchedule> {
                                             DateTime dateTime = date.data;
                                             if (chosenChild != null &&
                                                 dateTime != null &&
-                                                dateTime.isAfter(DateTime.now()
-                                                    .subtract(Duration(
+                                                dateTime.isAfter(
+                                                  DateTime.now().subtract(
+                                                    Duration(
                                                         hours: DateTime.now()
-                                                            .hour)))) {
+                                                            .hour),
+                                                  ),
+                                                )) {
                                               return GestureDetector(
                                                 onTap: () async {
                                                   //check if there is a child
                                                   //dateime is not empy
                                                   //datetime chosen is after current time
-
                                                   await Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
