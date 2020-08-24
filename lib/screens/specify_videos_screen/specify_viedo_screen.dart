@@ -16,6 +16,7 @@ class SpecifyVideoScreen extends StatefulWidget {
 }
 
 class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
+  ScrollController _scrollController = ScrollController();
   @override
   void initState() {
     super.initState();
@@ -23,6 +24,15 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+    SpecifyAddVideoBloc specifyAddVideoBloc =
+        BlocProvider.getBloc<SpecifyAddVideoBloc>();
+    specifyAddVideoBloc.childId.add(widget.childID);
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        specifyAddVideoBloc.getVideoBySearch();
+      }
+    });
   }
 
   @override
@@ -46,10 +56,8 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
             ),
             Consumer<SpecifyAddVideoBloc>(
                 builder: (conext, specifyAddVideoBloc) {
-              List<Video> initVideos = [];
-              specifyAddVideoBloc
-                  .initVideos(widget.childID)
-                  .then((value) => initVideos = value);
+              // specifyAddVideoBloc.getVideosFromDB(widget.childID);
+
               return Center(
                 child: Container(
                   alignment: Alignment.center,
@@ -120,42 +128,78 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
                               enlargeCenterPage: true,
                             ),
                           ),
-                          StreamBuilder<List<Video>>(
-                            initialData: initVideos,
-                            stream: specifyAddVideoBloc.videos,
-                            builder: (context, snapshot) {
-                              List<Video> videos = snapshot.data ?? [];
-                              return Container(
-                                height: MediaQuery.of(context).size.height *
-                                    0.80 /
-                                    1.75,
-                                child: SingleChildScrollView(
-                                  child: Column(
-                                    children: List<CustomAnimation>.generate(
-                                      videos.length,
-                                      (index) => CustomAnimation(
-                                        duration: Duration(milliseconds: 600),
-                                        delay: Duration(
-                                          milliseconds: (500 * 2).round(),
-                                        ),
-                                        curve: Curves.elasticOut,
-                                        tween: Tween<double>(
-                                          begin: 0,
-                                          end: 1,
-                                        ),
-                                        builder: (context, child, value) =>
-                                            Transform.scale(
-                                          scale: value,
-                                          child: buildVideoCard(videos, index,
-                                              specifyAddVideoBloc),
+                          specifyAddVideoBloc.searchResult.value == null
+                              ? StreamBuilder<List<Video>>(
+                                  stream:
+                                      specifyAddVideoBloc.videosFromDB.stream,
+                                  builder: (context, snapshot) {
+                                    List<Video> videos = snapshot.data ?? [];
+                                    return Container(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.80 /
+                                              1.75,
+                                      child: ListView.builder(
+                                        // shrinkWrap: true,
+                                        itemCount: videos.length,
+
+                                        itemBuilder: (context, index) =>
+                                            CustomAnimation(
+                                          duration: Duration(milliseconds: 600),
+                                          delay: Duration(
+                                            milliseconds: (500 * 2).round(),
+                                          ),
+                                          curve: Curves.elasticOut,
+                                          tween: Tween<double>(
+                                            begin: 0,
+                                            end: 1,
+                                          ),
+                                          builder: (context, child, value) =>
+                                              Transform.scale(
+                                            scale: value,
+                                            child: buildVideoCard(videos, index,
+                                                specifyAddVideoBloc),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ),
+                                    );
+                                  },
+                                )
+                              : StreamBuilder<List<Video>>(
+                                  stream: specifyAddVideoBloc.videos,
+                                  builder: (context, snapshot) {
+                                    List<Video> videos = snapshot.data ?? [];
+                                    return Container(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.80 /
+                                              1.75,
+                                      child: ListView.builder(
+                                        // shrinkWrap: true,
+                                        itemCount: videos.length,
+                                        controller: _scrollController,
+                                        itemBuilder: (context, index) =>
+                                            CustomAnimation(
+                                          duration: Duration(milliseconds: 600),
+                                          delay: Duration(
+                                            milliseconds: (500 * 2).round(),
+                                          ),
+                                          curve: Curves.elasticOut,
+                                          tween: Tween<double>(
+                                            begin: 0,
+                                            end: 1,
+                                          ),
+                                          builder: (context, child, value) =>
+                                              Transform.scale(
+                                            scale: value,
+                                            child: buildVideoCard(videos, index,
+                                                specifyAddVideoBloc),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
                                 ),
-                              );
-                            },
-                          ),
                           SizedBox(
                             height: 18,
                           ),
