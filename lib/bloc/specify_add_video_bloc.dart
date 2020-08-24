@@ -33,6 +33,7 @@ class SpecifyAddVideoBloc extends BlocBase {
 
   Function(String) get changeSearchResult => searchResult.sink.add;
   Function(List) get changeVideoList => _videoList.sink.add;
+
   Function(Language) get changeLanguage => _language.sink.add;
 
   get changeChild {
@@ -71,15 +72,27 @@ class SpecifyAddVideoBloc extends BlocBase {
     });
   }
 
-  addChosenVideo(String channelId) {
+  addChosenVideo(String videoId) {
     List<Video> videos = _videoList.value.map((video) {
-      if (video.id == channelId) {
+      if (video.id == videoId) {
         Video editedVideo = video..chosen = !video.chosen;
         return editedVideo;
       }
       return video;
     }).toList();
     return changeVideoList(videos);
+  }
+
+  changeChosenVideosFromDB(String videoId) {
+    List<Video> videos = videosFromDB.value.map((video) {
+      if (video.id == videoId) {
+        Video editedVideo = video..chosen = !video.chosen;
+        return editedVideo;
+      }
+      return video;
+    }).toList();
+    // videosFromDB.sink.add(videos);
+    // videosFromDB.pipe(streamConsumer)
   }
 
   Stream<List<Video>> getChosenVideosDB(List<String> videos) {
@@ -111,7 +124,12 @@ class SpecifyAddVideoBloc extends BlocBase {
         _searchResultTransleated.toString(),
         pageToken: _pageToken);
     _pageToken = map['pageToken'];
-    changeVideoList(map['data']);
+    //page token for videos
+    List<Video> videos = [
+      ..._videoList.value,
+      ...List<Video>.from(map['data']).toList()
+    ].toSet().toList();
+    changeVideoList(videos);
   }
 
   Future updateSpecifyVideos(String childId) async {
@@ -129,7 +147,10 @@ class SpecifyAddVideoBloc extends BlocBase {
   }
 
   List<Video> returnChosenVideos() {
-    return _videoList.value.where((element) => element.chosen == true).toList();
+    return [
+      ..._videoList.value.where((element) => element.chosen == true).toList(),
+      ...videosFromDB.value.where((element) => element.chosen == true).toList()
+    ];
   }
 
   getVideosByToken() async {

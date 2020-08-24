@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
-import 'package:save_kids/models/channel.dart';
 import 'package:save_kids/models/interfaces/i_mapper.dart';
 import 'package:save_kids/models/video.dart';
 import 'package:save_kids/util/keys.dart';
@@ -12,7 +11,7 @@ class YoutubeApiProvider<T> {
   // static final instance = YoutubeApiProvider<T>._constructor();
 
   final baseUrl = "www.googleapis.com";
-  String _nextPageToken = '';
+
   static String pageToken = '';
   final Map<String, String> headers = {
     HttpHeaders.contentTypeHeader: 'application/json',

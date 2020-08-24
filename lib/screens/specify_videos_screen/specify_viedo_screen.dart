@@ -157,8 +157,11 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
                                           builder: (context, child, value) =>
                                               Transform.scale(
                                             scale: value,
-                                            child: buildVideoCard(videos, index,
-                                                specifyAddVideoBloc),
+                                            child: buildVideoCard(
+                                                videos,
+                                                index,
+                                                specifyAddVideoBloc
+                                                    .changeChosenVideosFromDB),
                                           ),
                                         ),
                                       ),
@@ -192,8 +195,11 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
                                           builder: (context, child, value) =>
                                               Transform.scale(
                                             scale: value,
-                                            child: buildVideoCard(videos, index,
-                                                specifyAddVideoBloc),
+                                            child: buildVideoCard(
+                                                videos,
+                                                index,
+                                                specifyAddVideoBloc
+                                                    .addChosenVideo),
                                           ),
                                         ),
                                       ),
@@ -280,7 +286,7 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
   }
 
   Widget buildVideoCard(
-      List<Video> videos, int index, SpecifyAddVideoBloc specifyAddVideoBloc) {
+      List<Video> videos, int index, Function changeChosenVideo) {
     return GestureDetector(
       onLongPress: () => Navigator.push(
         context,
@@ -291,7 +297,8 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
         ),
       ),
       onTap: () {
-        specifyAddVideoBloc.addChosenVideo(videos[index].id);
+        changeChosenVideo(videos[index].id);
+        setState(() {});
       },
       child: Container(
         // height: 105.00,
