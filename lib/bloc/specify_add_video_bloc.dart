@@ -89,7 +89,7 @@ class SpecifyAddVideoBloc extends BlocBase {
       }
       return video;
     }).toList();
-    // videosFromDB.sink.add(videos);
+    videosFromDB.add(videos);
     // videosFromDB.pipe(streamConsumer)
   }
 

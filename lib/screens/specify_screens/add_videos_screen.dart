@@ -13,6 +13,26 @@ class AddVideoScreen extends StatefulWidget {
 
 class _AddVideoScreenState extends State<AddVideoScreen> {
   final languages = ['English', 'French', 'Spanish'];
+  ScrollController _scrollController = ScrollController();
+  AddVideoBloc addVideoBloc = BlocProvider.getBloc<AddVideoBloc>();
+  @override
+  void initState() {
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        addVideoBloc.getVideoBySearch();
+      }
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    addVideoBloc.dispose();
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,27 +125,25 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
                                 height: MediaQuery.of(context).size.height *
                                     0.80 /
                                     1.75,
-                                child: SingleChildScrollView(
-                                  child: Column(
-                                    children: List<CustomAnimation>.generate(
-                                      videos.length,
-                                      (index) => CustomAnimation(
-                                        duration: Duration(milliseconds: 600),
-                                        delay: Duration(
-                                          milliseconds: (500 * 2).round(),
-                                        ),
-                                        curve: Curves.elasticOut,
-                                        tween: Tween<double>(
-                                          begin: 0,
-                                          end: 1,
-                                        ),
-                                        builder: (context, child, value) =>
-                                            Transform.scale(
-                                          scale: value,
-                                          child: buildVideoCard(
-                                              videos, index, addVideoBloc),
-                                        ),
-                                      ),
+                                child: ListView.builder(
+                                  itemCount: videos.length,
+                                  controller: _scrollController,
+                                  itemBuilder: (context, index) =>
+                                      CustomAnimation(
+                                    duration: Duration(milliseconds: 600),
+                                    delay: Duration(
+                                      milliseconds: (500 * 2).round(),
+                                    ),
+                                    curve: Curves.elasticOut,
+                                    tween: Tween<double>(
+                                      begin: 0,
+                                      end: 1,
+                                    ),
+                                    builder: (context, child, value) =>
+                                        Transform.scale(
+                                      scale: value,
+                                      child: buildVideoCard(
+                                          videos, index, addVideoBloc),
                                     ),
                                   ),
                                 ),

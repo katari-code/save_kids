@@ -18,6 +18,26 @@ class AddChannelScreen extends StatefulWidget {
 }
 
 class _AddChannelScreenState extends State<AddChannelScreen> {
+  ScrollController _scrollController = ScrollController();
+  ChannelBloc channelBloc = BlocProvider.getBloc<ChannelBloc>();
+  @override
+  void initState() {
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        channelBloc.getChannelBySearch();
+      }
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    channelBloc.dispose();
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final text = AppLocalizations.of(context);
@@ -36,147 +56,147 @@ class _AddChannelScreenState extends State<AddChannelScreen> {
                 fit: BoxFit.cover,
               ),
             ),
-            Consumer<ChannelBloc>(builder: (context, channelBloc) {
-              return SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          "Channels",
-                          style:
-                              kBubblegum_sans40.copyWith(color: Colors.white),
+            SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        "Channels",
+                        style: kBubblegum_sans40.copyWith(color: Colors.white),
+                      ),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      SvgPicture.asset("images/svgs/channel.svg"),
+                    ],
+                  ),
+                  SizedBox(
+                    width: 40,
+                  ),
+                  SizedBox(
+                    height: 35,
+                  ),
+                  Container(
+                    height: 51.00,
+                    width: 336.00,
+                    decoration: BoxDecoration(
+                      color: Color(0xffffffff),
+                      boxShadow: [
+                        BoxShadow(
+                          offset: Offset(0.00, 2.00),
+                          color: Color(0xff000000).withOpacity(0.10),
+                          blurRadius: 6,
                         ),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        SvgPicture.asset("images/svgs/channel.svg"),
                       ],
+                      borderRadius: BorderRadius.circular(8.00),
                     ),
-                    SizedBox(
-                      width: 40,
-                    ),
-                    SizedBox(
-                      height: 35,
-                    ),
-                    Container(
-                      height: 51.00,
-                      width: 336.00,
-                      decoration: BoxDecoration(
-                        color: Color(0xffffffff),
-                        boxShadow: [
-                          BoxShadow(
-                            offset: Offset(0.00, 2.00),
-                            color: Color(0xff000000).withOpacity(0.10),
-                            blurRadius: 6,
-                          ),
-                        ],
-                        borderRadius: BorderRadius.circular(8.00),
-                      ),
-                      child: StreamBuilder<Object>(
-                          stream: channelBloc.searchResult,
-                          builder: (context, snapshot) {
-                            return TextField(
-                              onChanged: channelBloc.changeSearchResult,
-                              // onSubmitted: ,
-                              decoration: InputDecoration(
-                                errorText: snapshot.error,
-                                prefixIcon: GestureDetector(
-                                  onTap: () => channelBloc.getChannelBySearch(),
-                                  child: Icon(Icons.search),
-                                ),
-                                hintText: "Try music for kids ",
-                                border: InputBorder.none,
+                    child: StreamBuilder<Object>(
+                        stream: channelBloc.searchResult,
+                        builder: (context, snapshot) {
+                          return TextField(
+                            onChanged: channelBloc.changeSearchResult,
+                            // onSubmitted: ,
+                            decoration: InputDecoration(
+                              errorText: snapshot.error,
+                              prefixIcon: GestureDetector(
+                                onTap: () => channelBloc.getChannelBySearch(),
+                                child: Icon(Icons.search),
                               ),
-                            );
-                          }),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    StreamBuilder<Object>(
-                      stream: channelBloc.channels,
-                      builder: (context, snapshot) {
-                        List<Channel> channels = snapshot.data ?? [];
-                        return Column(
-                          children: List<CustomAnimation>.generate(
-                            channels.length,
-                            (index) => CustomAnimation(
-                              duration: Duration(milliseconds: 600),
-                              delay: Duration(
-                                milliseconds: (500 * 2).round(),
-                              ),
-                              curve: Curves.elasticOut,
-                              tween: Tween<double>(
-                                begin: 0,
-                                end: 1,
-                              ),
-                              builder: (context, child, value) =>
-                                  Transform.scale(
-                                scale: value,
-                                child: GestureDetector(
-                                  onTap: () => channelBloc
-                                      .addChosenChannel(channels[index].id),
-                                  child: ChannelCard(
-                                    channelAvatar:
-                                        channels[index].profilePictureUrl,
-                                    channelDes: channels[index].description,
-                                    channelName: channels[index].title,
-                                    isChosen: channels[index].chosen,
-                                  ),
+                              hintText: "Try music for kids ",
+                              border: InputBorder.none,
+                            ),
+                          );
+                        }),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  StreamBuilder<Object>(
+                    stream: channelBloc.channels,
+                    builder: (context, snapshot) {
+                      List<Channel> channels = snapshot.data ?? [];
+                      return Container(
+                        height:
+                            MediaQuery.of(context).size.height * 0.80 / 1.75,
+                        width: 336.00,
+                        child: ListView.builder(
+                          itemCount: channels.length,
+                          controller: _scrollController,
+                          itemBuilder: (context, index) => CustomAnimation(
+                            duration: Duration(milliseconds: 600),
+                            delay: Duration(
+                              milliseconds: (500 * 2).round(),
+                            ),
+                            curve: Curves.elasticOut,
+                            tween: Tween<double>(
+                              begin: 0,
+                              end: 1,
+                            ),
+                            builder: (context, child, value) => Transform.scale(
+                              scale: value,
+                              child: GestureDetector(
+                                onTap: () => channelBloc
+                                    .addChosenChannel(channels[index].id),
+                                child: ChannelCard(
+                                  channelAvatar:
+                                      channels[index].profilePictureUrl,
+                                  channelDes: channels[index].description,
+                                  channelName: channels[index].title,
+                                  isChosen: channels[index].chosen,
                                 ),
                               ),
                             ),
                           ),
-                        );
-                      },
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    GestureDetector(
-                      onTap: () => Navigator.pop(
-                          context, channelBloc.returnChosenChannels()),
-                      child: Stack(
-                        children: <Widget>[
-                          Container(
-                            height: 58.00,
-                            width: 226.00,
-                            decoration: BoxDecoration(
-                              color: Color(0xfff6b039),
-                              borderRadius: BorderRadius.circular(8.00),
-                            ),
+                        ),
+                      );
+                    },
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  GestureDetector(
+                    onTap: () => Navigator.pop(
+                        context, channelBloc.returnChosenChannels()),
+                    child: Stack(
+                      children: <Widget>[
+                        Container(
+                          height: 58.00,
+                          width: 226.00,
+                          decoration: BoxDecoration(
+                            color: Color(0xfff6b039),
+                            borderRadius: BorderRadius.circular(8.00),
                           ),
-                          Positioned(
-                            top: -15,
-                            left: 0,
-                            child: Transform.scale(
-                              scale: 1.25,
-                              child: SvgPicture.asset(
-                                  "images/svgs/mask_button.svg"),
-                            ),
+                        ),
+                        Positioned(
+                          top: -15,
+                          left: 0,
+                          child: Transform.scale(
+                            scale: 1.25,
+                            child:
+                                SvgPicture.asset("images/svgs/mask_button.svg"),
                           ),
-                          Positioned(
-                            left: 226 * 0.35,
-                            top: 58 * 0.23,
-                            child: Text(
-                              text.translate('Done'),
-                              style: GoogleFonts.bubblegumSans(
-                                textStyle: kBubblegum_sans32.copyWith(
-                                  color: Colors.white,
-                                ),
+                        ),
+                        Positioned(
+                          left: 226 * 0.35,
+                          top: 58 * 0.23,
+                          child: Text(
+                            text.translate('Done'),
+                            style: GoogleFonts.bubblegumSans(
+                              textStyle: kBubblegum_sans32.copyWith(
+                                color: Colors.white,
                               ),
                             ),
                           ),
-                        ],
-                        overflow: Overflow.clip,
-                      ),
+                        ),
+                      ],
+                      overflow: Overflow.clip,
                     ),
-                  ],
-                ),
-              );
-            }),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),

@@ -11,6 +11,9 @@ class AddVideoBloc extends BlocBase {
 
   final _searchResult = BehaviorSubject<String>();
   final _videoList = BehaviorSubject<List<Video>>();
+  AddVideoBloc() {
+    _videoList.add([]);
+  }
 
   Function(String) get changeSearchResult => _searchResult.sink.add;
   Function(List) get changeVideoList => _videoList.sink.add;
@@ -43,7 +46,14 @@ class AddVideoBloc extends BlocBase {
     final map = await _repository.getVideosBySearch(_searchResult.value,
         pageToken: _pageToken);
     _pageToken = map['pageToken'];
-    changeVideoList(map['data']);
+    //pagetoekn
+    final previousVids =
+        _videoList.hasValue == true ? _videoList.value : List<Video>.from([]);
+    List<Video> videos = [
+      ...previousVids,
+      ...List<Video>.from(map['data']).toList()
+    ].toSet().toList();
+    changeVideoList(videos);
   }
 
   List<Video> returnChosenVideos() {

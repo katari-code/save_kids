@@ -9,6 +9,9 @@ class ChannelBloc extends BlocBase {
   final _searchResult = BehaviorSubject<String>();
   final _channelList = BehaviorSubject<List<Channel>>();
   static String pageToken = '';
+  ChannelBloc() {
+    _channelList.add([]);
+  }
   Function(String) get changeSearchResult => _searchResult.sink.add;
   Function(List) get changeChannelList => _channelList.sink.add;
   addChosenChannel(String channelId) {
@@ -39,7 +42,15 @@ class ChannelBloc extends BlocBase {
     final result = await Repository()
         .getChannelsBySearch(_searchResult.value, pageToken: pageToken);
     pageToken = result['pageToken'];
-    changeChannelList(result['data']);
+    //channel loads for pageToken
+    final previousChannels = _channelList.hasValue == true
+        ? _channelList.value
+        : List<Channel>.from([]);
+    List<Channel> channels = [
+      ...previousChannels,
+      ...List<Channel>.from(result['data']).toList()
+    ].toSet().toList();
+    changeChannelList(channels);
   }
 
   List<Channel> returnChosenChannels() {
