@@ -17,6 +17,8 @@ class SpecifyVideoScreen extends StatefulWidget {
 
 class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
   ScrollController _scrollController = ScrollController();
+  SpecifyAddVideoBloc specifyAddVideoBloc =
+      BlocProvider.getBloc<SpecifyAddVideoBloc>();
   @override
   void initState() {
     super.initState();
@@ -24,8 +26,7 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    SpecifyAddVideoBloc specifyAddVideoBloc =
-        BlocProvider.getBloc<SpecifyAddVideoBloc>();
+
     specifyAddVideoBloc.childId.add(widget.childID);
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
@@ -33,6 +34,13 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
         specifyAddVideoBloc.getVideoBySearch();
       }
     });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    specifyAddVideoBloc.dispose();
+    super.dispose();
   }
 
   @override
@@ -54,169 +62,131 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
                 ),
               ),
             ),
-            Consumer<SpecifyAddVideoBloc>(
-                builder: (conext, specifyAddVideoBloc) {
-              // specifyAddVideoBloc.getVideosFromDB(widget.childID);
-
-              return Center(
-                child: Container(
-                  alignment: Alignment.center,
-                  height: MediaQuery.of(context).size.height * 0.90,
-                  width: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.symmetric(horizontal: 4),
-                  child: Card(
-                    elevation: 6,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(45),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Column(
-                        children: <Widget>[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                'Videos',
-                                style: kBubblegum_sans40.copyWith(
-                                    color: kBlueDarkColor),
-                              ),
-                              SizedBox(
-                                width: 18,
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Icon(
-                                  Icons.cancel,
-                                  size: 32,
-                                  color: kRedColor,
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 18,
-                          ),
-                          buildSearchButton(specifyAddVideoBloc),
-                          SizedBox(
-                            height: 18,
-                          ),
-                          CarouselSlider.builder(
-                            itemCount: specifyAddVideoBloc.languages.length,
-                            itemBuilder: (context, index) => Container(
-                              child: Text(
-                                specifyAddVideoBloc.languages[index].lnName ??
-                                    "  ",
-                                style: kBubblegum_sans24.copyWith(
-                                  color: Colors.black,
-                                ),
-                              ),
+            Center(
+              child: Container(
+                alignment: Alignment.center,
+                height: MediaQuery.of(context).size.height * 0.90,
+                width: MediaQuery.of(context).size.width,
+                padding: EdgeInsets.symmetric(horizontal: 4),
+                child: Card(
+                  elevation: 6,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(45),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Column(
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              'Videos',
+                              style: kBubblegum_sans40.copyWith(
+                                  color: kBlueDarkColor),
                             ),
-                            options: CarouselOptions(
-                              onPageChanged: (index, _) {
-                                print(specifyAddVideoBloc.languages.length);
-                                specifyAddVideoBloc.changeLanguage(
-                                    specifyAddVideoBloc.languages[index]);
+                            SizedBox(
+                              width: 18,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pop(context);
                               },
-                              height: 50,
-                              initialPage: 0,
-                              viewportFraction: 0.45,
-                              enableInfiniteScroll: true,
-                              reverse: false,
-                              enlargeCenterPage: true,
+                              child: Icon(
+                                Icons.cancel,
+                                size: 32,
+                                color: kRedColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 18,
+                        ),
+                        buildSearchButton(specifyAddVideoBloc),
+                        SizedBox(
+                          height: 18,
+                        ),
+                        CarouselSlider.builder(
+                          itemCount: specifyAddVideoBloc.languages.length,
+                          itemBuilder: (context, index) => Container(
+                            child: Text(
+                              specifyAddVideoBloc.languages[index].lnName ??
+                                  "  ",
+                              style: kBubblegum_sans24.copyWith(
+                                color: Colors.black,
+                              ),
                             ),
                           ),
-                          specifyAddVideoBloc.searchResult.value == null
-                              ? StreamBuilder<List<Video>>(
-                                  stream:
-                                      specifyAddVideoBloc.videosFromDB.stream,
-                                  builder: (context, snapshot) {
-                                    List<Video> videos = snapshot.data ?? [];
-                                    return Container(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.80 /
-                                              1.75,
-                                      child: ListView.builder(
-                                        // shrinkWrap: true,
-                                        itemCount: videos.length,
-
-                                        itemBuilder: (context, index) =>
-                                            CustomAnimation(
-                                          duration: Duration(milliseconds: 600),
-                                          delay: Duration(
-                                            milliseconds: (500 * 2).round(),
-                                          ),
-                                          curve: Curves.elasticOut,
-                                          tween: Tween<double>(
-                                            begin: 0,
-                                            end: 1,
-                                          ),
-                                          builder: (context, child, value) =>
-                                              Transform.scale(
-                                            scale: value,
-                                            child: buildVideoCard(
-                                                videos,
-                                                index,
-                                                specifyAddVideoBloc
-                                                    .changeChosenVideosFromDB),
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                )
-                              : StreamBuilder<List<Video>>(
-                                  stream: specifyAddVideoBloc.videos,
-                                  builder: (context, snapshot) {
-                                    List<Video> videos = snapshot.data ?? [];
-                                    return Container(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.80 /
-                                              1.75,
-                                      child: ListView.builder(
-                                        // shrinkWrap: true,
-                                        itemCount: videos.length,
-                                        controller: _scrollController,
-                                        itemBuilder: (context, index) =>
-                                            CustomAnimation(
-                                          duration: Duration(milliseconds: 600),
-                                          delay: Duration(
-                                            milliseconds: (500 * 2).round(),
-                                          ),
-                                          curve: Curves.elasticOut,
-                                          tween: Tween<double>(
-                                            begin: 0,
-                                            end: 1,
-                                          ),
-                                          builder: (context, child, value) =>
-                                              Transform.scale(
-                                            scale: value,
-                                            child: buildVideoCard(
-                                                videos,
-                                                index,
-                                                specifyAddVideoBloc
-                                                    .addChosenVideo),
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                          SizedBox(
-                            height: 18,
+                          options: CarouselOptions(
+                            onPageChanged: (index, _) {
+                              print(specifyAddVideoBloc.languages.length);
+                              specifyAddVideoBloc.changeLanguage(
+                                  specifyAddVideoBloc.languages[index]);
+                            },
+                            height: 50,
+                            initialPage: 0,
+                            viewportFraction: 0.45,
+                            enableInfiniteScroll: true,
+                            reverse: false,
+                            enlargeCenterPage: true,
                           ),
-                          buildButton(context, specifyAddVideoBloc)
-                        ],
-                      ),
+                        ),
+                        StreamBuilder(
+                            initialData: true,
+                            stream: specifyAddVideoBloc.videoList.isEmpty
+                                .asStream(),
+                            builder: (context, value) {
+                              return StreamBuilder<List<Video>>(
+                                stream: value.data == true
+                                    ? specifyAddVideoBloc.videosFromDB.stream
+                                    : specifyAddVideoBloc.videos,
+                                builder: (context, snapshot) {
+                                  List<Video> videos = snapshot.data ?? [];
+                                  return Container(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.80 /
+                                        1.75,
+                                    child: ListView.builder(
+                                      // shrinkWrap: true,
+                                      itemCount: videos.length,
+
+                                      itemBuilder: (context, index) =>
+                                          CustomAnimation(
+                                        duration: Duration(milliseconds: 600),
+                                        delay: Duration(
+                                          milliseconds: (500 * 2).round(),
+                                        ),
+                                        curve: Curves.elasticOut,
+                                        tween: Tween<double>(
+                                          begin: 0,
+                                          end: 1,
+                                        ),
+                                        builder: (context, child, value) =>
+                                            Transform.scale(
+                                          scale: value,
+                                          child: buildVideoCard(
+                                              videos,
+                                              index,
+                                              specifyAddVideoBloc
+                                                  .addChosenVideo),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                            }),
+                        SizedBox(
+                          height: 18,
+                        ),
+                        buildButton(context, specifyAddVideoBloc)
+                      ],
                     ),
                   ),
                 ),
-              );
-            })
+              ),
+            )
           ],
         ),
       ),
@@ -298,7 +268,6 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
       ),
       onTap: () {
         changeChosenVideo(videos[index].id);
-        setState(() {});
       },
       child: Container(
         // height: 105.00,
@@ -384,9 +353,10 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
         textColor: Colors.white,
         padding: EdgeInsets.symmetric(vertical: 18),
         color: kBlueDarkColor,
-        onPressed: () {
+        onPressed: () async {
           specifyAddVideoBloc.updateSpecifyVideos(widget.childID);
-          specifyAddVideoBloc.changeLanguage(specifyAddVideoBloc.languages[0]);
+          // specifyAddVideoBloc.changeLanguage(specifyAddVideoBloc.languages[0]);
+          specifyAddVideoBloc.dispose();
           Navigator.pop(context);
         },
         shape: RoundedRectangleBorder(

@@ -10,12 +10,10 @@ import 'package:translator/translator.dart';
 
 class SpecifyAddVideoBloc extends BlocBase {
   SpecifyAddVideoBloc() {
-    languages.forEach((element) => print(element.lnName));
     _language.sink.add(languages[0]);
-    _videoList.sink.add([]);
+    // videoList.sink.add([]);
     child.addStream(changeChild);
     videosFromDB.addStream(changeVideosFromDB);
-    // videosFromDB.add([]);
   }
 
   String _pageToken = '';
@@ -23,7 +21,7 @@ class SpecifyAddVideoBloc extends BlocBase {
   Repository _childRepo = Repository<Child>(collection: 'children');
 
   final searchResult = BehaviorSubject<String>();
-  final _videoList = BehaviorSubject<List<Video>>();
+  final videoList = BehaviorSubject<List<Video>>();
   final child = BehaviorSubject<Child>();
   //videos from db
   final videosFromDB = BehaviorSubject<List<Video>>();
@@ -32,7 +30,7 @@ class SpecifyAddVideoBloc extends BlocBase {
   BehaviorSubject<String> childId = BehaviorSubject<String>();
 
   Function(String) get changeSearchResult => searchResult.sink.add;
-  Function(List) get changeVideoList => _videoList.sink.add;
+  Function(List) get changeVideoList => videoList.sink.add;
 
   Function(Language) get changeLanguage => _language.sink.add;
 
@@ -73,7 +71,7 @@ class SpecifyAddVideoBloc extends BlocBase {
   }
 
   addChosenVideo(String videoId) {
-    List<Video> videos = _videoList.value.map((video) {
+    List<Video> videos = videoList.value.map((video) {
       if (video.id == videoId) {
         Video editedVideo = video..chosen = !video.chosen;
         return editedVideo;
@@ -107,7 +105,7 @@ class SpecifyAddVideoBloc extends BlocBase {
 
   Stream<String> get search =>
       searchResult.stream.transform(_validateSearchResult);
-  Stream<List<Video>> get videos => _videoList.stream;
+  Stream<List<Video>> get videos => videoList.stream;
 
   final _validateSearchResult = StreamTransformer<String, String>.fromHandlers(
       handleData: (search, sink) async {
@@ -125,8 +123,10 @@ class SpecifyAddVideoBloc extends BlocBase {
         pageToken: _pageToken);
     _pageToken = map['pageToken'];
     //page token for videos
+    final previousVids =
+        videoList.hasValue == true ? videoList.value : List<Video>.from([]);
     List<Video> videos = [
-      ..._videoList.value,
+      ...previousVids,
       ...List<Video>.from(map['data']).toList()
     ].toSet().toList();
     changeVideoList(videos);
@@ -134,7 +134,7 @@ class SpecifyAddVideoBloc extends BlocBase {
 
   Future updateSpecifyVideos(String childId) async {
     List<Video> chosenVideosFromSearch = returnChosenVideos();
-    chosenVideosFromSearch.addAll(videosFromDB.value);
+
     final chosenVideos = chosenVideosFromSearch.toSet().toList();
     List<String> viedosId = [];
 
@@ -148,7 +148,7 @@ class SpecifyAddVideoBloc extends BlocBase {
 
   List<Video> returnChosenVideos() {
     return [
-      ..._videoList.value.where((element) => element.chosen == true).toList(),
+      ...videoList.value.where((element) => element.chosen == true).toList(),
       ...videosFromDB.value.where((element) => element.chosen == true).toList()
     ];
   }
@@ -162,8 +162,8 @@ class SpecifyAddVideoBloc extends BlocBase {
   void dispose() async {
     await searchResult.drain();
     searchResult.close();
-    await _videoList.drain();
-    _videoList.close();
+    await videoList.drain();
+    videoList.close();
     await videosFromDB.drain();
     videosFromDB.close();
 

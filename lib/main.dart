@@ -68,7 +68,7 @@ class MyApp extends StatelessWidget {
           Bloc((i) => ChildVideoListBloc()),
           Bloc((i) => WatchHistoryBloc()),
           Bloc((i) => KidsAccountsSpecifyVideosBloc()),
-          Bloc((i) => SpecifyAddVideoBloc(), singleton: true)
+          Bloc((i) => SpecifyAddVideoBloc())
         ],
         child: MaterialApp(
           title: 'Safe Video Kids',
