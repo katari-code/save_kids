@@ -55,7 +55,7 @@ class YoutubeApiProvider<T> {
     }
   }
 
-  Future<List<T>> fetchVideoList({
+  Future<List<T>> fethList({
     List<String> collection,
     String type,
     Mapper mapper,
