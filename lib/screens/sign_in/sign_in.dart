@@ -1,11 +1,13 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:save_kids/bloc/sign_in_bloc.dart';
 import 'package:save_kids/components/control_widgets/message.dart';
 import 'package:save_kids/components/control_widgets/progress_bar.dart';
 import 'package:save_kids/components/stream_input_field.dart';
+import 'package:save_kids/models/parent.dart';
 import 'package:save_kids/util/constant.dart';
 import 'package:save_kids/util/style.dart';
 
@@ -172,10 +174,18 @@ class _SignInState extends State<SignIn> {
                       signInBloc.showProgressBar(true);
                       final result = await signInBloc.signIn();
                       signInBloc.showProgressBar(false);
-                      if (result == null) {
-                        Message(
+                      if (result is PlatformException) {
+                        String error = '';
+                        if (result.code == 'ERROR_USER_NOT_FOUND') {
+                          error = 'User not found!';
+                        } else if (result.code == 'ERROR_WRONG_PASSWORD' ||
+                            result.code == 'ERROR_INVALID_EMAIL') {
+                          error = 'Wrong email and/or password!';
+                        } else
+                          error = 'Something went Wrong!';
+                        return Message(
                                 color: Colors.redAccent,
-                                input: 'User Not Found',
+                                input: error,
                                 context: context)
                             .displayMessage();
                       }

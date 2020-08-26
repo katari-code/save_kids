@@ -1,5 +1,6 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
@@ -168,14 +169,20 @@ class _SignUpState extends State<SignUp> {
                   signUpBloc.showProgressBar(true);
                   final result = await signUpBloc.signUp();
                   signUpBloc.showProgressBar(false);
-                  if (result == null) {
-                    Message(
+                  if (result is PlatformException) {
+                    String error = '';
+                    if (result.code == 'ERROR_EMAIL_ALREADY_IN_USE') {
+                      error = 'Email already exists!';
+                    } else if (result.code == 'ERROR_INVALID_EMAIL') {
+                      error = 'invalid email!';
+                    } else
+                      error = 'Soemthing went wrong!';
+                    return Message(
                             color: Colors.redAccent,
-                            input: 'Something Went Wrong',
+                            input: error,
                             context: context)
                         .displayMessage();
                   }
-
                   Navigator.pushNamedAndRemoveUntil(context, kChildAccountRoute,
                       ModalRoute.withName(kOnboradingScreen));
                 }
