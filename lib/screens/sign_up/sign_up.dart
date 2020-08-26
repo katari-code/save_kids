@@ -168,15 +168,16 @@ class _SignUpState extends State<SignUp> {
                   signUpBloc.showProgressBar(true);
                   final result = await signUpBloc.signUp();
                   signUpBloc.showProgressBar(false);
-                  if (result != null) {
-                    Navigator.pushReplacementNamed(context, kChildAccountRoute);
+                  if (result == null) {
+                    Message(
+                            color: Colors.redAccent,
+                            input: 'Something Went Wrong',
+                            context: context)
+                        .displayMessage();
                   }
 
-                  Message(
-                          color: Colors.redAccent,
-                          input: 'Something Went Wrong',
-                          context: context)
-                      .displayMessage();
+                  Navigator.pushNamedAndRemoveUntil(context, kChildAccountRoute,
+                      ModalRoute.withName(kOnboradingScreen));
                 }
               },
               child: Column(

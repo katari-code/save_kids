@@ -172,16 +172,15 @@ class _SignInState extends State<SignIn> {
                       signInBloc.showProgressBar(true);
                       final result = await signInBloc.signIn();
                       signInBloc.showProgressBar(false);
-                      if (result != null) {
-                        Navigator.pushReplacementNamed(
-                            context, kChildAccountRoute);
+                      if (result == null) {
+                        Message(
+                                color: Colors.redAccent,
+                                input: 'User Not Found',
+                                context: context)
+                            .displayMessage();
                       }
-
-                      Message(
-                              color: Colors.redAccent,
-                              input: 'User Not Found',
-                              context: context)
-                          .displayMessage();
+                      Navigator.pushReplacementNamed(
+                          context, kChildAccountRoute);
                     }
                   },
                   child: Container(

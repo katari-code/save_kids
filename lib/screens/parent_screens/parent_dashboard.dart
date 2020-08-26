@@ -110,209 +110,190 @@ class _ParentDashboardState extends State<ParentDashboard> {
             SingleChildScrollView(
               child: SafeArea(
                 child: StreamBuilder<Parent>(
-                    stream: authBloc.parentSession,
-                    builder: (context, session) {
-                      if (session.hasData) {
-                        return StreamBuilder<Parent>(
-                            stream: authBloc.parentData(session.data.id),
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                Parent parent = snapshot.data;
+                    stream: authBloc.parent,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        Parent parent = snapshot.data;
 
-                                return Column(
-                                  children: <Widget>[
-                                    SafeArea(
-                                      child: Align(
-                                        alignment: Alignment.topRight,
-                                        child: Container(
-                                          height: 40,
-                                          width: 130,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(8),
-                                              bottomLeft: Radius.circular(8),
-                                            ),
-                                            color: kBlueDarkColor,
-                                          ),
-                                          child: GestureDetector(
-                                            onTap: () async {
-                                              await popUpShow(context);
-                                            },
-                                            child: Center(
-                                              child: Text(
-                                                "Free Verison",
-                                                style:
-                                                    kBubblegum_sans20.copyWith(
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
+                        return Column(
+                          children: <Widget>[
+                            SafeArea(
+                              child: Align(
+                                alignment: Alignment.topRight,
+                                child: Container(
+                                  height: 40,
+                                  width: 130,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(8),
+                                      bottomLeft: Radius.circular(8),
+                                    ),
+                                    color: kBlueDarkColor,
+                                  ),
+                                  child: GestureDetector(
+                                    onTap: () async {
+                                      await popUpShow(context);
+                                    },
+                                    child: Center(
+                                      child: Text(
+                                        "Free Verison",
+                                        style: kBubblegum_sans20.copyWith(
+                                          color: Colors.white,
                                         ),
                                       ),
                                     ),
-                                    Container(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 21, vertical: 16),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.stretch,
-                                        children: <Widget>[
-                                          SizedBox(
-                                            height: 50,
-                                          ),
-                                          Text(
-                                            'Hello, ${parent.name}',
-                                            style: kBubblegum_sans32.copyWith(
-                                                color: Colors.black),
-                                          ),
-                                          Text(
-                                            'Monitor your children account',
-                                            style: kBubblegum_sans24.copyWith(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.normal),
-                                          ),
-                                          parent.password == null
-                                              ? Text(
-                                                  'Add Password to your Account to lock The Parent Mode!',
-                                                  style: kBubblegum_sans20
-                                                      .copyWith(
-                                                          color:
-                                                              Colors.redAccent,
-                                                          fontWeight: FontWeight
-                                                              .normal),
-                                                )
-                                              : Text('')
-                                        ],
-                                      ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 21, vertical: 16),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: <Widget>[
+                                  SizedBox(
+                                    height: 50,
+                                  ),
+                                  Text(
+                                    'Hello, ${parent.name}',
+                                    style: kBubblegum_sans32.copyWith(
+                                        color: Colors.black),
+                                  ),
+                                  Text(
+                                    'Monitor your children account',
+                                    style: kBubblegum_sans24.copyWith(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.normal),
+                                  ),
+                                  parent.password == null
+                                      ? Text(
+                                          'Add Password to your Account to lock The Parent Mode!',
+                                          style: kBubblegum_sans20.copyWith(
+                                              color: Colors.redAccent,
+                                              fontWeight: FontWeight.normal),
+                                        )
+                                      : Text('')
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 8,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                GestureDetector(
+                                  onTap: () => Navigator.pushNamed(
+                                      context, kWatchSchdeuleRoute),
+                                  child: Container(
+                                    width: 170,
+                                    height: 150,
+                                    padding: EdgeInsets.all(15),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                      color: kPurpleColor,
                                     ),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                    Row(
+                                    child: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
-                                      children: [
-                                        GestureDetector(
-                                          onTap: () => Navigator.pushNamed(
-                                              context, kWatchSchdeuleRoute),
-                                          child: Container(
-                                            width: 170,
-                                            height: 150,
-                                            padding: EdgeInsets.all(15),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                              color: kPurpleColor,
-                                            ),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: <Widget>[
-                                                SvgPicture.asset(
-                                                  'images/svgs/schedule.svg',
-                                                  height: 80,
-                                                ),
-                                                SizedBox(
-                                                  width: 15,
-                                                ),
-                                                Column(
-                                                  children: <Widget>[
-                                                    Text(
-                                                      "Watch Schedule",
-                                                      style: kBubblegum_sans24
-                                                          .copyWith(
-                                                        color: Colors.white,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                )
-                                              ],
-                                            ),
-                                          ),
+                                      children: <Widget>[
+                                        SvgPicture.asset(
+                                          'images/svgs/schedule.svg',
+                                          height: 80,
                                         ),
                                         SizedBox(
                                           width: 15,
                                         ),
-                                        GestureDetector(
-                                          onTap: () => Navigator.pushNamed(
-                                              context, kHistoryWatchRoute),
-                                          child: Container(
-                                            width: 170,
-                                            height: 150,
-                                            padding: EdgeInsets.all(15),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                              color: Color(0xffFFA846),
+                                        Column(
+                                          children: <Widget>[
+                                            Text(
+                                              "Watch Schedule",
+                                              style: kBubblegum_sans24.copyWith(
+                                                color: Colors.white,
+                                              ),
                                             ),
-                                            child: Column(
-                                              children: <Widget>[
-                                                Image.asset(
-                                                  'images/whatchHistory.png',
-                                                  height: 90,
-                                                ),
-                                                SizedBox(
-                                                  width: 15,
-                                                ),
-                                                Text(
-                                                  "Watch History",
-                                                  style: kBubblegum_sans24
-                                                      .copyWith(
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 15,
+                                ),
+                                GestureDetector(
+                                  onTap: () => Navigator.pushNamed(
+                                      context, kHistoryWatchRoute),
+                                  child: Container(
+                                    width: 170,
+                                    height: 150,
+                                    padding: EdgeInsets.all(15),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                      color: Color(0xffFFA846),
+                                    ),
+                                    child: Column(
+                                      children: <Widget>[
+                                        Image.asset(
+                                          'images/whatchHistory.png',
+                                          height: 90,
+                                        ),
+                                        SizedBox(
+                                          width: 15,
+                                        ),
+                                        Text(
+                                          "Watch History",
+                                          style: kBubblegum_sans24.copyWith(
+                                            color: Colors.white,
                                           ),
                                         ),
                                       ],
                                     ),
-                                    SizedBox(height: 20),
-                                    Text(
-                                      "Kids Profiles",
-                                      style: kBubblegum_sans44,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 20),
+                            Text(
+                              "Kids Profiles",
+                              style: kBubblegum_sans44,
+                            ),
+                            SizedBox(
+                              width: 30,
+                            ),
+                            KidsProfiles(),
+                            BottomAppBar(
+                              clipBehavior: Clip.antiAliasWithSaveLayer,
+                              color: Colors.transparent,
+                              child: GestureDetector(
+                                onTap: () => Navigator.pushReplacementNamed(
+                                  context,
+                                  kChildAccountRoute,
+                                ),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(28),
                                     ),
-                                    SizedBox(
-                                      width: 30,
+                                    color: kYellowColor,
+                                  ),
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.1,
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    'Switch To Kids',
+                                    style: kBubblegum_sans40.copyWith(
+                                      color: Colors.white,
                                     ),
-                                    KidsProfiles(),
-                                    BottomAppBar(
-                                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                                      color: Colors.transparent,
-                                      child: GestureDetector(
-                                        onTap: () =>
-                                            Navigator.pushReplacementNamed(
-                                          context,
-                                          kChildAccountRoute,
-                                        ),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.vertical(
-                                              top: Radius.circular(28),
-                                            ),
-                                            color: kYellowColor,
-                                          ),
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.1,
-                                          alignment: Alignment.center,
-                                          child: Text(
-                                            'Switch To Kids',
-                                            style: kBubblegum_sans40.copyWith(
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                );
-                              }
-                              return ProgressBar();
-                            });
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
                       }
+
                       return Center(child: ProgressBar());
                     }),
               ),

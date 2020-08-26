@@ -1,5 +1,5 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
-import 'package:logger/logger.dart';
+
 import 'package:rxdart/rxdart.dart';
 import 'package:save_kids/models/category.dart';
 import 'package:save_kids/models/child.dart';
@@ -127,7 +127,7 @@ class ChildVideoListBloc extends BlocBase {
     _category.drain();
     print('disposing');
     timer.drain();
-
+    videosList.drain();
     localTimer = null;
     super.dispose();
   }

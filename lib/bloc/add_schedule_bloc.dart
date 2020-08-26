@@ -1,6 +1,5 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:rxdart/rxdart.dart';
 // import 'package:save_kids/bloc/test/video_list_bloc_test.dart';
 import 'package:save_kids/models/category.dart';

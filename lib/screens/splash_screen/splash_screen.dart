@@ -14,7 +14,7 @@ class SpalschScreen extends StatefulWidget {
 class _SpalschScreenState extends State<SpalschScreen> {
   final bloc = BlocProvider.getBloc<AuthBloc>();
   Future getUser() async {
-    final result = await bloc.parentSession.first;
+    final result = await bloc.parent.first;
     if (result != null) {
       Navigator.pushReplacementNamed(context, kChildAccountRoute);
     } else
