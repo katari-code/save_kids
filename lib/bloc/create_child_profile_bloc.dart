@@ -9,26 +9,35 @@ class CreateChildProfileBloc extends BlocBase {
   CreateChildProfileBloc() {
     _imageAvatar.sink.add(avatars[0]);
     _timer.sink.add(timers[0]);
+    _isValidated.add(false);
   }
   Repository _repository = Repository<Child>(collection: 'children');
   final _childName = BehaviorSubject<String>();
   final _age = BehaviorSubject<String>();
   final _imageAvatar = BehaviorSubject<String>();
   final _timer = BehaviorSubject<Timer>();
-
+  final _isValidated = BehaviorSubject<bool>();
   Function(String) get changeChildName => _childName.sink.add;
   Function(Timer) get changeTimer => _timer.sink.add;
   Function(String) get changeAge => _age.sink.add;
   Function(String) get changeImageAvatar => _imageAvatar.sink.add;
-
+  Function(bool) get showProgressBar => _isValidated.sink.add;
   Stream<String> get childName => _childName.stream;
   Stream<String> get age => _age.stream;
   Stream<String> get imageAvatar => _imageAvatar.stream;
   Stream<Timer> get timer => _timer.stream;
-
+  Stream<bool> get validatedStatus => _isValidated.stream;
   // Function(bool) get changeEditMode => _isEditMode.sink.add;
   // Stream<bool> get editMode => _isEditMode.stream;
   Stream<Parent> get parentSession => _repository.authSession;
+
+  bool validateSignInFields() {
+    if (_childName.value != null && _childName.value.isNotEmpty) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   Future<Child> addChild(String parentId, String type) async {
     Child child = Child(
@@ -45,8 +54,6 @@ class CreateChildProfileBloc extends BlocBase {
 
   @override
   void dispose() async {
-    // await _isEditMode.drain();
-
     await _childName.drain();
     _childName.close();
     await _age.drain();

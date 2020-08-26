@@ -28,9 +28,6 @@ class Channel implements Mapper {
         id: map['id'],
         title: map['snippet']['title'],
         profilePictureUrl: map['snippet']['thumbnails']['default']['url'],
-        subscriberCount: map['statistics']['subscriberCount'],
-        videoCount: map['statistics']['videoCount'],
-        uploadPlaylistId: map['contentDetails']['relatedPlaylists']['uploads'],
         chosen: false);
   }
 
@@ -45,6 +42,11 @@ class Channel implements Mapper {
   @override
   fromSearchMap(Map<String, dynamic> map) {
     return Channel.fromSearchMap(map);
+  }
+
+  @override
+  fromIdsMap(Map<String, dynamic> map) {
+    return Channel.fromMap(map);
   }
 }
 // import 'package:flutter/cupertino.dart';

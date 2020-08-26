@@ -55,20 +55,24 @@ class YoutubeApiProvider<T> {
     }
   }
 
-  Future<List<Video>> fetchVideoList({List<String> videos}) async {
-    String videoIds = '';
-    videos.forEach((video) {
-      videoIds += '$video,';
+  Future<List<T>> fetchVideoList({
+    List<String> collection,
+    String type,
+    Mapper mapper,
+  }) async {
+    String ids = '';
+    collection.forEach((video) {
+      ids += '$video,';
     });
     Map<String, String> parameters = {
       'part': 'snippet',
-      'type': 'video',
-      'id': videoIds,
+      'type': type,
+      'id': ids,
       'key': API_KEY,
     };
     Uri uri = Uri.https(
       baseUrl,
-      'youtube/v3/videos',
+      'youtube/v3/${type}s',
       parameters,
     );
 
@@ -80,16 +84,16 @@ class YoutubeApiProvider<T> {
       List<dynamic> videosJson = data['items'];
 
       // Fetch first eight videos from uploads playlist
-      List<Video> collection = [];
+      List<T> collections = [];
       videosJson.forEach(
-        (json) => collection.add(
-          Video.fromIdsMap(json),
+        (json) => collections.add(
+          mapper.fromIdsMap(json),
         ),
       );
-      return collection;
+      return collections;
     } else {
       Logger().e(json.decode(response.body)['error']['message']);
-      return List<Video>.from([]).toList();
+      return List<T>.from([]).toList();
     }
   }
 }
