@@ -219,7 +219,7 @@ class Repository<T extends FireStoreConverter> {
   }
 
   Future<List<Video>> getVideos(List<String> videos) async {
-    _youtubeApi = YoutubeApiProvider<Channel>();
+    _youtubeApi = YoutubeApiProvider<Video>();
     try {
       return _youtubeApi.fetchVideoList(
           collection: videos, type: 'video', mapper: Video());
