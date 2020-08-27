@@ -211,7 +211,7 @@ class _AddChildScreenState extends State<AddChildScreen> {
             return StreamBuilder<Object>(
                 stream: createChildBloc.validatedStatus,
                 builder: (context, validated) {
-                  if (validated.data) {
+                  if (!validated.data) {
                     return GestureDetector(
                       onTap: () async {
                         await popUpShow(context);
