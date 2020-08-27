@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:save_kids/app_localizations.dart';
-import 'package:save_kids/bloc/create_child_profile_bloc.dart';
+import 'package:save_kids/bloc/edit_child_profile_bloc.dart';
 import 'package:save_kids/components/premium_model.dart';
 import 'package:save_kids/models/parent.dart';
 import 'package:save_kids/screens/create_child_profile/widget/time_coursal.dart';
 import 'package:save_kids/util/style.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:bloc_pattern/bloc_pattern.dart' as bloc;
 
-class AddChildScreen extends StatefulWidget {
+class EditChildScreen extends StatefulWidget {
+  final String childId;
+  EditChildScreen({this.childId});
+
   @override
-  _AddChildScreenState createState() => _AddChildScreenState();
+  _EditChildScreenState createState() => _EditChildScreenState();
 }
 
-class _AddChildScreenState extends State<AddChildScreen> {
+class _EditChildScreenState extends State<EditChildScreen> {
   @override
   void initState() {
     super.initState();
@@ -32,8 +35,9 @@ class _AddChildScreenState extends State<AddChildScreen> {
       resizeToAvoidBottomPadding: false,
       backgroundColor: kBlueColor,
       extendBodyBehindAppBar: true,
-      body: bloc.Consumer<CreateChildProfileBloc>(
-        builder: (conext, createChildBloc) => Container(
+      body:
+          bloc.Consumer<EditChildProfileBloc>(builder: (conext, editChildBloc) {
+        return Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
           child: Stack(
@@ -54,13 +58,25 @@ class _AddChildScreenState extends State<AddChildScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: GestureDetector(
+                            onTap: () => Navigator.pop(context),
+                            child: SvgPicture.asset(
+                              'images/svgs/Back_video.svg',
+                              height: 70,
+                            ),
+                          ),
+                        ),
+                      ),
                       SizedBox(
-                        height: 30,
+                        height: 3,
                       ),
                       Text(
-                        text.translate('Create_a_profile_for_your_kids'),
-                        style: GoogleFonts.bubblegumSans(
-                            textStyle: kBubblegum_sans32),
+                        "Edit your child profile",
+                        style: kBubblegum_sans24,
                       ),
                       SizedBox(
                         height: 30,
@@ -77,8 +93,8 @@ class _AddChildScreenState extends State<AddChildScreen> {
                                 height: MediaQuery.of(context).size.height,
                                 width: MediaQuery.of(context).size.width,
                                 child: StreamBuilder<Object>(
-                                    stream: createChildBloc.imageAvatar,
-                                    initialData: createChildBloc.avatars[0],
+                                    stream: editChildBloc.imageAvatar,
+                                    initialData: editChildBloc.avatars[0],
                                     builder: (context, snapshot) {
                                       return Column(
                                         children: <Widget>[
@@ -107,12 +123,12 @@ class _AddChildScreenState extends State<AddChildScreen> {
                                               mainAxisSpacing: 10,
                                               crossAxisCount: 3,
                                               children: List<Widget>.generate(
-                                                createChildBloc.avatars.length,
+                                                editChildBloc.avatars.length,
                                                 (index) => GestureDetector(
                                                   onTap: () {
-                                                    createChildBloc
+                                                    editChildBloc
                                                         .changeImageAvatar(
-                                                      createChildBloc
+                                                      editChildBloc
                                                           .avatars[index],
                                                     );
                                                   },
@@ -121,7 +137,7 @@ class _AddChildScreenState extends State<AddChildScreen> {
                                                       CircleAvatar(
                                                         radius: 45,
                                                         backgroundColor:
-                                                            createChildBloc.avatars[
+                                                            editChildBloc.avatars[
                                                                         index] ==
                                                                     snapshot
                                                                         .data
@@ -135,7 +151,7 @@ class _AddChildScreenState extends State<AddChildScreen> {
                                                           radius: 40,
                                                           backgroundImage:
                                                               NetworkImage(
-                                                            createChildBloc
+                                                            editChildBloc
                                                                 .avatars[index],
                                                           ),
                                                         ),
@@ -166,9 +182,10 @@ class _AddChildScreenState extends State<AddChildScreen> {
                           ),
                         ),
                         child: StreamBuilder<Object>(
-                            stream: createChildBloc.imageAvatar,
-                            initialData: createChildBloc.avatars[0],
+                            stream: editChildBloc.imageAvatar,
+                            initialData: editChildBloc.avatars[0],
                             builder: (context, snapshot) {
+                              editChildBloc.changeChildId(widget.childId);
                               return CircleAvatar(
                                 backgroundColor: Colors.white,
                                 radius: 60,
@@ -176,8 +193,8 @@ class _AddChildScreenState extends State<AddChildScreen> {
                               );
                             }),
                       ),
-                      buildTextField(context, createChildBloc),
-                      buildAgeChips(text, createChildBloc),
+                      buildTextField(context, editChildBloc),
+                      buildAgeChips(text, editChildBloc),
                       SizedBox(
                         height: 30,
                       ),
@@ -186,16 +203,16 @@ class _AddChildScreenState extends State<AddChildScreen> {
                         style: kBubblegum_sans32,
                       ),
                       TimeCoursal(
-                        childBloc: createChildBloc,
+                        childBloc: editChildBloc,
                       ),
                       StreamBuilder<Parent>(
-                          stream: createChildBloc.parentSession,
+                          stream: editChildBloc.parentSession,
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               return GestureDetector(
                                 onTap: () async {
                                   await popUpShow(context);
-                                  final child = await createChildBloc.addChild(
+                                  final child = await editChildBloc.setChild(
                                       snapshot.data.id, 'exploratory');
                                   Navigator.of(context).pop(context);
                                 },
@@ -227,18 +244,18 @@ class _AddChildScreenState extends State<AddChildScreen> {
               ),
             ],
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 
   Widget buildTextField(
-      BuildContext context, CreateChildProfileBloc createChildBloc) {
+      BuildContext context, EditChildProfileBloc editChildBloc) {
     return Container(
       margin: EdgeInsets.symmetric(
           horizontal: MediaQuery.of(context).size.width * 0.12),
       child: StreamBuilder<Object>(
-          stream: createChildBloc.childName,
+          stream: editChildBloc.childName,
           builder: (context, snapshot) {
             return TextFormField(
               decoration: InputDecoration(
@@ -258,16 +275,16 @@ class _AddChildScreenState extends State<AddChildScreen> {
                   ),
                 ),
               ),
-              onChanged: createChildBloc.changeChildName,
+              onChanged: editChildBloc.changeChildName,
             );
           }),
     );
   }
 
   Widget buildAgeChips(
-      AppLocalizations text, CreateChildProfileBloc createChildBloc) {
+      AppLocalizations text, EditChildProfileBloc editChildBloc) {
     return StreamBuilder<Object>(
-        stream: createChildBloc.age,
+        stream: editChildBloc.age,
         builder: (context, snapshot) {
           return Column(
             children: <Widget>[
@@ -286,7 +303,7 @@ class _AddChildScreenState extends State<AddChildScreen> {
                 children: <Widget>[
                   GestureDetector(
                     onTap: () {
-                      createChildBloc.changeAge('<4');
+                      editChildBloc.changeAge('<4');
                     },
                     child: AgeChip(
                       color:
@@ -299,7 +316,7 @@ class _AddChildScreenState extends State<AddChildScreen> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      createChildBloc.changeAge('5-7');
+                      editChildBloc.changeAge('5-7');
                     },
                     child: AgeChip(
                       color: snapshot.data == "5-7"
@@ -312,7 +329,7 @@ class _AddChildScreenState extends State<AddChildScreen> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      createChildBloc.changeAge('8-12');
+                      editChildBloc.changeAge('8-12');
                     },
                     child: AgeChip(
                       color: snapshot.data == '8-12'

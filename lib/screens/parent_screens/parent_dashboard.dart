@@ -257,7 +257,9 @@ class _ParentDashboardState extends State<ParentDashboard> {
                             SizedBox(height: 20),
                             Text(
                               "Kids Profiles",
-                              style: kBubblegum_sans44,
+                              style: kBubblegum_sans44.copyWith(
+                                color: kBlueDarkColor,
+                              ),
                             ),
                             SizedBox(
                               width: 30,
@@ -515,9 +517,16 @@ class KidsCard extends StatelessWidget {
                               height: 50,
                             ),
                           ),
-                          SvgPicture.asset(
-                            'images/svgs/edit.svg',
-                            height: 50,
+                          GestureDetector(
+                            onTap: () => Navigator.pushReplacementNamed(
+                              context,
+                              kChildEditProfileRoute,
+                              arguments: child.id,
+                            ),
+                            child: SvgPicture.asset(
+                              'images/svgs/edit.svg',
+                              height: 50,
+                            ),
                           ),
                           GestureDetector(
                             onTap: () => Navigator.pushNamed(

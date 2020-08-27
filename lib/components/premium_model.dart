@@ -85,8 +85,7 @@ Future popUpShow(BuildContext context) {
                     height: 15,
                   ),
                   GestureDetector(
-                    onTap: () =>
-                        Navigator.pushNamed(context, kWatchSchdeuleRoute),
+                    onTap: () => Navigator.pop(context),
                     child: AgeChip(
                       color: kBlueDarkColor,
                       text: "Upgrade Now ",

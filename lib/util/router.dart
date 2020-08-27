@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:save_kids/bloc/edit_child_profile_bloc.dart';
 import 'package:save_kids/screens/account_dashborad_screen/accounts_screen.dart';
 import 'package:save_kids/screens/child_display_videos/child_display_videos.dart';
 import 'package:save_kids/screens/child_display_videos/child_display_videos_watch_sche.dart';
 import 'package:save_kids/screens/child_display_videos/video_list.dart';
 import 'package:save_kids/screens/child_display_videos/video_player_screen/video_player_screen.dart';
 import 'package:save_kids/screens/create_child_profile/create_child_profile.dart';
+import 'package:save_kids/screens/create_child_profile/edit_child_profile.dart';
 import 'package:save_kids/screens/onboarding_screen/onboarding_builder.dart';
 import 'package:save_kids/screens/parent_screens/parent_password.dart';
 import 'package:save_kids/screens/parent_screens/watch_history_screen/watch_histroy_screen.dart';
@@ -77,6 +79,12 @@ Route<dynamic> createRoute(RouteSettings settings) {
     case kAddChildProfileRoute:
       return MaterialPageRoute(
         builder: (context) => AddChildScreen(),
+      );
+    case kChildEditProfileRoute:
+      return MaterialPageRoute(
+        builder: (context) => EditChildScreen(
+          childId: settings.arguments,
+        ),
       );
     case kHistoryWatchRoute:
       return MaterialPageRoute(

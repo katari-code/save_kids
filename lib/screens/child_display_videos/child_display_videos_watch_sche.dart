@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:save_kids/bloc/child_viedo_list_bloc_watch_schedule.dart';
-import 'package:save_kids/bloc/test/video_list_bloc_test.dart';
 import 'package:save_kids/components/control_widgets/progress_bar.dart';
 import 'package:save_kids/components/video_card.dart';
 import 'package:save_kids/models/category.dart';
@@ -42,14 +41,15 @@ class _ChildMainViedoListWatchScheduleState
     super.initState();
     widget.childVideoListWSBloc.childId.add(widget.schedule.childId);
     widget.childVideoListWSBloc.scheduleId.add(widget.schedule.id);
-    Timer(Duration(seconds: 2), () {
+    Timer(Duration(seconds: 3), () {
       setState(() {});
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    List<GestureDetector> childerns = [];
+    final List<Category> categoriesO = [];
+
     return Scaffold(
       backgroundColor: kBlueColor,
       body: Stack(
@@ -138,7 +138,6 @@ class _ChildMainViedoListWatchScheduleState
                             stream: widget.childVideoListWSBloc.schedule.stream,
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
-                                final List<Category> categoriesO = [];
                                 Schedule schedule = snapshot.data;
                                 for (var i = 0;
                                     i < schedule.categories.length;
@@ -146,6 +145,7 @@ class _ChildMainViedoListWatchScheduleState
                                   categoriesO.add(
                                       categoriesList[schedule.categories[i]]);
                                 }
+
                                 return StreamBuilder<List<Channel>>(
                                   stream: widget
                                       .childVideoListWSBloc.channels.stream,
@@ -320,6 +320,7 @@ class _ChildMainViedoListWatchScheduleState
                                           //             //     itemBuilder: (context, index) => VideoCardEnhanced(),
                                           //             //   ),
                                           //             // ),
+
                                           isChannel == false
                                               ? FutureBuilder<List<Video>>(
                                                   future: widget
