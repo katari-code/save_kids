@@ -170,3 +170,74 @@ Future buildShowModeDialog(BuildContext context) {
     ),
   );
 }
+
+Future buildShowModeDialog1(BuildContext context) {
+  return showDialog(
+    context: context,
+    builder: (BuildContext _) => StatefulBuilder(
+      builder: (context, setStaste) => Dialog(
+        clipBehavior: Clip.hardEdge,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50),
+        ),
+        child: Container(
+          height: MediaQuery.of(context).size.height * 0.8,
+          width: 300,
+          decoration: BoxDecoration(
+            color: kBlueDarkColor,
+            borderRadius: BorderRadius.circular(50),
+          ),
+          child: Stack(
+            overflow: Overflow.clip,
+            children: <Widget>[
+              Container(
+                height: MediaQuery.of(context).size.height * 0.8,
+                width: 300,
+                child: Opacity(
+                  opacity: 0.3,
+                  child: Image.asset(
+                    'images/background.png',
+                    fit: BoxFit.cover,
+                    repeat: ImageRepeat.repeat,
+                  ),
+                ),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  SvgPicture.asset(
+                    'images/svgs/girls_popup.svg',
+                    height: 145,
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Text(
+                    "Ask your parents first",
+                    textAlign: TextAlign.center,
+                    style: kBubblegum_sans32.copyWith(color: Colors.white),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: GestureDetector(
+                      onTap: () => Navigator.pop(context, null),
+                      child: AgeChip(
+                        color: kRedColor,
+                        text: "See you again",
+                        highet: 60.0,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
+}

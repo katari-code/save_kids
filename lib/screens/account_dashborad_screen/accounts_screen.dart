@@ -313,6 +313,8 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
                                                 arguments: schedule);
                                             break;
                                           } else {
+                                            await buildShowModeDialog1(context);
+
                                             Logger().i(
                                               schedules[i].dateStart.toString(),
                                             );
