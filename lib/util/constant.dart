@@ -25,6 +25,7 @@ const kChildEditProfileRoute = "/child/Edit_profile";
 const kVideoListRoute = "/child/videos";
 const kVideoDetailsRoute = "/child/videos/video";
 const kVideoDisplayRoute = "/child/videos/display";
+const kVideoDisplaySpecifyRoute = "/child/videos/displaySpecify";
 
 const kChildMainViedoListWatchSchedule =
     "/child/ChildMainViedoListWatchSchedule";

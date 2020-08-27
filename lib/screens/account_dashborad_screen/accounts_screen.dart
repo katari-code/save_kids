@@ -265,10 +265,19 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
                                         } else if (snapshot
                                                 .data[index].timer.isComplete ==
                                             false) {
-                                          Navigator.pushNamed(
-                                              context, kVideoDisplayRoute,
-                                              arguments:
-                                                  snapshot.data[index].id);
+                                          if (snapshot.data[index].specifyVideos
+                                                  .length >
+                                              0) {
+                                            Navigator.pushNamed(context,
+                                                kVideoDisplaySpecifyRoute,
+                                                arguments:
+                                                    snapshot.data[index].id);
+                                          } else {
+                                            Navigator.pushNamed(
+                                                context, kVideoDisplayRoute,
+                                                arguments:
+                                                    snapshot.data[index].id);
+                                          }
                                         }
                                       } else if (snapshot.data[index].type ==
                                           "WC") {

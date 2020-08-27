@@ -32,6 +32,7 @@ import 'bloc/kids_accounts_specify_video_bloc.dart';
 import 'bloc/sign_in_bloc.dart';
 import 'bloc/sign_up_bloc.dart';
 
+import 'bloc/video_list__specify_bloc.dart';
 import 'models/schedule_data.dart';
 
 void main() async {
@@ -73,6 +74,7 @@ class MyApp extends StatelessWidget {
           Bloc((i) => SpecifyAddVideoBloc()),
           Bloc((i) => ChildMainViedoListWatchSchedule()),
           Bloc((i) => EditChildProfileBloc()),
+          Bloc((i) => ChildVideoListSpecifyBloc()),
         ],
         child: MaterialApp(
           title: 'Safe Video Kids',

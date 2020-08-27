@@ -14,7 +14,7 @@ import 'package:timer_count_down/timer_count_down.dart';
 class ChildTimer extends StatelessWidget {
   final Function updateTimer;
   final Timer timer;
-  final ChildVideoListBloc bloc;
+  final bloc;
   final String childId;
   ChildTimer(this.timer, this.updateTimer, this.bloc, this.childId);
   final CountdownController controller = CountdownController();

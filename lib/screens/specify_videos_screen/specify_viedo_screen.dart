@@ -131,7 +131,7 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
                               : specifyAddVideoBloc.videos,
                           builder: (context, snapshot) {
                             List<Video> videos = snapshot.data ?? [];
-                            // specifyAddVideoBloc.changeVideoList(videos);
+                            specifyAddVideoBloc.changeVideoList(videos);
                             return Column(
                               children: List.generate(
                                 videos.length,

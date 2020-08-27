@@ -211,6 +211,7 @@ class _ChildMainViedoListState extends State<ChildMainViedoList>
                         //             //   ),
                         //             // ),
                         FutureBuilder<List<Video>>(
+                          initialData: [],
                           future: widget.videoListBloc.fetchVideos(),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {

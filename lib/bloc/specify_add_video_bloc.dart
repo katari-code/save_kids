@@ -150,7 +150,6 @@ class SpecifyAddVideoBloc extends BlocBase {
   List<Video> returnChosenVideos() {
     return [
       ...videoList.value.where((element) => element.chosen == true).toList(),
-      ...videosFromDB.value.where((element) => element.chosen == true).toList()
     ];
   }
 

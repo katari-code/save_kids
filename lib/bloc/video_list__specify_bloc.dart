@@ -1,24 +1,18 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
-import 'package:logger/logger.dart';
 
 import 'package:rxdart/rxdart.dart';
-import 'package:save_kids/models/category.dart';
 import 'package:save_kids/models/child.dart';
 import 'package:save_kids/models/timer.dart';
 import 'package:save_kids/models/video.dart';
 import 'package:save_kids/services/repository.dart';
-import 'package:save_kids/util/style.dart';
 
-class ChildVideoListBloc extends BlocBase {
-  ChildVideoListBloc() {
-    changeCategory(categoriesList[0]);
+class ChildVideoListSpecifyBloc extends BlocBase {
+  ChildVideoListSpecifyBloc() {
     timer.addStream(changeTimer);
     child.addStream(changeChild);
   }
 
   static String _pageToken = '';
-
-  Repository _videoRepo = Repository();
   Repository _repository = Repository<Child>(collection: 'children');
   Repository _childRepo = Repository<Child>(collection: 'children');
 
@@ -28,19 +22,11 @@ class ChildVideoListBloc extends BlocBase {
   BehaviorSubject<String> childId = BehaviorSubject<String>();
 
   BehaviorSubject<List<String>> videosList = BehaviorSubject<List<String>>();
-  final _category = BehaviorSubject<Category>();
-
-  void changeCategory(Category category) {
-    if (category != _category.value) _pageToken = '';
-    _category.sink.add(category);
-    // fetchVideos();
-  }
 
   updateTimer(Timer time) {
     localTimer = time;
   }
 
-  Stream<Category> get streamCategory => _category.stream;
   Stream<Child> getChild(String id) {
     return _childRepo.getDocument(Child(), id);
   }
@@ -76,34 +62,10 @@ class ChildVideoListBloc extends BlocBase {
     });
   }
 
-  get changeVideos {
-    return _category.switchMap<List<Video>>((value) {
-      return _videoRepo
-          .getVideosBySearch(value.search, pageToken: _pageToken)
-          .asStream()
-          .switchMap<List<Video>>((map) {
-        if (map != null) {
-          _pageToken = map['pageToken'];
-          return BehaviorSubject.seeded(map['data']);
-        }
-        return BehaviorSubject.seeded([]);
-      });
-    });
-  }
-
   Future<List<Video>> fetchVideos() async {
     List<Video> videos = [];
-    if (_category.value.categoryName == "Explor" &&
-        child.value.specifyVideos.isNotEmpty) {
-      final videosList = await _repository.getVideos(child.value.specifyVideos);
-      videos = videosList;
-    } else {
-      final map = await _videoRepo.getVideosBySearch(_category.value.search,
-          pageToken: _pageToken);
-      videos.addAll(map['data']);
-      _pageToken = map['pageToken'];
-    }
-
+    final videosList = await _repository.getVideos(child.value.specifyVideos);
+    videos = videosList;
     return videos;
   }
 
@@ -125,7 +87,6 @@ class ChildVideoListBloc extends BlocBase {
 
   @override
   void dispose() {
-    _category.drain();
     print('disposing');
     timer.drain();
     videosList.drain();
