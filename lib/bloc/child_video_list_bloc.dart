@@ -1,4 +1,5 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
+import 'package:logger/logger.dart';
 
 import 'package:rxdart/rxdart.dart';
 import 'package:save_kids/models/category.dart';
@@ -92,9 +93,12 @@ class ChildVideoListBloc extends BlocBase {
 
   Future<List<Video>> fetchVideos() async {
     List<Video> videos = [];
+    Logger().i(_category.value.categoryName);
+    Logger().i(child.value.specifyVideos.isNotEmpty);
     if (_category.value.categoryName == "Explor" &&
         child.value.specifyVideos.isNotEmpty) {
       final videosList = await _repository.getVideos(child.value.specifyVideos);
+      Logger().i(videosList);
       videos = videosList;
     } else {
       final map = await _videoRepo.getVideosBySearch(_category.value.search,
