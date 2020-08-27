@@ -28,6 +28,9 @@ class Channel implements Mapper {
         id: map['id'],
         title: map['snippet']['title'],
         profilePictureUrl: map['snippet']['thumbnails']['default']['url'],
+        subscriberCount: map['statistics']['subscriberCount'],
+        videoCount: map['statistics']['videoCount'],
+        uploadPlaylistId: map['contentDetails']['relatedPlaylists']['uploads'],
         chosen: false);
   }
 
@@ -36,6 +39,16 @@ class Channel implements Mapper {
             id: map['snippet']['channelId'],
             title: map['snippet']['title'],
             profilePictureUrl: map['snippet']['thumbnails']['default']['url'],
+            description: map['snippet']['description'],
+            chosen: false);
+
+  Channel.fromSearchMapViedos(Map<String, dynamic> map)
+      : this(
+            id: map['snippet']['channelId'],
+            title: map['snippet']['title'],
+            profilePictureUrl: map['snippet']['thumbnails']['default']['url'],
+            uploadPlaylistId:
+                map['contentDetails']['relatedPlaylists']['uploads'] ?? [],
             description: map['snippet']['description'],
             chosen: false);
 

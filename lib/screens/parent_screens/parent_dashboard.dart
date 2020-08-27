@@ -450,6 +450,8 @@ class KidsProfiles extends StatelessWidget {
                   ),
                 ],
               );
+            } else {
+              return ProgressBar();
             }
           }),
     );

@@ -71,6 +71,14 @@ class Video implements Mapper {
       chosen: false,
     );
   }
+  factory Video.fromMapSearch(Map<String, dynamic> snippet) {
+    return Video(
+      id: snippet['resourceId']['videoId'],
+      title: snippet['title'],
+      thumbnailUrl: snippet['thumbnails']['high']['url'],
+      channelTitle: snippet['channelTitle'],
+    );
+  }
 
   @override
   fromSearchMap(Map<String, dynamic> map) {

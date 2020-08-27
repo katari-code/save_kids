@@ -1,1 +1,2 @@
-GET  https://www.googleapis.com/youtube/v3
+GET  https://www.googleapis.com/youtube/v3/channels?id=UC6Dy0rQ6zDnQuHQ1EeErGUA&part=contentDetails
+

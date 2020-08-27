@@ -3,7 +3,6 @@ import 'package:rxdart/rxdart.dart';
 import 'package:save_kids/models/category.dart';
 import 'package:save_kids/models/video.dart';
 import 'package:save_kids/services/repository.dart';
-import 'package:save_kids/util/style.dart';
 
 class VideoListBloc extends BlocBase {
   VideoListBloc() {
@@ -64,7 +63,6 @@ final categories = [
   Category(
     'Explor',
     'Explor for kids',
-    color: kYellowColor,
     index: 0,
     isSelected: true,
     imgURl:
@@ -75,7 +73,6 @@ final categories = [
     'Education',
     'science for kids',
     index: 1,
-    color: kYellowColor,
     isSelected: true,
     imgURl:
         "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/categories%2Fceducation%408x.png?alt=media&token=b6250206-7d7e-452b-91b7-fd40bc847ac1",
@@ -86,7 +83,6 @@ final categories = [
     'Shows',
     'Shows for kids',
     index: 2,
-    color: kYellowColor,
     isSelected: true,
     imgURl:
         "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/categories%2Fcshows%408x.png?alt=media&token=a1d71049-0fc7-43e6-b331-c3480f00e25e",
@@ -94,7 +90,6 @@ final categories = [
   Category(
     'Music',
     'science for kids',
-    color: kYellowColor,
     index: 3,
     isSelected: true,
     imgURl:
@@ -105,7 +100,6 @@ final categories = [
   Category(
     'Cartoon',
     'cartoon for kids',
-    color: kBlueDarkColor,
     isSelected: false,
     index: 4,
     imgURl:

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:save_kids/models/category.dart';
 import 'package:save_kids/models/schedule.dart';
 import 'package:save_kids/util/style.dart';
 
@@ -81,7 +82,8 @@ class ScheduleCard extends StatelessWidget {
                   runSpacing: 10,
                   children: List<Widget>.generate(schedule.categories.length,
                       (index) {
-                    return ShowTimeCategory(schedule.categories[index]);
+                    return ShowTimeCategory(
+                        categoriesList[schedule.categories[index]].imgURl);
                   })),
             )
           ],
