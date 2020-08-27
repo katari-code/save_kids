@@ -1,20 +1,14 @@
-import 'dart:ui';
-
-import 'package:save_kids/util/style.dart';
-
 class Category {
   int index;
   String categoryName;
   String search;
   bool isSelected;
-  Color color;
   String imgURl;
   String v1; // Vector 1
   String v2; // Vector 2
   Category(
     this.categoryName,
     this.search, {
-    this.color,
     this.isSelected,
     this.imgURl,
     this.index,
@@ -33,7 +27,6 @@ final categoriesList = [
   Category(
     'Explore',
     'Explore for kids',
-    color: kYellowColor,
     index: 0,
     isSelected: false,
     imgURl:
@@ -43,7 +36,6 @@ final categoriesList = [
     'Education',
     'science for kids',
     index: 1,
-    color: kYellowColor,
     isSelected: false,
     imgURl:
         "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/categories%2Fceducation%408x.png?alt=media&token=b6250206-7d7e-452b-91b7-fd40bc847ac1",
@@ -54,7 +46,6 @@ final categoriesList = [
     'Shows',
     'Shows for kids',
     index: 2,
-    color: kYellowColor,
     isSelected: false,
     imgURl:
         "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/categories%2Fcshows%408x.png?alt=media&token=a1d71049-0fc7-43e6-b331-c3480f00e25e",
@@ -62,14 +53,12 @@ final categoriesList = [
   Category(
     'Music',
     'science for kids',
-    color: kYellowColor,
     index: 3,
     isSelected: false,
     imgURl:
         "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/categories%2Fcmusic%408x.png?alt=media&token=0626f186-a4f2-4672-bd1e-1610d911c986",
   ),
   Category('Cartoon', 'cartoon for kids',
-      color: kBlueDarkColor,
       isSelected: false,
       index: 4,
       imgURl:

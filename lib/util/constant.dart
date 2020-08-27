@@ -23,3 +23,5 @@ const kChildAccountRoute = "/child";
 const kVideoListRoute = "/child/videos";
 const kVideoDetailsRoute = "/child/videos/video";
 const kVideoDisplayRoute = "/child/videos/display";
+const kChildMainViedoListWatchSchedule =
+    "/child/ChildMainViedoListWatchSchedule";

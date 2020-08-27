@@ -1,34 +1,34 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:save_kids/models/category.dart';
+import 'package:save_kids/models/channel.dart';
 import 'package:save_kids/models/child.dart';
 import 'package:save_kids/models/schedule.dart';
-import 'package:save_kids/models/timer.dart';
+
 import 'package:save_kids/models/video.dart';
 import 'package:save_kids/services/repository.dart';
-import 'package:save_kids/util/style.dart';
 
 class ChildVideoListWSBloc extends BlocBase {
   ChildVideoListWSBloc() {
-    changeCategory(categories[0]);
-    timer.addStream(changeTimer);
+    changeCategory(categoriesList[0]);
     child.addStream(changeChild);
+    schedule.addStream(changeSchedule);
   }
 
   static String _pageToken = '';
 
   Repository _videoRepo = Repository();
-  Repository _repository = Repository<Child>(collection: 'children');
   Repository _childRepo = Repository<Child>(collection: 'children');
-  Repository _schedulerepository = Repository<Schedule>(collection: 'schedule');
+  Repository _schRepo = Repository<Schedule>(collection: 'schedule');
 
-  BehaviorSubject<Timer> timer = BehaviorSubject<Timer>();
-  Timer localTimer;
   BehaviorSubject<Child> child = BehaviorSubject<Child>();
   BehaviorSubject<String> childId = BehaviorSubject<String>();
-  BehaviorSubject<DateTime> chosenDate = BehaviorSubject<DateTime>();
 
+  BehaviorSubject<Schedule> schedule = BehaviorSubject<Schedule>();
+  BehaviorSubject<String> scheduleId = BehaviorSubject<String>();
   BehaviorSubject<List<String>> videosList = BehaviorSubject<List<String>>();
+  BehaviorSubject<List<Channel>> channels = BehaviorSubject<List<Channel>>();
+
   final _category = BehaviorSubject<Category>();
 
   void changeCategory(Category category) {
@@ -37,40 +37,15 @@ class ChildVideoListWSBloc extends BlocBase {
     // fetchVideos();
   }
 
-  updateTimer(Timer time) {
-    localTimer = time;
-  }
-
   Stream<Category> get streamCategory => _category.stream;
+  Stream<List<Channel>> get streamChannels => channels.stream;
+
   Stream<Child> getChild(String id) {
     return _childRepo.getDocument(Child(), id);
   }
 
-  Stream<List<Schedule>> get changeSchedule {
-    return child.switchMap<List<Schedule>>((child) {
-      return chosenDate.switchMap((date) {
-        if (date != null && child != null) {
-          return _schedulerepository.getSchedules(childId.value, date);
-        } else {
-          return BehaviorSubject.seeded([]);
-        }
-      });
-    });
-  }
-
-  get changeTimer {
-    return childId.switchMap((value) {
-      if (value != null) {
-        return getChild(value).switchMap<Timer>((child) {
-          if (child != null) {
-            return BehaviorSubject.seeded(child.timer);
-          } else {
-            return BehaviorSubject.seeded(Timer());
-          }
-        });
-      }
-      return BehaviorSubject.seeded(Timer());
-    });
+  Stream<Schedule> getSchedule(String id) {
+    return _schRepo.getDocument(Schedule(), id);
   }
 
   get changeChild {
@@ -86,6 +61,29 @@ class ChildVideoListWSBloc extends BlocBase {
         });
       }
       return BehaviorSubject.seeded(Child());
+    });
+  }
+
+  get changeSchedule {
+    return scheduleId.switchMap((value) {
+      if (value != null) {
+        return getSchedule(value).switchMap<Schedule>((schedule) {
+          // Logger().i('here in changeSchedule ', schedule);
+          if (schedule != null) {
+            List<Channel> tempChannels = [];
+            for (int i = 0; i < schedule.channels.length; i++) {
+              _videoRepo.getChannel(schedule.channels[i]).then((channle) {
+                tempChannels.add(channle);
+              });
+            }
+            channels.sink.add(tempChannels);
+            return BehaviorSubject.seeded(schedule);
+          } else {
+            return BehaviorSubject.seeded(Schedule());
+          }
+        });
+      }
+      return BehaviorSubject.seeded(Schedule());
     });
   }
 
@@ -107,8 +105,8 @@ class ChildVideoListWSBloc extends BlocBase {
   Future<List<Video>> fetchVideos() async {
     List<Video> videos = [];
     if (_category.value.categoryName == "Explor" &&
-        child.value.specifyVideos.isNotEmpty) {
-      final videosList = await _repository.getVideos(child.value.specifyVideos);
+        schedule.value.videos.isNotEmpty) {
+      final videosList = await _videoRepo.getVideos(schedule.value.videos);
       videos = videosList;
     } else {
       final map = await _videoRepo.getVideosBySearch(_category.value.search,
@@ -120,83 +118,19 @@ class ChildVideoListWSBloc extends BlocBase {
     return videos;
   }
 
-  //store it in the backend if the app is closed or on background
-  Future storeTimer(String childId) async {
-    Repository _repo = Repository<Child>(collection: 'children');
-    Child getChild = await _repo.getDocument(Child(), childId).first;
-
-    Child updatedChild = getChild..timer = localTimer;
-    await _repo.setDocument(updatedChild, updatedChild.id);
-  }
-
   Future updateWatchHistory(String videoId, String childId) async {
-    Child value = await _repository.getDocument(Child(), childId).first;
+    Child value = await _childRepo.getDocument(Child(), childId).first;
 
     Child updatedChild = value..watchHistory.add(videoId);
-    await _repository.setDocument(updatedChild, updatedChild.id);
+    await _childRepo.setDocument(updatedChild, updatedChild.id);
   }
 
   @override
   void dispose() {
     _category.drain();
     print('disposing');
-    timer.drain();
+    channels.drain();
     videosList.drain();
-    localTimer = null;
     super.dispose();
   }
-
-  final categories = [
-    Category(
-      'Explor',
-      'Explor for kids',
-      color: kYellowColor,
-      index: 0,
-      isSelected: true,
-      imgURl:
-          "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/categories%2Fccexploer.png?alt=media&token=f7ecff35-9621-4f14-9e4c-8dd60c204605",
-      v1: "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/categories%2Fv2_explore.svg?alt=media&token=007b4f77-c012-4b8e-bddd-a92bfaa1b2b7",
-    ),
-    Category(
-      'Education',
-      'science for kids',
-      index: 1,
-      color: kYellowColor,
-      isSelected: true,
-      imgURl:
-          "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/categories%2Fceducation%408x.png?alt=media&token=b6250206-7d7e-452b-91b7-fd40bc847ac1",
-      v1: "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/categories%2Fedu_v2.svg?alt=media&token=a719a517-20f9-47ed-8f0d-a13d24248acd",
-      v2: "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/categories%2Fedu_v1.svg?alt=media&token=2dfd82f6-a25c-4b4e-a5bc-30853e38ab03",
-    ),
-    Category(
-      'Shows',
-      'Shows for kids',
-      index: 2,
-      color: kYellowColor,
-      isSelected: true,
-      imgURl:
-          "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/categories%2Fcshows%408x.png?alt=media&token=a1d71049-0fc7-43e6-b331-c3480f00e25e",
-    ),
-    Category(
-      'Music',
-      'Music for kids',
-      color: kYellowColor,
-      index: 3,
-      isSelected: true,
-      imgURl:
-          "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/categories%2Fcmusic%408x.png?alt=media&token=0626f186-a4f2-4672-bd1e-1610d911c986",
-      v1: "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/categories%2Fv1_music.svg?alt=media&token=8a66eca3-6cb4-4615-b67b-caf02a007998",
-      v2: "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/categories%2Fv2_music.svg?alt=media&token=1892cedd-473b-4135-a7ff-605845066178",
-    ),
-    Category(
-      'Cartoon',
-      'cartoon for kids',
-      color: kBlueDarkColor,
-      isSelected: false,
-      index: 4,
-      imgURl:
-          "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/categories%2Fccartoon.png?alt=media&token=87b155a9-611b-4cfc-92fe-04167f7ed0c6",
-      v1: "https://firebasestorage.googleapis.com/v0/b/save-video-kids.appspot.com/o/categories%2Fv1_explore.svg?alt=media&token=2679baed-fe78-4d97-afe0-8d70456a3946",
-    ),
-  ];
 }

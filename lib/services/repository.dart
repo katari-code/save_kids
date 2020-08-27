@@ -188,7 +188,6 @@ class Repository<T extends FireStoreConverter> {
   }
 
   //logout
-
   Future<void> logout() async {
     await _authServiceProvider.signOut();
   }
@@ -206,6 +205,7 @@ class Repository<T extends FireStoreConverter> {
 
   Future<Map> getChannelsBySearch(String search, {String pageToken}) async {
     _youtubeApi = YoutubeApiProvider<Channel>();
+
     try {
       return _youtubeApi.fetchBySearchCategory(
           mapper: Channel(),
@@ -229,11 +229,10 @@ class Repository<T extends FireStoreConverter> {
     }
   }
 
-  Future<List<Channel>> getChannels(List<String> channels) async {
+  Future<Channel> getChannel(String channel) async {
     _youtubeApi = YoutubeApiProvider<Channel>();
     try {
-      return _youtubeApi.fethList(
-          collection: channels, type: 'channel', mapper: Channel());
+      return await _youtubeApi.fetchChannel(channelId: channel);
     } catch (e) {
       logger.e(e);
       return null;

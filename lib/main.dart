@@ -19,6 +19,7 @@ import 'package:save_kids/bloc/watch_schedule_bloc.dart';
 import 'package:save_kids/models/child_avatar.dart';
 
 import 'package:provider/provider.dart';
+import 'package:save_kids/screens/child_display_videos/child_display_videos_watch_sche.dart';
 import 'package:save_kids/util/constant.dart';
 
 import 'package:save_kids/util/preference/prefs_singleton.dart';
@@ -68,7 +69,8 @@ class MyApp extends StatelessWidget {
           Bloc((i) => ChildVideoListBloc()),
           Bloc((i) => WatchHistoryBloc()),
           Bloc((i) => KidsAccountsSpecifyVideosBloc()),
-          Bloc((i) => SpecifyAddVideoBloc())
+          Bloc((i) => SpecifyAddVideoBloc()),
+          Bloc((i) => ChildMainViedoListWatchSchedule()),
         ],
         child: MaterialApp(
           title: 'Safe Video Kids',

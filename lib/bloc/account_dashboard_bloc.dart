@@ -12,8 +12,12 @@ class AccountDashboardBloc extends BlocBase {
 
   String parentId;
   bool isNew = false;
+  _getdata() async {
+    await _repository.getChannel("UC6Dy0rQ6zDnQuHQ1EeErGUA");
+  }
 
   AccountDashboardBloc() {
+    _getdata();
     changeEditMode(false);
     checkIsEmailVerified;
     chosenDate.add(DateTime.now());

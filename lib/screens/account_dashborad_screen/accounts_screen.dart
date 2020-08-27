@@ -23,6 +23,7 @@ class AccountDashboardScreen extends StatefulWidget {
 
 class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
   var editMode = true;
+  bool showTime = false;
 
   dispose() {
     SystemChrome.setPreferredOrientations([
@@ -275,41 +276,42 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
                                             snapshot.data[index].id);
                                         accountDashBloc.chosenDate
                                             .add(DateTime.now());
-                                        List<Schedule> schss =
+                                        List<Schedule> schedules =
                                             await accountDashBloc
                                                 .changeSchedule.first;
+                                        Logger().i(schedules.length);
+                                        Schedule schedule;
+                                        // schedules.forEach((element) {
 
-                                        Logger().i(schss[0]
-                                            .dateStart
-                                            .difference(DateTime.now())
-                                            .inSeconds);
-                                        Logger().i(schss[0]
-                                                .dateEnd
-                                                .difference(DateTime.now())
-                                                .inSeconds /
-                                            60);
+                                        //   } else {
+                                        //     Logger().i("not show time");
+                                        //   }
+                                        // });
 
-                                        if (schss[0]
-                                                .dateStart
-                                                .isBefore(DateTime.now()) &&
-                                            schss[0]
-                                                .dateStart
-                                                .isAfter(DateTime.now())) {
-                                          Logger().i("ShowTime");
-                                        } else {
-                                          Logger().i("not show time");
+                                        for (int i = 0;
+                                            i < schedules.length;
+                                            i++) {
+                                          if (schedules[i]
+                                                  .dateStart
+                                                  .isBefore(DateTime.now()) &&
+                                              schedules[i]
+                                                  .dateEnd
+                                                  .isAfter(DateTime.now())) {
+                                            schedule = schedules[i];
+                                            Logger().i(schedule.id);
+                                            Navigator.pushNamed(context,
+                                                kChildMainViedoListWatchSchedule,
+                                                arguments: schedule);
+                                            break;
+                                          } else {
+                                            Logger().i(
+                                              schedules[i].dateStart.toString(),
+                                            );
+                                            Logger().i(
+                                              schedules.length,
+                                            );
+                                          }
                                         }
-                                        StreamBuilder<List<Schedule>>(
-                                            stream: accountDashBloc
-                                                .schedules.stream,
-                                            builder: (context, snapshot) {
-                                              if (snapshot.hasData) {
-                                                Logger().d(
-                                                    snapshot.data[0].childId);
-                                              } else {
-                                                Logger().d("koss");
-                                              }
-                                            });
                                       }
                                     },
                                     child: Column(

@@ -96,9 +96,9 @@ class AddScheduleBloc extends BlocBase {
         .toLocal();
 
     // Logger().i(dateSt, dateTime);
-    List<String> categories = _categories.value
+    List<int> categories = _categories.value
         .where((event) => event.isSelected == true)
-        .map((e) => e.imgURl)
+        .map((e) => e.index)
         .toList();
     Schedule schedule = Schedule(
       categories: categories ?? [],

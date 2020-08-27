@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:save_kids/screens/account_dashborad_screen/accounts_screen.dart';
 import 'package:save_kids/screens/child_display_videos/child_display_videos.dart';
+import 'package:save_kids/screens/child_display_videos/child_display_videos_watch_sche.dart';
 import 'package:save_kids/screens/child_display_videos/video_list.dart';
 import 'package:save_kids/screens/child_display_videos/video_player_screen/video_player_screen.dart';
 import 'package:save_kids/screens/create_child_profile/create_child_profile.dart';
@@ -101,6 +102,12 @@ Route<dynamic> createRoute(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (context) => SpecifyVideoScreen(
           childID: settings.arguments,
+        ),
+      );
+    case kChildMainViedoListWatchSchedule:
+      return MaterialPageRoute(
+        builder: (context) => ChildMainViedoListWatchSchedule(
+          schedule: settings.arguments,
         ),
       );
   }

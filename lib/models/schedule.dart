@@ -6,7 +6,7 @@ class Schedule implements FireStoreConverter {
   final String childId;
   final DateTime dateStart;
   final DateTime dateEnd;
-  final List<String> categories;
+  final List<int> categories;
   final List<String> videos;
   final List<String> channels;
   final String day;
@@ -24,10 +24,8 @@ class Schedule implements FireStoreConverter {
           id: snapshot.documentID,
           childId: snapshot.data['childId'],
           // day: snapshot.data['day'] ?? '',
-          categories: [
-                ...List<String>.from(snapshot.data['categories']).toList()
-              ] ??
-              [],
+          categories:
+              [...List<int>.from(snapshot.data['categories']).toList()] ?? [],
 
           dateEnd: snapshot.data['dateEnd'].toDate().toLocal(),
           dateStart: snapshot.data['dateStart'].toDate().toLocal(),
