@@ -506,50 +506,58 @@ class KidsCard extends StatelessWidget {
                 Expanded(
                   child: Column(
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          GestureDetector(
-                            onTap: () async =>
-                                await parentDashBoardBloc.deleteChild(child.id),
-                            child: SvgPicture.asset(
-                              'images/svgs/trash.svg',
-                              height: 50,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 30,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: child.type != "WC"
+                              ? MainAxisAlignment.spaceBetween
+                              : MainAxisAlignment.spaceAround,
+                          children: [
+                            GestureDetector(
+                              onTap: () async => await parentDashBoardBloc
+                                  .deleteChild(child.id),
+                              child: SvgPicture.asset(
+                                'images/svgs/trash.svg',
+                                height: 50,
+                              ),
                             ),
-                          ),
-                          GestureDetector(
-                            onTap: () => Navigator.pushReplacementNamed(
-                              context,
-                              kChildEditProfileRoute,
-                              arguments: child.id,
+                            GestureDetector(
+                              onTap: () => Navigator.pushReplacementNamed(
+                                context,
+                                kChildEditProfileRoute,
+                                arguments: child.id,
+                              ),
+                              child: SvgPicture.asset(
+                                'images/svgs/edit.svg',
+                                height: 50,
+                              ),
                             ),
-                            child: SvgPicture.asset(
-                              'images/svgs/edit.svg',
-                              height: 50,
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () => Navigator.pushNamed(
-                                context, kSpecifyVideoSearchChild,
-                                arguments: child.id),
-                            child: SvgPicture.asset(
-                              'images/svgs/videosicon.svg',
-                              height: 50,
-                            ),
-                          ),
-                        ],
+                            if (child.type != "WC")
+                              GestureDetector(
+                                onTap: () => Navigator.pushNamed(
+                                    context, kSpecifyVideoSearchChild,
+                                    arguments: child.id),
+                                child: SvgPicture.asset(
+                                  'images/svgs/videosicon.svg',
+                                  height: 50,
+                                ),
+                              )
+                          ],
+                        ),
                       ),
                       SizedBox(
                         height: 10,
                       ),
                       ToggleSwitch(
                         minWidth: 110.0,
-                        initialLabelIndex: 1,
+                        initialLabelIndex: child.type == "WC" ? 1 : 0,
                         cornerRadius: 20.0,
                         activeFgColor: Colors.white,
                         inactiveBgColor: Colors.grey,
                         inactiveFgColor: Colors.white,
-                        labels: ["explor", 'schedule'],
+                        labels: ["explor mode", 'schedule'],
                         activeBgColors: [Colors.blue, Colors.pink],
                         onToggle: (index) async {
                           await parentDashBoardBloc.changeMode(child.id, index);
