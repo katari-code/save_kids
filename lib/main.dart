@@ -25,6 +25,7 @@ import 'package:save_kids/util/constant.dart';
 
 import 'package:save_kids/util/preference/prefs_singleton.dart';
 import 'package:save_kids/util/router.dart';
+import 'package:save_kids/util/style.dart';
 
 import 'bloc/add_video_bloc.dart';
 
@@ -80,6 +81,7 @@ class MyApp extends StatelessWidget {
           title: 'Safe Video Kids',
           theme: ThemeData(
             primarySwatch: Colors.blue,
+            highlightColor: kRedColor,
             visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
           supportedLocales: [

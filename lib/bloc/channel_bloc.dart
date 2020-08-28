@@ -13,7 +13,7 @@ class ChannelBloc extends BlocBase {
     _channelList.add([]);
   }
   Function(String) get changeSearchResult => _searchResult.sink.add;
-  Function(List) get changeChannelList => _channelList.sink.add;
+  Function(List<Channel>) get changeChannelList => _channelList.sink.add;
   addChosenChannel(String channelId) {
     List<Channel> videos = _channelList.value.map((channel) {
       if (channel.id == channelId) {

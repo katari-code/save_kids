@@ -82,6 +82,10 @@ class SpecifyAddVideoBloc extends BlocBase {
     return changeVideoList(videos);
   }
 
+  reset() {
+    changeVideoList(videosFromDB.value);
+  }
+
   changeChosenVideosFromDB(String videoId) {
     List<Video> videos = videosFromDB.value.map((video) {
       if (video.id == videoId) {
@@ -142,7 +146,6 @@ class SpecifyAddVideoBloc extends BlocBase {
     chosenVideos.forEach((video) {
       viedosId.add(video.id);
     });
-
     Child updatedChild = child.value..specifyVideos = viedosId;
     await _childRepo.setDocument(updatedChild, updatedChild.id);
   }

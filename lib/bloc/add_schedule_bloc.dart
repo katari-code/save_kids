@@ -4,6 +4,7 @@ import 'package:rxdart/rxdart.dart';
 // import 'package:save_kids/bloc/test/video_list_bloc_test.dart';
 import 'package:save_kids/models/category.dart';
 import 'package:save_kids/models/channel.dart';
+import 'package:save_kids/models/child.dart';
 import 'package:save_kids/models/schedule.dart';
 import 'package:save_kids/models/video.dart';
 import 'package:save_kids/services/repository.dart';
@@ -19,6 +20,7 @@ class AddScheduleBloc extends BlocBase {
     duration.add("0 mins");
   }
   Repository _repository = Repository<Schedule>(collection: 'schedule');
+  Repository _childRepo = Repository<Child>(collection: 'children');
   final _chosenVideos = BehaviorSubject<List<Video>>();
   final _chosenChannels = BehaviorSubject<List<Channel>>();
   final _timeStart = BehaviorSubject<TimeOfDay>();
@@ -108,6 +110,12 @@ class AddScheduleBloc extends BlocBase {
       dateEnd: dateEn.toLocal(),
       dateStart: dateSt.toLocal(),
     );
+
+    Child child = await _childRepo.getDocument(Child(), childId).first;
+    Child updatedChild = child..type = "WC";
+
+    _childRepo.setDocument(updatedChild, updatedChild.id);
+
     return _repository.addDocument(schedule);
   }
 

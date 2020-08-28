@@ -28,6 +28,7 @@ class _ChildMainViedoListWatchScheduleState
     extends State<ChildMainViedoListWatchSchedule> {
   int selectedIndexChannel = -1;
   int selectedIndexCateg = 0;
+  int selectedIndexSpesfy = 0;
   bool isChannel = false;
   final List<Category> categoriesO = [];
   refresh() {

@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:save_kids/models/language_filiter.dart';
 import 'package:save_kids/models/video.dart';
 import 'package:save_kids/services/repository.dart';
+import 'package:translator/translator.dart';
 
 class AddVideoBloc extends BlocBase {
   String _pageToken = '';
@@ -11,12 +13,16 @@ class AddVideoBloc extends BlocBase {
 
   final _searchResult = BehaviorSubject<String>();
   final _videoList = BehaviorSubject<List<Video>>();
+  final _language = BehaviorSubject<Language>();
   AddVideoBloc() {
     _videoList.add([]);
+    _language.add(languages[0]);
   }
 
   Function(String) get changeSearchResult => _searchResult.sink.add;
-  Function(List) get changeVideoList => _videoList.sink.add;
+  Function(List<Video>) get changeVideoList => _videoList.sink.add;
+  Function(Language) get changeLanguage => _language.sink.add;
+
   addChosenVideo(String channelId) {
     List<Video> videos = _videoList.value.map((video) {
       if (video.id == channelId) {
@@ -43,7 +49,10 @@ class AddVideoBloc extends BlocBase {
   });
 
   Future getVideoBySearch() async {
-    final map = await _repository.getVideosBySearch(_searchResult.value,
+    var _searchResultTransleated =
+        await _searchResult.value.translate(to: _language.value.lnCode);
+    final map = await _repository.getVideosBySearch(
+        _searchResultTransleated.toString(),
         pageToken: _pageToken);
     _pageToken = map['pageToken'];
     //pagetoekn
@@ -59,6 +68,13 @@ class AddVideoBloc extends BlocBase {
   List<Video> returnChosenVideos() {
     return _videoList.value.where((element) => element.chosen == true).toList();
   }
+
+  final List<Language> languages = [
+    Language(lnName: "English", lnCode: "en"),
+    Language(lnName: "Spanish", lnCode: "es"),
+    Language(lnName: "German", lnCode: "de"),
+    Language(lnName: "French", lnCode: "fr"),
+  ];
 
   @override
   void dispose() async {

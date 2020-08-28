@@ -78,37 +78,68 @@ class _AddChannelScreenState extends State<AddChannelScreen> {
                   SizedBox(
                     height: 35,
                   ),
-                  Container(
-                    height: 51.00,
-                    width: 336.00,
-                    decoration: BoxDecoration(
-                      color: Color(0xffffffff),
-                      boxShadow: [
-                        BoxShadow(
-                          offset: Offset(0.00, 2.00),
-                          color: Color(0xff000000).withOpacity(0.10),
-                          blurRadius: 6,
-                        ),
-                      ],
-                      borderRadius: BorderRadius.circular(8.00),
-                    ),
-                    child: StreamBuilder<Object>(
-                        stream: channelBloc.searchResult,
-                        builder: (context, snapshot) {
-                          return TextField(
-                            onChanged: channelBloc.changeSearchResult,
-                            // onSubmitted: ,
-                            decoration: InputDecoration(
-                              errorText: snapshot.error,
-                              prefixIcon: GestureDetector(
-                                onTap: () => channelBloc.getChannelBySearch(),
-                                child: Icon(Icons.search),
-                              ),
-                              hintText: "Try music for kids ",
-                              border: InputBorder.none,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        height: 51.00,
+                        width: 250.00,
+                        decoration: BoxDecoration(
+                          color: Color(0xffffffff),
+                          boxShadow: [
+                            BoxShadow(
+                              offset: Offset(0.00, 2.00),
+                              color: Color(0xff000000).withOpacity(0.10),
+                              blurRadius: 6,
                             ),
-                          );
-                        }),
+                          ],
+                          borderRadius: BorderRadius.circular(8.00),
+                        ),
+                        child: StreamBuilder<Object>(
+                          stream: channelBloc.searchResult,
+                          builder: (context, snapshot) {
+                            return TextField(
+                              onChanged: channelBloc.changeSearchResult,
+                              // onSubmitted: ,
+                              decoration: InputDecoration(
+                                errorText: snapshot.error,
+                                prefixIcon: GestureDetector(
+                                  onTap: () => channelBloc.getChannelBySearch(),
+                                  child: Icon(Icons.search),
+                                ),
+                                hintText: "Try music for kids ",
+                                border: InputBorder.none,
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Container(
+                        width: 55,
+                        height: 45,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: [
+                            BoxShadow(
+                              offset: Offset(0.00, 2.00),
+                              color: Color(0xff000000).withOpacity(0.10),
+                              blurRadius: 6,
+                            )
+                          ],
+                          color: kYellowColor,
+                        ),
+                        child: FlatButton(
+                          onPressed: () {
+                            channelBloc.changeChannelList([]);
+                            channelBloc.getChannelBySearch();
+                          },
+                          child: Icon(Icons.search, color: Colors.white),
+                        ),
+                      ),
+                    ],
                   ),
                   SizedBox(
                     height: 20,
