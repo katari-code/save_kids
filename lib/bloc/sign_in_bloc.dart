@@ -59,7 +59,7 @@ class SignInBloc extends BlocBase {
   }
 
   //sign in
-  Future<Parent> signIn() {
+  Future<dynamic> signIn() {
     return _repository.signIn(_email.value, _password.value);
   }
 

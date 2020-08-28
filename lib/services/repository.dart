@@ -145,7 +145,7 @@ class Repository<T extends FireStoreConverter> {
   }
 
   //sign in
-  Future<Parent> signIn(String email, String password) async {
+  Future<dynamic> signIn(String email, String password) async {
     try {
       final result = await _authServiceProvider.signIn(email, password);
       _fireStoreProvider = FireStoreProvider<T>(
@@ -154,7 +154,7 @@ class Repository<T extends FireStoreConverter> {
       return await _fireStoreProvider.document.first;
     } catch (e) {
       logger.e(e);
-      return null;
+      return e;
     }
   }
 
@@ -168,7 +168,7 @@ class Repository<T extends FireStoreConverter> {
   }
 
   //sign up
-  Future<Parent> signUp(parent) async {
+  Future<dynamic> signUp(parent) async {
     try {
       final Parent result = await _authServiceProvider.signUp(
         parent.email,
@@ -183,7 +183,7 @@ class Repository<T extends FireStoreConverter> {
       return parent;
     } catch (e) {
       logger.e(e);
-      return null;
+      return e;
     }
   }
 

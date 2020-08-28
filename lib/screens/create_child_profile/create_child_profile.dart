@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:save_kids/app_localizations.dart';
 import 'package:save_kids/bloc/create_child_profile_bloc.dart';
+import 'package:save_kids/components/control_widgets/message.dart';
+import 'package:save_kids/components/control_widgets/progress_bar.dart';
 import 'package:save_kids/components/premium_model.dart';
 import 'package:save_kids/models/parent.dart';
 import 'package:save_kids/screens/create_child_profile/widget/time_coursal.dart';
@@ -188,39 +190,7 @@ class _AddChildScreenState extends State<AddChildScreen> {
                       TimeCoursal(
                         childBloc: createChildBloc,
                       ),
-                      StreamBuilder<Parent>(
-                          stream: createChildBloc.parentSession,
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              return GestureDetector(
-                                onTap: () async {
-                                  await popUpShow(context);
-                                  final child = await createChildBloc.addChild(
-                                      snapshot.data.id, 'exploratory');
-                                  Navigator.of(context).pop(context);
-                                },
-                                child: Container(
-                                  height: 58.00,
-                                  width: 226.00,
-                                  decoration: BoxDecoration(
-                                    color: kYellowColor,
-                                    borderRadius: BorderRadius.circular(50.00),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      text.translate('Finish'),
-                                      style: GoogleFonts.bubblegumSans(
-                                        textStyle: kBubblegum_sans32.copyWith(
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }
-                            return CircularProgressIndicator();
-                          })
+                      buildSubmitButton(createChildBloc, text)
                     ],
                   ),
                 ),
@@ -230,6 +200,63 @@ class _AddChildScreenState extends State<AddChildScreen> {
         ),
       ),
     );
+  }
+
+  Widget buildSubmitButton(
+      CreateChildProfileBloc createChildBloc, AppLocalizations text) {
+    return StreamBuilder<Parent>(
+        stream: createChildBloc.parentSession,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return StreamBuilder<Object>(
+                stream: createChildBloc.validatedStatus,
+                builder: (context, validated) {
+                  if (!validated.data) {
+                    return GestureDetector(
+                      onTap: () async {
+                        await popUpShow(context);
+
+                        if (!createChildBloc.validateCreateChild()) {
+                          return Message(
+                                  color: Colors.redAccent,
+                                  input: 'please add a name to your child!',
+                                  context: context)
+                              .displayMessage();
+                        }
+
+                        createChildBloc.showProgressBar(true);
+                        final child = await createChildBloc.addChild(
+                            snapshot.data.id, 'exploratory');
+                        createChildBloc.showProgressBar(false);
+                        Navigator.of(context).pop(context);
+                      },
+                      child: Container(
+                        height: 58.00,
+                        width: 226.00,
+                        decoration: BoxDecoration(
+                          color: kYellowColor,
+                          borderRadius: BorderRadius.circular(50.00),
+                        ),
+                        child: Center(
+                          child: Text(
+                            text.translate('Finish'),
+                            style: GoogleFonts.bubblegumSans(
+                              textStyle: kBubblegum_sans32.copyWith(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  }
+                  return ProgressBar(
+                    color: Colors.white,
+                  );
+                });
+          }
+          return CircularProgressIndicator();
+        });
   }
 
   Widget buildTextField(

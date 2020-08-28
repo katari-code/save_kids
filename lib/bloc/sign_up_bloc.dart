@@ -76,7 +76,7 @@ class SignUpBloc extends BlocBase {
     }
   }
 
-  Future<Parent> signUp() {
+  Future<dynamic> signUp() {
     Parent parent = Parent(
       email: _email.value,
       password: _password.value,

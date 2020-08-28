@@ -31,7 +31,7 @@ class CreateChildProfileBloc extends BlocBase {
   // Stream<bool> get editMode => _isEditMode.stream;
   Stream<Parent> get parentSession => _repository.authSession;
 
-  bool validateSignInFields() {
+  bool validateCreateChild() {
     if (_childName.value != null && _childName.value.isNotEmpty) {
       return true;
     } else {
