@@ -210,13 +210,21 @@ class _ChildMainViedoListState extends State<ChildMainViedoList>
                         //             //     itemBuilder: (context, index) => VideoCardEnhanced(),
                         //             //   ),
                         //             // ),
-
-                        VideoGrid(
-                          videoStream: widget.videoListBloc.videoList.stream,
-                          fetchVideos: widget.videoListBloc.fetchVideos,
-                          addToWatchHistory: (String videoId) => widget
-                              .videoListBloc
-                              .updateWatchHistory(videoId, widget.childId),
+                        FutureBuilder<List<Video>>(
+                          future: widget.videoListBloc.fetchVideos(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              List<Video> videoList = [];
+                              videoList.addAll(snapshot.data);
+                              return VideoGrid(
+                                videoList: videoList,
+                                addToWatchHistory: (String videoId) =>
+                                    widget.videoListBloc.updateWatchHistory(
+                                        videoId, widget.childId),
+                              );
+                            } else
+                              return CircularProgressIndicator();
+                          },
                         ),
                       ],
                     ),
@@ -244,80 +252,46 @@ class _ChildMainViedoListState extends State<ChildMainViedoList>
   }
 }
 
-class VideoGrid extends StatefulWidget {
+class VideoGrid extends StatelessWidget {
   const VideoGrid(
-      {Key key,
-      @required this.addToWatchHistory,
-      this.videoStream,
-      this.fetchVideos})
+      {Key key, @required this.videoList, @required this.addToWatchHistory})
       : super(key: key);
 
+  final List<Video> videoList;
   final Function addToWatchHistory;
-  final Function fetchVideos;
-  final Stream videoStream;
-
-  @override
-  _VideoGridState createState() => _VideoGridState();
-}
-
-class _VideoGridState extends State<VideoGrid> {
-  ScrollController _scrollController = ScrollController();
-  @override
-  void initState() {
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        widget.fetchVideos();
-      }
-    });
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(25.0),
-      child: StreamBuilder<List<Video>>(
-          stream: widget.videoStream,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              List<Video> videoList = [];
-              videoList.addAll(snapshot.data);
-
-              return Container(
-                height: MediaQuery.of(context).size.height * 0.9,
-                child: GridView.builder(
-                  controller: _scrollController,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 2.0,
-                    mainAxisSpacing: 2.0,
-                  ),
-                  physics: ClampingScrollPhysics(),
-                  // shrinkWrap: true,
-                  itemCount: videoList.length,
-                  itemBuilder: (context, index) => GestureDetector(
-                    onTap: () async {
-                      widget.addToWatchHistory(videoList[index].id);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => VideoPlayerScreen(
-                            viedoId: videoList[index].id,
-                          ),
-                        ),
-                      );
-                    },
-                    child: VideoCardEnhanced(
-                      videoTitle: videoList[index].title,
-                      image: videoList[index].thumbnailUrl,
-                    ),
+      child: SingleChildScrollView(
+        child: GridView.builder(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 2.0,
+            mainAxisSpacing: 2.0,
+          ),
+          physics: ClampingScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: videoList.length,
+          itemBuilder: (context, index) => GestureDetector(
+            onTap: () async {
+              addToWatchHistory(videoList[index].id);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => VideoPlayerScreen(
+                    viedoId: videoList[index].id,
                   ),
                 ),
               );
-            }
-            return ProgressBar();
-          }),
+            },
+            child: VideoCardEnhanced(
+              videoTitle: videoList[index].title,
+              image: videoList[index].thumbnailUrl,
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

@@ -27,9 +27,10 @@ class ChildMainViedoListWatchSchedule extends StatefulWidget {
 class _ChildMainViedoListWatchScheduleState
     extends State<ChildMainViedoListWatchSchedule> {
   int selectedIndexChannel = -1;
-  int selectedIndexCateg = 0;
+  int selectedIndexCateg = -1;
   int selectedIndexSpesfy = 0;
   bool isChannel = false;
+  bool isSpesfy = false;
   final List<Category> categoriesO = [];
   refresh() {
     setState(() {
@@ -156,6 +157,74 @@ class _ChildMainViedoListWatchScheduleState
                                       channels.addAll(snapshot.data);
 
                                       List<GestureDetector> childerns = [
+                                        GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              selectedIndexChannel = -1;
+                                              selectedIndexCateg = -1;
+                                              isSpesfy = true;
+                                              isChannel = false;
+                                            });
+                                          },
+                                          child: CustomAnimation(
+                                            duration:
+                                                Duration(milliseconds: 800),
+                                            delay: Duration(
+                                              milliseconds: (800 * 2).round(),
+                                            ),
+                                            curve: Curves.elasticOut,
+                                            tween: Tween<double>(
+                                              begin: 0,
+                                              end: 1,
+                                            ),
+                                            builder: (context, child, value) =>
+                                                Container(
+                                              margin: EdgeInsets.all(8),
+                                              child: Transform.scale(
+                                                scale: value,
+                                                child: Container(
+                                                  child: Column(
+                                                    children: [
+                                                      CircleAvatar(
+                                                        radius: isSpesfy ==
+                                                                false
+                                                            ? MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width /
+                                                                19
+                                                            : MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width /
+                                                                17,
+                                                        backgroundImage:
+                                                            AssetImage(
+                                                          "images/viedos.png",
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                      Container(
+                                                        width: 100,
+                                                        child: Text(
+                                                          "Recommended videos",
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style:
+                                                              kBubblegum_sans16,
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
                                         ...List<GestureDetector>.generate(
                                           categoriesO.length,
                                           (index) => GestureDetector(
@@ -166,7 +235,9 @@ class _ChildMainViedoListWatchScheduleState
                                               setState(() {
                                                 selectedIndexCateg = index;
                                                 selectedIndexChannel = -1;
+                                                selectedIndexSpesfy = -1;
                                                 isChannel = false;
+                                                isSpesfy = false;
                                               });
                                             },
                                             child: CustomAnimation(
@@ -324,9 +395,14 @@ class _ChildMainViedoListWatchScheduleState
 
                                           isChannel == false
                                               ? FutureBuilder<List<Video>>(
-                                                  future: widget
-                                                      .childVideoListWSBloc
-                                                      .fetchVideos(),
+                                                  future: isSpesfy != false
+                                                      ? widget
+                                                          .childVideoListWSBloc
+                                                          .videosFromDB
+                                                          .first
+                                                      : widget
+                                                          .childVideoListWSBloc
+                                                          .fetchVideos(),
                                                   builder: (context, snapshot) {
                                                     if (snapshot.hasData) {
                                                       List<Video> videoList =

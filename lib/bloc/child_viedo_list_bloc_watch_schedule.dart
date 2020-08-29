@@ -13,6 +13,7 @@ class ChildVideoListWSBloc extends BlocBase {
     changeCategory(categoriesList[0]);
     child.addStream(changeChild);
     schedule.addStream(changeSchedule);
+    videosFromDB.addStream(changeVideosFromDB);
   }
 
   static String _pageToken = '';
@@ -28,6 +29,8 @@ class ChildVideoListWSBloc extends BlocBase {
   BehaviorSubject<String> scheduleId = BehaviorSubject<String>();
   BehaviorSubject<List<String>> videosList = BehaviorSubject<List<String>>();
   BehaviorSubject<List<Channel>> channels = BehaviorSubject<List<Channel>>();
+
+  final videosFromDB = BehaviorSubject<List<Video>>();
 
   final _category = BehaviorSubject<Category>();
 
@@ -46,6 +49,35 @@ class ChildVideoListWSBloc extends BlocBase {
 
   Stream<Schedule> getSchedule(String id) {
     return _schRepo.getDocument(Schedule(), id);
+  }
+
+  changeChosenVideosFromDB(String videoId) {
+    List<Video> videos = videosFromDB.value.map((video) {
+      return video;
+    }).toList();
+    videosFromDB.add(videos);
+  }
+
+  Stream<List<Video>> getChosenVideosDB(List<String> videos) {
+    return _videoRepo.getVideos(videos).asStream();
+  }
+
+  get changeVideosFromDB {
+    return schedule.switchMap<List<Video>>((value) {
+      if (value != null) {
+        return getChosenVideosDB(value.videos).switchMap<List<Video>>((videos) {
+          if (videos != null) {
+            videos.forEach((element) {
+              element.chosen = true;
+            });
+            return BehaviorSubject.seeded(videos);
+          } else {
+            return BehaviorSubject.seeded([]);
+          }
+        });
+      }
+      return BehaviorSubject.seeded([]);
+    });
   }
 
   get changeChild {
@@ -104,17 +136,10 @@ class ChildVideoListWSBloc extends BlocBase {
 
   Future<List<Video>> fetchVideos() async {
     List<Video> videos = [];
-    if (_category.value.categoryName == "Explor" &&
-        schedule.value.videos.isNotEmpty) {
-      final videosList = await _videoRepo.getVideos(schedule.value.videos);
-      videos = videosList;
-    } else {
-      final map = await _videoRepo.getVideosBySearch(_category.value.search,
-          pageToken: _pageToken);
-      videos.addAll(map['data']);
-      _pageToken = map['pageToken'];
-    }
-
+    final map = await _videoRepo.getVideosBySearch(_category.value.search,
+        pageToken: _pageToken);
+    videos.addAll(map['data']);
+    _pageToken = map['pageToken'];
     return videos;
   }
 

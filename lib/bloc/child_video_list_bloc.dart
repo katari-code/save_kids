@@ -1,6 +1,5 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:logger/logger.dart';
-
 import 'package:rxdart/rxdart.dart';
 import 'package:save_kids/models/category.dart';
 import 'package:save_kids/models/child.dart';
@@ -11,10 +10,9 @@ import 'package:save_kids/util/style.dart';
 
 class ChildVideoListBloc extends BlocBase {
   ChildVideoListBloc() {
+    changeCategory(categoriesList[0]);
     timer.addStream(changeTimer);
     child.addStream(changeChild);
-    changeCategory(categoriesList[0]);
-    videosFromDB.addStream(changeVideosFromDB);
   }
 
   static String _pageToken = '';
@@ -28,26 +26,19 @@ class ChildVideoListBloc extends BlocBase {
   BehaviorSubject<Child> child = BehaviorSubject<Child>();
   BehaviorSubject<String> childId = BehaviorSubject<String>();
 
-  BehaviorSubject<List<Video>> videoList = BehaviorSubject<List<Video>>();
-  BehaviorSubject<List<Video>> videosFromDB = BehaviorSubject<List<Video>>();
-  final category = BehaviorSubject<Category>();
+  final _category = BehaviorSubject<Category>();
 
-  void changeCategory(Category newCategory) {
-    if (newCategory != category.value) {
-      _pageToken = '';
-    }
-
-    category.sink.add(newCategory);
-    if (newCategory.categoryName != 'Explor') {
-      fetchVideos();
-    }
+  void changeCategory(Category category) {
+    if (category != _category.value) _pageToken = '';
+    _category.sink.add(category);
+    // fetchVideos();
   }
 
   updateTimer(Timer time) {
     localTimer = time;
   }
 
-  Stream<Category> get streamCategory => category.stream;
+  Stream<Category> get streamCategory => _category.stream;
   Stream<Child> getChild(String id) {
     return _childRepo.getDocument(Child(), id);
   }
@@ -67,70 +58,51 @@ class ChildVideoListBloc extends BlocBase {
     });
   }
 
-  Stream<Child> get changeChild {
-    return childId.switchMap<Child>((value) {
+  get changeChild {
+    return childId.switchMap((value) {
       if (value != null) {
         return getChild(value).switchMap<Child>((child) {
           // Logger().i('here in changeChild ', child);
           if (child != null) {
             return BehaviorSubject.seeded(child);
           } else {
-            return BehaviorSubject.seeded(null);
+            return BehaviorSubject.seeded(Child());
           }
         });
       }
-      return BehaviorSubject.seeded(null);
+      return BehaviorSubject.seeded(Child());
     });
   }
 
-  // Stream<List<Video>> get changeVideos {
-  //   return child.switchMap<List<Video>>((child) {
-  //     if (child != null) {
-  //       return fetchVideos().asStream();
-  //     }
-  //     return BehaviorSubject.seeded(null);
-  //   });
-  // }
-
-  get changeVideosFromDB {
-    return child.switchMap<List<Video>>((value) {
-      if (value != null) {
-        return getChosenVideosDB(value.specifyVideos)
-            .switchMap<List<Video>>((videos) {
-          if (videos != null) {
-            _pageToken = '';
-            return BehaviorSubject.seeded(videos);
-          } else {
-            return BehaviorSubject.seeded([]);
-          }
-        });
-      }
-      return BehaviorSubject.seeded([]);
+  get changeVideos {
+    return _category.switchMap<List<Video>>((value) {
+      return _videoRepo
+          .getVideosBySearch(value.search, pageToken: _pageToken)
+          .asStream()
+          .switchMap<List<Video>>((map) {
+        if (map != null) {
+          _pageToken = map['pageToken'];
+          return BehaviorSubject.seeded(map['data']);
+        }
+        return BehaviorSubject.seeded([]);
+      });
     });
   }
 
-  Future<void> fetchVideos() async {
-    final map = await _videoRepo.getVideosBySearch(category.value.search,
-        pageToken: _pageToken);
-    List<Video> previousVids = [];
-
-    //check if we are still in our previous category
-    //if it is the same add all previous videos with the new ones
-    if (_pageToken != '') {
-      previousVids.addAll(
-        videoList.hasValue == true ? videoList.value : List<Video>.from([]),
-      );
+  Future<List<Video>> fetchVideos() async {
+    List<Video> videos = [];
+    if (_category.value.categoryName == "Explor" &&
+        child.value.specifyVideos.isNotEmpty) {
+      final videosList = await _repository.getVideos(child.value.specifyVideos);
+      videos = videosList;
+    } else {
+      final map = await _videoRepo.getVideosBySearch(_category.value.search,
+          pageToken: _pageToken);
+      videos.addAll(map['data']);
+      _pageToken = map['pageToken'];
     }
-    _pageToken = map['pageToken'];
-    List<Video> videos = [
-      ...previousVids,
-      ...List<Video>.from(map['data']).toList()
-    ].toSet().toList();
-    videoList.add(videos);
-  }
 
-  Stream<List<Video>> getChosenVideosDB(List<String> videos) {
-    return _repository.getVideos(videos).asStream();
+    return videos;
   }
 
   //store it in the backend if the app is closed or on background
@@ -151,7 +123,7 @@ class ChildVideoListBloc extends BlocBase {
 
   @override
   void dispose() {
-    category.drain();
+    _category.drain();
     print('disposing');
     timer.drain();
 
