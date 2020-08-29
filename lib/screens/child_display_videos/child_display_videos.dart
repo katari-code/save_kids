@@ -219,11 +219,7 @@ class _ChildMainViedoListState extends State<ChildMainViedoList>
                         //             // ),
 
                         VideoGrid(
-                          videoStream: widget.videoListBloc.category.value
-                                      .categoryName ==
-                                  'Explor'
-                              ? widget.videoListBloc.videosFromDB.stream
-                              : widget.videoListBloc.videoList.stream,
+                          videoStream: widget.videoListBloc.videoList.stream,
                           fetchVideos: widget.videoListBloc.fetchVideos,
                           addToWatchHistory: (String videoId) => widget
                               .videoListBloc

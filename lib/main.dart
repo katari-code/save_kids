@@ -9,6 +9,7 @@ import 'package:save_kids/bloc/auth_bloc.dart';
 import 'package:save_kids/bloc/channel_bloc.dart';
 import 'package:save_kids/bloc/child_video_list_bloc.dart';
 import 'package:save_kids/bloc/create_child_profile_bloc.dart';
+import 'package:save_kids/bloc/edit_child_profile_bloc.dart';
 import 'package:save_kids/bloc/parent_dashboard_bloc.dart';
 import 'package:save_kids/bloc/parent_password_bloc.dart';
 import 'package:save_kids/bloc/parent_settings_bloc.dart';
@@ -24,6 +25,7 @@ import 'package:save_kids/util/constant.dart';
 
 import 'package:save_kids/util/preference/prefs_singleton.dart';
 import 'package:save_kids/util/router.dart';
+import 'package:save_kids/util/style.dart';
 
 import 'bloc/add_video_bloc.dart';
 
@@ -31,6 +33,7 @@ import 'bloc/kids_accounts_specify_video_bloc.dart';
 import 'bloc/sign_in_bloc.dart';
 import 'bloc/sign_up_bloc.dart';
 
+import 'bloc/video_list__specify_bloc.dart';
 import 'models/schedule_data.dart';
 
 void main() async {
@@ -71,11 +74,14 @@ class MyApp extends StatelessWidget {
           Bloc((i) => KidsAccountsSpecifyVideosBloc()),
           Bloc((i) => SpecifyAddVideoBloc()),
           Bloc((i) => ChildMainViedoListWatchSchedule()),
+          Bloc((i) => EditChildProfileBloc()),
+          Bloc((i) => ChildVideoListSpecifyBloc()),
         ],
         child: MaterialApp(
           title: 'Safe Video Kids',
           theme: ThemeData(
             primarySwatch: Colors.blue,
+            highlightColor: kRedColor,
             visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
           supportedLocales: [

@@ -141,7 +141,9 @@ class _AddScheduleState extends State<AddSchedule> {
           width: 18,
         ),
         GestureDetector(
-          onTap: () => Navigator.pop(context),
+          onTap: () {
+            Navigator.pop(context);
+          },
           child: Icon(
             Icons.cancel,
             size: 32,
@@ -264,9 +266,10 @@ class _AddScheduleState extends State<AddSchedule> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Specify channels',
+                    'Channels',
                     style: kBubblegum_sans20.copyWith(
                       color: Colors.white,
                     ),
@@ -302,7 +305,7 @@ class _AddScheduleState extends State<AddSchedule> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Specify Videos',
+                    'Videos',
                     style: kBubblegum_sans20.copyWith(
                       color: Colors.white,
                     ),
@@ -325,7 +328,7 @@ class _AddScheduleState extends State<AddSchedule> {
   Container buildButton(AddScheduleBloc addScheduleBloc, bool isValidate) {
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: 100,
+        horizontal: 50,
       ),
       child: RaisedButton(
         textColor: Colors.white,

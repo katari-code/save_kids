@@ -30,7 +30,7 @@ class SpecifyAddVideoBloc extends BlocBase {
   BehaviorSubject<String> childId = BehaviorSubject<String>();
 
   Function(String) get changeSearchResult => searchResult.sink.add;
-  Function(List) get changeVideoList => videoList.sink.add;
+  Function(List<Video>) get changeVideoList => videoList.sink.add;
 
   Function(Language) get changeLanguage => _language.sink.add;
 
@@ -72,6 +72,7 @@ class SpecifyAddVideoBloc extends BlocBase {
 
   addChosenVideo(String videoId) {
     List<Video> videos = videoList.value.map((video) {
+      Logger().i(video.id);
       if (video.id == videoId) {
         Video editedVideo = video..chosen = !video.chosen;
         return editedVideo;
@@ -79,6 +80,10 @@ class SpecifyAddVideoBloc extends BlocBase {
       return video;
     }).toList();
     return changeVideoList(videos);
+  }
+
+  reset() {
+    changeVideoList(videosFromDB.value);
   }
 
   changeChosenVideosFromDB(String videoId) {
@@ -123,11 +128,11 @@ class SpecifyAddVideoBloc extends BlocBase {
         pageToken: _pageToken);
     _pageToken = map['pageToken'];
     //page token for videos
-    final previousVids =
+    var previousVids =
         videoList.hasValue == true ? videoList.value : List<Video>.from([]);
     List<Video> videos = [
-      ...previousVids,
-      ...List<Video>.from(map['data']).toList()
+      ...List<Video>.from(map['data']).toList(),
+      ...previousVids
     ].toSet().toList();
     changeVideoList(videos);
   }
@@ -141,7 +146,6 @@ class SpecifyAddVideoBloc extends BlocBase {
     chosenVideos.forEach((video) {
       viedosId.add(video.id);
     });
-
     Child updatedChild = child.value..specifyVideos = viedosId;
     await _childRepo.setDocument(updatedChild, updatedChild.id);
   }
@@ -149,7 +153,6 @@ class SpecifyAddVideoBloc extends BlocBase {
   List<Video> returnChosenVideos() {
     return [
       ...videoList.value.where((element) => element.chosen == true).toList(),
-      ...videosFromDB.value.where((element) => element.chosen == true).toList()
     ];
   }
 

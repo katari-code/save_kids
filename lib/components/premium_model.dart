@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:save_kids/screens/create_child_profile/create_child_profile.dart';
-import 'package:save_kids/util/constant.dart';
 import 'package:save_kids/util/style.dart';
 
 Future popUpShow(BuildContext context) {
@@ -85,8 +83,7 @@ Future popUpShow(BuildContext context) {
                     height: 15,
                   ),
                   GestureDetector(
-                    onTap: () =>
-                        Navigator.pushNamed(context, kWatchSchdeuleRoute),
+                    onTap: () => Navigator.pop(context),
                     child: AgeChip(
                       color: kBlueDarkColor,
                       text: "Upgrade Now ",

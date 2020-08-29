@@ -46,17 +46,6 @@ class _ParentPasswordState extends State<ParentPassword> {
       backgroundColor: kBlueColor,
       body: Stack(
         children: <Widget>[
-          Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            child: Opacity(
-              opacity: 0.1,
-              child: Image.asset(
-                "images/background.png",
-                repeat: ImageRepeat.repeat,
-              ),
-            ),
-          ),
           SafeArea(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -92,28 +81,6 @@ class _ParentPasswordState extends State<ParentPassword> {
                         ),
                       ],
                     ),
-                  ),
-                ),
-                Container(
-                  height: 60,
-                  width: 120,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(25),
-                      bottomLeft: Radius.circular(25),
-                    ),
-                    color: kYellowColor,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text(
-                        "Pin",
-                        style: kBubblegum_sans28.copyWith(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
                   ),
                 ),
               ],

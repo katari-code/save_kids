@@ -61,8 +61,8 @@ class VideoListBloc extends BlocBase {
 
 final categories = [
   Category(
-    'Explor',
-    'Explor for kids',
+    'Explore',
+    'Explore for kids',
     index: 0,
     isSelected: true,
     imgURl:
