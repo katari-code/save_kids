@@ -27,12 +27,18 @@ class ChildMainViedoList extends StatefulWidget {
 
 class _ChildMainViedoListState extends State<ChildMainViedoList>
     with WidgetsBindingObserver {
+  ScrollController _scrollController = ScrollController();
   int selectedIndex = 0;
 
   @override
   void initState() {
     widget.videoListBloc.childId.add(widget.childId);
-
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        widget.videoListBloc.fetchVideos();
+      }
+    });
     super.initState();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
@@ -115,6 +121,7 @@ class _ChildMainViedoListState extends State<ChildMainViedoList>
                 ),
               ),
               ListView(
+                controller: _scrollController,
                 children: [
                   SafeArea(
                     child: Column(
@@ -265,18 +272,6 @@ class VideoGrid extends StatefulWidget {
 }
 
 class _VideoGridState extends State<VideoGrid> {
-  ScrollController _scrollController = ScrollController();
-  @override
-  void initState() {
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        widget.fetchVideos();
-      }
-    });
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -288,10 +283,10 @@ class _VideoGridState extends State<VideoGrid> {
               List<Video> videoList = [];
               videoList.addAll(snapshot.data);
 
-              return Container(
-                height: MediaQuery.of(context).size.height * 0.9,
+              return SingleChildScrollView(
                 child: GridView.builder(
-                  controller: _scrollController,
+                  shrinkWrap: true,
+
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     crossAxisSpacing: 2.0,
