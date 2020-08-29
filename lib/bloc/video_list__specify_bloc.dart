@@ -10,9 +10,9 @@ class ChildVideoListSpecifyBloc extends BlocBase {
   ChildVideoListSpecifyBloc() {
     timer.addStream(changeTimer);
     child.addStream(changeChild);
+    videosFromDB.addStream(changeVideosFromDB);
   }
 
-  static String _pageToken = '';
   Repository _repository = Repository<Child>(collection: 'children');
   Repository _childRepo = Repository<Child>(collection: 'children');
 
@@ -21,7 +21,7 @@ class ChildVideoListSpecifyBloc extends BlocBase {
   BehaviorSubject<Child> child = BehaviorSubject<Child>();
   BehaviorSubject<String> childId = BehaviorSubject<String>();
 
-  BehaviorSubject<List<String>> videosList = BehaviorSubject<List<String>>();
+  BehaviorSubject<List<Video>> videosFromDB = BehaviorSubject<List<Video>>();
 
   updateTimer(Timer time) {
     localTimer = time;
@@ -62,11 +62,24 @@ class ChildVideoListSpecifyBloc extends BlocBase {
     });
   }
 
-  Future<List<Video>> fetchVideos() async {
-    List<Video> videos = [];
-    final videosList = await _repository.getVideos(child.value.specifyVideos);
-    videos = videosList;
-    return videos;
+  get changeVideosFromDB {
+    return child.switchMap<List<Video>>((value) {
+      if (value != null) {
+        return getChosenVideosDB(value.specifyVideos)
+            .switchMap<List<Video>>((videos) {
+          if (videos != null) {
+            return BehaviorSubject.seeded(videos);
+          } else {
+            return BehaviorSubject.seeded([]);
+          }
+        });
+      }
+      return BehaviorSubject.seeded([]);
+    });
+  }
+
+  Stream<List<Video>> getChosenVideosDB(List<String> videos) {
+    return _repository.getVideos(videos).asStream();
   }
 
   //store it in the backend if the app is closed or on background
@@ -89,7 +102,7 @@ class ChildVideoListSpecifyBloc extends BlocBase {
   void dispose() {
     print('disposing');
     timer.drain();
-    videosList.drain();
+    videosFromDB.drain();
     localTimer = null;
     super.dispose();
   }

@@ -7,6 +7,7 @@ import 'package:save_kids/components/video_card.dart';
 import 'package:save_kids/models/timer.dart';
 import 'package:save_kids/models/video.dart';
 import 'package:save_kids/screens/child_display_videos/video_player_screen/video_player_screen.dart';
+import 'package:save_kids/screens/child_display_videos/widget/video_grid.dart';
 import 'package:save_kids/util/style.dart';
 import 'widget/childTimer.dart';
 
@@ -103,22 +104,11 @@ class _ChildMainViedoListSpecifyState extends State<ChildMainViedoListSpecify>
                             ],
                           ),
                         ),
-                        FutureBuilder<List<Video>>(
-                          initialData: [],
-                          future: widget.videoListBloc.fetchVideos(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              List<Video> videoList = [];
-                              videoList.addAll(snapshot.data);
-                              return VideoGrid(
-                                videoList: videoList,
-                                addToWatchHistory: (String videoId) =>
-                                    widget.videoListBloc.updateWatchHistory(
-                                        videoId, widget.childId),
-                              );
-                            } else
-                              return CircularProgressIndicator();
-                          },
+                        VideoGrid(
+                          videoStream: widget.videoListBloc.videosFromDB.stream,
+                          addToWatchHistory: (String videoId) => widget
+                              .videoListBloc
+                              .updateWatchHistory(videoId, widget.childId),
                         ),
                       ],
                     ),
@@ -141,50 +131,6 @@ class _ChildMainViedoListSpecifyState extends State<ChildMainViedoListSpecify>
             ],
           )
         ],
-      ),
-    );
-  }
-}
-
-class VideoGrid extends StatelessWidget {
-  const VideoGrid(
-      {Key key, @required this.videoList, @required this.addToWatchHistory})
-      : super(key: key);
-
-  final List<Video> videoList;
-  final Function addToWatchHistory;
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(25.0),
-      child: SingleChildScrollView(
-        child: GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 2.0,
-            mainAxisSpacing: 2.0,
-          ),
-          physics: ClampingScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: videoList.length,
-          itemBuilder: (context, index) => GestureDetector(
-            onTap: () async {
-              addToWatchHistory(videoList[index].id);
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => VideoPlayerScreen(
-                    viedoId: videoList[index].id,
-                  ),
-                ),
-              );
-            },
-            child: VideoCardEnhanced(
-              videoTitle: videoList[index].title,
-              image: videoList[index].thumbnailUrl,
-            ),
-          ),
-        ),
       ),
     );
   }
