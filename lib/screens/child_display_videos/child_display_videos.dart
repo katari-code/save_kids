@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:logger/logger.dart';
-import 'package:bloc_pattern/bloc_pattern.dart' as Bolc;
 import 'package:save_kids/bloc/child_video_list_bloc.dart';
 import 'package:flutter/services.dart';
-
 import 'package:save_kids/bloc/test/video_list_bloc_test.dart';
 import 'package:save_kids/components/control_widgets/progress_bar.dart';
-import 'package:save_kids/components/video_card.dart';
 import 'package:save_kids/models/category.dart';
 import 'package:save_kids/models/timer.dart';
-import 'package:save_kids/models/video.dart';
-import 'package:save_kids/screens/child_display_videos/video_player_screen/video_player_screen.dart';
 import 'package:save_kids/screens/child_display_videos/widget/video_grid.dart';
 import 'package:save_kids/util/style.dart';
 import 'package:simple_animations/simple_animations.dart';
@@ -19,7 +13,7 @@ import 'widget/childTimer.dart';
 
 class ChildMainViedoList extends StatefulWidget {
   final String childId;
-  ChildVideoListBloc videoListBloc = ChildVideoListBloc();
+  final ChildVideoListBloc videoListBloc = ChildVideoListBloc();
 
   ChildMainViedoList(this.childId);
   @override

@@ -14,7 +14,6 @@ class ChildVideoListBloc extends BlocBase {
     timer.addStream(changeTimer);
     child.addStream(changeChild);
     changeCategory(categoriesList[0]);
-    videosFromDB.addStream(changeVideosFromDB);
   }
 
   static String _pageToken = '';
@@ -29,7 +28,7 @@ class ChildVideoListBloc extends BlocBase {
   BehaviorSubject<String> childId = BehaviorSubject<String>();
 
   BehaviorSubject<List<Video>> videoList = BehaviorSubject<List<Video>>();
-  BehaviorSubject<List<Video>> videosFromDB = BehaviorSubject<List<Video>>();
+
   final category = BehaviorSubject<Category>();
 
   void changeCategory(Category newCategory) {
@@ -38,9 +37,8 @@ class ChildVideoListBloc extends BlocBase {
     }
 
     category.sink.add(newCategory);
-    if (newCategory.categoryName != 'Explor') {
-      fetchVideos();
-    }
+
+    fetchVideos();
   }
 
   updateTimer(Timer time) {
@@ -71,7 +69,6 @@ class ChildVideoListBloc extends BlocBase {
     return childId.switchMap<Child>((value) {
       if (value != null) {
         return getChild(value).switchMap<Child>((child) {
-          // Logger().i('here in changeChild ', child);
           if (child != null) {
             return BehaviorSubject.seeded(child);
           } else {
@@ -80,32 +77,6 @@ class ChildVideoListBloc extends BlocBase {
         });
       }
       return BehaviorSubject.seeded(null);
-    });
-  }
-
-  // Stream<List<Video>> get changeVideos {
-  //   return child.switchMap<List<Video>>((child) {
-  //     if (child != null) {
-  //       return fetchVideos().asStream();
-  //     }
-  //     return BehaviorSubject.seeded(null);
-  //   });
-  // }
-
-  get changeVideosFromDB {
-    return child.switchMap<List<Video>>((value) {
-      if (value != null) {
-        return getChosenVideosDB(value.specifyVideos)
-            .switchMap<List<Video>>((videos) {
-          if (videos != null) {
-            _pageToken = '';
-            return BehaviorSubject.seeded(videos);
-          } else {
-            return BehaviorSubject.seeded([]);
-          }
-        });
-      }
-      return BehaviorSubject.seeded([]);
     });
   }
 
@@ -129,10 +100,6 @@ class ChildVideoListBloc extends BlocBase {
     videoList.add(videos);
   }
 
-  Stream<List<Video>> getChosenVideosDB(List<String> videos) {
-    return _repository.getVideos(videos).asStream();
-  }
-
   //store it in the backend if the app is closed or on background
   Future storeTimer(String childId) async {
     Repository _repo = Repository<Child>(collection: 'children');
@@ -152,9 +119,8 @@ class ChildVideoListBloc extends BlocBase {
   @override
   void dispose() {
     category.drain();
-    print('disposing');
     timer.drain();
-
+    videoList.drain();
     localTimer = null;
     super.dispose();
   }
