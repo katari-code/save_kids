@@ -92,6 +92,13 @@ class _ParentPasswordState extends State<ParentPassword> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
+                  SvgPicture.asset(
+                    "images/logos/appLogo_small.svg",
+                    height: 80,
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
                   Text(
                     "Verify Your Account Password",
                     style: kBubblegum_sans28,

@@ -35,13 +35,9 @@ class WatchHistory extends StatelessWidget {
                     children: [
                       Container(
                         padding: EdgeInsets.all(15),
-                        height: 80,
+                        width: MediaQuery.of(context).size.width,
                         // width: 180,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(25),
-                            bottomRight: Radius.circular(25),
-                          ),
                           color: kYellowColor,
                         ),
                         child: GestureDetector(
@@ -54,11 +50,22 @@ class WatchHistory extends StatelessWidget {
                                 size: 30,
                                 color: Colors.white,
                               ),
-                              Text(
-                                "Watch History",
-                                style: kBubblegum_sans40.copyWith(
-                                  color: Colors.white,
-                                ),
+                              Row(
+                                children: [
+                                  Text(
+                                    "Watch History",
+                                    style: kBubblegum_sans32.copyWith(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Image.asset(
+                                    'images/whatchHistory.png',
+                                    width: 60,
+                                  )
+                                ],
                               ),
                             ],
                           ),

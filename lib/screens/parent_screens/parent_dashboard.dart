@@ -153,7 +153,7 @@ class _ParentDashboardState extends State<ParentDashboard> {
                                                 color: kBlueDarkColor),
                                           ),
                                           Text(
-                                            'Monitor your children account',
+                                            'Monitor your children accounts',
                                             style: kBubblegum_sans24.copyWith(
                                                 color: Colors.black,
                                                 fontWeight: FontWeight.normal),
