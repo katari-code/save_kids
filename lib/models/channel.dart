@@ -9,6 +9,7 @@ class Channel implements Mapper {
   final String videoCount;
   final String uploadPlaylistId;
   final String description;
+  String pageToken;
   bool chosen;
   List<Video> videos;
 
@@ -21,6 +22,7 @@ class Channel implements Mapper {
       this.uploadPlaylistId,
       this.videos,
       this.chosen,
+      this.pageToken,
       this.description});
 
   factory Channel.fromMap(Map<String, dynamic> map) {

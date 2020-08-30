@@ -32,17 +32,24 @@ class _ChildMainViedoListWatchScheduleState
   bool isChannel = false;
   bool isSpesfy = false;
   final List<Category> categoriesO = [];
-  refresh() {
-    setState(() {
-//all the reload processes
-    });
-  }
+  String channelId = '';
+  ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     widget.childVideoListWSBloc.childId.add(widget.schedule.childId);
     widget.childVideoListWSBloc.scheduleId.add(widget.schedule.id);
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        if (isChannel) {
+          widget.childVideoListWSBloc.fetchPlayList(channelId);
+        } else if (!isSpesfy) {
+          widget.childVideoListWSBloc.fetchVideos();
+        }
+      }
+    });
     Timer(Duration(seconds: 3), () {
       setState(() {});
     });
@@ -100,6 +107,7 @@ class _ChildMainViedoListWatchScheduleState
               //   ),
               // ),
               ListView(
+                controller: _scrollController,
                 children: [
                   SafeArea(
                     child: Column(
@@ -137,33 +145,161 @@ class _ChildMainViedoListWatchScheduleState
                           ),
                         ),
                         StreamBuilder<Schedule>(
-                            stream: widget.childVideoListWSBloc.schedule.stream,
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                Schedule schedule = snapshot.data;
-                                for (var i = 0;
-                                    i < schedule.categories.length;
-                                    i++) {
-                                  categoriesO.add(
-                                      categoriesList[schedule.categories[i]]);
-                                }
+                          stream: widget.childVideoListWSBloc.schedule.stream,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              Schedule schedule = snapshot.data;
+                              for (var i = 0;
+                                  i < schedule.categories.length;
+                                  i++) {
+                                categoriesO.add(
+                                    categoriesList[schedule.categories[i]]);
+                              }
 
-                                return StreamBuilder<List<Channel>>(
-                                  stream: widget
-                                      .childVideoListWSBloc.channels.stream,
-                                  builder: (context, snapshot) {
-                                    if (snapshot.hasData) {
-                                      List<Channel> channels = [];
-                                      channels.addAll(snapshot.data);
+                              return StreamBuilder<List<Channel>>(
+                                stream:
+                                    widget.childVideoListWSBloc.channels.stream,
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    List<Channel> channels = [];
+                                    channels.addAll(snapshot.data);
 
-                                      List<GestureDetector> childerns = [
-                                        GestureDetector(
+                                    List<GestureDetector> childerns = [
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            selectedIndexChannel = -1;
+                                            selectedIndexCateg = -1;
+                                            isSpesfy = true;
+                                            isChannel = false;
+                                          });
+                                        },
+                                        child: CustomAnimation(
+                                          duration: Duration(milliseconds: 800),
+                                          delay: Duration(
+                                            milliseconds: (800 * 2).round(),
+                                          ),
+                                          curve: Curves.elasticOut,
+                                          tween: Tween<double>(
+                                            begin: 0,
+                                            end: 1,
+                                          ),
+                                          builder: (context, child, value) =>
+                                              Container(
+                                            margin: EdgeInsets.all(8),
+                                            child: Transform.scale(
+                                              scale: value,
+                                              child: Container(
+                                                child: Column(
+                                                  children: [
+                                                    CircleAvatar(
+                                                      radius: isSpesfy == false
+                                                          ? MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width /
+                                                              19
+                                                          : MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width /
+                                                              17,
+                                                      backgroundImage:
+                                                          AssetImage(
+                                                        "images/viedos.png",
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      height: 10,
+                                                    ),
+                                                    Container(
+                                                      width: 100,
+                                                      child: Text(
+                                                        "Recommended videos",
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style:
+                                                            kBubblegum_sans16,
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      ...List<GestureDetector>.generate(
+                                        categoriesO.length,
+                                        (index) => GestureDetector(
+                                          onTap: () {
+                                            widget.childVideoListWSBloc
+                                                .changeCategory(
+                                                    categoriesO[index]);
+                                            setState(() {
+                                              selectedIndexCateg = index;
+                                              selectedIndexChannel = -1;
+                                              selectedIndexSpesfy = -1;
+                                              isChannel = false;
+                                              isSpesfy = false;
+                                            });
+                                          },
+                                          child: CustomAnimation(
+                                            duration:
+                                                Duration(milliseconds: 800),
+                                            delay: Duration(
+                                              milliseconds: (800 * 2).round(),
+                                            ),
+                                            curve: Curves.elasticOut,
+                                            tween: Tween<double>(
+                                              begin: 0,
+                                              end: 1,
+                                            ),
+                                            builder: (context, child, value) =>
+                                                Container(
+                                              margin: EdgeInsets.all(8),
+                                              child: Transform.scale(
+                                                scale: value,
+                                                child: Column(
+                                                  children: [
+                                                    CircleAvatar(
+                                                      radius: selectedIndexCateg !=
+                                                              index
+                                                          ? MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width /
+                                                              17
+                                                          : MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width /
+                                                              14,
+                                                      backgroundColor:
+                                                          Colors.transparent,
+                                                      child: Image.network(
+                                                        categoriesO[index]
+                                                            .imgURl,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      ...List<GestureDetector>.generate(
+                                        channels.length,
+                                        (index) => GestureDetector(
                                           onTap: () {
                                             setState(() {
-                                              selectedIndexChannel = -1;
+                                              selectedIndexChannel = index;
                                               selectedIndexCateg = -1;
-                                              isSpesfy = true;
-                                              isChannel = false;
+                                              isChannel = true;
+                                              channelId = channels[index].id;
                                             });
                                           },
                                           child: CustomAnimation(
@@ -186,8 +322,8 @@ class _ChildMainViedoListWatchScheduleState
                                                   child: Column(
                                                     children: [
                                                       CircleAvatar(
-                                                        radius: isSpesfy ==
-                                                                false
+                                                        radius: selectedIndexChannel !=
+                                                                index
                                                             ? MediaQuery.of(
                                                                         context)
                                                                     .size
@@ -199,8 +335,9 @@ class _ChildMainViedoListWatchScheduleState
                                                                     .width /
                                                                 17,
                                                         backgroundImage:
-                                                            AssetImage(
-                                                          "images/viedos.png",
+                                                            NetworkImage(
+                                                          channels[index]
+                                                              .profilePictureUrl,
                                                         ),
                                                       ),
                                                       SizedBox(
@@ -209,7 +346,7 @@ class _ChildMainViedoListWatchScheduleState
                                                       Container(
                                                         width: 100,
                                                         child: Text(
-                                                          "Recommended videos",
+                                                          channels[index].title,
                                                           overflow: TextOverflow
                                                               .ellipsis,
                                                           textAlign:
@@ -225,241 +362,113 @@ class _ChildMainViedoListWatchScheduleState
                                             ),
                                           ),
                                         ),
-                                        ...List<GestureDetector>.generate(
-                                          categoriesO.length,
-                                          (index) => GestureDetector(
-                                            onTap: () {
-                                              widget.childVideoListWSBloc
-                                                  .changeCategory(
-                                                      categoriesO[index]);
-                                              setState(() {
-                                                selectedIndexCateg = index;
-                                                selectedIndexChannel = -1;
-                                                selectedIndexSpesfy = -1;
-                                                isChannel = false;
-                                                isSpesfy = false;
-                                              });
-                                            },
-                                            child: CustomAnimation(
-                                              duration:
-                                                  Duration(milliseconds: 800),
-                                              delay: Duration(
-                                                milliseconds: (800 * 2).round(),
-                                              ),
-                                              curve: Curves.elasticOut,
-                                              tween: Tween<double>(
-                                                begin: 0,
-                                                end: 1,
-                                              ),
-                                              builder:
-                                                  (context, child, value) =>
-                                                      Container(
-                                                margin: EdgeInsets.all(8),
-                                                child: Transform.scale(
-                                                  scale: value,
-                                                  child: Column(
-                                                    children: [
-                                                      CircleAvatar(
-                                                        radius: selectedIndexCateg !=
-                                                                index
-                                                            ? MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width /
-                                                                17
-                                                            : MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width /
-                                                                14,
-                                                        backgroundColor:
-                                                            Colors.transparent,
-                                                        child: Image.network(
-                                                          categoriesO[index]
-                                                              .imgURl,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
+                                      ),
+                                    ];
+                                    return Column(
+                                      children: [
+                                        SizedBox(
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          height: 140,
+                                          child: ListView(
+                                            scrollDirection: Axis.horizontal,
+                                            children: childerns,
                                           ),
                                         ),
-                                        ...List<GestureDetector>.generate(
-                                          channels.length,
-                                          (index) => GestureDetector(
-                                            onTap: () {
-                                              setState(() {
-                                                selectedIndexChannel = index;
-                                                selectedIndexCateg = -1;
-                                                isChannel = true;
-                                              });
-                                            },
-                                            child: CustomAnimation(
-                                              duration:
-                                                  Duration(milliseconds: 800),
-                                              delay: Duration(
-                                                milliseconds: (800 * 2).round(),
-                                              ),
-                                              curve: Curves.elasticOut,
-                                              tween: Tween<double>(
-                                                begin: 0,
-                                                end: 1,
-                                              ),
-                                              builder:
-                                                  (context, child, value) =>
-                                                      Container(
-                                                margin: EdgeInsets.all(8),
-                                                child: Transform.scale(
-                                                  scale: value,
-                                                  child: Container(
-                                                    child: Column(
-                                                      children: [
-                                                        CircleAvatar(
-                                                          radius: selectedIndexChannel !=
-                                                                  index
-                                                              ? MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width /
-                                                                  19
-                                                              : MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width /
-                                                                  17,
-                                                          backgroundImage:
-                                                              NetworkImage(
-                                                            channels[index]
-                                                                .profilePictureUrl,
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 10,
-                                                        ),
-                                                        Container(
-                                                          width: 100,
-                                                          child: Text(
-                                                            channels[index]
-                                                                .title,
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                            style:
-                                                                kBubblegum_sans16,
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
+
+                                        SizedBox(
+                                          height: 15,
                                         ),
-                                      ];
-                                      return Column(
-                                        children: [
-                                          SizedBox(
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            height: 140,
-                                            child: ListView(
-                                              scrollDirection: Axis.horizontal,
-                                              children: childerns,
-                                            ),
-                                          ),
+                                        //             // Wrap(
+                                        //             //   children: List<VideoCardEnhanced>.generate(
+                                        //             //     categoriesList.length,
+                                        //             //     (index) => VideoCardEnhanced(),
+                                        //             //   ),
+                                        //             // ),
+                                        //             // SizedBox(
+                                        //             //   height: 180,
+                                        //             //   child: ListView.builder(
+                                        //             //     padding: const EdgeInsets.only(left: 50.0),
+                                        //             //     scrollDirection: Axis.horizontal,
+                                        //             //     itemCount: 50,
+                                        //             //     itemBuilder: (context, index) => VideoCardEnhanced(),
+                                        //             //   ),
+                                        //             // ),
 
-                                          SizedBox(
-                                            height: 15,
-                                          ),
-                                          //             // Wrap(
-                                          //             //   children: List<VideoCardEnhanced>.generate(
-                                          //             //     categoriesList.length,
-                                          //             //     (index) => VideoCardEnhanced(),
-                                          //             //   ),
-                                          //             // ),
-                                          //             // SizedBox(
-                                          //             //   height: 180,
-                                          //             //   child: ListView.builder(
-                                          //             //     padding: const EdgeInsets.only(left: 50.0),
-                                          //             //     scrollDirection: Axis.horizontal,
-                                          //             //     itemCount: 50,
-                                          //             //     itemBuilder: (context, index) => VideoCardEnhanced(),
-                                          //             //   ),
-                                          //             // ),
-
-                                          isChannel == false
-                                              ? FutureBuilder<List<Video>>(
-                                                  future: isSpesfy != false
-                                                      ? widget
-                                                          .childVideoListWSBloc
-                                                          .videosFromDB
-                                                          .first
-                                                      : widget
-                                                          .childVideoListWSBloc
-                                                          .fetchVideos(),
-                                                  builder: (context, snapshot) {
-                                                    if (snapshot.hasData) {
-                                                      List<Video> videoList =
-                                                          [];
-                                                      videoList.addAll(
-                                                          snapshot.data);
-                                                      return VideoGrid(
-                                                        videoList: videoList,
-                                                        addToWatchHistory: (String
-                                                                videoId) =>
-                                                            widget
-                                                                .childVideoListWSBloc
-                                                                .updateWatchHistory(
-                                                                    videoId,
-                                                                    widget
-                                                                        .schedule
-                                                                        .childId),
-                                                      );
-                                                    } else
-                                                      return CircularProgressIndicator();
-                                                  },
-                                                )
-                                              : Text(''),
-                                        ],
-                                      );
-                                    } else {
-                                      return ProgressBar();
-                                    }
-                                  },
-                                );
-                              }
-                              return ProgressBar();
-                            }),
-                        isChannel == true
-                            ? StreamBuilder<List<Channel>>(
-                                stream:
-                                    widget.childVideoListWSBloc.streamChannels,
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData &&
-                                      snapshot.data.length != 0) {
-                                    List<Channel> channelList = [];
-                                    channelList.addAll(snapshot.data);
-                                    print(snapshot.data.length);
-                                    return VideoGrid(
-                                      videoList:
-                                          channelList[selectedIndexChannel]
-                                              .videos,
-                                      addToWatchHistory: (String videoId) =>
-                                          widget.childVideoListWSBloc
-                                              .updateWatchHistory(videoId,
-                                                  widget.schedule.childId),
+                                        StreamBuilder<List>(
+                                          stream: isSpesfy != false
+                                              ? widget.childVideoListWSBloc
+                                                  .videosFromDB
+                                              : isChannel != false
+                                                  ? widget.childVideoListWSBloc
+                                                      .channels
+                                                  : widget.childVideoListWSBloc
+                                                      .videoList,
+                                          builder: (context, snapshot) {
+                                            if (snapshot.hasData) {
+                                              List<Video> videoList = [];
+                                              if (isChannel) {
+// List<Video> channelVideos =   channelList[selectedIndexChannel].videos
+                                                videoList.addAll(
+                                                    List<Video>.from(snapshot
+                                                            .data[
+                                                                selectedIndexChannel]
+                                                            .videos) ??
+                                                        []);
+                                              } else
+                                                videoList.addAll(
+                                                    List<Video>.from(
+                                                            snapshot.data)
+                                                        .toList());
+                                              return VideoGrid(
+                                                videoList: videoList,
+                                                addToWatchHistory:
+                                                    (String videoId) => widget
+                                                        .childVideoListWSBloc
+                                                        .updateWatchHistory(
+                                                            videoId,
+                                                            widget.schedule
+                                                                .childId),
+                                              );
+                                            } else
+                                              return ProgressBar();
+                                          },
+                                        )
+                                      ],
                                     );
-                                  } else
-                                    return CircularProgressIndicator();
+                                  } else {
+                                    return ProgressBar();
+                                  }
                                 },
-                              )
-                            : Text(" "),
+                              );
+                            }
+                            return ProgressBar();
+                          },
+                        ),
+                        // isChannel == true
+                        //     ? StreamBuilder<List<Channel>>(
+                        //         stream:
+                        //             widget.childVideoListWSBloc.streamChannels,
+                        //         builder: (context, snapshot) {
+                        //           if (snapshot.hasData &&
+                        //               snapshot.data.length != 0) {
+                        //             List<Channel> channelList = [];
+                        //             channelList.addAll(snapshot.data);
+                        //             print(snapshot.data.length);
+                        //             return VideoGrid(
+                        //               videoList:
+                        //                   channelList[selectedIndexChannel]
+                        //                       .videos,
+                        //               addToWatchHistory: (String videoId) =>
+                        //                   widget.childVideoListWSBloc
+                        //                       .updateWatchHistory(videoId,
+                        //                           widget.schedule.childId),
+                        //             );
+                        //           } else
+                        //             return CircularProgressIndicator();
+                        //         },
+                        //       )
+                        //     : Text(" "),
                       ],
                     ),
                   ),
@@ -492,9 +501,7 @@ class _ChildMainViedoListWatchScheduleState
 }
 
 class VideoGrid extends StatelessWidget {
-  const VideoGrid(
-      {Key key, @required this.videoList, @required this.addToWatchHistory})
-      : super(key: key);
+  const VideoGrid({@required this.videoList, @required this.addToWatchHistory});
 
   final List<Video> videoList;
   final Function addToWatchHistory;

@@ -119,16 +119,20 @@ class YoutubeApiProvider<T> {
       Map<String, dynamic> data = json.decode(response.body)['items'][0];
       Channel channel = Channel.fromMap(data);
 
-      channel.videos = await fetchVideosFromPlaylist(
+      final map = await fetchVideosFromPlaylist(
         playlistId: channel.uploadPlaylistId,
       );
+      channel.videos = map['data'];
+      channel.pageToken = map['pageToken'];
       return channel;
     } else {
-      throw json.decode(response.body)['error']['message'];
+      Logger().e(json.decode(response.body)['error']['message']);
+      return null;
     }
   }
 
-  Future<List<Video>> fetchVideosFromPlaylist({String playlistId}) async {
+  Future<Map> fetchVideosFromPlaylist(
+      {String playlistId, String pageToken}) async {
     Map<String, String> parameters = {
       'part': 'snippet',
       'playlistId': playlistId,
@@ -159,9 +163,10 @@ class YoutubeApiProvider<T> {
           Video.fromMapSearch(json['snippet']),
         );
       });
-      return videos;
+      return {'data': videos, 'pageToken': pageToken};
     } else {
-      throw json.decode(response.body)['error']['message'];
+      Logger().e(json.decode(response.body)['error']['message']);
+      return {'data': List<Video>.from([]).toList(), 'pageToken': ''};
     }
   }
 }
