@@ -298,6 +298,7 @@ class _ChildMainViedoListWatchScheduleState
                                             setState(() {
                                               selectedIndexChannel = index;
                                               selectedIndexCateg = -1;
+                                              isSpesfy = false;
                                               isChannel = true;
                                               channelId = channels[index].id;
                                             });
@@ -394,7 +395,6 @@ class _ChildMainViedoListWatchScheduleState
                                         //             //     itemBuilder: (context, index) => VideoCardEnhanced(),
                                         //             //   ),
                                         //             // ),
-
                                         StreamBuilder<List>(
                                           stream: isSpesfy != false
                                               ? widget.childVideoListWSBloc

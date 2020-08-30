@@ -184,7 +184,6 @@ class _ParentDashboardState extends State<ParentDashboard> {
                                               context, kWatchSchdeuleRoute),
                                           child: Container(
                                             width: 150,
-                                            height: 130,
                                             padding: EdgeInsets.all(15),
                                             decoration: BoxDecoration(
                                               borderRadius:
@@ -193,8 +192,33 @@ class _ParentDashboardState extends State<ParentDashboard> {
                                             ),
                                             child: Column(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.center,
+                                                  MainAxisAlignment.start,
                                               children: <Widget>[
+                                                Align(
+                                                  alignment: Alignment.topLeft,
+                                                  child: Container(
+                                                    padding: EdgeInsets.all(5),
+                                                    height: 30,
+                                                    width: 30,
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.black
+                                                          .withOpacity(0.40),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8),
+                                                    ),
+                                                    child: SvgPicture.asset(
+                                                      "images/Iconawesome-crown.svg",
+                                                      color: parent.isPremium ==
+                                                              "free_account"
+                                                          ? Colors.grey[50]
+                                                          : Color(0xffEDA500),
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: 8,
+                                                ),
                                                 SvgPicture.asset(
                                                   'images/svgs/schedule.svg',
                                                   height: 60,
@@ -212,7 +236,10 @@ class _ParentDashboardState extends State<ParentDashboard> {
                                                       ),
                                                     ),
                                                   ],
-                                                )
+                                                ),
+                                                SizedBox(
+                                                  height: 30,
+                                                ),
                                               ],
                                             ),
                                           ),
@@ -225,7 +252,6 @@ class _ParentDashboardState extends State<ParentDashboard> {
                                               context, kHistoryWatchRoute),
                                           child: Container(
                                             width: 150,
-                                            height: 130,
                                             padding: EdgeInsets.all(15),
                                             decoration: BoxDecoration(
                                               borderRadius:
@@ -233,7 +259,12 @@ class _ParentDashboardState extends State<ParentDashboard> {
                                               color: Color(0xffFFA846),
                                             ),
                                             child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
                                               children: <Widget>[
+                                                SizedBox(
+                                                  height: 20,
+                                                ),
                                                 Image.asset(
                                                   'images/whatchHistory.png',
                                                   height: 70,
@@ -247,6 +278,9 @@ class _ParentDashboardState extends State<ParentDashboard> {
                                                       .copyWith(
                                                     color: Colors.white,
                                                   ),
+                                                ),
+                                                SizedBox(
+                                                  height: 38,
                                                 ),
                                               ],
                                             ),
