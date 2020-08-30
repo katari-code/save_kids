@@ -119,11 +119,11 @@ class YoutubeApiProvider<T> {
       Map<String, dynamic> data = json.decode(response.body)['items'][0];
       Channel channel = Channel.fromMap(data);
 
-      final map = await fetchVideosFromPlaylist(
-        playlistId: channel.uploadPlaylistId,
-      );
-      channel.videos = map['data'];
-      channel.pageToken = map['pageToken'];
+      // final map = await fetchVideosFromPlaylist(
+      //   playlistId: channel.uploadPlaylistId,
+      // );
+      // channel.videos = map['data'];
+      channel.pageToken = '';
       return channel;
     } else {
       Logger().e(json.decode(response.body)['error']['message']);

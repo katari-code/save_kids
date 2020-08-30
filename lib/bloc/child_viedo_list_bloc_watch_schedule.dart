@@ -30,6 +30,8 @@ class ChildVideoListWSBloc extends BlocBase {
   BehaviorSubject<String> scheduleId = BehaviorSubject<String>();
   BehaviorSubject<List<Video>> videoList = BehaviorSubject<List<Video>>();
   BehaviorSubject<List<Channel>> channels = BehaviorSubject<List<Channel>>();
+  BehaviorSubject<Channel> chosenChannel = BehaviorSubject<Channel>();
+  BehaviorSubject<List<Video>> playList = BehaviorSubject<List<Video>>();
 
   final videosFromDB = BehaviorSubject<List<Video>>();
 
@@ -39,6 +41,14 @@ class ChildVideoListWSBloc extends BlocBase {
     if (category != _category.value) _pageToken = '';
     _category.sink.add(category);
     fetchVideos();
+  }
+
+  void changechosenChannel(int index) {
+    if (chosenChannel.hasValue) {
+      chosenChannel.value.pageToken = '';
+    }
+    chosenChannel.add(channels.value[index]);
+    fetchPlayList();
   }
 
   Stream<Category> get streamCategory => _category.stream;
@@ -130,23 +140,32 @@ class ChildVideoListWSBloc extends BlocBase {
     videoList.add(videos);
   }
 
-  Future<void> fetchPlayList(String channelId) async {
+  Future<void> fetchPlayList({String channelId}) async {
     //get the videos from the specific channel
-    Channel channel =
-        channels.value.firstWhere((element) => element.id == channelId);
+    // Channel channel =
+    //     channels.value.firstWhere((element) => element.id == channelId);
     final map = await _videoRepo.getPlayList(
-        channel.pageToken, channel.uploadPlaylistId);
+        chosenChannel.value.pageToken, chosenChannel.value.uploadPlaylistId);
 
     ///add the videos with the previous channel
-    channel.videos.addAll(map['data']);
-    channel.videos = channel.videos.toSet().toList();
-    channel.pageToken = map['pageToken'];
+    // channel.videos.addAll(map['data']);
+    // channel.videos = channel.videos.toSet().toList();
+    // channel.pageToken = map['pageToken'];
 
     //put it back to sink
-    channels.add(channels.value.map((previousChannel) {
-      if (channel.id == previousChannel.id) return channel;
-      return previousChannel;
-    }).toList());
+    // channels.add(channels.value.map((previousChannel) {
+    //   if (channel.id == previousChannel.id) return channel;
+    //   return previousChannel;
+    // }).toList());
+    List<Video> previousVids = [];
+    if (chosenChannel.value.pageToken != '') {
+      previousVids.addAll(
+        playList.hasValue == true ? playList.value : List<Video>.from([]),
+      );
+    }
+    chosenChannel.add(chosenChannel.value..pageToken = map['pageToken']);
+    final videos = [...previousVids, ...List<Video>.from(map['data']).toList()];
+    playList.add(videos);
   }
 
   Future updateWatchHistory(String videoId, String childId) async {
