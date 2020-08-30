@@ -44,7 +44,7 @@ class _ChildMainViedoListWatchScheduleState
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         if (isChannel) {
-          widget.childVideoListWSBloc.fetchPlayList(channelId);
+          widget.childVideoListWSBloc.fetchPlayList();
         } else if (!isSpesfy) {
           widget.childVideoListWSBloc.fetchVideos();
         }
@@ -301,6 +301,8 @@ class _ChildMainViedoListWatchScheduleState
                                               isChannel = true;
                                               channelId = channels[index].id;
                                             });
+                                            widget.childVideoListWSBloc
+                                                .changechosenChannel(index);
                                           },
                                           child: CustomAnimation(
                                             duration:
@@ -396,30 +398,29 @@ class _ChildMainViedoListWatchScheduleState
                                         //             // ),
 
                                         StreamBuilder<List>(
-                                          stream: isSpesfy != false
+                                          stream: isSpesfy
                                               ? widget.childVideoListWSBloc
                                                   .videosFromDB
-                                              : isChannel != false
+                                              : isChannel
                                                   ? widget.childVideoListWSBloc
-                                                      .channels
+                                                      .playList
                                                   : widget.childVideoListWSBloc
                                                       .videoList,
                                           builder: (context, snapshot) {
                                             if (snapshot.hasData) {
                                               List<Video> videoList = [];
-                                              if (isChannel) {
-// List<Video> channelVideos =   channelList[selectedIndexChannel].videos
-                                                videoList.addAll(
-                                                    List<Video>.from(snapshot
-                                                            .data[
-                                                                selectedIndexChannel]
-                                                            .videos) ??
-                                                        []);
-                                              } else
-                                                videoList.addAll(
-                                                    List<Video>.from(
-                                                            snapshot.data)
-                                                        .toList());
+//                                               if (isChannel) {
+// // List<Video> channelVideos =   channelList[selectedIndexChannel].videos
+//                                                 videoList.addAll(
+//                                                     List<Video>.from(snapshot
+//                                                             .data[
+//                                                                 selectedIndexChannel]
+//                                                             .videos) ??
+//                                                         []);
+//                                               } else
+                                              videoList.addAll(List<Video>.from(
+                                                      snapshot.data)
+                                                  .toList());
                                               return VideoGrid(
                                                 videoList: videoList,
                                                 addToWatchHistory:
@@ -430,15 +431,14 @@ class _ChildMainViedoListWatchScheduleState
                                                             widget.schedule
                                                                 .childId),
                                               );
-                                            } else
-                                              return ProgressBar();
+                                            }
+                                            return ProgressBar();
                                           },
                                         )
                                       ],
                                     );
-                                  } else {
-                                    return ProgressBar();
                                   }
+                                  return ProgressBar();
                                 },
                               );
                             }
