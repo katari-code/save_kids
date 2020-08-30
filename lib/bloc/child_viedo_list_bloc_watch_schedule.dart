@@ -13,6 +13,7 @@ class ChildVideoListWSBloc extends BlocBase {
     changeCategory(categoriesList[0]);
     child.addStream(changeChild);
     schedule.addStream(changeSchedule);
+    channels.add([]);
     videosFromDB.addStream(changeVideosFromDB);
   }
 
@@ -27,7 +28,7 @@ class ChildVideoListWSBloc extends BlocBase {
 
   BehaviorSubject<Schedule> schedule = BehaviorSubject<Schedule>();
   BehaviorSubject<String> scheduleId = BehaviorSubject<String>();
-  BehaviorSubject<List<String>> videosList = BehaviorSubject<List<String>>();
+  BehaviorSubject<List<Video>> videoList = BehaviorSubject<List<Video>>();
   BehaviorSubject<List<Channel>> channels = BehaviorSubject<List<Channel>>();
 
   final videosFromDB = BehaviorSubject<List<Video>>();
@@ -37,7 +38,7 @@ class ChildVideoListWSBloc extends BlocBase {
   void changeCategory(Category category) {
     if (category != _category.value) _pageToken = '';
     _category.sink.add(category);
-    // fetchVideos();
+    fetchVideos();
   }
 
   Stream<Category> get streamCategory => _category.stream;
@@ -51,13 +52,6 @@ class ChildVideoListWSBloc extends BlocBase {
     return _schRepo.getDocument(Schedule(), id);
   }
 
-  changeChosenVideosFromDB(String videoId) {
-    List<Video> videos = videosFromDB.value.map((video) {
-      return video;
-    }).toList();
-    videosFromDB.add(videos);
-  }
-
   Stream<List<Video>> getChosenVideosDB(List<String> videos) {
     return _videoRepo.getVideos(videos).asStream();
   }
@@ -67,9 +61,6 @@ class ChildVideoListWSBloc extends BlocBase {
       if (value != null) {
         return getChosenVideosDB(value.videos).switchMap<List<Video>>((videos) {
           if (videos != null) {
-            videos.forEach((element) {
-              element.chosen = true;
-            });
             return BehaviorSubject.seeded(videos);
           } else {
             return BehaviorSubject.seeded([]);
@@ -104,11 +95,11 @@ class ChildVideoListWSBloc extends BlocBase {
           if (schedule != null) {
             List<Channel> tempChannels = [];
             for (int i = 0; i < schedule.channels.length; i++) {
-              _videoRepo.getChannel(schedule.channels[i]).then((channle) {
-                tempChannels.add(channle);
+              _videoRepo.getChannel(schedule.channels[i]).then((channel) {
+                tempChannels.add(channel);
               });
             }
-            channels.sink.add(tempChannels);
+            channels.add(tempChannels);
             return BehaviorSubject.seeded(schedule);
           } else {
             return BehaviorSubject.seeded(Schedule());
@@ -119,28 +110,43 @@ class ChildVideoListWSBloc extends BlocBase {
     });
   }
 
-  get changeVideos {
-    return _category.switchMap<List<Video>>((value) {
-      return _videoRepo
-          .getVideosBySearch(value.search, pageToken: _pageToken)
-          .asStream()
-          .switchMap<List<Video>>((map) {
-        if (map != null) {
-          _pageToken = map['pageToken'];
-          return BehaviorSubject.seeded(map['data']);
-        }
-        return BehaviorSubject.seeded([]);
-      });
-    });
-  }
-
-  Future<List<Video>> fetchVideos() async {
-    List<Video> videos = [];
+  Future<void> fetchVideos() async {
     final map = await _videoRepo.getVideosBySearch(_category.value.search,
         pageToken: _pageToken);
-    videos.addAll(map['data']);
+    List<Video> previousVids = [];
+
+    //check if we are still in our previous category
+    //if it is the same add all previous videos with the new ones
+    if (_pageToken != '') {
+      previousVids.addAll(
+        videoList.hasValue == true ? videoList.value : List<Video>.from([]),
+      );
+    }
     _pageToken = map['pageToken'];
-    return videos;
+    List<Video> videos = [
+      ...previousVids,
+      ...List<Video>.from(map['data']).toList()
+    ].toSet().toList();
+    videoList.add(videos);
+  }
+
+  Future<void> fetchPlayList(String channelId) async {
+    //get the videos from the specific channel
+    Channel channel =
+        channels.value.firstWhere((element) => element.id == channelId);
+    final map = await _videoRepo.getPlayList(
+        channel.pageToken, channel.uploadPlaylistId);
+
+    ///add the videos with the previous channel
+    channel.videos.addAll(map['data']);
+    channel.videos = channel.videos.toSet().toList();
+    channel.pageToken = map['pageToken'];
+
+    //put it back to sink
+    channels.add(channels.value.map((previousChannel) {
+      if (channel.id == previousChannel.id) return channel;
+      return previousChannel;
+    }).toList());
   }
 
   Future updateWatchHistory(String videoId, String childId) async {
@@ -155,7 +161,7 @@ class ChildVideoListWSBloc extends BlocBase {
     _category.drain();
     print('disposing');
     channels.drain();
-    videosList.drain();
+    videoList.drain();
     super.dispose();
   }
 }

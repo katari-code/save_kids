@@ -239,6 +239,17 @@ class Repository<T extends FireStoreConverter> {
     }
   }
 
+  Future<Map> getPlayList(String pageToken, String playListId) async {
+    _youtubeApi = YoutubeApiProvider<Channel>();
+    try {
+      return await _youtubeApi.fetchVideosFromPlaylist(
+          playlistId: playListId, pageToken: pageToken);
+    } catch (e) {
+      logger.e(e);
+      return null;
+    }
+  }
+
   Future<bool> verifyAccount(String email, String password) async {
     try {
       FirebaseUser user = await currentUser;
