@@ -14,6 +14,13 @@ class AuthBloc extends BlocBase {
 
   Stream<Parent> _parentData(String parentId) =>
       _repository.getDocument(Parent(), parentId);
+
+  void setAccountPremuim() {
+    parent.value.isPremium = "premium_account";
+
+    _repository.setDocument(parent.value, parent.value.id);
+  }
+
   get _changeParent {
     return _parentSession.switchMap<Parent>((value) {
       if (value == null) {

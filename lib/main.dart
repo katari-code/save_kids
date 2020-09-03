@@ -21,6 +21,7 @@ import 'package:save_kids/models/child_avatar.dart';
 
 import 'package:provider/provider.dart';
 import 'package:save_kids/screens/child_display_videos/child_display_videos_watch_sche.dart';
+import 'package:save_kids/screens/show_models/commercial_dialogue.dart';
 import 'package:save_kids/util/constant.dart';
 
 import 'package:save_kids/util/preference/prefs_singleton.dart';
@@ -96,6 +97,7 @@ class MyApp extends StatelessWidget {
             // Built-in localization for text direction LTR/RTL
             GlobalWidgetsLocalizations.delegate,
           ],
+          debugShowCheckedModeBanner: false,
           // Returns a locale which will be used by the app
           localeResolutionCallback: (locale, supportedLocales) {
             // Check if the current device locale is supported

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -5,14 +7,17 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:save_kids/bloc/auth_bloc.dart';
 import 'package:save_kids/bloc/parent_dashboard_bloc.dart';
 import 'package:save_kids/components/control_widgets/progress_bar.dart';
-import 'package:save_kids/components/premium_model.dart';
 import 'package:save_kids/models/child.dart';
 import 'package:save_kids/models/parent.dart';
+import 'package:save_kids/screens/child_display_videos/widget/childTimer.dart';
+import 'package:save_kids/screens/show_models/commercial_dialogue.dart';
 import 'package:save_kids/services/auth_service_provider.dart';
 import 'package:save_kids/util/constant.dart';
 import 'package:save_kids/util/style.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:toggle_switch/toggle_switch.dart';
+
+final String testID = "safe_video_kids_ki_bv";
 
 class ParentDashboard extends StatefulWidget {
   @override
@@ -21,13 +26,14 @@ class ParentDashboard extends StatefulWidget {
 
 class _ParentDashboardState extends State<ParentDashboard> {
   final ScrollController controller = ScrollController();
+
   @override
   void initState() {
+    super.initState();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    super.initState();
   }
 
   @override
@@ -39,6 +45,24 @@ class _ParentDashboardState extends State<ParentDashboard> {
       DeviceOrientation.portraitDown,
     ]);
     super.dispose();
+  }
+
+  void _showModalSheet(AuthBloc authBloc) {
+    showModalBottomSheet(
+      enableDrag: true,
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(35),
+          topRight: Radius.circular(35),
+        ),
+      ),
+      backgroundColor: Colors.transparent,
+      context: context,
+      builder: (builder) => CommercialDialogue(
+        auth: authBloc,
+      ),
+    );
   }
 
   //  parent.password == null
@@ -58,6 +82,7 @@ class _ParentDashboardState extends State<ParentDashboard> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+    Future.delayed(Duration(seconds: 2), () => buildShowModeDialog2(context));
     return Scaffold(
       backgroundColor: kBlueColor,
       appBar: AppBar(
@@ -180,8 +205,12 @@ class _ParentDashboardState extends State<ParentDashboard> {
                                           MainAxisAlignment.center,
                                       children: [
                                         GestureDetector(
-                                          onTap: () => Navigator.pushNamed(
-                                              context, kWatchSchdeuleRoute),
+                                          onTap: () {
+                                            parent.isPremium == "free_account"
+                                                ? _showModalSheet(authBloc)
+                                                : Navigator.pushNamed(context,
+                                                    kWatchSchdeuleRoute);
+                                          },
                                           child: Container(
                                             width: 150,
                                             padding: EdgeInsets.all(15),
@@ -297,7 +326,9 @@ class _ParentDashboardState extends State<ParentDashboard> {
                                     SizedBox(
                                       width: 30,
                                     ),
-                                    KidsProfiles(),
+                                    KidsProfiles(
+                                      isPremuime: parent.isPremium,
+                                    ),
                                   ],
                                 ),
                               ),
@@ -390,6 +421,8 @@ class _ParentDashboardState extends State<ParentDashboard> {
 }
 
 class KidsProfiles extends StatelessWidget {
+  final isPremuime;
+  KidsProfiles({this.isPremuime});
   @override
   Widget build(BuildContext context) {
     return Consumer<ParentDashBoardBloc>(
@@ -405,6 +438,7 @@ class KidsProfiles extends StatelessWidget {
                       (index) => KidsCard(
                         parentDashBoardBloc: parentDashBoardBloc,
                         child: snapshot.data[index],
+                        isPremium: isPremuime,
                       ),
                     ),
                   ),
@@ -473,10 +507,11 @@ class KidsProfiles extends StatelessWidget {
 class KidsCard extends StatelessWidget {
   final ParentDashBoardBloc parentDashBoardBloc;
   final Child child;
-  KidsCard({this.parentDashBoardBloc, this.child});
-
+  final isPremium;
+  KidsCard({this.parentDashBoardBloc, this.child, this.isPremium});
   @override
   Widget build(BuildContext context) {
+    int toggleSwitchIndex = child.type == "WC" ? 1 : 0;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -572,15 +607,28 @@ class KidsCard extends StatelessWidget {
                       ),
                       ToggleSwitch(
                         minWidth: 110.0,
-                        initialLabelIndex: child.type == "WC" ? 1 : 0,
+                        initialLabelIndex: toggleSwitchIndex,
                         cornerRadius: 20.0,
                         activeFgColor: Colors.white,
                         inactiveBgColor: Colors.grey,
                         inactiveFgColor: Colors.white,
-                        labels: ["explore mode", 'schedule'],
+                        labels: isPremium == "free_account"
+                            ? ["explore mode"]
+                            : ["explore mode", 'schedule'],
                         activeBgColors: [Colors.blue, Colors.pink],
                         onToggle: (index) async {
-                          await parentDashBoardBloc.changeMode(child.id, index);
+                          if (isPremium == "free_account" && index != 1) {
+                            toggleSwitchIndex = 0;
+                            await parentDashBoardBloc.changeMode(
+                                child.id, index);
+                          } else if (isPremium == "premium_account") {
+                            toggleSwitchIndex = index;
+                            await parentDashBoardBloc.changeMode(
+                                child.id, index);
+                          } else {
+                            toggleSwitchIndex = 0;
+                            print("you are not a premuime haasa");
+                          }
                         },
                       ),
                       SizedBox(

@@ -8,17 +8,12 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:530075745471:android:a10d75a1d01f02a1059a0a",
+        "mobilesdk_app_id": "1:530075745471:android:ac3a3c4d466724a6059a0a",
         "android_client_info": {
-          "package_name": "com.example.save_kids"
+          "package_name": "com.KI.safe_video_kids"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "530075745471-pvnh7063n730cl847avdeees818r8hd5.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
           "current_key": "AIzaSyCLIDhfEqkmg23Q1QjCYp-JoxcnsikEEGY"
@@ -26,12 +21,7 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "530075745471-pvnh7063n730cl847avdeees818r8hd5.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

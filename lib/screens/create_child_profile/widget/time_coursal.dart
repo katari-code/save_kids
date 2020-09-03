@@ -1,8 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:save_kids/bloc/create_child_profile_bloc.dart';
-import 'package:save_kids/models/timer.dart';
+
 import 'package:save_kids/util/style.dart';
 
 class TimeCoursal extends StatelessWidget {

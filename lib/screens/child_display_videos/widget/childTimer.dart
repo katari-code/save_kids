@@ -241,3 +241,163 @@ Future buildShowModeDialog1(BuildContext context) {
     ),
   );
 }
+
+Future buildShowModeDialog2(BuildContext context) {
+  return showDialog(
+    context: context,
+    builder: (BuildContext _) => StatefulBuilder(
+      builder: (context, setStaste) => Dialog(
+        clipBehavior: Clip.hardEdge,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50),
+        ),
+        child: Container(
+          height: MediaQuery.of(context).size.height * 0.8,
+          width: 300,
+          decoration: BoxDecoration(
+            color: kBlueDarkColor,
+            borderRadius: BorderRadius.circular(50),
+          ),
+          child: Stack(
+            overflow: Overflow.clip,
+            children: <Widget>[
+              Container(
+                height: MediaQuery.of(context).size.height * 0.8,
+                width: 300,
+                child: Opacity(
+                  opacity: 0.3,
+                  child: Image.asset(
+                    'images/background.png',
+                    fit: BoxFit.cover,
+                    repeat: ImageRepeat.repeat,
+                  ),
+                ),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    width: 180,
+                    height: 280,
+                    child: Image.asset(
+                      "images/parentPopup.gif",
+                      width: 180,
+                      height: 280,
+                    ),
+                    decoration: BoxDecoration(
+                      border: Border.all(width: 2, color: Colors.white),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Text(
+                    "Add videos you chose for your kids",
+                    textAlign: TextAlign.center,
+                    style: kBubblegum_sans32.copyWith(color: Colors.white),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: GestureDetector(
+                      onTap: () => Navigator.pop(context, null),
+                      child: AgeChip(
+                        color: kRedColor,
+                        text: "Okay",
+                        highet: 60.0,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+Future buildShowModeDialog3(BuildContext context) {
+  return showDialog(
+    context: context,
+    builder: (BuildContext _) => StatefulBuilder(
+      builder: (context, setStaste) => Dialog(
+        clipBehavior: Clip.hardEdge,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50),
+        ),
+        child: Container(
+          height: MediaQuery.of(context).size.height * 0.8,
+          width: 300,
+          decoration: BoxDecoration(
+            color: kBlueDarkColor,
+            borderRadius: BorderRadius.circular(50),
+          ),
+          child: Stack(
+            overflow: Overflow.clip,
+            children: <Widget>[
+              Container(
+                height: MediaQuery.of(context).size.height * 0.8,
+                width: 300,
+                child: Opacity(
+                  opacity: 0.3,
+                  child: Image.asset(
+                    'images/background.png',
+                    fit: BoxFit.cover,
+                    repeat: ImageRepeat.repeat,
+                  ),
+                ),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    width: 180,
+                    height: 280,
+                    child: Image.asset(
+                      "images/PopUpAfterPayment.gif",
+                      width: 180,
+                      height: 280,
+                    ),
+                    decoration: BoxDecoration(
+                      border: Border.all(width: 2, color: Colors.white),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Text(
+                    "Now, you can change your account mode",
+                    textAlign: TextAlign.center,
+                    style: kBubblegum_sans32.copyWith(color: Colors.white),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: GestureDetector(
+                      onTap: () => Navigator.pop(context, null),
+                      child: AgeChip(
+                        color: kRedColor,
+                        text: "Okay",
+                        highet: 60.0,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
+}
