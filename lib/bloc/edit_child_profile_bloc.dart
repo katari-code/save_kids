@@ -7,36 +7,61 @@ import 'package:save_kids/services/repository.dart';
 
 class EditChildProfileBloc extends BlocBase {
   EditChildProfileBloc() {
-    _imageAvatar.sink.add(avatars[0]);
     _timer.sink.add(timers[0]);
     _isValidated.add(false);
+    child.addStream(changeChild);
   }
+  bool init = true;
   Repository _repository = Repository<Child>(collection: 'children');
   final _childName = BehaviorSubject<String>();
   final _age = BehaviorSubject<String>();
-  final _imageAvatar = BehaviorSubject<String>();
+  BehaviorSubject<String> imageAvatar = BehaviorSubject<String>();
   final _timer = BehaviorSubject<Timer>();
   final _isValidated = BehaviorSubject<bool>();
-  final _childId = BehaviorSubject<String>();
+  BehaviorSubject<String> childId = BehaviorSubject<String>();
 
-  Function(String) get changeChildId => _childId.sink.add;
+  BehaviorSubject<Child> child = BehaviorSubject<Child>();
+
+  Stream<Child> get changeChild {
+    return childId.switchMap((value) {
+      if (value != null) {
+        return getChild(value).switchMap<Child>((child) {
+          // Logger().i('here in changeChild ', child);
+          if (child != null) {
+            if (init) {
+              changeChildName(child.name);
+              imageAvatar.add(child.imagePath);
+              changeAge(child.age);
+              init = false;
+            }
+
+            return BehaviorSubject.seeded(child);
+          } else {
+            return BehaviorSubject.seeded(null);
+          }
+        });
+      }
+      return BehaviorSubject.seeded(null);
+    });
+  }
+
   Function(String) get changeChildName => _childName.sink.add;
   Function(Timer) get changeTimer => _timer.sink.add;
   Function(String) get changeAge => _age.sink.add;
-  Function(String) get changeImageAvatar => _imageAvatar.sink.add;
+
   Function(bool) get showProgressBar => _isValidated.sink.add;
 
-  Stream<String> get childId => _childId.stream;
   Stream<String> get childName => _childName.stream;
   Stream<String> get age => _age.stream;
-  Stream<String> get imageAvatar => _imageAvatar.stream;
+  // Stream<String> get imageAvatar => _imageAvatar.stream;
   Stream<Timer> get timer => _timer.stream;
   Stream<bool> get validatedStatus => _isValidated.stream;
   // Function(bool) get changeEditMode => _isEditMode.sink.add;
   // Stream<bool> get editMode => _isEditMode.stream;
   Stream<Parent> get parentSession => _repository.authSession;
 
-  bool validateSignInFields() {
+  bool validateInputFields() {
+    //validate the inputs here
     if (_childName.value != null && _childName.value.isNotEmpty) {
       return true;
     } else {
@@ -44,31 +69,32 @@ class EditChildProfileBloc extends BlocBase {
     }
   }
 
-  Future<Child> setChild(String parentId, String type) async {
-    Child child = Child(
-      name: _childName.value,
-      type: type,
-      parentId: parentId,
-      imagePath: _imageAvatar.value,
-      age: _age.value,
-      timer: _timer.value,
-    );
+  Future<Child> setChild() async {
+    Child newChild = child.value
+      ..name = _childName.value
+      ..timer = _timer.value
+      ..age = _age.value
+      ..imagePath = imageAvatar.value;
+
     _timer.sink.add(timers[0]);
-    return await _repository.setDocument(child, _childId.value);
+    return await _repository.setDocument(newChild, child.value.id);
+  }
+
+  Stream<Child> getChild(String value) {
+    return _repository.getDocument(Child(), value);
   }
 
   @override
   void dispose() async {
+    init = true;
     await _childName.drain();
     _childName.close();
-    await _childId.drain();
-    _childId.close();
     await _age.drain();
     _age.close();
     await _timer.drain();
     _timer.close();
-    await _imageAvatar.drain();
-    _imageAvatar.close();
+    await imageAvatar.drain();
+    imageAvatar.close();
     super.dispose();
   }
 

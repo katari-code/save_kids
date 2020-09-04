@@ -572,7 +572,7 @@ class KidsCard extends StatelessWidget {
                               ),
                             ),
                             GestureDetector(
-                              onTap: () => Navigator.pushReplacementNamed(
+                              onTap: () => Navigator.pushNamed(
                                 context,
                                 kChildEditProfileRoute,
                                 arguments: child.id,
