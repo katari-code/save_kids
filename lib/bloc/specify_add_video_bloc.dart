@@ -13,6 +13,7 @@ class SpecifyAddVideoBloc extends BlocBase {
     _language.sink.add(languages[0]);
     // videoList.sink.add([]);
     child.addStream(changeChild);
+
     videosFromDB.addStream(changeVideosFromDB);
   }
 
@@ -34,7 +35,7 @@ class SpecifyAddVideoBloc extends BlocBase {
 
   Function(Language) get changeLanguage => _language.sink.add;
 
-  get changeChild {
+  Stream<Child> get changeChild {
     return childId.switchMap((value) {
       if (value != null) {
         return getChild(value).switchMap<Child>((child) {
@@ -50,7 +51,7 @@ class SpecifyAddVideoBloc extends BlocBase {
     });
   }
 
-  get changeVideosFromDB {
+  Stream<List<Video>> get changeVideosFromDB {
     return child.switchMap<List<Video>>((value) {
       if (value != null) {
         return getChosenVideosDB(value.specifyVideos)
@@ -162,15 +163,23 @@ class SpecifyAddVideoBloc extends BlocBase {
   }
 
   @override
-  void dispose() async {
-    await searchResult.drain();
-    searchResult.close();
-    await videoList.drain();
-    videoList.close();
-    await videosFromDB.drain();
-    videosFromDB.close();
+  Future<void> dispose() async {
+    print('disposing...');
 
-    super.dispose();
+    // searchResult.add(null);
+    await complete;
+
+    // videoList.add(null);
+    // super.dispose();
+  }
+
+  Future<void> get complete async {
+    await searchResult.close();
+
+    // await changeVideosFromDB.
+    // await videosFromDB.close();
+    // await videoList.close();
+    print('disposed...');
   }
 
   final List<Language> languages = [

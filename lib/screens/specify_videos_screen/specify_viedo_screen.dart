@@ -3,13 +3,14 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:save_kids/bloc/specify_add_video_bloc.dart';
+import 'package:save_kids/components/control_widgets/progress_bar.dart';
 import 'package:save_kids/models/video.dart';
 import 'package:save_kids/screens/child_display_videos/video_player_screen_copy/video_player_screen.dart';
 import 'package:save_kids/util/style.dart';
 import 'package:simple_animations/simple_animations.dart';
 
 class SpecifyVideoScreen extends StatefulWidget {
-  String childID;
+  final String childID;
   SpecifyVideoScreen({this.childID});
   @override
   _SpecifyVideoScreenState createState() => _SpecifyVideoScreenState();
@@ -39,8 +40,9 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
   @override
   void dispose() {
     _scrollController.dispose();
-    specifyAddVideoBloc.dispose();
+
     super.dispose();
+    specifyAddVideoBloc.dispose();
   }
 
   @override
@@ -63,6 +65,7 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
               ),
             ),
             SingleChildScrollView(
+              controller: _scrollController,
               child: Column(
                 children: <Widget>[
                   Row(
@@ -110,8 +113,10 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
                         print(specifyAddVideoBloc.languages.length);
                         specifyAddVideoBloc.changeLanguage(
                             specifyAddVideoBloc.languages[index]);
-                        specifyAddVideoBloc.changeVideoList([]);
-                        specifyAddVideoBloc.getVideoBySearch();
+                        if (specifyAddVideoBloc.searchResult.value != null) {
+                          specifyAddVideoBloc.changeVideoList([]);
+                          specifyAddVideoBloc.getVideoBySearch();
+                        }
                       },
                       height: 50,
                       initialPage: 0,
@@ -130,29 +135,39 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
                               ? specifyAddVideoBloc.videosFromDB.stream
                               : specifyAddVideoBloc.videos,
                           builder: (context, snapshot) {
-                            List<Video> videos = snapshot.data ?? [];
-                            specifyAddVideoBloc.changeVideoList(videos);
-                            return Column(
-                              children: List.generate(
-                                videos.length,
-                                (index) => CustomAnimation(
-                                  duration: Duration(milliseconds: 600),
-                                  delay: Duration(
-                                    milliseconds: (500 * 2).round(),
+                            if (snapshot.hasData) {
+                              List<Video> videos = snapshot.data;
+                              specifyAddVideoBloc.changeVideoList(videos);
+                              return Container(
+                                height: MediaQuery.of(context).size.height *
+                                    1.00 /
+                                    1.75,
+                                width: 336.00,
+                                child: ListView(
+                                    children: List.generate(
+                                  videos.length,
+                                  (index) => CustomAnimation(
+                                    duration: Duration(milliseconds: 600),
+                                    delay: Duration(
+                                      milliseconds: (500 * 2).round(),
+                                    ),
+                                    curve: Curves.elasticOut,
+                                    tween: Tween<double>(
+                                      begin: 0,
+                                      end: 1,
+                                    ),
+                                    builder: (context, child, value) =>
+                                        Transform.scale(
+                                      scale: value,
+                                      child: buildVideoCard(videos, index,
+                                          specifyAddVideoBloc.addChosenVideo),
+                                    ),
                                   ),
-                                  curve: Curves.elasticOut,
-                                  tween: Tween<double>(
-                                    begin: 0,
-                                    end: 1,
-                                  ),
-                                  builder: (context, child, value) =>
-                                      Transform.scale(
-                                    scale: value,
-                                    child: buildVideoCard(videos, index,
-                                        specifyAddVideoBloc.addChosenVideo),
-                                  ),
-                                ),
-                              ),
+                                )),
+                              );
+                            }
+                            return ProgressBar(
+                              color: Colors.white,
                             );
                           },
                         );
@@ -334,8 +349,8 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
         padding: EdgeInsets.symmetric(vertical: 18),
         color: kBlueDarkColor,
         onPressed: () async {
-          specifyAddVideoBloc.updateSpecifyVideos(widget.childID);
-          specifyAddVideoBloc.dispose();
+          await specifyAddVideoBloc.updateSpecifyVideos(widget.childID);
+
           Navigator.pop(context);
         },
         shape: RoundedRectangleBorder(
