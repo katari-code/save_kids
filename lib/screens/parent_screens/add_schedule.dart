@@ -25,16 +25,6 @@ class _AddScheduleState extends State<AddSchedule> {
       body: SafeArea(
         child: Stack(
           children: <Widget>[
-            Opacity(
-              opacity: 0.15,
-              child: Transform.scale(
-                scale: 1,
-                child: SvgPicture.asset(
-                  "images/svgs/background.svg",
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
             Center(
               child: Consumer<AddScheduleBloc>(
                 builder: (context, addScheduleBloc) => Container(
