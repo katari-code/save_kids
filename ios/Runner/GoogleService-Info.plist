@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>530075745471-s6mnfgg0k4v5uf4pa741sifi6os8sb4r.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.530075745471-s6mnfgg0k4v5uf4pa741sifi6os8sb4r</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>530075745471-e3e0j30a4ta3ln8ri9755h9cfroae99u.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAFEA48IGWpuGu4pqOBqOvobQwmlrOs8Gk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>530075745471</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.KI.safevideokids</string>
+	<key>PROJECT_ID</key>
+	<string>save-video-kids</string>
+	<key>STORAGE_BUCKET</key>
+	<string>save-video-kids.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:530075745471:ios:e7ebf65caf98216f059a0a</string>
+	<key>DATABASE_URL</key>
+	<string>https://save-video-kids.firebaseio.com</string>
+</dict>
+</plist>
