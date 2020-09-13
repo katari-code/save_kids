@@ -48,14 +48,6 @@ class _AddChannelScreenState extends State<AddChannelScreen> {
       body: SafeArea(
         child: Stack(
           children: <Widget>[
-            Opacity(
-              opacity: 0.10,
-              child: SvgPicture.asset(
-                "images/svgs/Asset1.svg",
-                color: Colors.black,
-                fit: BoxFit.cover,
-              ),
-            ),
             SingleChildScrollView(
               child: Column(
                 children: <Widget>[
