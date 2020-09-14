@@ -85,33 +85,33 @@ class MyApp extends StatelessWidget {
             highlightColor: kRedColor,
             visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
-          supportedLocales: [
-            Locale('en', 'US'),
-            Locale('de', 'DE'),
-          ],
-          localizationsDelegates: [
-            // A class which loads the translations from JSON files
-            AppLocalizations.delegate,
-            // Built-in localization of basic text for Material widgets
-            GlobalMaterialLocalizations.delegate,
-            // Built-in localization for text direction LTR/RTL
-            GlobalWidgetsLocalizations.delegate,
-          ],
+          // supportedLocales: [
+          //   Locale('en', 'US'),
+          //   Locale('de', 'DE'),
+          // ],
+          // localizationsDelegates: [
+          //   // A class which loads the translations from JSON files
+          //   AppLocalizations.delegate,
+          //   // Built-in localization of basic text for Material widgets
+          //   GlobalMaterialLocalizations.delegate,
+          //   // Built-in localization for text direction LTR/RTL
+          //   GlobalWidgetsLocalizations.delegate,
+          // ],
           debugShowCheckedModeBanner: false,
           // Returns a locale which will be used by the app
-          localeResolutionCallback: (locale, supportedLocales) {
-            // Check if the current device locale is supported
-            for (var supportedLocale in supportedLocales) {
-              if (supportedLocale.languageCode == locale.languageCode &&
-                  supportedLocale.countryCode == locale.countryCode) {
-                return supportedLocale;
-              }
-            }
+          // localeResolutionCallback: (locale, supportedLocales) {
+          //   // Check if the current device locale is supported
+          //   for (var supportedLocale in supportedLocales) {
+          //     if (supportedLocale.languageCode == locale.languageCode &&
+          //         supportedLocale.countryCode == locale.countryCode) {
+          //       return supportedLocale;
+          //     }
+          //   }
 
-            // If the locale of the device is not supported, use the first one
-            // from the list (English, in this case).
-            return supportedLocales.first;
-          },
+          //   // If the locale of the device is not supported, use the first one
+          //   // from the list (English, in this case).
+          //   return supportedLocales.first;
+          // },
           initialRoute: kSplashRoute,
           onGenerateRoute: (RouteSettings settings) {
             return createRoute(settings);

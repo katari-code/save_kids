@@ -29,7 +29,6 @@ class _AddChildScreenState extends State<AddChildScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final text = AppLocalizations.of(context);
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       backgroundColor: kBlueColor,
@@ -60,7 +59,7 @@ class _AddChildScreenState extends State<AddChildScreen> {
                         height: 30,
                       ),
                       Text(
-                        text.translate('Create_a_profile_for_your_kids'),
+                        "Create a profile for your kids",
                         style: GoogleFonts.bubblegumSans(
                             textStyle: kBubblegum_sans32),
                       ),
@@ -179,7 +178,7 @@ class _AddChildScreenState extends State<AddChildScreen> {
                             }),
                       ),
                       buildTextField(context, createChildBloc),
-                      buildAgeChips(text, createChildBloc),
+                      buildAgeChips(createChildBloc),
                       SizedBox(
                         height: 30,
                       ),
@@ -190,7 +189,7 @@ class _AddChildScreenState extends State<AddChildScreen> {
                       TimeCoursal(
                         childBloc: createChildBloc,
                       ),
-                      buildSubmitButton(createChildBloc, text)
+                      buildSubmitButton(createChildBloc)
                     ],
                   ),
                 ),
@@ -202,8 +201,7 @@ class _AddChildScreenState extends State<AddChildScreen> {
     );
   }
 
-  Widget buildSubmitButton(
-      CreateChildProfileBloc createChildBloc, AppLocalizations text) {
+  Widget buildSubmitButton(CreateChildProfileBloc createChildBloc) {
     return StreamBuilder<Parent>(
         stream: createChildBloc.parentSession,
         builder: (context, snapshot) {
@@ -239,7 +237,7 @@ class _AddChildScreenState extends State<AddChildScreen> {
                         ),
                         child: Center(
                           child: Text(
-                            text.translate('Finish'),
+                            "Finish",
                             style: GoogleFonts.bubblegumSans(
                               textStyle: kBubblegum_sans32.copyWith(
                                 color: Colors.white,
@@ -291,8 +289,7 @@ class _AddChildScreenState extends State<AddChildScreen> {
     );
   }
 
-  Widget buildAgeChips(
-      AppLocalizations text, CreateChildProfileBloc createChildBloc) {
+  Widget buildAgeChips(CreateChildProfileBloc createChildBloc) {
     return StreamBuilder<Object>(
         stream: createChildBloc.age,
         builder: (context, snapshot) {
@@ -302,7 +299,7 @@ class _AddChildScreenState extends State<AddChildScreen> {
                 height: 30,
               ),
               Text(
-                text.translate('Age'),
+                "Age",
                 style: GoogleFonts.bubblegumSans(textStyle: kBubblegum_sans32),
               ),
               SizedBox(
@@ -320,7 +317,7 @@ class _AddChildScreenState extends State<AddChildScreen> {
                           snapshot.data == '<4' ? kPurpleColor : kBlueDarkColor,
                       highet: 57.00,
                       width: 110.00,
-                      text: text.translate('4_or_less'),
+                      text: "4 or less",
                       // text: " ",
                     ),
                   ),

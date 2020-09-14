@@ -15,8 +15,6 @@ class OnboardingScreen2 extends StatefulWidget {
 class _OnboardingScreen2State extends State<OnboardingScreen2> {
   @override
   Widget build(BuildContext context) {
-    final text = AppLocalizations.of(context);
-
     return Scaffold(
       body: Column(
         children: <Widget>[

@@ -40,8 +40,6 @@ class _AddChannelScreenState extends State<AddChannelScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final text = AppLocalizations.of(context);
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: kBlueColor,
@@ -205,7 +203,7 @@ class _AddChannelScreenState extends State<AddChannelScreen> {
                           left: 226 * 0.35,
                           top: 58 * 0.23,
                           child: Text(
-                            text.translate('Done'),
+                            "Done",
                             style: GoogleFonts.bubblegumSans(
                               textStyle: kBubblegum_sans32.copyWith(
                                 color: Colors.white,

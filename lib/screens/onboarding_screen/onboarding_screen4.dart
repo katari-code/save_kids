@@ -15,8 +15,6 @@ class OnboardingScreen4 extends StatefulWidget {
 class _OnboardingScreen4State extends State<OnboardingScreen4> {
   @override
   Widget build(BuildContext context) {
-    final text = AppLocalizations.of(context);
-
     return Scaffold(
       backgroundColor: kPurpleColor,
       body: Stack(

@@ -40,7 +40,6 @@ class _ParentPasswordState extends State<ParentPassword> {
   //  p
   @override
   Widget build(BuildContext context) {
-    final text = AppLocalizations.of(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: kBlueColor,

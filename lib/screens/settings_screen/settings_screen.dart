@@ -20,8 +20,6 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
-    final text = AppLocalizations.of(context);
-
     return Scaffold(
       // resizeToAvoidBottomPadding: true,
       resizeToAvoidBottomInset: false,
@@ -107,7 +105,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 stream: parentSettingsBloc.isAuthorised,
                 builder: (context, snapshot) {
                   if (snapshot.data) {
-                    return buildAuthorizedUI(context, parentSettingsBloc, text);
+                    return buildAuthorizedUI(context, parentSettingsBloc);
                   }
                   return buildUnAuthorizedUI(context, parentSettingsBloc);
                 },
@@ -260,8 +258,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
         });
   }
 
-  Column buildAuthorizedUI(BuildContext context,
-      ParentSettingsBloc parentSettingsBloc, AppLocalizations text) {
+  Column buildAuthorizedUI(
+      BuildContext context, ParentSettingsBloc parentSettingsBloc) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -350,7 +348,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 left: 226 * 0.35,
                                 top: 58 * 0.23,
                                 child: Text(
-                                  text.translate('SAVE'),
+                                  "SAVE",
                                   style: GoogleFonts.bubblegumSans(
                                     textStyle: kBubblegum_sans32.copyWith(
                                       color: Colors.white,
