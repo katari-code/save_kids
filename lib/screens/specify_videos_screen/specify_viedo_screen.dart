@@ -32,7 +32,7 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        specifyAddVideoBloc.getVideoBySearch();
+        specifyAddVideoBloc.getVideoBySearch(false);
       }
     });
   }
@@ -65,7 +65,6 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
               ),
             ),
             SingleChildScrollView(
-              controller: _scrollController,
               child: Column(
                 children: <Widget>[
                   Row(
@@ -115,7 +114,7 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
                             specifyAddVideoBloc.languages[index]);
                         if (specifyAddVideoBloc.searchResult.value != null) {
                           specifyAddVideoBloc.changeVideoList([]);
-                          specifyAddVideoBloc.getVideoBySearch();
+                          specifyAddVideoBloc.getVideoBySearch(true);
                         }
                       },
                       height: 50,
@@ -128,7 +127,7 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
                   ),
                   StreamBuilder(
                       initialData: true,
-                      stream: specifyAddVideoBloc.videoList.isEmpty.asStream(),
+                      stream: specifyAddVideoBloc.videos.isEmpty.asStream(),
                       builder: (context, value) {
                         return StreamBuilder<List<Video>>(
                           stream: value.data == true
@@ -144,26 +143,30 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
                                     1.75,
                                 width: 336.00,
                                 child: ListView(
+                                    controller: _scrollController,
                                     children: List.generate(
-                                  videos.length,
-                                  (index) => CustomAnimation(
-                                    duration: Duration(milliseconds: 600),
-                                    delay: Duration(
-                                      milliseconds: (500 * 2).round(),
-                                    ),
-                                    curve: Curves.elasticOut,
-                                    tween: Tween<double>(
-                                      begin: 0,
-                                      end: 1,
-                                    ),
-                                    builder: (context, child, value) =>
-                                        Transform.scale(
-                                      scale: value,
-                                      child: buildVideoCard(videos, index,
-                                          specifyAddVideoBloc.addChosenVideo),
-                                    ),
-                                  ),
-                                )),
+                                      videos.length,
+                                      (index) => CustomAnimation(
+                                        duration: Duration(milliseconds: 600),
+                                        delay: Duration(
+                                          milliseconds: (500 * 2).round(),
+                                        ),
+                                        curve: Curves.elasticOut,
+                                        tween: Tween<double>(
+                                          begin: 0,
+                                          end: 1,
+                                        ),
+                                        builder: (context, child, value) =>
+                                            Transform.scale(
+                                          scale: value,
+                                          child: buildVideoCard(
+                                              videos,
+                                              index,
+                                              specifyAddVideoBloc
+                                                  .addChosenVideo),
+                                        ),
+                                      ),
+                                    )),
                               );
                             }
                             return ProgressBar(
@@ -239,8 +242,8 @@ class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
                 ),
                 child: FlatButton(
                   onPressed: () {
-                    specifyAddVideoBloc.changeVideoList([]);
-                    specifyAddVideoBloc.getVideoBySearch();
+                    // specifyAddVideoBloc.changeVideoList([]);
+                    specifyAddVideoBloc.getVideoBySearch(true);
                   },
                   child: Icon(Icons.search, color: Colors.white),
                 ),
