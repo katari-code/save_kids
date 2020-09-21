@@ -19,7 +19,7 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        addVideoBloc.getVideoBySearch();
+        addVideoBloc.getVideoBySearch(false);
       }
     });
     super.initState();
@@ -111,7 +111,7 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
                                 addVideoBloc.changeLanguage(
                                     addVideoBloc.languages[index]);
 
-                                addVideoBloc.getVideoBySearch();
+                                addVideoBloc.getVideoBySearch(true);
                               },
                               height: 50,
                               initialPage: 0,
@@ -228,7 +228,7 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
                 child: FlatButton(
                   onPressed: () {
                     addVideoBloc.changeVideoList([]);
-                    addVideoBloc.getVideoBySearch();
+                    addVideoBloc.getVideoBySearch(true);
                   },
                   child: Icon(Icons.search, color: Colors.white),
                 ),

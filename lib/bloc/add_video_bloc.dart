@@ -48,7 +48,10 @@ class AddVideoBloc extends BlocBase {
     }
   });
 
-  Future getVideoBySearch() async {
+  Future getVideoBySearch(bool isSearched) async {
+    if (isSearched) {
+      _pageToken = '';
+    }
     var _searchResultTransleated =
         await _searchResult.value.translate(to: _language.value.lnCode);
     final map = await _repository.getVideosBySearch(
