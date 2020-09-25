@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:logger/logger.dart';
 
 import 'package:save_kids/models/parent.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -83,6 +84,27 @@ class AuthServiceProvider {
 
   void signOutGoogle() async {
     await googleSignIn.signOut();
+  }
+
+  Future resetPassword(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+
+      return true;
+    } catch (e) {
+      Logger().e(e.toString());
+      return false;
+    }
+  }
+
+  Future confirmResetPassword(String code, String password) async {
+    try {
+      await _auth.confirmPasswordReset(code, password);
+      return true;
+    } catch (e) {
+      Logger().e(e.toString());
+      return false;
+    }
   }
 
   updateCurrentUser(FirebaseUser user, Parent parent) {

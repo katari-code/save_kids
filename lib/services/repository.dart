@@ -134,6 +134,14 @@ class Repository<T extends FireStoreConverter> {
     return false;
   }
 
+  Future<bool> resetPassword(String email) async {
+    return await _authServiceProvider.resetPassword(email);
+  }
+
+  Future<bool> confirmResetPassword(String code, String password) async {
+    return await _authServiceProvider.confirmResetPassword(code, password);
+  }
+
   Future updateCurrentUser(Parent parent) async {
     try {
       FirebaseUser user = await currentUser;
