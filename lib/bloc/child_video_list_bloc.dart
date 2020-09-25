@@ -1,5 +1,4 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
-import 'package:logger/logger.dart';
 
 import 'package:rxdart/rxdart.dart';
 import 'package:save_kids/models/category.dart';
@@ -7,7 +6,6 @@ import 'package:save_kids/models/child.dart';
 import 'package:save_kids/models/timer.dart';
 import 'package:save_kids/models/video.dart';
 import 'package:save_kids/services/repository.dart';
-import 'package:save_kids/util/style.dart';
 
 class ChildVideoListBloc extends BlocBase {
   ChildVideoListBloc() {
