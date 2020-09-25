@@ -11,6 +11,7 @@ import 'package:save_kids/screens/create_child_profile/edit_child_profile.dart';
 import 'package:save_kids/screens/onboarding_screen/onboarding_builder.dart';
 import 'package:save_kids/screens/parent_screens/parent_password.dart';
 import 'package:save_kids/screens/parent_screens/watch_history_screen/watch_histroy_screen.dart';
+import 'package:save_kids/screens/reset_password_screens/send_email_screen.dart';
 import 'package:save_kids/screens/settings_screen/settings_screen.dart';
 import 'package:save_kids/screens/specify_screens/add_channel_screen.dart';
 import 'package:save_kids/screens/parent_screens/add_schedule.dart';
@@ -41,6 +42,11 @@ Route<dynamic> createRoute(RouteSettings settings) {
     case kSignInRoute:
       return MaterialPageRoute(
         builder: (context) => SignIn(),
+      );
+      break;
+    case kResetPasswordRoute:
+      return MaterialPageRoute(
+        builder: (context) => SendEmail(),
       );
       break;
     case kSginUpRoute:

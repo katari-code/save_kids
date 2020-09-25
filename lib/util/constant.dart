@@ -2,6 +2,7 @@ const kHomeRoute = "/";
 const kSplashRoute = "/splash";
 const kSginUpRoute = "/sign_up";
 const kSignInRoute = "/sign_in";
+const kResetPasswordRoute = "/reset";
 const kOnboradingScreen = "/OnboradingScreen";
 
 //Parent Screens

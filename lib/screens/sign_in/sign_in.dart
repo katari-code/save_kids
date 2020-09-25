@@ -125,14 +125,19 @@ class _SignInState extends State<SignIn> {
                               onChangeFunction: signInBloc.changePassword,
                               isPass: true,
                             ),
-                            Text(
-                              "Forget your Password ?",
-                              style: GoogleFonts.bubblegumSans(
-                                textStyle: TextStyle(
-                                  fontFamily: "Bubblegum Sans",
-                                  fontSize: 16,
-                                  color: Color(0xfffdc402),
-                                  decoration: TextDecoration.underline,
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(context, '/reset');
+                              },
+                              child: Text(
+                                "Forget your Password ?",
+                                style: GoogleFonts.bubblegumSans(
+                                  textStyle: TextStyle(
+                                    fontFamily: "Bubblegum Sans",
+                                    fontSize: 16,
+                                    color: Color(0xfffdc402),
+                                    decoration: TextDecoration.underline,
+                                  ),
                                 ),
                               ),
                             ),

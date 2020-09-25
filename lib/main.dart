@@ -13,6 +13,7 @@ import 'package:save_kids/bloc/edit_child_profile_bloc.dart';
 import 'package:save_kids/bloc/parent_dashboard_bloc.dart';
 import 'package:save_kids/bloc/parent_password_bloc.dart';
 import 'package:save_kids/bloc/parent_settings_bloc.dart';
+import 'package:save_kids/bloc/reset_password_bloc.dart';
 import 'package:save_kids/bloc/specify_add_video_bloc.dart';
 import 'package:save_kids/bloc/test/video_list_bloc_test.dart';
 import 'package:save_kids/bloc/watch_history_bloc.dart';
@@ -58,6 +59,7 @@ class MyApp extends StatelessWidget {
       child: BlocProvider(
         blocs: [
           Bloc((i) => ChannelBloc()),
+          Bloc((i) => ResetPasswordBloc()),
           Bloc((i) => CreateChildProfileBloc()),
           Bloc((i) => SignUpBloc()),
           Bloc((i) => SignInBloc()),

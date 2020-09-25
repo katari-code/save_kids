@@ -139,7 +139,7 @@ class _SendEmailState extends State<SendEmail> {
                   label: 'Email',
                   stream: resetPasswordBloc.emailStream,
                   onChangeFunction: resetPasswordBloc.email.add,
-                  isPass: true,
+                  isPass: false,
                 ),
                 StreamBuilder<bool>(
                     stream: resetPasswordBloc.loading,
