@@ -89,7 +89,7 @@ class AuthServiceProvider {
   Future resetPassword(String email) async {
     try {
       await _auth.sendPasswordResetEmail(email: email);
-
+      // _auth.currentUser().then((value) => value.)
       return true;
     } catch (e) {
       Logger().e(e.toString());

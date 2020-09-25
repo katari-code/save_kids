@@ -21,8 +21,7 @@ class EditChildScreen extends StatefulWidget {
 }
 
 class _EditChildScreenState extends State<EditChildScreen> {
-  EditChildProfileBloc editChildBloc =
-      BlocProvider.getBloc<EditChildProfileBloc>();
+  EditChildProfileBloc editChildBloc = EditChildProfileBloc();
   @override
   void initState() {
     editChildBloc.childId.add(widget.childId);
@@ -31,6 +30,12 @@ class _EditChildScreenState extends State<EditChildScreen> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+  }
+
+  @override
+  void dispose() {
+    editChildBloc.dispose();
+    super.dispose();
   }
 
   @override
@@ -255,12 +260,12 @@ class _EditChildScreenState extends State<EditChildScreen> {
     );
   }
 
-  String textInit(EditChildProfileBloc editChildBloc) {
-    if (editChildBloc.child.value != null) {
-      return editChildBloc.child.value.name;
-    }
-    return '';
-  }
+  // String textInit(EditChildProfileBloc editChildBloc) {
+  //   if (editChildBloc.child.value != null) {
+  //     return editChildBloc.child.value.name;
+  //   }
+  //   return '';
+  // }
 
   Widget buildTextField(
       BuildContext context, EditChildProfileBloc editChildBloc) {
@@ -270,27 +275,30 @@ class _EditChildScreenState extends State<EditChildScreen> {
       child: StreamBuilder<Object>(
           stream: editChildBloc.childName,
           builder: (context, snapshot) {
-            return TextFormField(
-              initialValue: textInit(editChildBloc),
-              decoration: InputDecoration(
-                errorText: snapshot.error,
-                labelText: "Child Name",
-                labelStyle:
-                    GoogleFonts.bubblegumSans(textStyle: kBubblegum_sans28)
-                        .copyWith(
-                  fontSize: 20,
-                  color: Colors.black,
-                ),
-                focusColor: Colors.black,
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                    width: 3,
+            if (snapshot.hasData) {
+              return TextFormField(
+                initialValue: snapshot.data,
+                decoration: InputDecoration(
+                  errorText: snapshot.error,
+                  labelText: "Child Name",
+                  labelStyle:
+                      GoogleFonts.bubblegumSans(textStyle: kBubblegum_sans28)
+                          .copyWith(
+                    fontSize: 20,
                     color: Colors.black,
                   ),
+                  focusColor: Colors.black,
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 3,
+                      color: Colors.black,
+                    ),
+                  ),
                 ),
-              ),
-              onChanged: editChildBloc.changeChildName,
-            );
+                onChanged: editChildBloc.changeChildName,
+              );
+            }
+            return Text('');
           }),
     );
   }

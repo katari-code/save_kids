@@ -29,7 +29,7 @@ class EditChildProfileBloc extends BlocBase {
           // Logger().i('here in changeChild ', child);
           if (child != null) {
             if (init) {
-              changeChildName(child.name);
+              _childName.add(child.name);
               imageAvatar.add(child.imagePath);
               changeAge(child.age);
               init = false;
@@ -85,16 +85,16 @@ class EditChildProfileBloc extends BlocBase {
   }
 
   @override
-  void dispose() async {
+  void dispose() {
     init = true;
-    await _childName.drain();
-    _childName.close();
-    await _age.drain();
-    _age.close();
-    await _timer.drain();
-    _timer.close();
-    await imageAvatar.drain();
-    imageAvatar.close();
+    _childName.add('');
+    _age.add(null);
+    imageAvatar.add(avatars[0]);
+    _timer.sink.add(timers[0]);
+    _isValidated.add(false);
+    childId.add(null);
+    child.close();
+
     super.dispose();
   }
 

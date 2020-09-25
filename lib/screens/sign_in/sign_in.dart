@@ -7,7 +7,6 @@ import 'package:save_kids/bloc/sign_in_bloc.dart';
 import 'package:save_kids/components/control_widgets/message.dart';
 import 'package:save_kids/components/control_widgets/progress_bar.dart';
 import 'package:save_kids/components/stream_input_field.dart';
-import 'package:save_kids/models/parent.dart';
 import 'package:save_kids/util/constant.dart';
 import 'package:save_kids/util/style.dart';
 

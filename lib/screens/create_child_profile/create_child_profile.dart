@@ -10,7 +10,7 @@ import 'package:save_kids/models/parent.dart';
 import 'package:save_kids/screens/create_child_profile/widget/time_coursal.dart';
 import 'package:save_kids/util/style.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:bloc_pattern/bloc_pattern.dart' as bloc;
+import 'package:bloc_pattern/bloc_pattern.dart';
 
 class AddChildScreen extends StatefulWidget {
   @override
@@ -18,6 +18,8 @@ class AddChildScreen extends StatefulWidget {
 }
 
 class _AddChildScreenState extends State<AddChildScreen> {
+  CreateChildProfileBloc createChildBloc =
+      BlocProvider.getBloc<CreateChildProfileBloc>();
   @override
   void initState() {
     super.initState();
@@ -28,174 +30,177 @@ class _AddChildScreenState extends State<AddChildScreen> {
   }
 
   @override
+  void dispose() {
+    createChildBloc.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       backgroundColor: kBlueColor,
       extendBodyBehindAppBar: true,
-      body: bloc.Consumer<CreateChildProfileBloc>(
-        builder: (conext, createChildBloc) => Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          child: Stack(
-            children: <Widget>[
-              Container(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                child: Opacity(
-                  opacity: 0.1,
-                  child: Image.asset(
-                    "images/background.png",
-                    repeat: ImageRepeat.repeat,
-                  ),
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: Stack(
+          children: <Widget>[
+            Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: Opacity(
+                opacity: 0.1,
+                child: Image.asset(
+                  "images/background.png",
+                  repeat: ImageRepeat.repeat,
                 ),
               ),
-              SafeArea(
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      SizedBox(
-                        height: 30,
-                      ),
-                      Text(
-                        "Create a profile for your kids",
-                        style: GoogleFonts.bubblegumSans(
-                            textStyle: kBubblegum_sans32),
-                      ),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      FlatButton(
-                        onPressed: () => showDialog(
-                          context: context,
-                          builder: (BuildContext _) => StatefulBuilder(
-                            builder: (context, setStaste) => Dialog(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25),
-                              ),
-                              child: Container(
-                                height: MediaQuery.of(context).size.height,
-                                width: MediaQuery.of(context).size.width,
-                                child: StreamBuilder<Object>(
-                                    stream: createChildBloc.imageAvatar,
-                                    initialData: createChildBloc.avatars[0],
-                                    builder: (context, snapshot) {
-                                      return Column(
-                                        children: <Widget>[
-                                          SizedBox(
-                                            height: 15,
+            ),
+            SafeArea(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Text(
+                      "Create a profile for your kids",
+                      style: GoogleFonts.bubblegumSans(
+                          textStyle: kBubblegum_sans32),
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    FlatButton(
+                      onPressed: () => showDialog(
+                        context: context,
+                        builder: (BuildContext _) => StatefulBuilder(
+                          builder: (context, setStaste) => Dialog(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            child: Container(
+                              height: MediaQuery.of(context).size.height,
+                              width: MediaQuery.of(context).size.width,
+                              child: StreamBuilder<Object>(
+                                  stream: createChildBloc.imageAvatar,
+                                  initialData: createChildBloc.avatars[0],
+                                  builder: (context, snapshot) {
+                                    return Column(
+                                      children: <Widget>[
+                                        SizedBox(
+                                          height: 15,
+                                        ),
+                                        CircleAvatar(
+                                          backgroundColor: kYellowColor,
+                                          radius: 60,
+                                          child: CircleAvatar(
+                                            radius: 55,
+                                            backgroundColor: Colors.white,
+                                            backgroundImage:
+                                                NetworkImage(snapshot.data),
                                           ),
-                                          CircleAvatar(
-                                            backgroundColor: kYellowColor,
-                                            radius: 60,
-                                            child: CircleAvatar(
-                                              radius: 55,
-                                              backgroundColor: Colors.white,
-                                              backgroundImage:
-                                                  NetworkImage(snapshot.data),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 15,
-                                          ),
-                                          Flexible(
-                                            child: GridView.count(
-                                              shrinkWrap: true,
-                                              primary: false,
-                                              padding: const EdgeInsets.all(20),
-                                              crossAxisSpacing: 10,
-                                              mainAxisSpacing: 10,
-                                              crossAxisCount: 3,
-                                              children: List<Widget>.generate(
-                                                createChildBloc.avatars.length,
-                                                (index) => GestureDetector(
-                                                  onTap: () {
+                                        ),
+                                        SizedBox(
+                                          height: 15,
+                                        ),
+                                        Flexible(
+                                          child: GridView.count(
+                                            shrinkWrap: true,
+                                            primary: false,
+                                            padding: const EdgeInsets.all(20),
+                                            crossAxisSpacing: 10,
+                                            mainAxisSpacing: 10,
+                                            crossAxisCount: 3,
+                                            children: List<Widget>.generate(
+                                              createChildBloc.avatars.length,
+                                              (index) => GestureDetector(
+                                                onTap: () {
+                                                  createChildBloc
+                                                      .changeImageAvatar(
                                                     createChildBloc
-                                                        .changeImageAvatar(
-                                                      createChildBloc
-                                                          .avatars[index],
-                                                    );
-                                                  },
-                                                  child: Stack(
-                                                    children: <Widget>[
-                                                      CircleAvatar(
-                                                        radius: 45,
+                                                        .avatars[index],
+                                                  );
+                                                },
+                                                child: Stack(
+                                                  children: <Widget>[
+                                                    CircleAvatar(
+                                                      radius: 45,
+                                                      backgroundColor:
+                                                          createChildBloc.avatars[
+                                                                      index] ==
+                                                                  snapshot.data
+                                                              ? kPurpleColor
+                                                              : kYellowColor,
+                                                    ),
+                                                    Center(
+                                                      child: CircleAvatar(
                                                         backgroundColor:
-                                                            createChildBloc.avatars[
-                                                                        index] ==
-                                                                    snapshot
-                                                                        .data
-                                                                ? kPurpleColor
-                                                                : kYellowColor,
-                                                      ),
-                                                      Center(
-                                                        child: CircleAvatar(
-                                                          backgroundColor:
-                                                              Colors.white,
-                                                          radius: 40,
-                                                          backgroundImage:
-                                                              NetworkImage(
-                                                            createChildBloc
-                                                                .avatars[index],
-                                                          ),
+                                                            Colors.white,
+                                                        radius: 40,
+                                                        backgroundImage:
+                                                            NetworkImage(
+                                                          createChildBloc
+                                                              .avatars[index],
                                                         ),
                                                       ),
-                                                    ],
-                                                  ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
                                             ),
                                           ),
-                                          SizedBox(
-                                            height: 25,
+                                        ),
+                                        SizedBox(
+                                          height: 25,
+                                        ),
+                                        GestureDetector(
+                                          onTap: () => Navigator.pop(context),
+                                          child: AgeChip(
+                                            color: kBlueDarkColor,
+                                            text: "Done",
+                                            highet: 60.0,
+                                            width: 120.0,
                                           ),
-                                          GestureDetector(
-                                            onTap: () => Navigator.pop(context),
-                                            child: AgeChip(
-                                              color: kBlueDarkColor,
-                                              text: "Done",
-                                              highet: 60.0,
-                                              width: 120.0,
-                                            ),
-                                          ),
-                                        ],
-                                      );
-                                    }),
-                              ),
+                                        ),
+                                      ],
+                                    );
+                                  }),
                             ),
                           ),
                         ),
-                        child: StreamBuilder<Object>(
-                            stream: createChildBloc.imageAvatar,
-                            initialData: createChildBloc.avatars[0],
-                            builder: (context, snapshot) {
-                              return CircleAvatar(
-                                backgroundColor: Colors.white,
-                                radius: 60,
-                                backgroundImage: NetworkImage(snapshot.data),
-                              );
-                            }),
                       ),
-                      buildTextField(context, createChildBloc),
-                      buildAgeChips(createChildBloc),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      Text(
-                        "Daily Total Watch Time",
-                        style: kBubblegum_sans32,
-                      ),
-                      TimeCoursal(
-                        childBloc: createChildBloc,
-                      ),
-                      buildSubmitButton(createChildBloc)
-                    ],
-                  ),
+                      child: StreamBuilder<Object>(
+                          stream: createChildBloc.imageAvatar,
+                          initialData: createChildBloc.avatars[0],
+                          builder: (context, snapshot) {
+                            return CircleAvatar(
+                              backgroundColor: Colors.white,
+                              radius: 60,
+                              backgroundImage: NetworkImage(snapshot.data),
+                            );
+                          }),
+                    ),
+                    buildTextField(context, createChildBloc),
+                    buildAgeChips(createChildBloc),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Text(
+                      "Daily Total Watch Time",
+                      style: kBubblegum_sans32,
+                    ),
+                    TimeCoursal(
+                      childBloc: createChildBloc,
+                    ),
+                    buildSubmitButton(createChildBloc)
+                  ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

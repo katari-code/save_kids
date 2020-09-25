@@ -54,14 +54,12 @@ class CreateChildProfileBloc extends BlocBase {
 
   @override
   void dispose() async {
-    await _childName.drain();
-    _childName.close();
-    await _age.drain();
-    _age.close();
-    await _timer.drain();
-    _timer.close();
-    await _imageAvatar.drain();
-    _imageAvatar.close();
+    _childName.add('');
+    _age.add(null);
+    _imageAvatar.add(avatars[0]);
+    _timer.sink.add(timers[0]);
+    _isValidated.add(false);
+
     super.dispose();
   }
 

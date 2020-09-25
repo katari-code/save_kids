@@ -77,7 +77,7 @@ class MyApp extends StatelessWidget {
           Bloc((i) => KidsAccountsSpecifyVideosBloc()),
           Bloc((i) => SpecifyAddVideoBloc()),
           Bloc((i) => ChildMainViedoListWatchSchedule()),
-          Bloc((i) => EditChildProfileBloc()),
+          Bloc((i) => EditChildProfileBloc(), singleton: false),
           Bloc((i) => ChildVideoListSpecifyBloc()),
         ],
         child: MaterialApp(
