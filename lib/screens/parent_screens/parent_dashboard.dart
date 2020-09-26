@@ -511,7 +511,13 @@ class KidsCard extends StatelessWidget {
   KidsCard({this.parentDashBoardBloc, this.child, this.isPremium});
   @override
   Widget build(BuildContext context) {
-    int toggleSwitchIndex = child.type == "WC" ? 1 : 0;
+    int toggleSwitchIndex = child.type == "WC"
+        ? 2
+        : child.type == "exploratory"
+            ? 0
+            : child.type == "specify_videos"
+                ? 1
+                : 1;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -520,7 +526,7 @@ class KidsCard extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20.0),
           border: Border.all(color: Colors.white, width: 5),
-          color: Color(0xFFFFC300),
+          color: Color(0xffFEFF1F),
         ),
         child: Column(
           children: [
@@ -559,9 +565,10 @@ class KidsCard extends StatelessWidget {
                           horizontal: 30,
                         ),
                         child: Row(
-                          mainAxisAlignment: child.type != "WC"
-                              ? MainAxisAlignment.spaceBetween
-                              : MainAxisAlignment.spaceAround,
+                          mainAxisAlignment:
+                              child.type != "WC" && child.type != "exploratory"
+                                  ? MainAxisAlignment.spaceBetween
+                                  : MainAxisAlignment.spaceAround,
                           children: [
                             GestureDetector(
                               onTap: () async => await parentDashBoardBloc
@@ -582,7 +589,8 @@ class KidsCard extends StatelessWidget {
                                 height: 50,
                               ),
                             ),
-                            if (child.type != "WC")
+                            if (child.type != "WC" &&
+                                child.type != "exploratory")
                               GestureDetector(
                                 onTap: () => Navigator.pushNamed(
                                     context, kSpecifyVideoSearchChild,
@@ -598,46 +606,41 @@ class KidsCard extends StatelessWidget {
                       SizedBox(
                         height: 20,
                       ),
-                      Text(
-                        "Account modes :",
-                        style: kBubblegum_sans24,
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      ToggleSwitch(
-                        minWidth: 110.0,
-                        initialLabelIndex: toggleSwitchIndex,
-                        cornerRadius: 20.0,
-                        activeFgColor: Colors.white,
-                        inactiveBgColor: Colors.grey,
-                        inactiveFgColor: Colors.white,
-                        labels: isPremium == "free_account"
-                            ? ["explore mode"]
-                            : ["explore mode", 'schedule'],
-                        activeBgColors: [Colors.blue, Colors.pink],
-                        onToggle: (index) async {
-                          if (isPremium == "free_account" && index != 1) {
-                            toggleSwitchIndex = 0;
-                            await parentDashBoardBloc.changeMode(
-                                child.id, index);
-                          } else if (isPremium == "premium_account") {
-                            toggleSwitchIndex = index;
-                            await parentDashBoardBloc.changeMode(
-                                child.id, index);
-                          } else {
-                            toggleSwitchIndex = 0;
-                            print("you are not a premuime haasa");
-                          }
-                        },
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
                     ],
                   ),
                 )
               ],
+            ),
+            Text(
+              "Account modes :",
+              style: kBubblegum_sans24,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ToggleSwitch(
+                  minWidth: 100.0,
+                  initialLabelIndex: toggleSwitchIndex,
+                  cornerRadius: 20.0,
+                  activeFgColor: Colors.white,
+                  inactiveBgColor: Colors.grey,
+                  inactiveFgColor: Colors.white,
+                  labels: ['Explore 🚀', 'Custom 🎞️', 'schedule 📅'],
+                  activeBgColors: [Colors.blue, Colors.pink, Colors.purple],
+                  onToggle: (index) async {
+                    await parentDashBoardBloc.changeMode(child.id, index);
+                  },
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 10,
             ),
           ],
         ),

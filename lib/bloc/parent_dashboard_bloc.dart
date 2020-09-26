@@ -44,12 +44,15 @@ class ParentDashBoardBloc extends BlocBase {
 
   Future changeMode(String childId, int index) async {
     Child getChild = await _childRepo.getDocument(Child(), childId).first;
-
     if (index == 0) {
       Logger().i(index);
       Child updatedChild = getChild..type = "exploratory";
       await _childRepo.setDocument(updatedChild, updatedChild.id);
-    } else {
+    } else if (index == 1) {
+      Logger().i(index);
+      Child updatedChild = getChild..type = "specify_videos";
+      await _childRepo.setDocument(updatedChild, updatedChild.id);
+    } else if (index == 2) {
       Logger().i(index);
       Child updatedChild = getChild..type = "WC";
       await _childRepo.setDocument(updatedChild, updatedChild.id);

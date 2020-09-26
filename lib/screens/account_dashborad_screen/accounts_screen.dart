@@ -265,8 +265,10 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
                                                 .data[index].timer.isComplete ==
                                             false) {
                                           if (snapshot.data[index].specifyVideos
-                                                  .length >
-                                              0) {
+                                                      .length >
+                                                  0 ||
+                                              snapshot.data[index].type ==
+                                                  "specify_videos") {
                                             Navigator.pushNamed(context,
                                                 kVideoDisplaySpecifyRoute,
                                                 arguments:

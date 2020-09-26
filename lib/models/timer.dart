@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'interfaces/i_firestore_converter.dart';
 
 class Timer implements FireStoreConverter {
-  final int lengthSec;
+  int lengthSec;
   int remainSec;
   String lableText;
   bool isComplete;
@@ -46,3 +46,48 @@ class Timer implements FireStoreConverter {
     };
   }
 }
+
+final List<Timer> timers = [
+  Timer(
+      lableText: "60 sec", lengthSec: (60), remainSec: (60), isComplete: false),
+  Timer(
+      lableText: "05 mins",
+      lengthSec: (5 * 60),
+      remainSec: (5 * 60),
+      isComplete: false),
+  Timer(
+      lableText: "10 mins",
+      lengthSec: (10 * 60),
+      remainSec: (10 * 60),
+      isComplete: false),
+  Timer(
+      lableText: "20 mins",
+      lengthSec: (20 * 60),
+      remainSec: (20 * 60),
+      isComplete: false),
+  Timer(
+      lableText: "30 mins",
+      lengthSec: (30 * 60),
+      remainSec: (30 * 60),
+      isComplete: false),
+  Timer(
+      lableText: "1:00 hr",
+      lengthSec: (60 * 60),
+      remainSec: (60 * 60),
+      isComplete: false),
+  Timer(
+      lableText: "1:30 hr",
+      lengthSec: (90 * 60),
+      remainSec: (90 * 60),
+      isComplete: false),
+  Timer(
+      lableText: "2:00 hr",
+      lengthSec: (120 * 60),
+      remainSec: (120 * 60),
+      isComplete: false),
+  Timer(
+      lableText: "2:30 hr",
+      lengthSec: (150 * 60),
+      remainSec: (150 * 60),
+      isComplete: false),
+];

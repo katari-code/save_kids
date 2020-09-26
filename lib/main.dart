@@ -1,8 +1,6 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:cron/cron.dart' as corn;
 import 'package:flutter/material.dart';
-import 'package:save_kids/app_localizations.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:save_kids/bloc/account_dashboard_bloc.dart';
 import 'package:save_kids/bloc/add_schedule_bloc.dart';
 import 'package:save_kids/bloc/auth_bloc.dart';
@@ -22,7 +20,6 @@ import 'package:save_kids/models/child_avatar.dart';
 
 import 'package:provider/provider.dart';
 import 'package:save_kids/screens/child_display_videos/child_display_videos_watch_sche.dart';
-import 'package:save_kids/screens/show_models/commercial_dialogue.dart';
 import 'package:save_kids/util/constant.dart';
 
 import 'package:save_kids/util/preference/prefs_singleton.dart';

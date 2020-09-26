@@ -1,6 +1,7 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_duration_picker/flutter_duration_picker.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:save_kids/app_localizations.dart';
@@ -8,6 +9,7 @@ import 'package:save_kids/bloc/edit_child_profile_bloc.dart';
 import 'package:save_kids/components/control_widgets/progress_bar.dart';
 import 'package:save_kids/components/premium_model.dart';
 import 'package:save_kids/models/parent.dart';
+import 'package:save_kids/models/timer.dart';
 import 'package:save_kids/screens/create_child_profile/widget/time_coursal.dart';
 import 'package:save_kids/util/style.dart';
 import 'package:bloc_pattern/bloc_pattern.dart' as bloc;
@@ -38,6 +40,9 @@ class _EditChildScreenState extends State<EditChildScreen> {
     super.dispose();
   }
 
+  Duration _duration = Duration(hours: 0, minutes: 30);
+  Timer _timer = new Timer();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,197 +66,213 @@ class _EditChildScreenState extends State<EditChildScreen> {
               ),
             ),
             SafeArea(
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(2.0),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: GestureDetector(
-                          onTap: () => Navigator.pop(context),
-                          child: SvgPicture.asset(
-                            'images/svgs/Back_video.svg',
-                            height: 70,
-                          ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: GestureDetector(
+                        onTap: () => Navigator.pop(context),
+                        child: SvgPicture.asset(
+                          'images/svgs/Back_video.svg',
+                          height: 70,
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 3,
-                    ),
-                    Text(
-                      "Edit your child profile",
-                      style: kBubblegum_sans24,
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    FlatButton(
-                      onPressed: () => showDialog(
-                        context: context,
-                        builder: (BuildContext _) => StatefulBuilder(
-                          builder: (context, setStaste) => Dialog(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25),
-                            ),
-                            child: Container(
-                              height: MediaQuery.of(context).size.height,
-                              width: MediaQuery.of(context).size.width,
-                              child: StreamBuilder<Object>(
-                                  stream: editChildBloc.imageAvatar,
-                                  initialData: editChildBloc.avatars[0],
-                                  builder: (context, snapshot) {
-                                    return Column(
-                                      children: <Widget>[
-                                        SizedBox(
-                                          height: 15,
-                                        ),
-                                        CircleAvatar(
-                                          backgroundColor: kYellowColor,
-                                          radius: 60,
-                                          child: CircleAvatar(
-                                            radius: 55,
-                                            backgroundColor: Colors.white,
-                                            backgroundImage:
-                                                NetworkImage(snapshot.data),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 15,
-                                        ),
-                                        Flexible(
-                                          child: GridView.count(
-                                            shrinkWrap: true,
-                                            primary: false,
-                                            padding: const EdgeInsets.all(20),
-                                            crossAxisSpacing: 10,
-                                            mainAxisSpacing: 10,
-                                            crossAxisCount: 3,
-                                            children: List<Widget>.generate(
-                                              editChildBloc.avatars.length,
-                                              (index) => GestureDetector(
-                                                onTap: () {
-                                                  editChildBloc.imageAvatar.add(
-                                                    editChildBloc
-                                                        .avatars[index],
-                                                  );
-                                                },
-                                                child: Stack(
-                                                  children: <Widget>[
-                                                    CircleAvatar(
-                                                      radius: 45,
-                                                      backgroundColor:
-                                                          editChildBloc.avatars[
-                                                                      index] ==
-                                                                  snapshot.data
-                                                              ? kPurpleColor
-                                                              : kYellowColor,
-                                                    ),
-                                                    Center(
-                                                      child: CircleAvatar(
-                                                        backgroundColor:
-                                                            Colors.white,
-                                                        radius: 40,
-                                                        backgroundImage:
-                                                            NetworkImage(
-                                                          editChildBloc
-                                                              .avatars[index],
+                  ),
+                  SizedBox(
+                    height: 80,
+                    child: Row(
+                      children: [
+                        FlatButton(
+                          onPressed: () => showDialog(
+                            context: context,
+                            builder: (BuildContext _) => StatefulBuilder(
+                              builder: (context, setStaste) => Dialog(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(25),
+                                ),
+                                child: Container(
+                                  height: MediaQuery.of(context).size.height,
+                                  width: MediaQuery.of(context).size.width,
+                                  child: StreamBuilder<Object>(
+                                      stream: editChildBloc.imageAvatar,
+                                      initialData: editChildBloc.avatars[0],
+                                      builder: (context, snapshot) {
+                                        return Column(
+                                          children: <Widget>[
+                                            SizedBox(
+                                              height: 15,
+                                            ),
+                                            CircleAvatar(
+                                              backgroundColor: kYellowColor,
+                                              radius: 60,
+                                              child: CircleAvatar(
+                                                radius: 55,
+                                                backgroundColor: Colors.white,
+                                                backgroundImage:
+                                                    NetworkImage(snapshot.data),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 15,
+                                            ),
+                                            Flexible(
+                                              child: GridView.count(
+                                                shrinkWrap: true,
+                                                primary: false,
+                                                padding:
+                                                    const EdgeInsets.all(20),
+                                                crossAxisSpacing: 10,
+                                                mainAxisSpacing: 10,
+                                                crossAxisCount: 3,
+                                                children: List<Widget>.generate(
+                                                  editChildBloc.avatars.length,
+                                                  (index) => GestureDetector(
+                                                    onTap: () {
+                                                      editChildBloc.imageAvatar
+                                                          .add(
+                                                        editChildBloc
+                                                            .avatars[index],
+                                                      );
+                                                    },
+                                                    child: Stack(
+                                                      children: <Widget>[
+                                                        CircleAvatar(
+                                                          radius: 45,
+                                                          backgroundColor:
+                                                              editChildBloc.avatars[
+                                                                          index] ==
+                                                                      snapshot
+                                                                          .data
+                                                                  ? kPurpleColor
+                                                                  : kYellowColor,
                                                         ),
-                                                      ),
+                                                        Center(
+                                                          child: CircleAvatar(
+                                                            backgroundColor:
+                                                                Colors.white,
+                                                            radius: 40,
+                                                            backgroundImage:
+                                                                NetworkImage(
+                                                              editChildBloc
+                                                                      .avatars[
+                                                                  index],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
                                                     ),
-                                                  ],
+                                                  ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 25,
-                                        ),
-                                        GestureDetector(
-                                          onTap: () => Navigator.pop(context),
-                                          child: AgeChip(
-                                            color: kBlueDarkColor,
-                                            text: "Done",
-                                            highet: 60.0,
-                                            width: 120.0,
-                                          ),
-                                        ),
-                                      ],
-                                    );
-                                  }),
+                                            SizedBox(
+                                              height: 25,
+                                            ),
+                                            GestureDetector(
+                                              onTap: () =>
+                                                  Navigator.pop(context),
+                                              child: AgeChip(
+                                                color: kBlueDarkColor,
+                                                text: "Done",
+                                                highet: 60.0,
+                                                width: 120.0,
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      }),
+                                ),
+                              ),
                             ),
                           ),
+                          child: StreamBuilder<Object>(
+                              stream: editChildBloc.imageAvatar,
+                              initialData: editChildBloc.avatars[0],
+                              builder: (context, snapshot) {
+                                return CircleAvatar(
+                                  backgroundColor: Colors.white,
+                                  radius: 60,
+                                  backgroundImage: NetworkImage(snapshot.data),
+                                );
+                              }),
                         ),
-                      ),
-                      child: StreamBuilder<Object>(
-                          stream: editChildBloc.imageAvatar,
-                          initialData: editChildBloc.avatars[0],
-                          builder: (context, snapshot) {
-                            return CircleAvatar(
-                              backgroundColor: Colors.white,
-                              radius: 60,
-                              backgroundImage: NetworkImage(snapshot.data),
-                            );
-                          }),
+                        buildTextField(context, editChildBloc),
+                      ],
                     ),
-                    buildTextField(context, editChildBloc),
-                    buildAgeChips(editChildBloc),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Text(
-                      "Daily Total Watch Time",
-                      style: kBubblegum_sans32,
-                    ),
-                    TimeCoursal(
-                      childBloc: editChildBloc,
-                    ),
-                    StreamBuilder<bool>(
-                      initialData: false,
-                      stream: editChildBloc.validatedStatus,
-                      builder: (context, snapshot) {
-                        if (!snapshot.data) {
-                          return GestureDetector(
-                            onTap: () async {
-                              await popUpShow(context);
-                              //! edit this for payment
-                              editChildBloc.showProgressBar(true);
-                              final result = await editChildBloc.setChild();
-                              if (result != null) {
-                                editChildBloc.showProgressBar(false);
-                                Navigator.of(context).pop(context);
-                              }
-                            },
-                            child: Container(
-                              height: 58.00,
-                              width: 226.00,
-                              decoration: BoxDecoration(
-                                color: kYellowColor,
-                                borderRadius: BorderRadius.circular(50.00),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  'Finish',
-                                  style: GoogleFonts.bubblegumSans(
-                                    textStyle: kBubblegum_sans32.copyWith(
-                                      color: Colors.white,
-                                    ),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Text(
+                    "Daily Total Watch Time",
+                    style: kBubblegum_sans32,
+                  ),
+                  // TimeCoursal(
+                  //   childBloc: editChildBloc,
+                  // ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      DurationPicker(
+                        duration: _duration,
+                        onChange: (val) {
+                          this.setState(() => _duration = val);
+                        },
+                        snapToMins: 5.0,
+                      )
+                    ],
+                  ),
+                  StreamBuilder<bool>(
+                    initialData: false,
+                    stream: editChildBloc.validatedStatus,
+                    builder: (context, snapshot) {
+                      if (!snapshot.data) {
+                        return GestureDetector(
+                          onTap: () async {
+                            await popUpShow(context);
+                            //! edit this for payment
+                            editChildBloc.showProgressBar(true);
+                            _timer.remainSec = _duration.inSeconds;
+                            _timer.lengthSec = _duration.inSeconds;
+                            _timer.isComplete = false;
+                            editChildBloc.changeTimer(_timer);
+                            final result = await editChildBloc.setChild();
+
+                            if (result != null) {
+                              editChildBloc.showProgressBar(false);
+                              Navigator.of(context).pop(context);
+                            }
+                          },
+                          child: Container(
+                            height: 58.00,
+                            width: 226.00,
+                            decoration: BoxDecoration(
+                              color: kYellowColor,
+                              borderRadius: BorderRadius.circular(50.00),
+                            ),
+                            child: Center(
+                              child: Text(
+                                'Finish',
+                                style: GoogleFonts.bubblegumSans(
+                                  textStyle: kBubblegum_sans32.copyWith(
+                                    color: Colors.white,
                                   ),
                                 ),
                               ),
                             ),
-                          );
-                        }
-                        return ProgressBar(
-                          color: Colors.white,
+                          ),
                         );
-                      },
-                    )
-                  ],
-                ),
+                      }
+                      return ProgressBar(
+                        color: Colors.white,
+                      );
+                    },
+                  )
+                ],
               ),
             ),
           ],
@@ -270,32 +291,33 @@ class _EditChildScreenState extends State<EditChildScreen> {
   Widget buildTextField(
       BuildContext context, EditChildProfileBloc editChildBloc) {
     return Container(
-      margin: EdgeInsets.symmetric(
-          horizontal: MediaQuery.of(context).size.width * 0.12),
       child: StreamBuilder<Object>(
           stream: editChildBloc.childName,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return TextFormField(
-                initialValue: snapshot.data,
-                decoration: InputDecoration(
-                  errorText: snapshot.error,
-                  labelText: "Child Name",
-                  labelStyle:
-                      GoogleFonts.bubblegumSans(textStyle: kBubblegum_sans28)
-                          .copyWith(
-                    fontSize: 20,
-                    color: Colors.black,
-                  ),
-                  focusColor: Colors.black,
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 3,
+              return SizedBox(
+                width: 200,
+                child: TextFormField(
+                  initialValue: snapshot.data,
+                  decoration: InputDecoration(
+                    errorText: snapshot.error,
+                    labelText: "Child Name",
+                    labelStyle:
+                        GoogleFonts.bubblegumSans(textStyle: kBubblegum_sans28)
+                            .copyWith(
+                      fontSize: 20,
                       color: Colors.black,
                     ),
+                    focusColor: Colors.black,
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 3,
+                        color: Colors.black,
+                      ),
+                    ),
                   ),
+                  onChanged: editChildBloc.changeChildName,
                 ),
-                onChanged: editChildBloc.changeChildName,
               );
             }
             return Text('');
