@@ -18,8 +18,7 @@ class SpecifyVideoScreen extends StatefulWidget {
 
 class _SpecifyVideoScreenState extends State<SpecifyVideoScreen> {
   ScrollController _scrollController = ScrollController();
-  SpecifyAddVideoBloc specifyAddVideoBloc =
-      BlocProvider.getBloc<SpecifyAddVideoBloc>();
+  SpecifyAddVideoBloc specifyAddVideoBloc = SpecifyAddVideoBloc();
   @override
   void initState() {
     super.initState();

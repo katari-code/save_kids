@@ -13,7 +13,7 @@ class SpecifyAddVideoBloc extends BlocBase {
     _language.sink.add(languages[0]);
     // videoList.sink.add([]);
     child.addStream(changeChild);
-
+    searchResult.add('');
     videosFromDB.addStream(changeVideosFromDB);
   }
 
@@ -124,16 +124,21 @@ class SpecifyAddVideoBloc extends BlocBase {
     if (isSearched) {
       _pageToken = '';
     }
+    if (searchResult.value.isEmpty) {
+      return;
+    }
     var _searchResultTransleated =
         await searchResult.value.translate(to: _language.value.lnCode);
+    //page token for videos
+    // print('${_pageToken.isEmpty} :' + _pageToken);
+    final previousVids =
+        _pageToken.isNotEmpty ? _videoList.value : List<Video>.from([]);
 
     final map = await _repository.getVideosBySearch(
         _searchResultTransleated.toString(),
         pageToken: _pageToken);
     _pageToken = map['pageToken'];
-    //page token for videos
-    final previousVids =
-        _videoList.hasValue == true ? _videoList.value : List<Video>.from([]);
+
     List<Video> videos = [
       ...previousVids,
       ...List<Video>.from(map['data']).toList(),
@@ -166,23 +171,16 @@ class SpecifyAddVideoBloc extends BlocBase {
   }
 
   @override
-  Future<void> dispose() async {
+  dispose() {
     print('disposing...');
-
+    searchResult.close();
+    _language.close();
+    _videoList.close();
+    childId.close();
     // searchResult.add(null);
-    await complete;
 
     // videoList.add(null);
-    // super.dispose();
-  }
-
-  Future<void> get complete async {
-    await searchResult.close();
-
-    // await changeVideosFromDB.
-    // await videosFromDB.close();
-    // await videoList.close();
-    print('disposed...');
+    super.dispose();
   }
 
   final List<Language> languages = [

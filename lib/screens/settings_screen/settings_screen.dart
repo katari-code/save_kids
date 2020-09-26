@@ -1,4 +1,3 @@
-import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,8 +5,6 @@ import 'package:save_kids/bloc/parent_settings_bloc.dart';
 import 'package:save_kids/components/control_widgets/message.dart';
 import 'package:save_kids/components/control_widgets/progress_bar.dart';
 import 'package:save_kids/models/parent.dart';
-
-import '../../app_localizations.dart';
 
 import '../../components/stream_input_field.dart';
 import '../../util/style.dart';
@@ -18,6 +15,13 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  ParentSettingsBloc parentSettingsBloc = ParentSettingsBloc();
+  @override
+  void dispose() {
+    parentSettingsBloc.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,19 +103,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ],
             ),
           ),
-          Consumer<ParentSettingsBloc>(
-            builder: (context, parentSettingsBloc) => Center(
-              child: StreamBuilder<bool>(
-                stream: parentSettingsBloc.isAuthorised,
-                builder: (context, snapshot) {
-                  if (snapshot.data) {
-                    return buildAuthorizedUI(context, parentSettingsBloc);
-                  }
-                  return buildUnAuthorizedUI(context, parentSettingsBloc);
-                },
-              ),
+          Center(
+            child: StreamBuilder<bool>(
+              initialData: false,
+              stream: parentSettingsBloc.isAuthorised,
+              builder: (context, snapshot) {
+                if (snapshot.data) {
+                  return buildAuthorizedUI(context, parentSettingsBloc);
+                }
+                return buildUnAuthorizedUI(context, parentSettingsBloc);
+              },
             ),
-          )
+          ),
         ],
       ),
     );
@@ -176,9 +179,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       parentSettingsBloc.showProgressBar(true);
                       final result = await parentSettingsBloc.signIn();
                       parentSettingsBloc.showProgressBar(false);
+                      print(result);
                       if (result) {
                         parentSettingsBloc.isAuthorised.add(true);
                       } else {
+                        parentSettingsBloc.isAuthorised.add(false);
                         Message(
                                 color: Colors.redAccent,
                                 input: 'User credentials is not correct',

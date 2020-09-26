@@ -19,7 +19,7 @@ class AddChannelScreen extends StatefulWidget {
 
 class _AddChannelScreenState extends State<AddChannelScreen> {
   ScrollController _scrollController = ScrollController();
-  ChannelBloc channelBloc = BlocProvider.getBloc<ChannelBloc>();
+  ChannelBloc channelBloc = ChannelBloc();
   @override
   void initState() {
     _scrollController.addListener(() {

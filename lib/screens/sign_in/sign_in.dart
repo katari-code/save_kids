@@ -16,6 +16,13 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  SignInBloc signInBloc = SignInBloc();
+  @override
+  void dispose() {
+    signInBloc.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,101 +58,97 @@ class _SignInState extends State<SignIn> {
                         borderRadius: BorderRadius.circular(48),
                         color: Colors.white,
                       ),
-                      child: Consumer<SignInBloc>(
-                        builder: (context, signInBloc) => Column(
-                          children: <Widget>[
-                            SizedBox(
-                              height: 25,
+                      child: Column(
+                        children: <Widget>[
+                          SizedBox(
+                            height: 25,
+                          ),
+                          Container(
+                            height: 40.00,
+                            width: 244.00,
+                            decoration: BoxDecoration(
+                              color: Color(0xff035aa6),
+                              borderRadius: BorderRadius.circular(28.00),
                             ),
-                            Container(
-                              height: 40.00,
-                              width: 244.00,
-                              decoration: BoxDecoration(
-                                color: Color(0xff035aa6),
-                                borderRadius: BorderRadius.circular(28.00),
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: <Widget>[
-                                  Hero(
-                                    tag: "login",
-                                    child: GestureDetector(
-                                      onTap: () =>
-                                          Navigator.pushReplacementNamed(
-                                              context, kSginUpRoute),
-                                      child: Text(
-                                        "Sign Up",
-                                        style: kBubblegum_sans20.copyWith(
-                                          color: Colors.white,
-                                        ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: <Widget>[
+                                Hero(
+                                  tag: "login",
+                                  child: GestureDetector(
+                                    onTap: () => Navigator.pushReplacementNamed(
+                                        context, kSginUpRoute),
+                                    child: Text(
+                                      "Sign Up",
+                                      style: kBubblegum_sans20.copyWith(
+                                        color: Colors.white,
                                       ),
                                     ),
                                   ),
-                                  Stack(
-                                    children: <Widget>[
-                                      Container(
-                                        height: 28.00,
-                                        width: 102.00,
-                                        decoration: BoxDecoration(
-                                          color: Color(0xfffcbf1e),
-                                          borderRadius:
-                                              BorderRadius.circular(50.00),
-                                        ),
-                                        child: Center(
-                                          child: Text(
-                                            "Login",
-                                            style: GoogleFonts.bubblegumSans(
-                                              textStyle:
-                                                  kBubblegum_sans24.copyWith(
-                                                color: Colors.white,
-                                              ),
+                                ),
+                                Stack(
+                                  children: <Widget>[
+                                    Container(
+                                      height: 28.00,
+                                      width: 102.00,
+                                      decoration: BoxDecoration(
+                                        color: Color(0xfffcbf1e),
+                                        borderRadius:
+                                            BorderRadius.circular(50.00),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          "Login",
+                                          style: GoogleFonts.bubblegumSans(
+                                            textStyle:
+                                                kBubblegum_sans24.copyWith(
+                                              color: Colors.white,
                                             ),
                                           ),
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                ],
-                              ),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
-                            SizedBox(
-                              height: 25,
-                            ),
-                            StreamReusablefield(
-                              label: 'Email',
-                              stream: signInBloc.email,
-                              onChangeFunction: signInBloc.changeEmail,
-                              type: TextInputType.emailAddress,
-                            ),
-                            StreamReusablefield(
-                              label: 'Password',
-                              stream: signInBloc.password,
-                              onChangeFunction: signInBloc.changePassword,
-                              isPass: true,
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.pushNamed(context, '/reset');
-                              },
-                              child: Text(
-                                "Forget your Password ?",
-                                style: GoogleFonts.bubblegumSans(
-                                  textStyle: TextStyle(
-                                    fontFamily: "Bubblegum Sans",
-                                    fontSize: 16,
-                                    color: Color(0xfffdc402),
-                                    decoration: TextDecoration.underline,
-                                  ),
+                          ),
+                          SizedBox(
+                            height: 25,
+                          ),
+                          StreamReusablefield(
+                            label: 'Email',
+                            stream: signInBloc.email,
+                            onChangeFunction: signInBloc.changeEmail,
+                            type: TextInputType.emailAddress,
+                          ),
+                          StreamReusablefield(
+                            label: 'Password',
+                            stream: signInBloc.password,
+                            onChangeFunction: signInBloc.changePassword,
+                            isPass: true,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(context, '/reset');
+                            },
+                            child: Text(
+                              "Forget your Password ?",
+                              style: GoogleFonts.bubblegumSans(
+                                textStyle: TextStyle(
+                                  fontFamily: "Bubblegum Sans",
+                                  fontSize: 16,
+                                  color: Color(0xfffdc402),
+                                  decoration: TextDecoration.underline,
                                 ),
                               ),
                             ),
-                            SizedBox(
-                              height: 30,
-                            ),
-                            buildSignInOptions(signInBloc, context),
-                          ],
-                        ),
+                          ),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          buildSignInOptions(signInBloc, context),
+                        ],
                       ),
                     ),
                   ],

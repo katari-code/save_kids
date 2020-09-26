@@ -101,8 +101,8 @@ class ChildVideoListSpecifyBloc extends BlocBase {
   @override
   void dispose() {
     print('disposing');
-    timer.drain();
-    videosFromDB.drain();
+    timer.close();
+    childId.close();
     localTimer = null;
     super.dispose();
   }

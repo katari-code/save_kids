@@ -20,7 +20,14 @@ class WatchSchedule extends StatefulWidget {
 }
 
 class _WatchScheduleState extends State<WatchSchedule> {
+  WatchScheduleBloc watchScheduleBloc = WatchScheduleBloc();
   bool isInit = true;
+  @override
+  void dispose() {
+    watchScheduleBloc.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,165 +46,153 @@ class _WatchScheduleState extends State<WatchSchedule> {
             ),
           ),
           SingleChildScrollView(
-            child: Consumer<WatchScheduleBloc>(
-                builder: (context, watchScheduleBloc) => SafeArea(
-                      child: Column(
+              child: SafeArea(
+            child: Column(
+              children: <Widget>[
+                Container(
+                  color: kYellowColor,
+                  padding: EdgeInsets.all(15),
+                  height: 70,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      GestureDetector(
+                        onTap: () => Navigator.pop(context),
+                        child: Icon(
+                          Icons.arrow_back,
+                          color: Colors.white,
+                          size: 30,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 30,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Container(
-                            color: kYellowColor,
-                            padding: EdgeInsets.all(15),
-                            height: 70,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: <Widget>[
-                                GestureDetector(
-                                  onTap: () => Navigator.pop(context),
-                                  child: Icon(
-                                    Icons.arrow_back,
-                                    color: Colors.white,
-                                    size: 30,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 30,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Text(
-                                      "Watch Schedule",
-                                      style: kBubblegum_sans28.copyWith(
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    SvgPicture.asset('images/svgs/schedule.svg')
-                                  ],
-                                )
-                              ],
+                          Text(
+                            "Watch Schedule",
+                            style: kBubblegum_sans28.copyWith(
+                              color: Colors.white,
                             ),
                           ),
-                          SizedBox(
-                            height: 1,
-                          ),
-                          Column(
-                            children: <Widget>[
-                              StreamBuilder<List<Child>>(
-                                  stream: watchScheduleBloc.children.stream,
-                                  initialData: null,
-                                  builder: (context, snapshot) {
-                                    if (snapshot.hasData) {
-                                      if (isInit && snapshot.data.length > 0) {
-                                        watchScheduleBloc.changeChosenChild(
-                                            snapshot.data[0].id);
-                                        isInit = false;
-                                      }
-                                      if (snapshot.data.length > 0) {
-                                        return AvatrsCarousel(snapshot.data,
-                                            (String id) {
-                                          watchScheduleBloc
-                                              .changeChosenChild(id);
-                                        });
-                                      }
-                                      return Center(
-                                        child: Container(
-                                          margin: EdgeInsets.symmetric(
-                                              vertical: 15),
-                                          child: Text(
-                                            'No children To Display',
-                                            style: kBubblegum_sans32.copyWith(
-                                                color: Colors.white),
-                                          ),
+                          SvgPicture.asset('images/svgs/schedule.svg')
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 1,
+                ),
+                Column(
+                  children: <Widget>[
+                    StreamBuilder<List<Child>>(
+                        stream: watchScheduleBloc.children.stream,
+                        initialData: null,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            if (isInit && snapshot.data.length > 0) {
+                              watchScheduleBloc
+                                  .changeChosenChild(snapshot.data[0].id);
+                              isInit = false;
+                            }
+                            if (snapshot.data.length > 0) {
+                              return AvatrsCarousel(snapshot.data, (String id) {
+                                watchScheduleBloc.changeChosenChild(id);
+                              });
+                            }
+                            return Center(
+                              child: Container(
+                                margin: EdgeInsets.symmetric(vertical: 15),
+                                child: Text(
+                                  'No children To Display',
+                                  style: kBubblegum_sans32.copyWith(
+                                      color: Colors.white),
+                                ),
+                              ),
+                            );
+                          }
+                          return ProgressBar(
+                            color: Colors.white,
+                          );
+                        }),
+                    TopCalendar(watchScheduleBloc.changeChosenDate),
+                    StreamBuilder<List<Schedule>>(
+                      stream: watchScheduleBloc.schedules.stream,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          List<Schedule> schedules = snapshot.data ?? [];
+                          return Column(
+                            children: List.generate(
+                              schedules.length,
+                              (index) => ScheduleCard(
+                                  schedule: schedules[index],
+                                  deleteSchedule:
+                                      watchScheduleBloc.deleteSchedule),
+                            ),
+                          );
+                        }
+                        return ProgressBar(
+                          color: Colors.white,
+                        );
+                      },
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    StreamBuilder<String>(
+                        stream: watchScheduleBloc.chosenChild.stream,
+                        builder: (context, child) {
+                          if (child.hasData) {
+                            String chosenChild = child.data;
+                            return StreamBuilder<DateTime>(
+                                stream: watchScheduleBloc.chosenDate.stream,
+                                builder: (context, date) {
+                                  DateTime dateTime = date.data;
+                                  if (chosenChild != null &&
+                                      dateTime != null &&
+                                      dateTime.isAfter(
+                                        DateTime.now().subtract(
+                                          Duration(hours: DateTime.now().hour),
                                         ),
-                                      );
-                                    }
-                                    return ProgressBar(
-                                      color: Colors.white,
-                                    );
-                                  }),
-                              TopCalendar(watchScheduleBloc.changeChosenDate),
-                              StreamBuilder<List<Schedule>>(
-                                stream: watchScheduleBloc.schedules.stream,
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    List<Schedule> schedules =
-                                        snapshot.data ?? [];
-                                    return Column(
-                                      children: List.generate(
-                                        schedules.length,
-                                        (index) => ScheduleCard(
-                                            schedule: schedules[index],
-                                            deleteSchedule: watchScheduleBloc
-                                                .deleteSchedule),
+                                      )) {
+                                    return GestureDetector(
+                                      onTap: () async {
+                                        //check if there is a child
+                                        //dateime is not empy
+                                        //datetime chosen is after current time
+                                        await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => AddSchedule(
+                                                child.data, dateTime),
+                                          ),
+                                        );
+                                      },
+                                      child: AgeChip(
+                                        highet: 60.0,
+                                        width: 220.0,
+                                        text: "Add to Schedule",
+                                        color: kBlueDarkColor,
                                       ),
                                     );
                                   }
-                                  return ProgressBar(
-                                    color: Colors.white,
-                                  );
-                                },
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              StreamBuilder<String>(
-                                  stream: watchScheduleBloc.chosenChild.stream,
-                                  builder: (context, child) {
-                                    if (child.hasData) {
-                                      String chosenChild = child.data;
-                                      return StreamBuilder<DateTime>(
-                                          stream: watchScheduleBloc
-                                              .chosenDate.stream,
-                                          builder: (context, date) {
-                                            DateTime dateTime = date.data;
-                                            if (chosenChild != null &&
-                                                dateTime != null &&
-                                                dateTime.isAfter(
-                                                  DateTime.now().subtract(
-                                                    Duration(
-                                                        hours: DateTime.now()
-                                                            .hour),
-                                                  ),
-                                                )) {
-                                              return GestureDetector(
-                                                onTap: () async {
-                                                  //check if there is a child
-                                                  //dateime is not empy
-                                                  //datetime chosen is after current time
-                                                  await Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          AddSchedule(
-                                                              child.data,
-                                                              dateTime),
-                                                    ),
-                                                  );
-                                                },
-                                                child: AgeChip(
-                                                  highet: 60.0,
-                                                  width: 220.0,
-                                                  text: "Add to Schedule",
-                                                  color: kBlueDarkColor,
-                                                ),
-                                              );
-                                            }
-                                            return Text('');
-                                          });
-                                    }
-                                    return ProgressBar(
-                                      color: Colors.white,
-                                    );
-                                  }),
-                              SizedBox(
-                                height: 15,
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    )),
-          ),
+                                  return Text('');
+                                });
+                          }
+                          return ProgressBar(
+                            color: Colors.white,
+                          );
+                        }),
+                    SizedBox(
+                      height: 15,
+                    ),
+                  ],
+                )
+              ],
+            ),
+          )),
         ],
       ),
     );

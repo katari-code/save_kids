@@ -177,10 +177,14 @@ class ChildVideoListWSBloc extends BlocBase {
 
   @override
   void dispose() {
-    _category.drain();
+    _category.add(null);
     print('disposing');
-    channels.drain();
-    videoList.drain();
+    channels.add(null);
+    videoList.add(null);
+    videosFromDB.close();
+    schedule.close();
+    child.add(null);
+    childId.add(null);
     super.dispose();
   }
 }

@@ -121,12 +121,12 @@ class AddScheduleBloc extends BlocBase {
 
   @override
   void dispose() {
-    _chosenVideos.drain();
-    _chosenChannels.drain();
-    _timeStart.drain();
-    _isValidate.drain();
-    _timeEnd.drain();
-    _categories.drain();
+    _chosenVideos.close();
+    _chosenChannels.close();
+    _timeStart.close();
+    _isValidate.close();
+    _timeEnd.close();
+    _categories.close();
     super.dispose();
   }
 

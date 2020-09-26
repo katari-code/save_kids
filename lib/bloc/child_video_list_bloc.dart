@@ -116,9 +116,9 @@ class ChildVideoListBloc extends BlocBase {
 
   @override
   void dispose() {
-    category.drain();
-    timer.drain();
-    videoList.drain();
+    category.add(null);
+    timer.add(null);
+    videoList.add(null);
     localTimer = null;
     super.dispose();
   }

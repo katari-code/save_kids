@@ -87,13 +87,13 @@ class EditChildProfileBloc extends BlocBase {
   @override
   void dispose() {
     init = true;
-    _childName.add('');
-    _age.add(null);
-    imageAvatar.add(avatars[0]);
-    _timer.sink.add(timers[0]);
-    _isValidated.add(false);
-    childId.add(null);
-    child.close();
+
+    _childName.close();
+    _age.close();
+    imageAvatar.close();
+    _timer.sink.close();
+    _isValidated.close();
+    childId.close();
 
     super.dispose();
   }

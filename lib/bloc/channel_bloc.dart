@@ -61,10 +61,10 @@ class ChannelBloc extends BlocBase {
 
   @override
   void dispose() async {
-    await _searchResult.drain();
-    _searchResult.close();
-    await _channelList.drain();
-    _channelList.close();
+    _searchResult.add(null);
+
+    _channelList.add(null);
+
     super.dispose();
   }
 }

@@ -56,10 +56,9 @@ class WatchScheduleBloc extends BlocBase {
 
   @override
   void dispose() {
-    chosenDate.drain();
-    chosenChild.drain();
-    schedules.drain();
-    children.drain();
+    chosenDate.close();
+    chosenChild.close();
+
     super.dispose();
   }
 }

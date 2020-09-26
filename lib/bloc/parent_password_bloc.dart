@@ -20,7 +20,7 @@ class ParentPasswordBloc extends BlocBase {
 
   @override
   void dispose() {
-    password.drain();
+    password.close();
     super.dispose();
   }
 

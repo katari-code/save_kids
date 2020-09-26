@@ -31,8 +31,8 @@ class _AddChildScreenState extends State<AddChildScreen> {
 
   @override
   void dispose() {
-    createChildBloc.dispose();
     super.dispose();
+    createChildBloc.dispose();
   }
 
   @override
@@ -211,7 +211,8 @@ class _AddChildScreenState extends State<AddChildScreen> {
         stream: createChildBloc.parentSession,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return StreamBuilder<Object>(
+            return StreamBuilder<bool>(
+                initialData: false,
                 stream: createChildBloc.validatedStatus,
                 builder: (context, validated) {
                   if (!validated.data) {

@@ -87,15 +87,14 @@ class SignUpBloc extends BlocBase {
 
   @override
   void dispose() async {
-    await _fullName.drain();
     _fullName.close();
-    await _email.drain();
+
     _email.close();
-    await _phoneNumber.drain();
+
     _phoneNumber.close();
-    await _password.drain();
+
     _password.close();
-    await _isSignedIn.drain();
+    _isSignedIn.close();
     super.dispose();
   }
 }

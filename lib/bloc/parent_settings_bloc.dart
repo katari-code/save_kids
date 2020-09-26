@@ -105,13 +105,14 @@ class ParentSettingsBloc extends BlocBase {
   }
 
   @override
-  void dispose() async {
-    await _email.drain();
+  void dispose() {
     _email.close();
-    await _password.drain();
     _password.close();
-    await _isSignedIn.drain();
     _isSignedIn.close();
+    isInitial = true;
+    name.close();
+
+    isAuthorised.close();
     super.dispose();
   }
 }

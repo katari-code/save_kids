@@ -18,6 +18,13 @@ class AddSchedule extends StatefulWidget {
 }
 
 class _AddScheduleState extends State<AddSchedule> {
+  AddScheduleBloc addScheduleBloc = AddScheduleBloc();
+  @override
+  void dispose() {
+    addScheduleBloc.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,87 +33,85 @@ class _AddScheduleState extends State<AddSchedule> {
         child: Stack(
           children: <Widget>[
             Center(
-              child: Consumer<AddScheduleBloc>(
-                builder: (context, addScheduleBloc) => Container(
-                  alignment: Alignment.center,
-                  height: MediaQuery.of(context).size.height * 0.95,
-                  width: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.symmetric(horizontal: 4),
-                  child: Card(
-                    elevation: 6,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(45),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            buildTitleForm(),
-                            Center(
-                              child: Text(
-                                '${addScheduleBloc.daysOfWeek[DateTime.now().weekday - 1]}',
-                                style: kBubblegum_sans28.copyWith(
-                                    color: kRedColor),
-                              ),
+              child: Container(
+                alignment: Alignment.center,
+                height: MediaQuery.of(context).size.height * 0.95,
+                width: MediaQuery.of(context).size.width,
+                padding: EdgeInsets.symmetric(horizontal: 4),
+                child: Card(
+                  elevation: 6,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(45),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          buildTitleForm(),
+                          Center(
+                            child: Text(
+                              '${addScheduleBloc.daysOfWeek[widget.dateTime.weekday - 1]}',
+                              style:
+                                  kBubblegum_sans28.copyWith(color: kRedColor),
                             ),
-                            SizedBox(
-                              height: 20,
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          buildTimePicker(addScheduleBloc),
+                          SizedBox(
+                            height: 25,
+                          ),
+                          buildDuration(addScheduleBloc),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 20),
+                            child: Text(
+                              'Select Category :',
+                              textAlign: TextAlign.start,
+                              style: kBubblegum_sans28.copyWith(
+                                  color: kBlueDarkColor),
                             ),
-                            buildTimePicker(addScheduleBloc),
-                            SizedBox(
-                              height: 25,
+                          ),
+                          SizedBox(
+                            height: 18,
+                          ),
+                          buildCategoryChips(addScheduleBloc),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 20),
+                            child: Text(
+                              'Customize the experiences :',
+                              textAlign: TextAlign.start,
+                              style: kBubblegum_sans28.copyWith(
+                                  color: kBlueDarkColor),
                             ),
-                            buildDuration(addScheduleBloc),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 20),
-                              child: Text(
-                                'Select Category :',
-                                textAlign: TextAlign.start,
-                                style: kBubblegum_sans28.copyWith(
-                                    color: kBlueDarkColor),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 18,
-                            ),
-                            buildCategoryChips(addScheduleBloc),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 20),
-                              child: Text(
-                                'Customize the experiences :',
-                                textAlign: TextAlign.start,
-                                style: kBubblegum_sans28.copyWith(
-                                    color: kBlueDarkColor),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 15,
-                            ),
-                            buildSpecifyChips(addScheduleBloc),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            StreamBuilder<bool>(
-                                initialData: false,
-                                stream: addScheduleBloc.isValidate,
-                                builder: (context, snapshot) {
-                                  return buildButton(
-                                      addScheduleBloc, snapshot.data);
-                                }),
-                            SizedBox(
-                              height: 15,
-                            ),
-                          ],
-                        ),
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          buildSpecifyChips(addScheduleBloc),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          StreamBuilder<bool>(
+                              initialData: false,
+                              stream: addScheduleBloc.isValidate,
+                              builder: (context, snapshot) {
+                                return buildButton(
+                                    addScheduleBloc, snapshot.data);
+                              }),
+                          SizedBox(
+                            height: 15,
+                          ),
+                        ],
                       ),
                     ),
                   ),

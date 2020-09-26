@@ -35,7 +35,7 @@ import 'bloc/kids_accounts_specify_video_bloc.dart';
 import 'bloc/sign_in_bloc.dart';
 import 'bloc/sign_up_bloc.dart';
 
-import 'bloc/video_list__specify_bloc.dart';
+import 'bloc/video_list_specify_bloc.dart';
 import 'models/schedule_data.dart';
 
 void main() async {

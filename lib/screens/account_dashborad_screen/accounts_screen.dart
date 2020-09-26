@@ -24,7 +24,7 @@ class AccountDashboardScreen extends StatefulWidget {
 class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
   var editMode = true;
   bool showTime = false;
-
+  AccountDashboardBloc accountDashBloc = AccountDashboardBloc();
   dispose() {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
@@ -32,6 +32,7 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+    accountDashBloc.dispose();
     super.dispose();
   }
 
@@ -49,32 +50,30 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
               fit: BoxFit.cover,
             ),
           ),
-          Consumer<AccountDashboardBloc>(
-            builder: (conext, accountDashBloc) => Center(
-              child: StreamBuilder<Parent>(
-                stream: accountDashBloc.parentSession,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    accountDashBloc.parentId = snapshot.data.id;
-                    return StreamBuilder<bool>(
-                      stream: accountDashBloc.isVerified.stream,
-                      builder: (context, isVerified) {
-                        if (isVerified.hasData) {
-                          if (isVerified.data) {
-                            return buildVerifiedUI(accountDashBloc, snapshot);
-                          } else {
-                            return buildUnverifiedUI(context, accountDashBloc);
-                          }
+          Center(
+            child: StreamBuilder<Parent>(
+              stream: accountDashBloc.parentSession,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  accountDashBloc.parentId = snapshot.data.id;
+                  return StreamBuilder<bool>(
+                    stream: accountDashBloc.isVerified.stream,
+                    builder: (context, isVerified) {
+                      if (isVerified.hasData) {
+                        if (isVerified.data) {
+                          return buildVerifiedUI(accountDashBloc, snapshot);
+                        } else {
+                          return buildUnverifiedUI(context, accountDashBloc);
                         }
-                        return Center(child: ProgressBar());
-                      },
-                    );
-                  }
-                  return ProgressBar();
-                },
-              ),
+                      }
+                      return Center(child: ProgressBar());
+                    },
+                  );
+                }
+                return ProgressBar();
+              },
             ),
-          )
+          ),
         ],
       ),
     );

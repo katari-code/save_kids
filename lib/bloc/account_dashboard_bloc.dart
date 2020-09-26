@@ -87,10 +87,11 @@ class AccountDashboardBloc extends BlocBase {
   }
 
   @override
-  void dispose() async {
-    await _isEditMode.drain();
+  void dispose() {
     _isEditMode.close();
-    isVerified.drain();
+
+    isVerified.close();
+    isNew = false;
     super.dispose();
   }
 }

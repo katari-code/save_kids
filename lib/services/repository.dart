@@ -262,8 +262,8 @@ class Repository<T extends FireStoreConverter> {
     try {
       FirebaseUser user = await currentUser;
       if (user.email == email) {
-        Parent parent = await signIn(email, password);
-        if (parent != null) {
+        final result = await signIn(email, password);
+        if (result is Parent) {
           return true;
         }
         return false;
@@ -271,7 +271,7 @@ class Repository<T extends FireStoreConverter> {
       return false;
     } catch (e) {
       logger.e(e);
-      return null;
+      return false;
     }
   }
 
