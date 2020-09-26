@@ -90,7 +90,7 @@ class AccountDashboardBloc extends BlocBase {
   void dispose() {
     _isEditMode.close();
 
-    isVerified.close();
+    // isVerified.close();
     isNew = false;
     super.dispose();
   }
