@@ -84,12 +84,12 @@ class ResetPasswordBloc extends BlocBase {
 
   @override
   void dispose() {
-    newPassword.add('');
-    code.add('');
-    email.add('');
-    isSentEmail.add(false);
-    isCodeVerified.add(false);
-    loading.add(false);
+    newPassword.close();
+    code.close();
+    email.close();
+    isSentEmail.close();
+    isCodeVerified.close();
+    loading.close();
     super.dispose();
   }
 }

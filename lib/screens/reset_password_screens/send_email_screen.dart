@@ -19,6 +19,7 @@ class SendEmail extends StatefulWidget {
 
 class _SendEmailState extends State<SendEmail> {
   bool isEmailSent = false;
+  ResetPasswordBloc resetPasswordBloc = ResetPasswordBloc();
   @override
   void initState() {
     super.initState();
@@ -37,6 +38,7 @@ class _SendEmailState extends State<SendEmail> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+    resetPasswordBloc.dispose();
   }
 
   //  p
@@ -75,7 +77,7 @@ class _SendEmailState extends State<SendEmail> {
                           color: Colors.white,
                         ),
                         Text(
-                          "Account",
+                          "Login",
                           style: kBubblegum_sans32.copyWith(
                             color: Colors.white,
                           ),
@@ -87,20 +89,18 @@ class _SendEmailState extends State<SendEmail> {
               ],
             ),
           ),
-          Consumer<ResetPasswordBloc>(
-            builder: (context, resetPasswordBloc) => StreamBuilder<bool>(
-                initialData: false,
-                stream: resetPasswordBloc.isSentEmail.value
-                    ? resetPasswordBloc.isCodeVerified
-                    : resetPasswordBloc.isSentEmail,
-                builder: (context, snapshot) {
-                  if (isEmailSent) {
-                    return buildCodeVerify(context, resetPasswordBloc);
-                  } else {
-                    return buildEmailVerify(context, resetPasswordBloc);
-                  }
-                }),
-          ),
+          StreamBuilder<bool>(
+              initialData: false,
+              stream: resetPasswordBloc.isSentEmail.value
+                  ? resetPasswordBloc.isCodeVerified
+                  : resetPasswordBloc.isSentEmail,
+              builder: (context, snapshot) {
+                if (isEmailSent) {
+                  return buildCodeVerify(context, resetPasswordBloc);
+                } else {
+                  return buildEmailVerify(context, resetPasswordBloc);
+                }
+              }),
         ],
       ),
     );
@@ -215,7 +215,7 @@ class _SendEmailState extends State<SendEmail> {
                           ),
                         );
                       }
-                      return ProgressBar(color: Colors.white);
+                      return ProgressBar(color: Colors.blue);
                     }),
               ],
             ),
@@ -239,7 +239,7 @@ class _SendEmailState extends State<SendEmail> {
             height: 15,
           ),
           Text(
-            "Enter The Code That You Recieved In Your mail",
+            "We have sent an Email",
             style: kBubblegum_sans28,
           ),
           SizedBox(
@@ -254,19 +254,81 @@ class _SendEmailState extends State<SendEmail> {
             ),
             child: Column(
               children: <Widget>[
-                StreamReusablefield(
-                  label: 'Code',
-                  stream: resetPasswordBloc.codeStream,
-                  onChangeFunction: resetPasswordBloc.code.add,
-                  isPass: false,
-                  type: TextInputType.number,
-                ),
-                StreamReusablefield(
-                  label: 'New Password',
-                  stream: resetPasswordBloc.passwordStream,
-                  onChangeFunction: resetPasswordBloc.newPassword.add,
-                  isPass: true,
-                ),
+                // StreamReusablefield(
+                //   label: 'Code',
+                //   stream: resetPasswordBloc.codeStream,
+                //   onChangeFunction: resetPasswordBloc.code.add,
+                //   isPass: false,
+                //   type: TextInputType.number,
+                // ),
+                // StreamReusablefield(
+                //   label: 'New Password',
+                //   stream: resetPasswordBloc.passwordStream,
+                //   onChangeFunction: resetPasswordBloc.newPassword.add,
+                //   isPass: true,
+                // ),
+                // StreamBuilder<bool>(
+                //     initialData: false,
+                //     stream: resetPasswordBloc.loading,
+                //     builder: (context, snapshot) {
+                //       if (!snapshot.data) {
+                //     return GestureDetector(
+                //       onTap: () async {
+                //         final result = resetPasswordBloc.validateFields();
+
+                //         if (result) {
+                //           resetPasswordBloc.loading.add(true);
+                //           Future.delayed(Duration(seconds: 5)).then(
+                //               (value) =>
+                //                   resetPasswordBloc.loading.add(false));
+                //           await resetPasswordBloc.verifyCode;
+                //         } else {
+                //           Message(
+                //                   color: kRedColor,
+                //                   context: context,
+                //                   input:
+                //                       'Password and/or Code is incorrect, Please Try Again!')
+                //               .displayMessage();
+                //         }
+                //       },
+                //       child: Stack(
+                //         children: <Widget>[
+                //           Container(
+                //             height: 58.00,
+                //             width: 226.00,
+                //             decoration: BoxDecoration(
+                //               color: Color(0xfff6b039),
+                //               borderRadius: BorderRadius.circular(8.00),
+                //             ),
+                //           ),
+                //           Positioned(
+                //             top: -15,
+                //             left: 0,
+                //             child: Transform.scale(
+                //               scale: 1.25,
+                //               child: SvgPicture.asset(
+                //                   "images/svgs/mask_button.svg"),
+                //             ),
+                //           ),
+                //           Positioned(
+                //             left: 226 * 0.35,
+                //             top: 58 * 0.23,
+                //             child: Text(
+                //               'Verify',
+                //               style: GoogleFonts.bubblegumSans(
+                //                 textStyle: kBubblegum_sans32.copyWith(
+                //                   color: Colors.white,
+                //                 ),
+                //               ),
+                //             ),
+                //           ),
+                //         ],
+                //         overflow: Overflow.clip,
+                //       ),
+                //     );
+                //   }
+                //   return ProgressBar(color: Colors.white);
+                // }),
                 StreamBuilder<bool>(
                     initialData: false,
                     stream: resetPasswordBloc.loading,
@@ -274,28 +336,16 @@ class _SendEmailState extends State<SendEmail> {
                       if (!snapshot.data) {
                         return GestureDetector(
                           onTap: () async {
-                            final result = resetPasswordBloc.validateFields();
-
-                            if (result) {
-                              resetPasswordBloc.loading.add(true);
-                              Future.delayed(Duration(seconds: 5)).then(
-                                  (value) =>
-                                      resetPasswordBloc.loading.add(false));
-                              await resetPasswordBloc.verifyCode;
-                            } else {
-                              Message(
-                                      color: kRedColor,
-                                      context: context,
-                                      input:
-                                          'Password and/or Code is incorrect, Please Try Again!')
-                                  .displayMessage();
-                            }
+                            resetPasswordBloc.loading.add(true);
+                            Future.delayed(Duration(seconds: 5)).then((value) =>
+                                resetPasswordBloc.loading.add(false));
+                            await resetPasswordBloc.sendEmail;
                           },
                           child: Stack(
                             children: <Widget>[
                               Container(
                                 height: 58.00,
-                                width: 226.00,
+                                width: 250.00,
                                 decoration: BoxDecoration(
                                   color: Color(0xfff6b039),
                                   borderRadius: BorderRadius.circular(8.00),
@@ -305,16 +355,17 @@ class _SendEmailState extends State<SendEmail> {
                                 top: -15,
                                 left: 0,
                                 child: Transform.scale(
-                                  scale: 1.25,
+                                  scale: 1.55,
                                   child: SvgPicture.asset(
                                       "images/svgs/mask_button.svg"),
                                 ),
                               ),
                               Positioned(
-                                left: 226 * 0.35,
+                                left: 15,
+                                // right: 10,
                                 top: 58 * 0.23,
                                 child: Text(
-                                  'Verify',
+                                  'I did not recieve it',
                                   style: GoogleFonts.bubblegumSans(
                                     textStyle: kBubblegum_sans32.copyWith(
                                       color: Colors.white,
@@ -327,50 +378,10 @@ class _SendEmailState extends State<SendEmail> {
                           ),
                         );
                       }
-                      return ProgressBar(color: Colors.white);
+                      return ProgressBar(
+                        color: Colors.blue,
+                      );
                     }),
-                GestureDetector(
-                  onTap: () async {
-                    resetPasswordBloc.loading.add(true);
-                    Future.delayed(Duration(seconds: 5))
-                        .then((value) => resetPasswordBloc.loading.add(false));
-                    await resetPasswordBloc.sendEmail;
-                  },
-                  child: Stack(
-                    children: <Widget>[
-                      Container(
-                        height: 58.00,
-                        width: 226.00,
-                        decoration: BoxDecoration(
-                          color: Color(0xfff6b039),
-                          borderRadius: BorderRadius.circular(8.00),
-                        ),
-                      ),
-                      Positioned(
-                        top: -15,
-                        left: 0,
-                        child: Transform.scale(
-                          scale: 1.25,
-                          child:
-                              SvgPicture.asset("images/svgs/mask_button.svg"),
-                        ),
-                      ),
-                      Positioned(
-                        left: 226 * 0.35,
-                        top: 58 * 0.23,
-                        child: Text(
-                          'Send Email Again',
-                          style: GoogleFonts.bubblegumSans(
-                            textStyle: kBubblegum_sans32.copyWith(
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                    overflow: Overflow.clip,
-                  ),
-                ),
               ],
             ),
           )
