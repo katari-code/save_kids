@@ -163,6 +163,7 @@ class _SignUpState extends State<SignUp> {
 
   Widget buildSubmitButton(SignUpBloc signUpBloc) {
     return StreamBuilder<bool>(
+      initialData: false,
         stream: signUpBloc.signInStatus,
         builder: (context, snapshot) {
           if (!snapshot.data) {
