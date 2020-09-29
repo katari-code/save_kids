@@ -2,17 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_duration_picker/flutter_duration_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:save_kids/app_localizations.dart';
 import 'package:save_kids/bloc/create_child_profile_bloc.dart';
 import 'package:save_kids/components/control_widgets/message.dart';
 import 'package:save_kids/components/control_widgets/progress_bar.dart';
 import 'package:save_kids/components/premium_model.dart';
 import 'package:save_kids/models/parent.dart';
 import 'package:save_kids/models/timer.dart';
-import 'package:save_kids/screens/create_child_profile/widget/time_coursal.dart';
 import 'package:save_kids/util/style.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:bloc_pattern/bloc_pattern.dart';
 
 class AddChildScreen extends StatefulWidget {
   @override
@@ -20,8 +16,7 @@ class AddChildScreen extends StatefulWidget {
 }
 
 class _AddChildScreenState extends State<AddChildScreen> {
-  CreateChildProfileBloc createChildBloc =
-      BlocProvider.getBloc<CreateChildProfileBloc>();
+  CreateChildProfileBloc createChildBloc = CreateChildProfileBloc();
   @override
   void initState() {
     super.initState();

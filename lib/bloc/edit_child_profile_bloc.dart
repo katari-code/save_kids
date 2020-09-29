@@ -88,12 +88,12 @@ class EditChildProfileBloc extends BlocBase {
   void dispose() {
     init = true;
 
-    // _childName.close();
-    // _age.close();
-    // imageAvatar.close();
-    // _timer.sink.close();
-    // _isValidated.close();
-    // childId.close();
+    _childName.close();
+    _age.close();
+    imageAvatar.close();
+    _timer.sink.close();
+    _isValidated.close();
+    childId.close();
 
     super.dispose();
   }

@@ -173,7 +173,7 @@ class SpecifyAddVideoBloc extends BlocBase {
   @override
   dispose() {
     print('disposing...');
-    // searchResult.close();
+    searchResult.close();
     _language.close();
     _videoList.close();
     childId.close();
