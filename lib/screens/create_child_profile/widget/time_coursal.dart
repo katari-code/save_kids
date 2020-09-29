@@ -45,10 +45,10 @@ class TimeCoursal extends StatelessWidget {
                         child: Row(
                           // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Icon(
-                              Icons.lock_clock,
-                              color: Colors.white,
-                            ),
+                            // Icon(
+                            //   Icons.lock_clock,
+                            //   color: Colors.white,
+                            // ),
                             SizedBox(
                               width: 15,
                             ),

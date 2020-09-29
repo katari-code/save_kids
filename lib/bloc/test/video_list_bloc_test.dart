@@ -89,7 +89,7 @@ final categories = [
   ),
   Category(
     'Music',
-    'science for kids',
+    'Music for kids',
     index: 3,
     isSelected: true,
     imgURl:
