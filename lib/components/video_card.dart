@@ -71,13 +71,14 @@ class VideoCardEnhanced extends StatelessWidget {
                 ),
               ),
               Container(
-                width: 320.00,
                 height: 140,
+                alignment: Alignment.center,
                 color: kBlackColor.withOpacity(0.8),
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10),
                   child: Text(
                     videoTitle,
+                    textAlign: TextAlign.center,
                     style: kBubblegum_sans24.copyWith(
                       color: Colors.white,
                     ),

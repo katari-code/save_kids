@@ -133,23 +133,6 @@ class _ChildMainViedoListState extends State<ChildMainViedoList>
                                   height: 70,
                                 ),
                               ),
-                              Column(
-                                children: [
-                                  // CircleAvatar(
-                                  //   radius: 33,
-                                  //   backgroundColor: kYellowColor,
-                                  //   child: CircleAvatar(
-                                  //     radius: 30,
-                                  //     backgroundColor: Colors.white,
-                                  //     backgroundImage: NetworkImage(
-                                  //       Provider.of<KidsData>(context)
-                                  //           .kids[0]
-                                  //           .imagePath,
-                                  //     ),
-                                  //   ),
-                                  // ),
-                                ],
-                              )
                             ],
                           ),
                         ),
@@ -197,22 +180,6 @@ class _ChildMainViedoListState extends State<ChildMainViedoList>
                         SizedBox(
                           height: 15,
                         ),
-                        //             // Wrap(
-                        //             //   children: List<VideoCardEnhanced>.generate(
-                        //             //     categoriesList.length,
-                        //             //     (index) => VideoCardEnhanced(),
-                        //             //   ),
-                        //             // ),
-                        //             // SizedBox(
-                        //             //   height: 180,
-                        //             //   child: ListView.builder(
-                        //             //     padding: const EdgeInsets.only(left: 50.0),
-                        //             //     scrollDirection: Axis.horizontal,
-                        //             //     itemCount: 50,
-                        //             //     itemBuilder: (context, index) => VideoCardEnhanced(),
-                        //             //   ),
-                        //             // ),
-
                         VideoGrid(
                           videoStream: widget.videoListBloc.videoList.stream,
                           addToWatchHistory: (String videoId) => widget
