@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:save_kids/models/interfaces/i_firestore_converter.dart';
+import 'package:save_kids/models/video_report.dart';
 
 class Parent extends FireStoreConverter {
   String id;
@@ -8,6 +9,7 @@ class Parent extends FireStoreConverter {
   String name;
   String password;
   String isPremium;
+  List<dynamic> videoReports;
 
   // String type;
   List<dynamic> children;
@@ -17,10 +19,15 @@ class Parent extends FireStoreConverter {
       this.password,
       this.children,
       this.name,
-      this.isPremium});
+      this.isPremium,
+      this.videoReports});
 
   Parent.fromFirebase(FirebaseUser user)
-      : this(id: user.uid, email: user.email, name: user.displayName);
+      : this(
+          id: user.uid,
+          email: user.email,
+          name: user.displayName,
+        );
 
   Parent.fromFirestore(DocumentSnapshot snapshot)
       : this(
@@ -30,6 +37,10 @@ class Parent extends FireStoreConverter {
           name: snapshot.data['name'],
           children:
               [...List<String>.from(snapshot.data['children']).toList()] ?? [],
+          videoReports: [
+                ...List<String>.from(snapshot.data['video_reports']).toList()
+              ] ??
+              [],
           isPremium: snapshot.data['isPremium'] ?? "free_account",
         );
 
@@ -46,6 +57,7 @@ class Parent extends FireStoreConverter {
       'children': this.children ?? [],
       'name': this.name,
       'isPremium': this.isPremium ?? "free_account",
+      'video_reports': this.videoReports ?? []
     };
   }
 }
