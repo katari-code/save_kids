@@ -336,7 +336,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 height: 58.00,
                                 width: 226.00,
                                 decoration: BoxDecoration(
-                                  color: Color(0xfff6b039),
+                                  color: kYellowColor,
                                   borderRadius: BorderRadius.circular(8.00),
                                 ),
                               ),

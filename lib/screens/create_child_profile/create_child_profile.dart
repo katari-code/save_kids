@@ -245,8 +245,8 @@ class _AddChildScreenState extends State<AddChildScreen> {
                         _timer.isComplete = false;
                         createChildBloc.changeTimer(_timer);
                         createChildBloc.showProgressBar(true);
-                        final child = await createChildBloc.addChild(
-                            snapshot.data.id, 'exploratory');
+                        final child =
+                            await createChildBloc.addChild(snapshot.data.id);
 
                         createChildBloc.showProgressBar(false);
                         Navigator.of(context).pop(context);
@@ -402,7 +402,7 @@ class AgeChip extends StatelessWidget {
         child: Text(
           text,
           style: GoogleFonts.bubblegumSans(
-            textStyle: kBubblegum_sans28.copyWith(
+            textStyle: kBubblegum_sans24.copyWith(
               color: Colors.white,
             ),
           ),

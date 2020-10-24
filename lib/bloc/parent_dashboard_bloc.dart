@@ -4,6 +4,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:save_kids/models/child.dart';
 import 'package:save_kids/models/parent.dart';
 import 'package:save_kids/services/repository.dart';
+import 'package:save_kids/util/constant.dart';
 
 class ParentDashBoardBloc extends BlocBase {
   Repository _childRepo = Repository<Child>(collection: 'children');
@@ -46,15 +47,15 @@ class ParentDashBoardBloc extends BlocBase {
     Child getChild = await _childRepo.getDocument(Child(), childId).first;
     if (index == 0) {
       Logger().i(index);
-      Child updatedChild = getChild..type = "exploratory";
+      Child updatedChild = getChild..type = kAccountype[0];
       await _childRepo.setDocument(updatedChild, updatedChild.id);
     } else if (index == 1) {
       Logger().i(index);
-      Child updatedChild = getChild..type = "specify_videos";
+      Child updatedChild = getChild..type = kAccountype[1];
       await _childRepo.setDocument(updatedChild, updatedChild.id);
     } else if (index == 2) {
       Logger().i(index);
-      Child updatedChild = getChild..type = "WC";
+      Child updatedChild = getChild..type = kAccountype[2];
       await _childRepo.setDocument(updatedChild, updatedChild.id);
     }
   }

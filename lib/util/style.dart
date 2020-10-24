@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 // Constant Colors
-const kPurpleColor = Color(0xffC52FF0);
+const kPurpleColor = Color(0xffb733ff);
 const kBlueColor = Color(0xff33E1FF);
 const kBlackColor = Color(0xff000000);
 const kBlueDarkColor = Color(0xFF035AA6);
 const kYellowColor = Color(0xFFFC7A01);
-const kRedColor = Color(0xFFFF7474);
+const kRedColor = Color(0xFFff5133);
 const kRedDarkColor = Color(0xFF772F2F);
 const kChannelSelectedColor = Colors.green;
 const kChannelUnSelectedColor = Colors.grey;

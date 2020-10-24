@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="138.112" height="40.908" viewBox="0 0 138.112 40.908">
+  <defs>
+    <filter id="Icon_weather-stars" x="97" y="0" width="41.112" height="40.908" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Group_39" data-name="Group 39" transform="translate(-70 -381)">
+    <g id="Group_37" data-name="Group 37">
+      <g id="Group_33" data-name="Group 33">
+        <text id="Recommended" transform="translate(74 403)" fill="#fff" font-size="14" font-family="Nunito-Regular, Nunito"><tspan x="0" y="0">Recommended</tspan></text>
+      </g>
+      <g transform="matrix(1, 0, 0, 1, 70, 381)" filter="url(#Icon_weather-stars)">
+        <path id="Icon_weather-stars-2" data-name="Icon weather-stars" d="M6.444,19.416a2.827,2.827,0,0,0,1.98-.9A2.82,2.82,0,0,0,9.24,16.5a2.912,2.912,0,0,0,2.784,2.916A2.912,2.912,0,0,0,9.24,22.332a2.771,2.771,0,0,0-.816-2.016A2.827,2.827,0,0,0,6.444,19.416Zm2.8-8.64a5.515,5.515,0,0,0,3.852-1.764,5.493,5.493,0,0,0,1.584-3.936A5.493,5.493,0,0,0,16.26,9.012a5.569,5.569,0,0,0,3.864,1.764,5.562,5.562,0,0,0-2.748.852A5.767,5.767,0,0,0,15.4,13.7a5.643,5.643,0,0,0-.72,2.8,5.521,5.521,0,0,0-1.584-3.948A5.479,5.479,0,0,0,9.24,10.776ZM13.224,23.7a4.286,4.286,0,0,0,4.092-4.284A4.287,4.287,0,0,0,21.4,23.7a4.287,4.287,0,0,0-4.08,4.284,4.133,4.133,0,0,0-1.188-2.964A4.2,4.2,0,0,0,13.224,23.7ZM21.4,18.012a4.266,4.266,0,0,0,4.068-4.3A4.286,4.286,0,0,0,29.556,18a4.286,4.286,0,0,0-4.092,4.284A4.244,4.244,0,0,0,21.4,18.012Z" transform="translate(99.56 0.92)" fill="#fff"/>
+      </g>
+    </g>
+    <g id="Rectangle_1" data-name="Rectangle 1" transform="translate(70 383)" fill="none" stroke="#fff" stroke-width="1">
+      <rect width="133" height="30" rx="2" stroke="none"/>
+      <rect x="0.5" y="0.5" width="132" height="29" rx="1.5" fill="none"/>
+    </g>
+  </g>
+</svg>
