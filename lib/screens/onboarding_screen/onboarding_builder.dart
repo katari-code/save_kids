@@ -137,7 +137,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           ),
                           SizedBox(height: 30.0),
                           Text(
-                            'Chose categories',
+                            'Choose categories',
                             textAlign: TextAlign.center,
                             style: kBubblegum_sans40.copyWith(
                               color: kRedColor,

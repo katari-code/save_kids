@@ -117,7 +117,7 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
                     Align(
                       alignment: Alignment.center,
                       child: Text(
-                        'verify yor email',
+                        'verify your email',
                         style: kBubblegum_sans28,
                         textAlign: TextAlign.center,
                       ),
@@ -291,12 +291,6 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
                                                 .changeSchedule.first;
                                         Logger().i(schedules.length);
                                         Schedule schedule;
-                                        // schedules.forEach((element) {
-
-                                        //   } else {
-                                        //     Logger().i("not show time");
-                                        //   }
-                                        // });
 
                                         for (int i = 0;
                                             i < schedules.length;
@@ -314,8 +308,6 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
                                                 arguments: schedule);
                                             break;
                                           } else {
-                                            await buildShowModeDialog1(context);
-
                                             Logger().i(
                                               schedules[i].dateStart.toString(),
                                             );
@@ -324,6 +316,7 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
                                             );
                                           }
                                         }
+                                        await buildShowModeDialog1(context);
                                       }
                                     },
                                     child: Column(

@@ -350,7 +350,7 @@ class _WalkthroghProfileState extends State<WalkthroghProfile> {
                                               Row(
                                                 children: [
                                                   Text(
-                                                    "ُExplor Mode 🚀",
+                                                    "ُExplore Mode 🚀",
                                                     style: kBubblegum_sans24
                                                         .copyWith(
                                                             color:

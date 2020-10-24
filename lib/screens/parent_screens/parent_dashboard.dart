@@ -2,6 +2,7 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:logger/logger.dart';
 import 'package:save_kids/bloc/auth_bloc.dart';
 import 'package:save_kids/bloc/parent_dashboard_bloc.dart';
 import 'package:save_kids/components/control_widgets/progress_bar.dart';
@@ -654,6 +655,7 @@ class KidsCard extends StatelessWidget {
                   labels: ['Explore 🚀', 'Custom 🎞️', 'schedule 📅'],
                   activeBgColors: [Colors.blue, Colors.pink, Colors.purple],
                   onToggle: (index) async {
+                    Logger().i(isPremium);
                     await parentDashBoardBloc.changeMode(child.id, index);
                   },
                 ),

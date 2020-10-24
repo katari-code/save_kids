@@ -62,7 +62,6 @@ class ParentDashBoardBloc extends BlocBase {
 
   void setAccountPremuim() {
     parent.value.isPremium = "premium_account";
-
     _repository.setDocument(parent.value, parent.value.id);
   }
 
