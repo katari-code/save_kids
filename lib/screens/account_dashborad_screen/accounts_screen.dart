@@ -273,7 +273,7 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
                                         }
                                       } else if (snapshot.data[index]
                                                   .specifyVideos.length >
-                                              0 ||
+                                              0 &&
                                           snapshot.data[index].type ==
                                               kAccountype[1]) {
                                         Logger().i("LOLOLOLO");
