@@ -58,6 +58,7 @@ class _VideoGridState extends State<VideoGrid> {
                     child: VideoCardEnhanced(
                       videoTitle: videoList[index].title,
                       image: videoList[index].thumbnailUrl,
+                      videoId: videoList[index].id,
                     ),
                   ),
                 ),

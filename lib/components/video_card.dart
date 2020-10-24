@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:save_kids/bloc/video_reporting_bloc.dart';
 import 'package:save_kids/util/style.dart';
 
 class VideoCardEnhanced extends StatelessWidget {
   final String videoTitle;
   final String image;
+  final String videoId;
+  final VideoReportingBloc _videoReportingBloc = VideoReportingBloc();
 
-  VideoCardEnhanced({this.videoTitle, this.image});
+  VideoCardEnhanced({this.videoTitle, this.image, this.videoId});
 
   @override
   Widget build(BuildContext context) {
@@ -82,6 +85,7 @@ class VideoCardEnhanced extends StatelessWidget {
             child: Align(
               alignment: Alignment.topRight,
               child: GestureDetector(
+                onTap: () => {_videoReportingBloc.addVideoReport(videoId)},
                 child: Container(
                   color: Colors.red,
                   // decoration: BoxDecoration(border: Rectangula),
