@@ -9,18 +9,17 @@ class Parent extends FireStoreConverter {
   String name;
   String password;
   String isPremium;
-  List<dynamic> videoReports;
 
   // String type;
   List<dynamic> children;
-  Parent(
-      {this.email,
-      this.id,
-      this.password,
-      this.children,
-      this.name,
-      this.isPremium,
-      this.videoReports});
+  Parent({
+    this.email,
+    this.id,
+    this.password,
+    this.children,
+    this.name,
+    this.isPremium,
+  });
 
   Parent.fromFirebase(FirebaseUser user)
       : this(
@@ -37,10 +36,6 @@ class Parent extends FireStoreConverter {
           name: snapshot.data['name'],
           children:
               [...List<String>.from(snapshot.data['children']).toList()] ?? [],
-          videoReports: [
-                ...List<String>.from(snapshot.data['video_reports']).toList()
-              ] ??
-              [],
           isPremium: snapshot.data['isPremium'] ?? "free_account",
         );
 
@@ -57,7 +52,6 @@ class Parent extends FireStoreConverter {
       'children': this.children ?? [],
       'name': this.name,
       'isPremium': this.isPremium ?? "free_account",
-      'video_reports': this.videoReports ?? []
     };
   }
 }

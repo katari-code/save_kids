@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:save_kids/util/style.dart';
 
 class VideoCardEnhanced extends StatelessWidget {
-  String videoTitle;
+  final String videoTitle;
   final String image;
 
   VideoCardEnhanced({this.videoTitle, this.image});
@@ -17,17 +17,6 @@ class VideoCardEnhanced extends StatelessWidget {
       child: Stack(
         overflow: Overflow.clip,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Align(
-              alignment: Alignment.topRight,
-              child: Icon(
-                Icons.report,
-                color: Colors.yellow,
-                size: 40,
-              ),
-            ),
-          ),
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
@@ -87,6 +76,23 @@ class VideoCardEnhanced extends StatelessWidget {
                 ),
               ),
             ],
+          ),
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Align(
+              alignment: Alignment.topRight,
+              child: GestureDetector(
+                child: Container(
+                  color: Colors.red,
+                  // decoration: BoxDecoration(border: Rectangula),
+                  child: Icon(
+                    Icons.report,
+                    color: Colors.yellow,
+                    size: 50,
+                  ),
+                ),
+              ),
+            ),
           ),
         ],
       ),

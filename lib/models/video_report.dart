@@ -5,12 +5,15 @@ class VideoReport extends FireStoreConverter {
   String videoId;
   ReportType reportType;
   String id;
-  VideoReport({this.reportType, this.id, this.videoId});
+  String parentId;
+  VideoReport({this.reportType, this.id, this.videoId, this.parentId});
   VideoReport.fromFirestore(DocumentSnapshot snapshot)
       : this(
-            videoId: snapshot.data['videoId'],
-            reportType: snapshot.data['report'],
-            id: snapshot.documentID);
+          videoId: snapshot.data['videoId'],
+          reportType: snapshot.data['report'],
+          id: snapshot.documentID,
+          parentId: snapshot.data['parent'],
+        );
   @override
   fromFireStore(DocumentSnapshot snapshot) {
     return VideoReport.fromFirestore(snapshot);
@@ -21,6 +24,7 @@ class VideoReport extends FireStoreConverter {
     return {
       "videoId": this.videoId,
       'report': this.reportType,
+      'parent': this.parentId
     };
   }
 }
