@@ -3,8 +3,10 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:save_kids/models/category.dart';
 import 'package:save_kids/models/child.dart';
+import 'package:save_kids/models/parent.dart';
 import 'package:save_kids/models/timer.dart';
 import 'package:save_kids/models/video.dart';
+import 'package:save_kids/models/video_report.dart';
 import 'package:save_kids/services/repository.dart';
 
 class ChildVideoListBloc extends BlocBase {
@@ -16,7 +18,7 @@ class ChildVideoListBloc extends BlocBase {
 
   static String _pageToken = '';
 
-  Repository _videoRepo = Repository();
+  Repository _videoRepo = Repository<VideoReport>(collection: 'video_reports');
   Repository _repository = Repository<Child>(collection: 'children');
   Repository _childRepo = Repository<Child>(collection: 'children');
 
@@ -46,6 +48,11 @@ class ChildVideoListBloc extends BlocBase {
   Stream<Category> get streamCategory => category.stream;
   Stream<Child> getChild(String id) {
     return _childRepo.getDocument(Child(), id);
+  }
+
+  //get parent session
+  Stream<Parent> get parentSession {
+    return _repository.authSession;
   }
 
   get changeTimer {
@@ -78,6 +85,39 @@ class ChildVideoListBloc extends BlocBase {
     });
   }
 
+  Future<List<VideoReport>> fetchBlockedVideos() async {
+    return await _videoRepo
+        .getDocumentByQuery(
+            VideoReport(), 'parent', (await parentSession.first).id)
+        .first;
+  }
+
+  Future<List<Video>> filterVideos(List<Video> videos) async {
+    final blockedVideos = await fetchBlockedVideos();
+    List<Video> filteredVideos = [];
+
+    for (var blocked in blockedVideos) {
+      if (videos.firstWhere((element) => element.id == blocked.id) != null) {
+        videos.removeWhere((element) => element.id == blocked.id);
+      }
+    }
+    // blockedVideos.toSet().intersection(videos.toSet())
+    // if (blockedVideos.any((item) => videos.contains(item))) {
+    //   // Lists have at least one common element
+    //   // filteredVideos.addAll([
+    //   //   ...blockedVideos.where((element) => !videos.contains(element)).toList()
+    //   // ]);
+    // } else {
+    //   // Lists DON'T have any common element
+    // }
+
+    // blockedVideos.forEach((blocked) {
+    //   filteredVideos = [...videos.where((element) => element.id != blocked.id)];
+    // });
+
+    return videos;
+  }
+
   Future<void> fetchVideos() async {
     final map = await _videoRepo.getVideosBySearch(category.value.search,
         pageToken: _pageToken);
@@ -91,8 +131,10 @@ class ChildVideoListBloc extends BlocBase {
       );
     }
     _pageToken = map['pageToken'];
+
     List<Video> videos = [
       ...previousVids,
+      // ...(await filterVideos(List<Video>.from(map['data']).toList()))
       ...List<Video>.from(map['data']).toList()
     ].toSet().toList();
     videoList.add(videos);

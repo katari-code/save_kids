@@ -23,7 +23,7 @@ class _TopCalendarState extends State<TopCalendar>
     super.initState();
     controller = CalendarController();
     _animationController =
-        AnimationController(duration: Duration(milliseconds: 400));
+        AnimationController(vsync: this, duration: Duration(milliseconds: 400));
     _animationController.forward();
   }
 

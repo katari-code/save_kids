@@ -44,7 +44,7 @@ class _ModelShownState extends State<ModelShown> {
                                   gradient: LinearGradient(
                                     begin: Alignment.centerLeft,
                                     end: Alignment.centerRight,
-                                    List: [
+                                    colors: [
                                       Color(0xff42D3EE),
                                       Color(0xff44DDE3),
                                     ],
@@ -67,7 +67,7 @@ class _ModelShownState extends State<ModelShown> {
                                             decoration: BoxDecoration(
                                               shape: BoxShape.circle,
                                               gradient: LinearGradient(
-                                                List: [
+                                                colors: [
                                                   Color(0xfff573c3),
                                                   Color(0xffc13dff),
                                                 ],
@@ -112,7 +112,7 @@ class _ModelShownState extends State<ModelShown> {
                                             decoration: BoxDecoration(
                                               shape: BoxShape.circle,
                                               gradient: LinearGradient(
-                                                List: [
+                                                colors: [
                                                   Color(0xfff573c3),
                                                   Color(0xffc13dff),
                                                 ],
