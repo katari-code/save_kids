@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:logger/logger.dart';
 import 'package:save_kids/bloc/account_dashboard_bloc.dart';
 import 'package:save_kids/components/control_widgets/progress_bar.dart';
@@ -118,7 +117,7 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
                     Align(
                       alignment: Alignment.center,
                       child: Text(
-                        'verify yor email',
+                        'verify your email',
                         style: kBubblegum_sans28,
                         textAlign: TextAlign.center,
                       ),
@@ -255,8 +254,11 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
                                   scale: value,
                                   child: GestureDetector(
                                     onTap: () async {
+                                      Logger().i(snapshot.data[index].type);
+                                      Logger().i(snapshot
+                                          .data[index].specifyVideos.length);
                                       if (snapshot.data[index].type ==
-                                          "exploratory") {
+                                          kAccountype[0]) {
                                         if (snapshot
                                                 .data[index].timer.isComplete ==
                                             true) {
@@ -264,24 +266,22 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
                                         } else if (snapshot
                                                 .data[index].timer.isComplete ==
                                             false) {
-                                          if (snapshot.data[index].specifyVideos
-                                                      .length >
-                                                  0 ||
-                                              snapshot.data[index].type ==
-                                                  "specify_videos") {
-                                            Navigator.pushNamed(context,
-                                                kVideoDisplaySpecifyRoute,
-                                                arguments:
-                                                    snapshot.data[index].id);
-                                          } else {
-                                            Navigator.pushNamed(
-                                                context, kVideoDisplayRoute,
-                                                arguments:
-                                                    snapshot.data[index].id);
-                                          }
+                                          Navigator.pushNamed(
+                                              context, kVideoDisplayRoute,
+                                              arguments:
+                                                  snapshot.data[index].id);
                                         }
+                                      } else if (snapshot.data[index]
+                                                  .specifyVideos.length >
+                                              0 &&
+                                          snapshot.data[index].type ==
+                                              kAccountype[1]) {
+                                        Logger().i("LOLOLOLO");
+                                        Navigator.pushNamed(
+                                            context, kVideoDisplaySpecifyRoute,
+                                            arguments: snapshot.data[index].id);
                                       } else if (snapshot.data[index].type ==
-                                          "WC") {
+                                          kAccountype[2]) {
                                         accountDashBloc.changeChosenChild(
                                             snapshot.data[index].id);
                                         accountDashBloc.chosenDate
@@ -291,12 +291,6 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
                                                 .changeSchedule.first;
                                         Logger().i(schedules.length);
                                         Schedule schedule;
-                                        // schedules.forEach((element) {
-
-                                        //   } else {
-                                        //     Logger().i("not show time");
-                                        //   }
-                                        // });
 
                                         for (int i = 0;
                                             i < schedules.length;
@@ -314,8 +308,6 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
                                                 arguments: schedule);
                                             break;
                                           } else {
-                                            await buildShowModeDialog1(context);
-
                                             Logger().i(
                                               schedules[i].dateStart.toString(),
                                             );
@@ -324,16 +316,19 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
                                             );
                                           }
                                         }
+                                        await buildShowModeDialog1(context);
                                       }
                                     },
                                     child: Column(
                                       children: <Widget>[
                                         Stack(
-                                            overflow: Overflow.visible,
-                                            alignment: Alignment.center,
-                                            children: _displayMode(
-                                              snapshot.data[index].imagePath,
-                                            )),
+                                          overflow: Overflow.visible,
+                                          alignment: Alignment.center,
+                                          children: _displayMode(
+                                            snapshot.data[index].imagePath,
+                                            snapshot.data[index].type,
+                                          ),
+                                        ),
                                         Text(
                                           snapshot.data[index].name,
                                           style: GoogleFonts.bubblegumSans(
@@ -361,7 +356,7 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
   }
 }
 
-_displayMode(String imgUrl) {
+_displayMode([String imgUrl, String accountType = "nn"]) {
   List<Widget> _displayMode = [
     CircleAvatar(
       radius: 60,
@@ -372,6 +367,28 @@ _displayMode(String imgUrl) {
       radius: 55,
       backgroundImage: NetworkImage(
         imgUrl,
+      ),
+    ),
+    Transform.translate(
+      offset: Offset(50, -30),
+      child: CircleAvatar(
+        radius: 23,
+        backgroundColor: kYellowColor,
+      ),
+    ),
+    Transform.translate(
+      offset: Offset(50, -30),
+      child: CircleAvatar(
+        radius: 20,
+        backgroundColor: Colors.white,
+        child: Text(
+          accountType == kAccountype[0]
+              ? "🚀"
+              : accountType == kAccountype[1]
+                  ? "🎞️"
+                  : "📅",
+          style: TextStyle(fontSize: 20),
+        ),
       ),
     ),
   ];

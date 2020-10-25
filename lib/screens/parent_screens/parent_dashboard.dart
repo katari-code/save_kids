@@ -1,15 +1,13 @@
-import 'dart:async';
-
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:logger/logger.dart';
 import 'package:save_kids/bloc/auth_bloc.dart';
 import 'package:save_kids/bloc/parent_dashboard_bloc.dart';
 import 'package:save_kids/components/control_widgets/progress_bar.dart';
 import 'package:save_kids/models/child.dart';
 import 'package:save_kids/models/parent.dart';
-import 'package:save_kids/screens/child_display_videos/widget/childTimer.dart';
 import 'package:save_kids/screens/show_models/commercial_dialogue.dart';
 import 'package:save_kids/services/auth_service_provider.dart';
 import 'package:save_kids/util/constant.dart';
@@ -26,7 +24,7 @@ class ParentDashboard extends StatefulWidget {
 
 class _ParentDashboardState extends State<ParentDashboard> {
   final ScrollController controller = ScrollController();
-
+  bool isEnd = false;
   @override
   void initState() {
     super.initState();
@@ -34,6 +32,21 @@ class _ParentDashboardState extends State<ParentDashboard> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+
+    controller.addListener(() {
+      if (controller.position.pixels == 0)
+      // Logger().i(controller.position.pixels.toString());
+      {
+        isEnd = false;
+        setState(() {});
+      } else {
+        isEnd = true;
+        setState(() {});
+      }
+
+      // you are at top position
+      // you are at bottom position
+    });
   }
 
   @override
@@ -82,7 +95,7 @@ class _ParentDashboardState extends State<ParentDashboard> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    Future.delayed(Duration(seconds: 2), () => buildShowModeDialog2(context));
+    // Future.delayed(Duration(seconds: 2), () => buildShowModeDialog2(context));
     return Scaffold(
       backgroundColor: kBlueColor,
       appBar: AppBar(
@@ -169,19 +182,10 @@ class _ParentDashboardState extends State<ParentDashboard> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: <Widget>[
-                                          SizedBox(
-                                            height: 50,
-                                          ),
                                           Text(
-                                            'Hello, ${parent.name}',
+                                            'Parental controls',
                                             style: kBubblegum_sans32.copyWith(
                                                 color: kBlueDarkColor),
-                                          ),
-                                          Text(
-                                            'Monitor your children accounts',
-                                            style: kBubblegum_sans24.copyWith(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.normal),
                                           ),
                                           parent.password == null
                                               ? Text(
@@ -212,11 +216,15 @@ class _ParentDashboardState extends State<ParentDashboard> {
                                                     kWatchSchdeuleRoute);
                                           },
                                           child: Container(
-                                            width: 150,
-                                            padding: EdgeInsets.all(15),
+                                            width: 145,
+                                            padding: EdgeInsets.all(8),
                                             decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(8),
+                                              border: Border.all(
+                                                width: 2,
+                                                color: Colors.white,
+                                              ),
                                               color: kPurpleColor,
                                             ),
                                             child: Column(
@@ -250,16 +258,16 @@ class _ParentDashboardState extends State<ParentDashboard> {
                                                 ),
                                                 SvgPicture.asset(
                                                   'images/svgs/schedule.svg',
-                                                  height: 60,
+                                                  height: 40,
                                                 ),
                                                 SizedBox(
-                                                  width: 16,
+                                                  height: 16,
                                                 ),
                                                 Column(
                                                   children: <Widget>[
                                                     Text(
                                                       "Watch Schedule",
-                                                      style: kBubblegum_sans20
+                                                      style: kBubblegum_sans16
                                                           .copyWith(
                                                         color: Colors.white,
                                                       ),
@@ -280,30 +288,34 @@ class _ParentDashboardState extends State<ParentDashboard> {
                                           onTap: () => Navigator.pushNamed(
                                               context, kHistoryWatchRoute),
                                           child: Container(
-                                            width: 150,
-                                            padding: EdgeInsets.all(15),
+                                            width: 145,
+                                            padding: EdgeInsets.all(8),
                                             decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(8),
-                                              color: Color(0xffFC7A01),
+                                              border: Border.all(
+                                                width: 2,
+                                                color: Colors.white,
+                                              ),
+                                              color: kPurpleColor,
                                             ),
                                             child: Column(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
                                               children: <Widget>[
                                                 SizedBox(
-                                                  height: 20,
+                                                  height: 25,
                                                 ),
                                                 Image.asset(
                                                   'images/whatchHistory.png',
-                                                  height: 70,
+                                                  height: 50,
                                                 ),
                                                 SizedBox(
-                                                  width: 20,
+                                                  height: 15,
                                                 ),
                                                 Text(
                                                   "Watch History",
-                                                  style: kBubblegum_sans20
+                                                  style: kBubblegum_sans16
                                                       .copyWith(
                                                     color: Colors.white,
                                                   ),
@@ -317,15 +329,7 @@ class _ParentDashboardState extends State<ParentDashboard> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(height: 30),
-                                    Text(
-                                      "Kids Profiles",
-                                      style: kBubblegum_sans32.copyWith(
-                                          color: kBlueDarkColor),
-                                    ),
-                                    SizedBox(
-                                      width: 30,
-                                    ),
+                                    SizedBox(height: 15),
                                     KidsProfiles(
                                       isPremuime: parent.isPremium,
                                     ),
@@ -341,14 +345,28 @@ class _ParentDashboardState extends State<ParentDashboard> {
                 ),
               ),
             ),
-
-            // Center(
-            //   child: Container(
-            //     alignment: Alignment.center,
-            //     height: 150,
-            //     // width: 300,
-            //   ),
-            // )
+            isEnd == false
+                ? Transform.translate(
+                    offset: Offset(0, 68),
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: CircleAvatar(
+                        radius: 65,
+                        backgroundColor: Color(0xff6ae11e),
+                      ),
+                    ),
+                  )
+                : Text(" "),
+            isEnd == false
+                ? Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Icon(
+                      Icons.arrow_downward,
+                      color: Colors.white,
+                      size: 50,
+                    ),
+                  )
+                : Text(""),
           ],
         ),
       ),
@@ -430,6 +448,7 @@ class KidsProfiles extends StatelessWidget {
           stream: parentDashBoardBloc.children.stream,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
+              print(snapshot.data.length);
               return Column(
                 children: [
                   Column(
@@ -439,6 +458,7 @@ class KidsProfiles extends StatelessWidget {
                         parentDashBoardBloc: parentDashBoardBloc,
                         child: snapshot.data[index],
                         isPremium: isPremuime,
+                        canDelete: snapshot.data.length - 1 < 1 ? false : true,
                       ),
                     ),
                   ),
@@ -507,15 +527,17 @@ class KidsProfiles extends StatelessWidget {
 class KidsCard extends StatelessWidget {
   final ParentDashBoardBloc parentDashBoardBloc;
   final Child child;
+  final canDelete;
   final isPremium;
-  KidsCard({this.parentDashBoardBloc, this.child, this.isPremium});
+  KidsCard(
+      {this.parentDashBoardBloc, this.child, this.isPremium, this.canDelete});
   @override
   Widget build(BuildContext context) {
-    int toggleSwitchIndex = child.type == "WC"
+    int toggleSwitchIndex = child.type == kAccountype[2]
         ? 2
-        : child.type == "exploratory"
+        : child.type == kAccountype[0]
             ? 0
-            : child.type == "specify_videos"
+            : child.type == kAccountype[1]
                 ? 1
                 : 1;
     return Padding(
@@ -565,19 +587,21 @@ class KidsCard extends StatelessWidget {
                           horizontal: 30,
                         ),
                         child: Row(
-                          mainAxisAlignment:
-                              child.type != "WC" && child.type != "exploratory"
-                                  ? MainAxisAlignment.spaceBetween
-                                  : MainAxisAlignment.spaceAround,
+                          mainAxisAlignment: child.type != kAccountype[2] &&
+                                  child.type != kAccountype[0]
+                              ? MainAxisAlignment.spaceBetween
+                              : MainAxisAlignment.spaceAround,
                           children: [
-                            GestureDetector(
-                              onTap: () async => await parentDashBoardBloc
-                                  .deleteChild(child.id),
-                              child: SvgPicture.asset(
-                                'images/svgs/trash.svg',
-                                height: 50,
-                              ),
-                            ),
+                            canDelete == true
+                                ? GestureDetector(
+                                    onTap: () async => await parentDashBoardBloc
+                                        .deleteChild(child.id),
+                                    child: SvgPicture.asset(
+                                      'images/svgs/trash.svg',
+                                      height: 50,
+                                    ),
+                                  )
+                                : Text(" "),
                             GestureDetector(
                               onTap: () => Navigator.pushNamed(
                                 context,
@@ -589,8 +613,8 @@ class KidsCard extends StatelessWidget {
                                 height: 50,
                               ),
                             ),
-                            if (child.type != "WC" &&
-                                child.type != "exploratory")
+                            if (child.type != kAccountype[2] &&
+                                child.type != kAccountype[0])
                               GestureDetector(
                                 onTap: () => Navigator.pushNamed(
                                     context, kSpecifyVideoSearchChild,
@@ -631,6 +655,7 @@ class KidsCard extends StatelessWidget {
                   labels: ['Explore 🚀', 'Custom 🎞️', 'schedule 📅'],
                   activeBgColors: [Colors.blue, Colors.pink, Colors.purple],
                   onToggle: (index) async {
+                    Logger().i(isPremium);
                     await parentDashBoardBloc.changeMode(child.id, index);
                   },
                 ),

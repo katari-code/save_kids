@@ -8,6 +8,7 @@ import 'package:save_kids/models/child.dart';
 import 'package:save_kids/models/schedule.dart';
 import 'package:save_kids/models/video.dart';
 import 'package:save_kids/services/repository.dart';
+import 'package:save_kids/util/constant.dart';
 
 class AddScheduleBloc extends BlocBase {
   String childId;
@@ -76,7 +77,9 @@ class AddScheduleBloc extends BlocBase {
       String mins = (decimal * 60).floor().toString();
 
       result.floor() > 0
-          ? result.floor() > 1 ? tag = "hours" : tag = "hour"
+          ? result.floor() > 1
+              ? tag = "hours"
+              : tag = "hour"
           : tag = "mins";
 
       duration.add("${result.floor()} : $mins $tag");
@@ -112,7 +115,7 @@ class AddScheduleBloc extends BlocBase {
     );
 
     Child child = await _childRepo.getDocument(Child(), childId).first;
-    Child updatedChild = child..type = "WC";
+    Child updatedChild = child..type = kAccountype[2];
 
     _childRepo.setDocument(updatedChild, updatedChild.id);
 

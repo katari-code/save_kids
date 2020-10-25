@@ -35,13 +35,7 @@ class Repository<T extends FireStoreConverter> {
       final result = await _fireStoreProvider.addDocument;
 
       logger.i("Parent ${result.documentID} has been added");
-      if (type is Child) {
-        result.get().then((value) {
-          final timer = Timer.fromJson(value.data['timer']);
-          PreferenceUtils.setString(
-              result.documentID + "_timer", jsonEncode(timer));
-        });
-      }
+      if (type is Child) type.id = result.documentID;
       return type;
     } catch (e) {
       logger.e(e);

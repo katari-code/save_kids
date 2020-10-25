@@ -20,6 +20,8 @@ import 'package:save_kids/models/child_avatar.dart';
 
 import 'package:provider/provider.dart';
 import 'package:save_kids/screens/child_display_videos/child_display_videos_watch_sche.dart';
+import 'package:save_kids/screens/create_child_profile/create_child_profile_.dart';
+import 'package:save_kids/screens/create_child_profile/create_child_profile_1.dart';
 import 'package:save_kids/util/constant.dart';
 
 import 'package:save_kids/util/preference/prefs_singleton.dart';
@@ -111,6 +113,7 @@ class MyApp extends StatelessWidget {
           //   // from the list (English, in this case).
           //   return supportedLocales.first;
           // },
+          // home: WalkthroghProfile(),
           initialRoute: kSplashRoute,
           onGenerateRoute: (RouteSettings settings) {
             return createRoute(settings);

@@ -9,17 +9,22 @@ class CreateChildProfileBloc extends BlocBase {
   CreateChildProfileBloc() {
     _imageAvatar.sink.add(avatars[0]);
     _isValidated.add(false);
+    _accountType.add("exploratory"); //
   }
   Repository _repository = Repository<Child>(collection: 'children');
+
   final _childName = BehaviorSubject<String>();
   final _age = BehaviorSubject<String>();
   final _imageAvatar = BehaviorSubject<String>();
   final _timer = BehaviorSubject<Timer>();
   final _isValidated = BehaviorSubject<bool>();
+  final _accountType = BehaviorSubject<String>(); //
+
   Function(String) get changeChildName => _childName.sink.add;
   Function(Timer) get changeTimer => _timer.sink.add;
   Function(String) get changeAge => _age.sink.add;
   Function(String) get changeImageAvatar => _imageAvatar.sink.add;
+  Function(String) get changeAccountType => _accountType.sink.add; //
   Function(bool) get showProgressBar => _isValidated.sink.add;
   Stream<String> get childName => _childName.stream;
   Stream<String> get age => _age.stream;
@@ -38,10 +43,10 @@ class CreateChildProfileBloc extends BlocBase {
     }
   }
 
-  Future<Child> addChild(String parentId, String type) async {
+  Future<Child> addChild(String parentId) async {
     Child child = Child(
       name: _childName.value,
-      type: type,
+      type: _accountType.value,
       parentId: parentId,
       imagePath: _imageAvatar.value,
       age: _age.value,
@@ -62,6 +67,7 @@ class CreateChildProfileBloc extends BlocBase {
     _age.close();
     _imageAvatar.close();
     _timer.sink.close();
+    _accountType.sink.close();
     _isValidated.close();
     super.dispose();
   }

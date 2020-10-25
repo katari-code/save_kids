@@ -137,7 +137,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           ),
                           SizedBox(height: 30.0),
                           Text(
-                            'Chose categories',
+                            'Choose categories',
                             textAlign: TextAlign.center,
                             style: kBubblegum_sans40.copyWith(
                               color: kRedColor,
@@ -237,7 +237,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                         height: 58.00,
                                         width: 226.00,
                                         decoration: BoxDecoration(
-                                          color: Color(0xfff6b039),
+                                          color: kYellowColor,
                                           borderRadius:
                                               BorderRadius.circular(8.00),
                                         ),
@@ -299,7 +299,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                         height: 58.00,
                                         width: 226.00,
                                         decoration: BoxDecoration(
-                                          color: Color(0xfff6b039),
+                                          color: kYellowColor,
                                           borderRadius:
                                               BorderRadius.circular(8.00),
                                         ),

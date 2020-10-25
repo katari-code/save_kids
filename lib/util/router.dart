@@ -7,6 +7,7 @@ import 'package:save_kids/screens/child_display_videos/child_display_videos_watc
 import 'package:save_kids/screens/child_display_videos/video_list.dart';
 import 'package:save_kids/screens/child_display_videos/video_player_screen/video_player_screen.dart';
 import 'package:save_kids/screens/create_child_profile/create_child_profile.dart';
+import 'package:save_kids/screens/create_child_profile/create_child_profile_1.dart';
 import 'package:save_kids/screens/create_child_profile/edit_child_profile.dart';
 import 'package:save_kids/screens/onboarding_screen/onboarding_builder.dart';
 import 'package:save_kids/screens/parent_screens/parent_password.dart';
@@ -97,7 +98,7 @@ Route<dynamic> createRoute(RouteSettings settings) {
       break;
     case kAddChildProfileRoute:
       return MaterialPageRoute(
-        builder: (context) => AddChildScreen(),
+        builder: (context) => WalkthroghProfile(),
       );
       break;
     case kChildEditProfileRoute:

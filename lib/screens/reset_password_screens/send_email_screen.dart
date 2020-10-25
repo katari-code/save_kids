@@ -185,7 +185,7 @@ class _SendEmailState extends State<SendEmail> {
                                 height: 58.00,
                                 width: 226.00,
                                 decoration: BoxDecoration(
-                                  color: Color(0xfff6b039),
+                                  color: kYellowColor,
                                   borderRadius: BorderRadius.circular(8.00),
                                 ),
                               ),
@@ -297,7 +297,7 @@ class _SendEmailState extends State<SendEmail> {
                 //             height: 58.00,
                 //             width: 226.00,
                 //             decoration: BoxDecoration(
-                //               color: Color(0xfff6b039),
+                //               color: kYellowColor,
                 //               borderRadius: BorderRadius.circular(8.00),
                 //             ),
                 //           ),
@@ -347,7 +347,7 @@ class _SendEmailState extends State<SendEmail> {
                                 height: 58.00,
                                 width: 250.00,
                                 decoration: BoxDecoration(
-                                  color: Color(0xfff6b039),
+                                  color: kYellowColor,
                                   borderRadius: BorderRadius.circular(8.00),
                                 ),
                               ),

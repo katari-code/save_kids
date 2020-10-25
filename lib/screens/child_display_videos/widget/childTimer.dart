@@ -294,7 +294,7 @@ Future buildShowModeDialog2(BuildContext context) {
                     height: 30,
                   ),
                   Text(
-                    "Add videos you chose for your kids",
+                    "Add videos you choose for your kids",
                     textAlign: TextAlign.center,
                     style: kBubblegum_sans32.copyWith(color: Colors.white),
                   ),

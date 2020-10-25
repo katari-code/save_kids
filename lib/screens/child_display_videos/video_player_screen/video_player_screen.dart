@@ -65,6 +65,16 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
               ],
             ),
           ),
+          Align(
+            alignment: Alignment.topLeft,
+            child: GestureDetector(
+              onTap: () => Navigator.pop(context),
+              child: SvgPicture.asset(
+                'images/svgs/Back_video.svg',
+                height: 70,
+              ),
+            ),
+          ),
         ],
       ),
     );
