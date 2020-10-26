@@ -1,4 +1,5 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
+import 'package:logger/logger.dart';
 
 import 'package:rxdart/rxdart.dart';
 import 'package:save_kids/models/category.dart';
@@ -94,28 +95,16 @@ class ChildVideoListBloc extends BlocBase {
 
   Future<List<Video>> filterVideos(List<Video> videos) async {
     final blockedVideos = await fetchBlockedVideos();
-    List<Video> filteredVideos = [];
+    List<Video> filteredVideos = [...videos];
 
-    for (var blocked in blockedVideos) {
-      if (videos.firstWhere((element) => element.id == blocked.id) != null) {
-        videos.removeWhere((element) => element.id == blocked.id);
+    for (var video in videos) {
+      for (var blockedVideo in blockedVideos) {
+        if (blockedVideo.videoId == video.id) {
+          filteredVideos.remove(video);
+        }
       }
     }
-    // blockedVideos.toSet().intersection(videos.toSet())
-    // if (blockedVideos.any((item) => videos.contains(item))) {
-    //   // Lists have at least one common element
-    //   // filteredVideos.addAll([
-    //   //   ...blockedVideos.where((element) => !videos.contains(element)).toList()
-    //   // ]);
-    // } else {
-    //   // Lists DON'T have any common element
-    // }
-
-    // blockedVideos.forEach((blocked) {
-    //   filteredVideos = [...videos.where((element) => element.id != blocked.id)];
-    // });
-
-    return videos;
+    return filteredVideos;
   }
 
   Future<void> fetchVideos() async {
@@ -123,8 +112,6 @@ class ChildVideoListBloc extends BlocBase {
         pageToken: _pageToken);
     List<Video> previousVids = [];
 
-    //check if we are still in our previous category
-    //if it is the same add all previous videos with the new ones
     if (_pageToken != '') {
       previousVids.addAll(
         videoList.hasValue == true ? videoList.value : List<Video>.from([]),
@@ -134,8 +121,8 @@ class ChildVideoListBloc extends BlocBase {
 
     List<Video> videos = [
       ...previousVids,
-      // ...(await filterVideos(List<Video>.from(map['data']).toList()))
-      ...List<Video>.from(map['data']).toList()
+      ...(await filterVideos(List<Video>.from(map['data']).toList()))
+      // ...List<Video>.from(map['data']).toList()
     ].toSet().toList();
     videoList.add(videos);
   }
