@@ -1,10 +1,13 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
+import 'package:logger/logger.dart';
 
 import 'package:rxdart/rxdart.dart';
 import 'package:save_kids/models/category.dart';
 import 'package:save_kids/models/child.dart';
+import 'package:save_kids/models/parent.dart';
 import 'package:save_kids/models/timer.dart';
 import 'package:save_kids/models/video.dart';
+import 'package:save_kids/models/video_report.dart';
 import 'package:save_kids/services/repository.dart';
 
 class ChildVideoListBloc extends BlocBase {
@@ -16,7 +19,7 @@ class ChildVideoListBloc extends BlocBase {
 
   static String _pageToken = '';
 
-  Repository _videoRepo = Repository();
+  Repository _videoRepo = Repository<VideoReport>(collection: 'video_reports');
   Repository _repository = Repository<Child>(collection: 'children');
   Repository _childRepo = Repository<Child>(collection: 'children');
 
@@ -46,6 +49,11 @@ class ChildVideoListBloc extends BlocBase {
   Stream<Category> get streamCategory => category.stream;
   Stream<Child> getChild(String id) {
     return _childRepo.getDocument(Child(), id);
+  }
+
+  //get parent session
+  Stream<Parent> get parentSession {
+    return _repository.authSession;
   }
 
   get changeTimer {
@@ -78,22 +86,52 @@ class ChildVideoListBloc extends BlocBase {
     });
   }
 
+  Stream<List<VideoReport>> get fetchBlockedVideos {
+    return parentSession.switchMap((session) {
+      if (session != null) {
+        return _videoRepo.getDocumentByQuery(
+            VideoReport(), 'parent', session.id);
+      }
+      return BehaviorSubject.seeded(null);
+    });
+  }
+
+  Future<List<Video>> filterVideos(List<Video> videos) async {
+    final blockedVideos = await fetchBlockedVideos.first;
+    List<Video> filteredVideos = [...videos];
+
+    for (var video in videos) {
+      for (var blockedVideo in blockedVideos) {
+        if (blockedVideo.videoId == video.id) {
+          filteredVideos.remove(video);
+        }
+      }
+    }
+    return filteredVideos;
+  }
+
+  removeVideoAfterVideoReport(String videoId) {
+    List<Video> videos = [...videoList.value];
+    videos.removeWhere((element) => element.id == videoId);
+    videoList.add([...videos]);
+  }
+
   Future<void> fetchVideos() async {
     final map = await _videoRepo.getVideosBySearch(category.value.search,
         pageToken: _pageToken);
     List<Video> previousVids = [];
 
-    //check if we are still in our previous category
-    //if it is the same add all previous videos with the new ones
     if (_pageToken != '') {
       previousVids.addAll(
         videoList.hasValue == true ? videoList.value : List<Video>.from([]),
       );
     }
     _pageToken = map['pageToken'];
+
     List<Video> videos = [
       ...previousVids,
-      ...List<Video>.from(map['data']).toList()
+      ...(await filterVideos(List<Video>.from(map['data']).toList()))
+      // ...List<Video>.from(map['data']).toList()
     ].toSet().toList();
     videoList.add(videos);
   }

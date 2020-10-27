@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:save_kids/bloc/child_video_list_bloc.dart';
 import 'package:flutter/services.dart';
 import 'package:save_kids/bloc/test/video_list_bloc_test.dart';
+import 'package:save_kids/bloc/video_reporting_bloc.dart';
 import 'package:save_kids/components/control_widgets/progress_bar.dart';
 import 'package:save_kids/models/category.dart';
 import 'package:save_kids/models/timer.dart';
@@ -133,23 +134,6 @@ class _ChildMainViedoListState extends State<ChildMainViedoList>
                                   height: 70,
                                 ),
                               ),
-                              Column(
-                                children: [
-                                  // CircleAvatar(
-                                  //   radius: 33,
-                                  //   backgroundColor: kYellowColor,
-                                  //   child: CircleAvatar(
-                                  //     radius: 30,
-                                  //     backgroundColor: Colors.white,
-                                  //     backgroundImage: NetworkImage(
-                                  //       Provider.of<KidsData>(context)
-                                  //           .kids[0]
-                                  //           .imagePath,
-                                  //     ),
-                                  //   ),
-                                  // ),
-                                ],
-                              )
                             ],
                           ),
                         ),
@@ -197,27 +181,13 @@ class _ChildMainViedoListState extends State<ChildMainViedoList>
                         SizedBox(
                           height: 15,
                         ),
-                        //             // Wrap(
-                        //             //   children: List<VideoCardEnhanced>.generate(
-                        //             //     categoriesList.length,
-                        //             //     (index) => VideoCardEnhanced(),
-                        //             //   ),
-                        //             // ),
-                        //             // SizedBox(
-                        //             //   height: 180,
-                        //             //   child: ListView.builder(
-                        //             //     padding: const EdgeInsets.only(left: 50.0),
-                        //             //     scrollDirection: Axis.horizontal,
-                        //             //     itemCount: 50,
-                        //             //     itemBuilder: (context, index) => VideoCardEnhanced(),
-                        //             //   ),
-                        //             // ),
-
                         VideoGrid(
                           videoStream: widget.videoListBloc.videoList.stream,
                           addToWatchHistory: (String videoId) => widget
                               .videoListBloc
                               .updateWatchHistory(videoId, widget.childId),
+                          removeVideoAfterReport:
+                              widget.videoListBloc.removeVideoAfterVideoReport,
                         ),
                       ],
                     ),

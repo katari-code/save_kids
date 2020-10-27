@@ -11,6 +11,7 @@ import 'package:save_kids/models/schedule.dart';
 import 'package:save_kids/models/video.dart';
 import 'package:save_kids/screens/child_display_videos/video_player_screen/video_player_screen.dart';
 import 'package:save_kids/screens/child_display_videos/widget/childTimer_watch_schedule.dart';
+import 'package:save_kids/screens/child_display_videos/widget/video_grid.dart';
 import 'package:save_kids/util/style.dart';
 import 'package:simple_animations/simple_animations.dart';
 
@@ -378,27 +379,11 @@ class _ChildMainViedoListWatchScheduleState
                                             children: childerns,
                                           ),
                                         ),
-
                                         SizedBox(
                                           height: 15,
                                         ),
-                                        //             // Wrap(
-                                        //             //   children: List<VideoCardEnhanced>.generate(
-                                        //             //     categoriesList.length,
-                                        //             //     (index) => VideoCardEnhanced(),
-                                        //             //   ),
-                                        //             // ),
-                                        //             // SizedBox(
-                                        //             //   height: 180,
-                                        //             //   child: ListView.builder(
-                                        //             //     padding: const EdgeInsets.only(left: 50.0),
-                                        //             //     scrollDirection: Axis.horizontal,
-                                        //             //     itemCount: 50,
-                                        //             //     itemBuilder: (context, index) => VideoCardEnhanced(),
-                                        //             //   ),
-                                        //             // ),
-                                        StreamBuilder<List>(
-                                          stream: isSpesfy
+                                        VideoGrid(
+                                          videoStream: isSpesfy
                                               ? widget.childVideoListWSBloc
                                                   .videosFromDB
                                               : isChannel
@@ -406,34 +391,10 @@ class _ChildMainViedoListWatchScheduleState
                                                       .playList
                                                   : widget.childVideoListWSBloc
                                                       .videoList,
-                                          builder: (context, snapshot) {
-                                            if (snapshot.hasData) {
-                                              List<Video> videoList = [];
-//                                               if (isChannel) {
-// // List<Video> channelVideos =   channelList[selectedIndexChannel].videos
-//                                                 videoList.addAll(
-//                                                     List<Video>.from(snapshot
-//                                                             .data[
-//                                                                 selectedIndexChannel]
-//                                                             .videos) ??
-//                                                         []);
-//                                               } else
-                                              videoList.addAll(List<Video>.from(
-                                                      snapshot.data)
-                                                  .toList());
-                                              return VideoGrid(
-                                                videoList: videoList,
-                                                addToWatchHistory:
-                                                    (String videoId) => widget
-                                                        .childVideoListWSBloc
-                                                        .updateWatchHistory(
-                                                            videoId,
-                                                            widget.schedule
-                                                                .childId),
-                                              );
-                                            }
-                                            return ProgressBar();
-                                          },
+                                          addToWatchHistory: (String videoId) =>
+                                              widget.childVideoListWSBloc
+                                                  .updateWatchHistory(videoId,
+                                                      widget.schedule.childId),
                                         )
                                       ],
                                     );
@@ -500,44 +461,44 @@ class _ChildMainViedoListWatchScheduleState
   }
 }
 
-class VideoGrid extends StatelessWidget {
-  const VideoGrid({@required this.videoList, @required this.addToWatchHistory});
+// class VideoGrid extends StatelessWidget {
+//   const VideoGrid({@required this.videoList, @required this.addToWatchHistory});
 
-  final List<Video> videoList;
-  final Function addToWatchHistory;
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(25.0),
-      child: SingleChildScrollView(
-        child: GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 2.0,
-            mainAxisSpacing: 2.0,
-          ),
-          physics: ClampingScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: videoList.length,
-          itemBuilder: (context, index) => GestureDetector(
-            onTap: () async {
-              addToWatchHistory(videoList[index].id);
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => VideoPlayerScreen(
-                    viedoId: videoList[index].id,
-                  ),
-                ),
-              );
-            },
-            child: VideoCardEnhanced(
-              videoTitle: videoList[index].title,
-              image: videoList[index].thumbnailUrl,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
+//   final List<Video> videoList;
+//   final Function addToWatchHistory;
+//   @override
+//   Widget build(BuildContext context) {
+//     return Padding(
+//       padding: const EdgeInsets.all(25.0),
+//       child: SingleChildScrollView(
+//         child: GridView.builder(
+//           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+//             crossAxisCount: 2,
+//             crossAxisSpacing: 2.0,
+//             mainAxisSpacing: 2.0,
+//           ),
+//           physics: ClampingScrollPhysics(),
+//           shrinkWrap: true,
+//           itemCount: videoList.length,
+//           itemBuilder: (context, index) => GestureDetector(
+//             onTap: () async {
+//               addToWatchHistory(videoList[index].id);
+//               Navigator.push(
+//                 context,
+//                 MaterialPageRoute(
+//                   builder: (context) => VideoPlayerScreen(
+//                     viedoId: videoList[index].id,
+//                   ),
+//                 ),
+//               );
+//             },
+//             child: VideoCardEnhanced(
+//               videoTitle: videoList[index].title,
+//               image: videoList[index].thumbnailUrl,
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }

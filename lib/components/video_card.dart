@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:save_kids/bloc/video_reporting_bloc.dart';
 import 'package:save_kids/util/style.dart';
 
 class VideoCardEnhanced extends StatelessWidget {
-  String videoTitle;
+  final String videoTitle;
   final String image;
+  final String videoId;
+  final Function removeVideoAfterReport;
+  final VideoReportingBloc _videoReportingBloc = VideoReportingBloc();
 
-  VideoCardEnhanced({this.videoTitle, this.image});
+  VideoCardEnhanced(
+      {this.videoTitle, this.image, this.videoId, this.removeVideoAfterReport});
 
   @override
   Widget build(BuildContext context) {
@@ -17,17 +22,6 @@ class VideoCardEnhanced extends StatelessWidget {
       child: Stack(
         overflow: Overflow.clip,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Align(
-              alignment: Alignment.topRight,
-              child: Icon(
-                Icons.report,
-                color: Colors.yellow,
-                size: 40,
-              ),
-            ),
-          ),
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
@@ -71,13 +65,14 @@ class VideoCardEnhanced extends StatelessWidget {
                 ),
               ),
               Container(
-                width: 320.00,
                 height: 140,
+                alignment: Alignment.center,
                 color: kBlackColor.withOpacity(0.8),
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10),
                   child: Text(
                     videoTitle,
+                    textAlign: TextAlign.center,
                     style: kBubblegum_sans24.copyWith(
                       color: Colors.white,
                     ),
@@ -86,6 +81,27 @@ class VideoCardEnhanced extends StatelessWidget {
                 ),
               ),
             ],
+          ),
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Align(
+              alignment: Alignment.topRight,
+              child: GestureDetector(
+                onTap: () async {
+                  await _videoReportingBloc.addVideoReport(videoId);
+                  await removeVideoAfterReport(videoId);
+                },
+                child: Container(
+                  color: Colors.red,
+                  // decoration: BoxDecoration(border: Rectangula),
+                  child: Icon(
+                    Icons.report,
+                    color: Colors.yellow,
+                    size: 50,
+                  ),
+                ),
+              ),
+            ),
           ),
         ],
       ),

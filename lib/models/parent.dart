@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:save_kids/models/interfaces/i_firestore_converter.dart';
+import 'package:save_kids/models/video_report.dart';
 
 class Parent extends FireStoreConverter {
   String id;
@@ -11,16 +12,21 @@ class Parent extends FireStoreConverter {
 
   // String type;
   List<dynamic> children;
-  Parent(
-      {this.email,
-      this.id,
-      this.password,
-      this.children,
-      this.name,
-      this.isPremium});
+  Parent({
+    this.email,
+    this.id,
+    this.password,
+    this.children,
+    this.name,
+    this.isPremium,
+  });
 
   Parent.fromFirebase(FirebaseUser user)
-      : this(id: user.uid, email: user.email, name: user.displayName);
+      : this(
+          id: user.uid,
+          email: user.email,
+          name: user.displayName,
+        );
 
   Parent.fromFirestore(DocumentSnapshot snapshot)
       : this(
