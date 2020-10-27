@@ -5,11 +5,13 @@ import 'package:save_kids/models/video.dart';
 import 'package:save_kids/screens/child_display_videos/video_player_screen/video_player_screen.dart';
 
 class VideoGrid extends StatefulWidget {
-  const VideoGrid({
-    Key key,
-    @required this.addToWatchHistory,
-    this.videoStream,
-  }) : super(key: key);
+  final Function removeVideoAfterReport;
+  const VideoGrid(
+      {Key key,
+      @required this.addToWatchHistory,
+      this.videoStream,
+      this.removeVideoAfterReport})
+      : super(key: key);
 
   final Function addToWatchHistory;
 
@@ -59,6 +61,7 @@ class _VideoGridState extends State<VideoGrid> {
                       videoTitle: videoList[index].title,
                       image: videoList[index].thumbnailUrl,
                       videoId: videoList[index].id,
+                      removeVideoAfterReport: widget.removeVideoAfterReport,
                     ),
                   ),
                 ),

@@ -86,15 +86,18 @@ class ChildVideoListBloc extends BlocBase {
     });
   }
 
-  Future<List<VideoReport>> fetchBlockedVideos() async {
-    return await _videoRepo
-        .getDocumentByQuery(
-            VideoReport(), 'parent', (await parentSession.first).id)
-        .first;
+  Stream<List<VideoReport>> get fetchBlockedVideos {
+    return parentSession.switchMap((session) {
+      if (session != null) {
+        return _videoRepo.getDocumentByQuery(
+            VideoReport(), 'parent', session.id);
+      }
+      return BehaviorSubject.seeded(null);
+    });
   }
 
   Future<List<Video>> filterVideos(List<Video> videos) async {
-    final blockedVideos = await fetchBlockedVideos();
+    final blockedVideos = await fetchBlockedVideos.first;
     List<Video> filteredVideos = [...videos];
 
     for (var video in videos) {
@@ -105,6 +108,12 @@ class ChildVideoListBloc extends BlocBase {
       }
     }
     return filteredVideos;
+  }
+
+  removeVideoAfterVideoReport(String videoId) {
+    List<Video> videos = [...videoList.value];
+    videos.removeWhere((element) => element.id == videoId);
+    videoList.add([...videos]);
   }
 
   Future<void> fetchVideos() async {

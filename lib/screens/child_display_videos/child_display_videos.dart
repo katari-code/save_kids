@@ -186,6 +186,8 @@ class _ChildMainViedoListState extends State<ChildMainViedoList>
                           addToWatchHistory: (String videoId) => widget
                               .videoListBloc
                               .updateWatchHistory(videoId, widget.childId),
+                          removeVideoAfterReport:
+                              widget.videoListBloc.removeVideoAfterVideoReport,
                         ),
                       ],
                     ),

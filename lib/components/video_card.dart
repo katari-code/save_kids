@@ -7,9 +7,11 @@ class VideoCardEnhanced extends StatelessWidget {
   final String videoTitle;
   final String image;
   final String videoId;
+  final Function removeVideoAfterReport;
   final VideoReportingBloc _videoReportingBloc = VideoReportingBloc();
 
-  VideoCardEnhanced({this.videoTitle, this.image, this.videoId});
+  VideoCardEnhanced(
+      {this.videoTitle, this.image, this.videoId, this.removeVideoAfterReport});
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +87,10 @@ class VideoCardEnhanced extends StatelessWidget {
             child: Align(
               alignment: Alignment.topRight,
               child: GestureDetector(
-                onTap: () => {_videoReportingBloc.addVideoReport(videoId)},
+                onTap: () async {
+                  await _videoReportingBloc.addVideoReport(videoId);
+                  await removeVideoAfterReport(videoId);
+                },
                 child: Container(
                   color: Colors.red,
                   // decoration: BoxDecoration(border: Rectangula),
