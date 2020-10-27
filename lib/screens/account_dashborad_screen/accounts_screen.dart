@@ -49,6 +49,22 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
               fit: BoxFit.cover,
             ),
           ),
+          SafeArea(
+            child: Align(
+              alignment: Alignment.bottomRight,
+              child: Transform.translate(
+                offset: Offset(-50, 0),
+                child: Container(
+                  width: 150,
+                  height: 150,
+                  child: SvgPicture.asset(
+                    "images/kids_zone.svg",
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ),
+          ),
           Center(
             child: StreamBuilder<Parent>(
               stream: accountDashBloc.parentSession,
