@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:save_kids/bloc/video_reporting_bloc.dart';
 import 'package:save_kids/util/style.dart';
+
+import 'models/pop_up_models.dart';
 
 class VideoCardEnhanced extends StatelessWidget {
   final String videoTitle;
@@ -20,10 +21,13 @@ class VideoCardEnhanced extends StatelessWidget {
       width: 270.00,
       margin: EdgeInsets.only(right: 20, bottom: 15),
       child: Stack(
-        overflow: Overflow.clip,
         children: [
           Container(
             decoration: BoxDecoration(
+              border: Border.all(
+                width: 10,
+                color: Colors.white,
+              ),
               image: DecorationImage(
                 image: NetworkImage(
                   image,
@@ -56,7 +60,7 @@ class VideoCardEnhanced extends StatelessWidget {
                     padding: EdgeInsets.all(5),
                     color: Colors.black.withOpacity(0.15),
                     child: Text(
-                      "    ",
+                      "",
                       style: kCapriola16.copyWith(
                         color: Colors.white,
                       ),
@@ -88,15 +92,19 @@ class VideoCardEnhanced extends StatelessWidget {
               alignment: Alignment.topRight,
               child: GestureDetector(
                 onTap: () async {
-                  await _videoReportingBloc.addVideoReport(videoId);
-                  await removeVideoAfterReport(videoId);
+                  await BlockedModel(
+                      context,
+                      () async => {
+                            await _videoReportingBloc.addVideoReport(videoId),
+                            await removeVideoAfterReport(videoId),
+                            Navigator.pop(context, null),
+                          });
                 },
                 child: Container(
-                  color: Colors.red,
                   // decoration: BoxDecoration(border: Rectangula),
                   child: Icon(
                     Icons.report,
-                    color: Colors.yellow,
+                    color: Colors.white,
                     size: 50,
                   ),
                 ),

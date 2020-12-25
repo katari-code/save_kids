@@ -223,19 +223,43 @@ class _AccountsDashborasScreenState extends State<AccountDashboardScreen> {
                           } else
                             Navigator.pushNamed(context, kParentPinRoute);
                         },
-                        child: Column(
+                        child: Row(
                           children: [
-                            SizedBox(
-                              height: 20,
+                            Column(
+                              children: [
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                SvgPicture.asset(
+                                  "images/svgs/parents.svg",
+                                  height: 55,
+                                ),
+                                Text(
+                                  "Parents control",
+                                  style: kBubblegum_sans24.copyWith(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
                             ),
-                            SvgPicture.asset(
-                              "images/svgs/parents.svg",
-                              height: 65,
-                            ),
-                            Text(
-                              "Parents control",
-                              style: kBubblegum_sans24.copyWith(
-                                  color: Colors.white),
+                            Transform.translate(
+                              offset: Offset(-10, 0),
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  SvgPicture.asset(
+                                    "images/indecator.svg",
+                                    height: 50,
+                                  ),
+                                  Text(
+                                    "Tap here to \n    Control everything",
+                                    style: kBubblegum_sans16.copyWith(
+                                      color: Colors.white,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
                             )
                           ],
                         ),

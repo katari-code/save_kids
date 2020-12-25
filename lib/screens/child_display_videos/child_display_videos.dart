@@ -3,7 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:save_kids/bloc/child_video_list_bloc.dart';
 import 'package:flutter/services.dart';
 import 'package:save_kids/bloc/test/video_list_bloc_test.dart';
-import 'package:save_kids/bloc/video_reporting_bloc.dart';
 import 'package:save_kids/components/control_widgets/progress_bar.dart';
 import 'package:save_kids/models/category.dart';
 import 'package:save_kids/models/timer.dart';

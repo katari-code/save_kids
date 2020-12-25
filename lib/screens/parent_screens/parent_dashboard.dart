@@ -185,7 +185,8 @@ class _ParentDashboardState extends State<ParentDashboard> {
                                           Text(
                                             'Parental controls',
                                             style: kBubblegum_sans32.copyWith(
-                                                color: kBlueDarkColor),
+                                              color: Colors.black,
+                                            ),
                                           ),
                                           parent.password == null
                                               ? Text(
